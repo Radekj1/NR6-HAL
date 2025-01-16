@@ -92,7 +92,7 @@ _wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoi
 _lasT = ObjNull;
 
 
-if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then 
+if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _unitG))) then 
 	{
 	_eSide = side _unitG;
 
@@ -150,8 +150,10 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 //			_Trg = _unitG getVariable ["CurrCASTgt",_Trg];
 			_newTrg = objNull;
 
-			if (isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) then {
+			if ((isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) and not (isNull _Trg)) then {
 				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man") and (((vehicle _x) distance _casPos) < 750)}] call BIS_fnc_sortBy;
+				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{(((vehicle (leader _x)) distance _casPos) < 750)}] call BIS_fnc_sortBy;
+				if (((vehicle _Trg) distance _casPos) > 750) then {{{if (_Trg == (vehicle _x) or _Trg == (_x)) exitwith {_Trg = objNull;}} foreach (units _x)} foreach _nearEnInfHALG};
 				if (not (_Trg in _nearEnVeh) and ((count _nearEnVeh) > 0)) then {_Trg = objNull;};
 			};
 
@@ -187,7 +189,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 						} foreach _nearEnInf;
 					};	
 
-					if (isNull (_newTrg)) then {
+					if ((isNull (_newTrg)) and (_range < 2000)) then {
 						{
 							{
 								_tUnit = (vehicle _x);
@@ -199,7 +201,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 						} foreach _nearEnInfHALG;
 					};	
 					if (isNull (_newTrg)) exitwith {};			
-				} foreach [750,1500];
+				} foreach [750,1500,3000,6000];
 				
 
 				if not (isNull (_newTrg)) then {
@@ -210,6 +212,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 
 					_eSide reportRemoteTarget [_lasT, 1500]; 
 					_lasT confirmSensorTarget [_eSide, true];
+					_VL doTarget _lasT;
 					_reqTgtSet = true;
 					_unitG setVariable ["CurrCASObjSetByLead",objNull];							
 							
@@ -228,13 +231,13 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 			if ((isNull _Trg) or not (alive _Trg) or not (((side _unitG) knowsAbout _Trg) > 0)) then {_Trg = objNull; deleteVehicle _lasT;};
 			if (not (alive _VL)) then {_endThis = true};
 			if (({alive _x} count (units _unitG)) < 1) then {_endThis = true};
-			if (_ct >= 300) then {_endThis = true};
+			if (_ct >= 1200) then {_endThis = true};
 			_isBusy = _unitG getVariable [("Busy" + (str _unitG)),false];
 			if not (_isBusy) then {_endThis = true};
-			if ((((_VL getVariable ["SortiePylons",0])/3) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true;};
+			if ((((_VL getVariable ["SortiePylons",0])/4) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true; if not (_unitG getVariable ["CurrCASLazeOff",false]) then {deletewaypoint [(_unitG), 0]}};
 
 				
-			_ct = _ct + 1;
+			_ct = _ct + 5;
 
 			_unitG setVariable ["CurrCASTgt",_Trg];
 			_unitG setVariable ["CurrCASLaze",_lasT];
@@ -253,7 +256,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 };
 
 
-//if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
+if (not (_request) and not (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]]))) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;

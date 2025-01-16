@@ -1317,7 +1317,7 @@ RYD_Dispatcher =
 	private ["_threat","_kind","_pool","_cars","_air","_Fpool","_HQ","_force","_range","_pattern","_SortedForce","_tPos","_limit","_avF","_trg","_ix","_infEnough","_armEnough","_airEnough","_sum","_handled",
 	"_SnipersG","_NCrewInfG","_LArmorG","_HArmorG","_LArmorATG","_ATInfG","_AAInfG","_chosen","_ammo","_reck","_topo","_sCity","_sForest","_sHills","_sMeadow","_sGr","_sVal","_mpl","_attackAv","_garrison",
 	"_garrR","_flankAv","_busy","_positive","_ATriskResign1","_ATriskResign2","_AAriskResign","_AAthreat","_ATthreat","_allAir","_armorATthreat","_ATRR1","_ATRR2","_thRep","_isClose","_enDst","_thFct","_chVP",
-	"_clstE","_Airmpl","_NCVeh","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_allNaval","_navEnough","_cntNav","_airCAP","_airCAS","_BAir"];
+	"_clstE","_Airmpl","_NCVeh","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_allNaval","_navEnough","_cntNav","_airCAP","_airCAS","_BAir","_fr"];
 
 	_threat = _this select 0;
 	_kind = _this select 1;
@@ -1481,6 +1481,12 @@ RYD_Dispatcher =
 
 		if not (alive (leader _x)) then {_sum = 0};
 		if (isNull (leader _x)) then {_sum = 0};
+
+		_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+		if not (isNull _fr) then 
+			{
+			if not ((getPosATL (vehicle (leader _x))) in _fr) then {_sum = 0}
+			};
 		
 		if (_sum > 0) then
 			{
@@ -1738,6 +1744,7 @@ RYD_Dispatcher =
 								}
 							};
 
+
 						if (_positive) then
 							{
 							_chosen setVariable ["Busy" + (str _chosen),true];
@@ -1856,7 +1863,7 @@ RYD_CloseEnemyB =
 RYD_Wait = 
 	{
 	private ["_gp","_int","_int0","_ammoF","_speedF","_enemyF","_tolerance","_air","_cargo","_timer","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy",
-	"_isInside","_isOutside","_enG","_arr","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw"];
+	"_isInside","_isOutside","_enG","_arr","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
 
 	_gp = _this select 0;
 	_int0 = _this select 1;
@@ -2107,6 +2114,18 @@ RYD_Wait =
 				if ((isNull _wtgt) or not (alive _wtgt)) then {
 					[_gp] call RYD_WPdel;
 					_gp setVariable ["RydHQ_WaitingTarget",nil];
+					_timer = _tolerance + 10;
+					} else {
+					_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+					if not (isNull _fr) then 
+						{
+						if not ((getPosATL _wtgt) in _fr) then 
+							{
+							[_gp] call RYD_WPdel;
+							_gp setVariable ["RydHQ_WaitingTarget",nil];
+							_timer = _tolerance + 10;
+							};
+						};
 					};	
 				};
 
@@ -4015,7 +4034,7 @@ RYD_CFF_FFE =
 RYD_CFF = 
 	{//[RydHQ_ArtG,RydHQ_KnEnemies,(RydHQ_EnHArmor + RydHQ_EnMArmor + RydHQ_EnLArmor),RydHQ_Friends,RydHQ_Debug] call RYD_CFF;
 	_SCRname = "CFF";
-	private ["_amnt","_artG","_knEnemies","_enArmor","_friends","_Debug","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_ldr","_amount"];
+	private ["_amnt","_artG","_knEnemies","_enArmor","_friends","_Debug","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_ldr","_amount","_fr"];
 
 	_artG = _this select 0;
 	_knEnemies = _this select 1;
@@ -4023,6 +4042,11 @@ RYD_CFF =
 	_friends = _this select 3;
 	_Debug = _this select 4;
 	_ldr = _this select 5;
+
+	_fr = (group _ldr) getvariable ["RydHQ_Front",locationNull];
+	if not (isNull _fr) then {
+		_knEnemies = [_knEnemies, [], {_ldr distance (vehicle _x) }, "ASCEND",{((getPosATL (vehicle _x)) in _fr)}] call BIS_fnc_sortBy;
+	};
 	
 	_amount = RydART_Amount;
 

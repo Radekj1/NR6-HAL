@@ -2403,6 +2403,105 @@ RYD_PresentRHQ =
 			if (_isArty) then
 				{
 				RHQ_Art pushBackUnique _veh;
+
+				if not (missionNamespace getVariable ["RHQ_ClassRangeDefined" + str (_veh),false]) then {
+
+					_lPiece = _vehO;
+					_pos = position _lPiece;
+					_minRange = 0;
+					_maxRange = 0;
+
+					_mainAmmoType = (((magazinesAmmo _lPiece) select 0) select 0);
+
+					_checkLoop = false;
+					_posCheck = position _lPiece;
+					_checkRange = 0;
+					_timeOut = false;
+					_canFire = false;
+
+					waitUntil {
+						
+//						sleep 0.0000001;
+
+						_canFire = false;
+						_timeOut = false;
+						
+						_minRange = (_minRange + 100);
+						_posCheck = [(_pos select 0) + _minRange, (_pos select 1),0];
+						_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
+
+						if (_canFire) then {
+//							_minRange = (_minRange - 100);
+							_checkRange = _minRange;
+							_canFire = false;
+							for "_i" from 100 to 0 step -25 do {
+
+								_checkRange = (_minRange - 25);
+								_posCheck = [(_pos select 0) + _checkRange, (_pos select 1),0];
+								_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
+
+								if not (_canFire) exitwith {_minRange = _checkRange};
+							};
+						};
+
+						_checkRange = _minRange;
+
+						if (_checkRange > 200000) then {_timeOut = true};
+
+						
+						((_canFire) or (_timeOut))
+					};
+
+//					_vehO setVariable ["RHQ_RangeMin",_minRange];
+					missionNamespace setVariable ["RHQ_ClassRangeMin" + str (_veh),_minRange];
+
+					_checkLoop = false;
+					_posCheck = position _lPiece;
+					_checkRange = 0;
+					_timeOut = false;
+					_canFire = false;
+					_maxRange = _minRange;
+
+					waitUntil {
+
+//						sleep 0.0000001;
+
+						_canFire = true;
+						_timeOut = false;
+						
+						_maxRange = (_maxRange + 1000);
+						_posCheck = [(_pos select 0) + _maxRange, (_pos select 1),0];
+						_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
+
+						if not (_canFire) then {
+//							_maxRange = (_maxRange - 1000);
+							_checkRange = _maxRange;
+							_canFire = true;
+							for "_i" from 1000 to 0 step -25 do {
+
+								_checkRange = (_maxRange - 25);
+								_posCheck = [(_pos select 0) + _checkRange, (_pos select 1),0];
+								_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
+
+								if (_canFire) exitwith {_maxRange = _checkRange};
+							};
+						};
+
+						_checkRange = _maxRange;
+						//if (_checkRange > 50000) then {_maxRange = (_maxRange + 975);};
+
+						if (_checkRange > 200000) then {_timeOut = true};
+
+						
+						(not (_canFire) or (_timeOut))
+					};
+
+//					_vehO setVariable ["RHQ_RangeMax",_maxRange];
+//					_vehO setVariable ["RHQ_RangeDefined",true];
+					missionNamespace setVariable ["RHQ_ClassRangeMax" + str (_veh),_maxRange];
+					missionNamespace setVariable ["RHQ_ClassRangeDefined" + str (_veh),true];
+
+				};
 				
 				_prim = "";
 				_rare = "";

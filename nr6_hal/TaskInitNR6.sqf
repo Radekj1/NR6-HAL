@@ -1414,13 +1414,50 @@ ActionArtct = {
 
 	openMap true;
 
+	_reqArtyMarks = [];
+
+	{
+		_lPiece = (vehicle (leader _x));
+		_veh = toLower (typeOf _lPiece);
+		_pos = position _lPiece;
+		if ((vehicle (leader _x)) == (leader _x)) exitwith {};
+		_MrkTxt = (getText (configfile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")";
+		_minRange = missionNamespace getVariable ["RHQ_ClassRangeMin" + str (_veh),0];
+		_maxRange = missionNamespace getVariable ["RHQ_ClassRangeMax" + str (_veh),0];
+
+		_ctrPosMrk = createMarkerLocal ["ctrMark" + (str _x), position _lPiece];
+		_ctrPosMrk setMarkerTypeLocal "mil_triangle";
+		_ctrPosMrk setMarkerColorLocal "ColorRed";
+		_ctrPosMrk setMarkerTextLocal _MrkTxt;
+		_reqArtyMarks pushBack _ctrPosMrk;
+
+		if (_minRange > 0) then {
+			_minRangeMrk = createMarkerLocal ["minMark" + (str _x), position _lPiece]; 
+			_minRangeMrk setMarkerShapeLocal "ELLIPSE"; 
+			_minRangeMrk setMarkerSizeLocal [_minRange, _minRange];
+			_minRangeMrk setMarkerBrushLocal "Border";
+			_minRangeMrk setMarkerColorLocal "ColorBlue";
+			_reqArtyMarks pushBack _minRangeMrk;
+		};
+		
+		if (_maxRange > 0) then {
+			_maxRangeMrk = createMarkerLocal ["maxMark" + (str _x), position _lPiece]; 
+			_maxRangeMrk setMarkerShapeLocal "ELLIPSE"; 
+			_maxRangeMrk setMarkerSizeLocal [_maxRange, _maxRange];
+			_maxRangeMrk setMarkerBrushLocal "Border";
+			_maxRangeMrk setMarkerColorLocal "ColorRed";
+			_reqArtyMarks pushBack _maxRangeMrk;
+		};
+
+	} forEach _Arts;
+
 	hintC "Select artillery strike coordinates. Closing the map will cancel the request.";
 
 	waitUntil {sleep 0.2; (not isnil {(_this select 0) getvariable "HALArtPos"} or not (visibleMap))};
 
-	if (isnil {(_this select 0) getvariable "HALArtPos"}) exitwith {hint "Artillery Request Cancelled";};
+	if (isnil {(_this select 0) getvariable "HALArtPos"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
 	_ArtyMenu = [["Artillery Pieces",false]];
 	_ArtyOptions = [];
@@ -1439,18 +1476,18 @@ ActionArtct = {
 
 	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtPiece"}) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenu"))};
 
-	if (isnil {(_this select 0) getvariable "HALArtPiece"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (isnil {(_this select 0) getvariable "HALArtPiece"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
-	if (((_this select 0) getvariable "HALArtPiece") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (((_this select 0) getvariable "HALArtPiece") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
 	{
 		if ((_x select 0) isEqualTo ((_this select 0) getvariable "HALArtPiece")) exitwith {_selectedPiece = (_x select 1);(_this select 0) setvariable ["HALArtPiece",nil,true];};
 
 	} foreach _ArtyOptions;
 
-
+	{deleteMarkerLocal _x} foreach _reqArtyMarks;
 
 	_ArtyMenuOrd = [["Ordnance Options",false]];
 	_OrdOptions = [];
@@ -1539,7 +1576,7 @@ ActionArtct = {
 	(_this select 0) setvariable ["HALArtAmnt",nil,true];
 	(_this select 0) setvariable ["HALArtord",nil,true];
 	(_this select 0) setvariable ["HALArtPiece",nil,true];
-	(_this select 0) setvariable ["HALArtPos",nil,true];
+//	(_this select 0) setvariable ["HALArtPos",nil,true];
 
 };
 
@@ -1560,9 +1597,11 @@ ActionArt2ct = {
 		[_bArr select 1,_pos,_bArr select 2,_bArr select 3,_HQ getVariable ["RydHQ_Friends",[]],_HQ getVariable ["RydHQ_ArtyMarks",false],_selectedOrd,(_amnt) min (_bArr select 4),true] spawn RYD_CFF_FFE;
 		sleep 5;
 		[leader _HQ, "Affirmative. " + (groupId _selectedPiece) + " executing requested fire support - Out"] remoteExecCall ["RYD_MP_Sidechat"];
+		_FO setvariable ["HALArtPos",nil,true];
 	} else {
 		sleep 5;
 		[leader _HQ, "Negative. " + (groupId _selectedPiece) + " unable to execute requested fire support - Out"] remoteExecCall ["RYD_MP_Sidechat"];
+		_FO setvariable ["HALArtPos",nil,true];
 	};
 
 };

@@ -9,15 +9,15 @@ _HQ = _this select 2;
 _Spos = _unitG getvariable ("START" + (str _unitG));
 if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
  
-_Trg = _this select 1;
+_trg = _this select 1;
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
 
-_isAttacked = (group _Trg) getvariable ("InfAttacked" + (str (group _Trg)));
+_isAttacked = (group _trg) getvariable ("InfAttacked" + (str (group _trg)));
 if (isNil ("_isAttacked")) then {_isAttacked = 0};
 
-_PosObj1 = getPosATL _Trg;
+_PosObj1 = getPosATL _trg;
 _unitvar = str (_unitG);
 
 //if (_isAttacked > 2) exitwith {};
@@ -52,9 +52,9 @@ _dXc = _distance2 * (cos _angle);
 _dYc = _distance2 * (sin _angle);
 
 if not (_request) then {
-	if (_isAttacked == 2) then {(group _Trg) setvariable [("InfAttacked" + (str (group _Trg))),3];_dYc = - _dYc};
-	if (_isAttacked == 1) then {(group _Trg) setvariable [("InfAttacked" + (str (group _Trg))),2];_dXc = - _dXc};
-	if (_isAttacked < 1) then {(group _Trg) setvariable [("InfAttacked" + (str (group _Trg))),1];_distance = _distance - _distance2;_dXc = 0;_dYc = 0};
+	if (_isAttacked == 2) then {(group _trg) setvariable [("InfAttacked" + (str (group _trg))),3];_dYc = - _dYc};
+	if (_isAttacked == 1) then {(group _trg) setvariable [("InfAttacked" + (str (group _trg))),2];_dXc = - _dXc};
+	if (_isAttacked < 1) then {(group _trg) setvariable [("InfAttacked" + (str (group _trg))),1];_distance = _distance - _distance2;_dXc = 0;_dYc = 0};
 	if (_isAttacked > 2) then {_distance = _distance - _distance2;_dXc = 0;_dYc = 0};
 };
 
@@ -86,7 +86,7 @@ if (_isWater) exitwith
 	_attAv pushBack _unitG;
 	_HQ setVariable ["RydHQ_AttackAv",_attAv];
 	_unitG setVariable [("Busy" + (str _unitG)),false];
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 	};
 	
 [_unitG,[_posX,_posY,0],"HQ_ord_attack",_HQ] call RYD_OrderPause;
@@ -156,7 +156,7 @@ if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 	};
 
 
@@ -188,7 +188,7 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (
 if (isNil "_timer") then {_timer = 0};
 
 if ((({alive _x} count (units _unitG)) < 1) or (_timer > 300)) exitwith {
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];_GDV setVariable [("Busy" + _unitvar), false];};
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];_GDV setVariable [("Busy" + _unitvar), false];};
 	
 	{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG)) then {[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; [[_x],false] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 	if not (_task isEqualTo taskNull) then {[_task,"CANCELED",true] call BIS_fnc_taskSetState};
@@ -336,7 +336,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 		if not (_alive) exitWith 
 			{
 			if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
-			if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+			if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 			_unitG setVariable [("Busy" + (str _unitG)),false];
 			(true)
 			};
@@ -363,6 +363,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 
 			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
+			if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 			_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
 			_timer2 = _cause select 0;
 			_AV land 'NONE';
@@ -373,7 +374,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 
 			if ((({alive _x} count (units _unitG)) < 1) or (_timer2 > 300)) exitwith 
 				{
-				if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+				if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 				if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 				
 				if not (isNull _GDV) then {
@@ -571,7 +572,7 @@ if (((_timer > 30) or (_enemy)) and not (_OtherGroup)) then {[_unitG, (currentWa
 if (not (_alive) and not (_OtherGroup)) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if not (isNull _GDV) then 
 		{
@@ -592,7 +593,7 @@ if (({alive _x} count (units _unitG)) < 1) exitwith
 		_GDV setVariable [("CargoM" + (str _GDV)), false];
 		//_pass orderGetIn true;
 		};
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor}
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor}
 	};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if (not (_halfway) and (_timer <= 30) and not (_enemy)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
@@ -620,6 +621,7 @@ _GDV = group _DAV;
 if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) and not (_GDV == _unitG) and not (_IsAPlayer)) then
 	{
 	_pass = (units _unitG);
+	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 	_cause = [_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_AV] call RYD_Wait;
 	_timer = _cause select 0
 	};
@@ -639,7 +641,7 @@ if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];};//;_pass orderGetIn true};
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if not (isNull _GDV) then 
 		{
@@ -680,7 +682,7 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 
 	if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG)) and not (_request)) then
 		{
-		[_wp,_Trg,_unitG,_HQ] call RYD_WPSync;
+		[_wp,_trg,_unitG,_HQ] call RYD_WPSync;
 		
 		
 		};
@@ -700,18 +702,18 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 	if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 	};
 
-if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor}};
+if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor}};
 
 if not (_task isEqualTo taskNull) then
 	{
 	
-	[_task,(leader _unitG),["Engage the designated hostile forces. ROE: WEAPONS FREE.", "Engage Hostile Forces", ""],(getPosATL _Trg),"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
+	[_task,(leader _unitG),["Engage the designated hostile forces. ROE: WEAPONS FREE.", "Engage Hostile Forces", ""],(getPosATL _trg),"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
 
 	};
 
 _beh = "AWARE";
 _spd = "NORMAL";
-//if (not (_enemy) and not (_halfway) and (((vehicle (leader _unitG)) distance _Trg) > 1000) and not (_NeNMode)) then {_spd = "LIMITED";_beh = "SAFE"};
+//if (not (_enemy) and not (_halfway) and (((vehicle (leader _unitG)) distance _trg) > 1000) and not (_NeNMode)) then {_spd = "LIMITED";_beh = "SAFE"};
 _frm = formation _unitG;
 if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
 _cur = true;
@@ -721,12 +723,12 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if ((_halfway) and (_timer <= 30
 
 if not (_request) then {
 	if not (isPlayer (leader _unitG)) then {
-		_wp = [_unitG,_Trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
 
 		} else {
 
-		_wp = [_unitG,_Trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
-		_wp waypointAttachVehicle _Trg;
+		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp waypointAttachVehicle _trg;
 		};
 };
 
@@ -743,7 +745,7 @@ if not (_alive) exitwith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
-	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor}
+	if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor}
 	};
 
 if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
@@ -772,7 +774,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 
 sleep 20;
 
-if (not (_task isEqualTo taskNull) and not (alive _Trg)) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
+if (not (_task isEqualTo taskNull) and not (alive _trg)) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 
@@ -784,6 +786,6 @@ _HQ setVariable ["RydHQ_AttackAv",_attAv];
 
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
-if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
+if not (_request) then {[_trg,"InfAttacked"] call RYD_VarReductor};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
