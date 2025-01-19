@@ -3410,7 +3410,7 @@ RYD_CFF_FFE =
 		_Xhd = _transspeed * (sin _transdir) * (_eta + _add);
 		_Yhd = _transspeed * (cos _transdir) * (_eta + _add);
 		_impactpos = _targetpos;
-		_safebase = 100;
+		_safebase = 250;
 
 		_exPX = (_targetPos select 0) + _Xhd;
 		_exPY = (_targetPos select 1) + _Yhd;
@@ -3473,7 +3473,7 @@ RYD_CFF_FFE =
 
 		_exDst = _targetPos distance _exPos;
 
-		if (isNil ("RydART_Safe")) then {_safebase = 100} else {_safebase = RydART_Safe};
+		if (isNil ("RydART_Safe")) then {_safebase = 250} else {_safebase = RydART_Safe};
 
 		_safe = _safebase * _RydAccf * (1 + overcast);
 

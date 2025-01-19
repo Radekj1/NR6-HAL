@@ -35,6 +35,9 @@ publicVariable "RydxHQ_NoCargoPlayers";
 RydxHQ_LZ = missionNamespace getvariable ["RydxHQ_LZ",true];
 publicVariable "RydxHQ_LZ";
 
+RydART_Safe = missionNamespace getvariable ["RydART_Safe",250];
+publicVariable "RydART_Safe";
+
 RydHQ_LZ = RydxHQ_LZ;
 RydHQB_LZ = RydxHQ_LZ;
 RydHQC_LZ = RydxHQ_LZ;

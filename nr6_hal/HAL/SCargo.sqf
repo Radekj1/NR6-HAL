@@ -583,24 +583,17 @@ if not (_GD == _unitG) then
 		
 		if (_request) then {
 
-			if not ((leader _unitG) isEqualTo _firstlead) then {
-
-				[_ChosenOne,leader _unitG,_GD,not (_requestG)] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)];
+			if (not ((leader _unitG) isEqualTo _firstlead) or (isNull _firstlead)) then {
 
 				{[_firstlead,_x] remoteExecCall ["removeAction",_firstlead]} foreach (_firstlead getVariable ["HAL_ReqTraActs",[]]);
 				{[_ChosenOne,_x] remoteExecCall ["removeAction",_firstlead]} foreach (_firstlead getVariable ["HAL_ReqTraVActs",[]]);
 
 				_firstlead setVariable ["HAL_ReqTraActs",[],true];
+				_firstlead setVariable ["HAL_ReqTraVActs",[],true];
 
 				_firstlead = (leader _unitG);
 
-				_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
-				_TransportPriority = _TransportPriority - [_unitG];
-				(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
-
-				_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
-				_TransportPriority = _TransportPriority - [_unitG];
-				(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
+				if not (isNull _firstlead) then {[_ChosenOne,leader _unitG,_GD,not (_requestG)] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)]};
 				
 
 			};
@@ -638,7 +631,9 @@ if not (_GD == _unitG) then
 			};
 
 			if (_GD getvariable ['HALReqDone',false]) then {_reqdone = true;};
-			if not (isPlayer (leader _unitG)) then {_reqdone = true; _GD setvariable ['HALReqDone',true]; _timer = 601;};
+			_playerLeft = false;
+			{if (isPlayer (_x)) exitwith {_playerLeft = true}} foreach (units _unitG);
+			if not (_playerLeft) then {_reqdone = true; _GD setvariable ['HALReqDone',true]; _timer = 601;};
 
 		};
 			
@@ -648,7 +643,8 @@ if not (_GD == _unitG) then
 	if (_request) then {
 		
 		_unitvar = str _unitG;
-		_unitG setVariable [("CC" + _unitvar), true, true]; {[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);
+		_unitG setVariable [("CC" + _unitvar), true, true];
+		{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);
 		
 		_GD setVariable [("CargoM" + (str _GD)), false];
 
@@ -656,7 +652,7 @@ if not (_GD == _unitG) then
 		
 		[(leader _unitG),""] remoteExecCall ["onMapSingleClick",(leader _unitG)];
 
-		_GD setvariable ["HALReqDone",false];
+		_GD setvariable ["HALReqDone",false,true];
 
 		_unitG setvariable ["HALReqDest",nil];
 
@@ -666,9 +662,9 @@ if not (_GD == _unitG) then
 		_firstlead setVariable ["HAL_ReqTraActs",[],true];
 		_firstlead setVariable ["HAL_ReqTraVActs",[],true];
 
-		{
-			[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; 
-		} foreach (units _unitG);
+//		{
+//			[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; 
+//		} foreach (units _unitG);
 
 		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
 		_TransportPriority = _TransportPriority - [_unitG];
@@ -836,6 +832,7 @@ if not (_GD == _unitG) then
 	//if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 	_GD setVariable [("Busy" + (str _GD)), false];
+	_GD setVariable [("CargoM" + (str _GD)), false];
 	_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
 	_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
 	

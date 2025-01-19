@@ -8,12 +8,12 @@ class CfgPatches
 		{
 
 		};
-		requiredVersion=4.02;
+		requiredVersion=4.11;
 		requiredAddons[]=
 		{
 
 		};
-		version="4.02";
+		version="4.11";
 		authors[]=
 		{
 			"NinjaRider600"

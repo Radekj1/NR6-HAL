@@ -16,12 +16,12 @@ class CfgPatches
 			"NR6_HAL_BBLeader_Module",
 			"NR6_HAL_Front_Module"
 		};
-		requiredVersion=4.1;
+		requiredVersion=4.11;
 		requiredAddons[]=
 		{
 
 		};
-		version="4.1";
+		version="4.11";
 		authors[]=
 		{
 			"NinjaRider600"
@@ -333,6 +333,13 @@ class CfgVehicles
 				description="Enables magic refueling around refuel vehicles upon support request as a workaround for ACE refuel limitations.";
 				typeName="BOOL";
 				defaultValue = "False";
+			};
+			class RydART_Safe
+			{
+				displayName="Base Artillery Danger Close Range";
+				description="Base distance, in meters, from which artillery missions will be calculated as far enough from friendly forces. This value is shared by all commanders as it is a base value that is affected by several other factors such as commander personaility, weather, environment, etc.";
+				typeName="NUMBER";
+				defaultValue = "250";
 			};
 		};
 		class ModuleDescription: ModuleDescription

@@ -1453,7 +1453,7 @@ ActionArtct = {
 
 	hintC "Select artillery strike coordinates. Closing the map will cancel the request.";
 
-	waitUntil {sleep 0.2; (not isnil {(_this select 0) getvariable "HALArtPos"} or not (visibleMap))};
+	waitUntil {sleep 0.2; (not isnil {(_this select 0) getvariable "HALArtPos"} or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap))};
 
 	if (isnil {(_this select 0) getvariable "HALArtPos"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
@@ -1474,7 +1474,7 @@ ActionArtct = {
 
 	showCommandingMenu "#USER:_ArtyMenu";
 
-	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtPiece"}) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenu"))};
+	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtPiece"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenu"))};
 
 	if (isnil {(_this select 0) getvariable "HALArtPiece"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
 
@@ -1532,7 +1532,7 @@ ActionArtct = {
 
 	showCommandingMenu "#USER:_ArtyMenuOrd";
 
-	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtord"}) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
+	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtord"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
 
 	if (isnil {(_this select 0) getvariable "HALArtord"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
 
@@ -1558,7 +1558,7 @@ ActionArtct = {
 
 	showCommandingMenu "#USER:_ArtyMenuAmnt";
 
-	waitUntil {sleep 0.2; (not (isnil {((_this select 0) getvariable "HALArtAmnt")}) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
+	waitUntil {sleep 0.2; (not (isnil {((_this select 0) getvariable "HALArtAmnt")}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
 
 	if (isnil {(_this select 0) getvariable "HALArtAmnt"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
 
