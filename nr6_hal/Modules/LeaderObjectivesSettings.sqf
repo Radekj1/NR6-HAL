@@ -19,8 +19,6 @@ _Commanders = [];
 	if (_Leader == "LeaderHQG") then {_prefix = "RydHQG_"};
 	if (_Leader == "LeaderHQH") then {_prefix = "RydHQH_"};
 
-	_Leader = call compile _Leader;
-
 
 	if (_logic getvariable "RydHQ_Order") then {_logic call compile (_prefix + "Order" + " = " + str "DEFEND")};
 	
@@ -43,5 +41,13 @@ _Commanders = [];
 	_logic call compile (_prefix + "BBAOObj" + " = " + str (_logic getvariable "RydHQ_BBAOObj"));
 	_logic call compile (_prefix + "MaxSimpleObjs" + " = " + str (_logic getvariable "RydHQ_MaxSimpleObjs"));
 	_logic call compile (_prefix + "CRDefRes" + " = " + str (_logic getvariable "RydHQ_CRDefRes"));
+
+	waitUntil {sleep 0.5; (not (isNil _Leader))};
+
+	_Leader = call compile _Leader;
+
+//New Variables
+
+	(group _Leader) setVariable ["RydHQ_ObjectiveRespawn",(_logic getvariable ["RydHQ_ObjectiveRespawn",true])];
 
 } foreach _Commanders;

@@ -1133,7 +1133,40 @@ RYD_StatusQuo =
 		_HQ setVariable ["RydHQ_Taken",_taken];
 		_HQ setVariable ["RydHQ_TakenNaval",_Navaltaken];
 
+		if (_HQ getVariable ["RydHQ_ObjectiveRespawn",false]) then {
+			
+			_prefix = "";
+
+			switch (side _HQ) do
+			{
+				case west: {_prefix = "respawn_west_"};
+				case east: {_prefix = "respawn_east_"};
+				case resistance: {_prefix = "respawn_guerrila_"};
+				case civilian: {_prefix = "respawn_civilian_"};
+			};
+
+			{
+				_objStr = (str _x);
+				_objStr = (_prefix + (_objStr splitString " " joinstring ""));
+				if (_x in _taken) then {
+					if ((getMarkerColor _objStr) == "") then {
+						_Rmrk = createMarker [_objStr,[_x, 1, 75, 2, 0, 20, 0] call BIS_fnc_findSafePos];
+						if not ((_x getvariable ["ObjName",""]) isEqualTo "") then {_Rmrk setMarkerText (_x getvariable ["ObjName",""])};
+					};
+
+				} else {
+					if not ((getMarkerColor _objStr) == "") then {
+						deleteMarker _objStr;
+					};
+				}
+
+			} foreach (_HQ getVariable ["RydHQ_Objectives",[]]);
+
+		};
+
 	};
+
+	
 
 	_objs = (((_HQ getVariable ["RydHQ_Objectives",[]]) + (_HQ getVariable ["RydHQ_NavalObjectives",[]])) - ((_HQ getVariable ["RydHQ_Taken",[]]) + (_HQ getVariable ["RydHQ_TakenNaval",[]])));
 	

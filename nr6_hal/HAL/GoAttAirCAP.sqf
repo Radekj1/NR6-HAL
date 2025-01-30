@@ -13,7 +13,7 @@ _unitvar = str (_unitG);
 
 _UL = leader _unitG;
 _PosLand = _unitG getvariable ("START" + _unitvar); 
-if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))]};
+if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getvariable ("START" + _unitvar);};
 
 [_unitG] call RYD_WPdel;
 

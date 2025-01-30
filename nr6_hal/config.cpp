@@ -1196,6 +1196,13 @@ class CfgVehicles
 				typeName="NUMBER";
 				defaultValue = "5";
 			};
+			class RydHQ_ObjectiveRespawn
+			{
+				displayName="Create Objective Player Respawn Points";
+				description="Creates a player respawn position for every taken objective.";
+				typeName="BOOL";
+				defaultValue = "False";
+			};
 		};
 		class ModuleDescription: ModuleDescription
 		{

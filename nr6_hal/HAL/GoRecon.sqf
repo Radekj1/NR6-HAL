@@ -33,7 +33,10 @@ _reconAv = _reconAv - [_unitG];
 _HQ setVariable ["RydHQ_ReconAv",_reconAv];
 
 _UL = leader _unitG;
-_PosLand = getPosATL _UL;
+
+_PosLand = _unitG getvariable ("START" + _unitvar); 
+if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getvariable ("START" + _unitvar);};
+
 _nothing = true;
 _End = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200];
 _rd = 200;
@@ -570,7 +573,9 @@ if not (_IsAPlayer) then {
 		{
 	//	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-		_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
+		_enRg = 400;
+		if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 1000};
+		_cause = [_unitG,6,true,_enRG,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
@@ -673,7 +678,7 @@ if not (_Ctask isEqualTo taskNull) then {[_Ctask,"SUCCEEDED",true] call BIS_fnc_
 
 _unitvar = str _GDV;
 _timer = 0;
-if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not (isPlayer (leader _GDV)) and not (_IsAPlayer)) then
+if (not (isNull _GDV) and not (_GDV == _unitG) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not (isPlayer (leader _GDV)) and not (_IsAPlayer)) then
 	{
 	_wp = [_GDV,[((getPosATL _AV) select 0) + (random 200) - 100,((getPosATL _AV) select 1) + (random 200) - 100,1000],"MOVE","STEALTH","YELLOW","NORMAL"] call RYD_WPadd;
 	
@@ -723,7 +728,9 @@ _wp = [_unitG,[_posX,_posY],"SAD",_beh,"GREEN","NORMAL",["true","deletewaypoint 
 
 //_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-_cause = [_unitG,6,true,250,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+_enRg = 250;
+if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 1000};
+_cause = [_unitG,6,true,_enRg,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 _alive = _cause select 1;
 
 if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
@@ -741,7 +748,9 @@ if (_unitG in (_HQ getVariable ["RydHQ_FOG",[]])) then
 	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
 
 	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-	_cause = [_unitG,6,true,150,120,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+	_enRg = 150;
+	if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 750};
+	_cause = [_unitG,6,true,_enRg,120,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 	_enemy = _cause select 2
@@ -757,11 +766,38 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 //if not (_specialized) exitWith
 if (true) exitwith	
 	{
-	
+
 	if not (isNull _unitG) then
 		{
 		if (({alive _x} count (units _unitG)) > 0) then
 			{
+			if not (isNull (_UL findNearestEnemy _UL)) then
+				{
+				if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {
+					_End = _PosLand;_rd = 0
+				} else {
+					if ((count (_HQ getVariable ["RydHQ_Taken",[]])) > 0) then {_End = (([(_HQ getVariable ["RydHQ_Taken",[]]), [], {(position (leader _unitG)) distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy) select 0); _End = getPosATL _End;} else {_End = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200];};
+					_isWater = surfaceIsWater _End; 
+					if (_isWater) then {_End = [((getPosATL (leader _HQ)) select 0) + (random 40) - 20,((getPosATL (leader _HQ)) select 1) + (random 40) - 20]}
+				};
+
+				if not (_task isEqualTo taskNull) then
+					{
+						
+					[_task,(leader _unitG),["Break away from enemy contact. Stand-by for new orders.", "Break Enemy Contact", ""],_End,"ASSIGNED",0,true,true] call BIS_fnc_SetTask;
+						
+					};
+
+				_beh = "AWARE";
+				if (_unitG in (_HQ getVariable ["RydHQ_RAirG",[]])) then {_beh = "STEALTH"};
+				_sts = ["true", "deletewaypoint [(group this), 0];"];
+				if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_sts = ["true", "{(vehicle _x) land 'LAND'} foreach (units (group this));deletewaypoint [(group this), 0];"]};
+
+				[_unitG] call RYD_WPdel;
+
+				_wp = [_unitG,_End,"MOVE",_beh,"GREEN","FULL",_sts] call RYD_WPadd;
+				};
+
 			if not (_unitG getVariable ["RydHQ_MIA",false]) then
 				{
 				if (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) then 
@@ -781,7 +817,7 @@ if (true) exitwith
 				};
 				
 			if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}
-			}
+			};
 		};
 		_unitG setVariable [("Busy" + (str _unitG)),false];
 	};
@@ -793,6 +829,7 @@ while {(_nothing)} do
 	{
 	sleep 5;
 	_unitG = group (leader (_this select 0));
+	if (_unitG getVariable ["Break",false]) then {_nothing = false;_unitG setVariable ["Break",false]};
 	if (((not (isNull (_UL findNearestEnemy _UL)) or (_timer2 > 4)) and not (isNull _unitG) and not (_unitG in (_HQ getVariable ["RydHQ_FOG",[]]))) or ((_timer2 > 40) and not (isNull _unitG))) then 
 		{
 
@@ -816,7 +853,13 @@ while {(_nothing)} do
 			};
 			
 		_rd = 0;
-		if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_End = _PosLand;_rd = 0} else {_End = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200];_isWater = surfaceIsWater _End;if (_isWater) then {_End = [((getPosATL (leader _HQ)) select 0) + (random 40) - 20,((getPosATL (leader _HQ)) select 1) + (random 40) - 20]}};
+		if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {
+			_End = _PosLand;_rd = 0
+		} else {
+			if ((count (_HQ getVariable ["RydHQ_Taken",[]])) > 0) then {_End = (([(_HQ getVariable ["RydHQ_Taken",[]]), [], {(position (leader _unitG)) distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy) select 0)} else {_End = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200];};
+			_isWater = surfaceIsWater _End; 
+			if (_isWater) then {_End = [((getPosATL (leader _HQ)) select 0) + (random 40) - 20,((getPosATL (leader _HQ)) select 1) + (random 40) - 20]}
+		};
 
 		if not (_task isEqualTo taskNull) then
 			{
@@ -865,8 +908,10 @@ while {(_nothing)} do
 				};
 			};
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))};
+		if (_unitG getVariable ["Break",false]) then {_nothing = false;_unitG setVariable ["Break",false]};
 		_unitG setVariable [("Busy" + (str _unitG)), false];
 		};
+	if (_unitG getVariable ["Break",false]) then {_nothing = false;_unitG setVariable ["Break",false]};
 	_timer2 = _timer2 + 1;
 	};
 

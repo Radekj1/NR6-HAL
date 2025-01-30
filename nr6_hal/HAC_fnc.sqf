@@ -1977,7 +1977,7 @@ RYD_Wait =
 
 			if (_enemyF > 0) then
 				{
-				if not (_GDV in _air) then {_enemy = [_AV,_enG,_enemyF] call RYD_CloseEnemy}
+				if not ((_GDV in _air) and not (_own)) then {_enemy = [_AV,_enG,_enemyF] call RYD_CloseEnemy}
 				} else {
 				if not (_GDV in _air) then {_enPres = [_AV,_enG,RydxHQ_DisembarkRange] call RYD_CloseEnemy}
 				};

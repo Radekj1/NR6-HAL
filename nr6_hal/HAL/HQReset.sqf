@@ -509,7 +509,7 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 					if not (_Aex getVariable [("isCaptive" + _unitvarA),false]) then
 						{
 						_nominalA = _Aex getVariable ("Nominal" + (str _Aex));
-						if (isNil ("_nominal")) then {
+						if (isNil ("_nominalA")) then {
 							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
 							_nominalA = _Aex getVariable ("Nominal" + (str _Aex))
 							};
