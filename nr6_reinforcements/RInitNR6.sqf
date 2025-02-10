@@ -89,3 +89,111 @@ SpawnRGroup = {
     } forEach _Leaders;
 
 };
+
+NR6_GetUnit = {
+	
+	private ['_selType','_unit'];
+
+	_selType = ((_this select 2) select 0);
+	_leader = ((_this select 2) select 1);
+	_logic = ((_this select 2) select 2);
+	_side = ((_this select 2) select 3);
+	_cost = ((_this select 2) select 4);
+	_emptyS = ((_this select 2) select 5);
+	_class = (_selType select 0); 
+	
+	_Objective = objNull;
+	_Reinf = objNull;
+	_objPos = getpos _logic;
+	
+	if ((_logic getVariable ['NR6Supplies',0]) <= 0) exitWith {('Supplies Available At Camp: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; };
+
+	_nearObjs = [];
+	_nearReinfs = [];
+
+	_nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
+	_nearReinfs = _objPos nearEntities ["NR6_Reiforcements_Module", 300];
+
+	if ((count _nearObjs) > 0) then {
+		_nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
+		_Objective = _nearObjs select 0;
+	};
+
+	if ((count _nearReinfs) > 0) then {
+		_nearReinfs = [_nearReinfs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
+		_Reinf = _nearReinfs select 0;
+		_rTick = _Reinf getvariable ["_sidetick",0];
+		_logic setVariable ['NR6Supplies',((_rTick)*(10))];	
+	};
+
+
+	if not (isNull _leader) then {if not (_Objective in ((group _leader) getvariable ["RydHQ_Taken",[]])) exitwith {('Objective Not Secured') remoteExecCall ['hint',(_this select 1)]; }};
+
+	if ((_logic getVariable ['NR6Supplies',0]) <= 0) exitWith {('Supplies Available At Camp: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; };
+
+
+
+	if (_class isKindOf "Man") then {
+	
+		_unit = (group (_this select 1))  createUnit [(_selType select 0),([getPosATL (_this select 1),0,100,5] call BIS_fnc_findSafePos),[],25,'NONE']; 
+		if not ((_selType select 1) isEqualTo []) then {_unit setUnitLoadout (_selType select 1)}; 
+		[_unit] join (group (_this select 1));
+
+		(_logic setVariable ['NR6Supplies',(_logic getVariable ['NR6Supplies',0]) - (_cost)]);	
+		('Supplies Available At Objective: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; 
+	
+	} else {
+		if not (_emptyS) then {
+			_crewGear = _selType select 1; 
+			_vharr = [([getPosATL (_this select 1),0,100,10] call BIS_fnc_findSafePos),0,_class,createGroup (side (_this select 1))] call BIS_fnc_spawnVehicle; 
+			if not ((_selType select 3) isEqualTo []) then {{_vharr setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_selType select 3)}; 
+			{((_vharr select 1) select _foreachindex) setUnitLoadout _x} foreach _crewGear; 
+			_vharr join (group (_this select 1));
+			(_logic setVariable ['NR6Supplies',(_logic getVariable ['NR6Supplies',0]) - (_cost)]);	
+			('Supplies Available At Objective: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; 
+		} else {		
+			_class createVehicle ([getPosATL (_this select 1),0,100,10] call BIS_fnc_findSafePos);
+			(_logic setVariable ['NR6Supplies',(_logic getVariable ['NR6Supplies',0]) - (_cost)]);	
+			('Supplies Available At Objective: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; 
+		};
+		
+	};
+
+	if not (isNull _Reinf) then {_Reinf setvariable ["_sidetick",((_logic getVariable ['NR6Supplies',0])*(0.1))]};
+	
+};
+
+NR6_CheckSupplies = {
+	_Objective = objNull;
+	_Reinf = objNull;
+	_objPos = getpos (_this select 2);
+	_nearReinfs = _objPos nearEntities ["NR6_Reiforcements_Module", 300];
+
+
+	if ((count _nearReinfs) > 0) then {
+		_nearReinfs = [_nearReinfs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
+		_Reinf = _nearReinfs select 0;
+		_rTick = _Reinf getvariable ["_sidetick",0];
+		(_this select 2) setVariable ['NR6Supplies',((_rTick)*(10))];	
+	};
+	
+	('Supplies Available At Objective: ' + str ((_this select 2) getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; 
+	
+};
+
+NR6_DimsmissAllAI = {
+	_sUnits = units (group (_this select 1));
+	
+	if not (({not (isPlayer _x)} count _sUnits) > 0) exitwith {};
+
+	_nGroup = createGroup (side (_this select 1));
+
+	{
+		if not (isPlayer _x) then {
+			[_x] join _nGroup;
+		};
+
+	} foreach _sUnits;
+	
+};
+

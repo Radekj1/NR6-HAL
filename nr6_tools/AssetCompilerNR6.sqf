@@ -22,6 +22,7 @@ _civFact = [];
         case "NR6_AirReinfA_Module": {_PoolModules pushBack _x};
         case "NR6_Site_Module": {_PoolModules pushBack _x};
         case "NR6_ALICE2_Module": {_PoolModules pushBack _x};
+        case "NR6_ReqPoint_Module": {_PoolModules pushBack _x};
         default {_SyncedAssets pushBack _x; _x enableSimulationGlobal false; _x allowDamage false;};
 
         };

@@ -55,7 +55,7 @@ class CfgVehicles
 		functionPriority=3;
 		isGlobal=0;
 		isTriggerActivated=1;
-		isDisposable=1;
+		isDisposable=0;
 		is3DEN=0;
 		class Arguments: ArgumentsBaseUnits
 		{
@@ -97,7 +97,7 @@ class CfgVehicles
 				{
 					class vanilla
 					{
-						name="Disable only temporarily when players in range - players only";
+						name="Disable temporarily - players only - [Nearby Objective Detection]";
 						value="vanilla";
 						default=1;	
 					};
@@ -114,6 +114,14 @@ class CfgVehicles
 				};
 			};
 
+			class _PlayerFriend
+			{
+				displayName="Allow Spawn If Friendly Player";
+				description="Allows reinforcements to spawn at point if a friendly player is within the 'player or enemy disable range' but not if an enemy one is within that range.";
+				typeName="BOOL";
+				defaultValue = "false";
+			};
+			
 			class _rStrgt
 			{
 				displayName="Spawns Per Wave";
@@ -153,8 +161,8 @@ class CfgVehicles
 			};
 			class _playerRange
 			{
-				displayName="Player Disable Range";
-				description="Range in meters within which the script pauses itself if a player is present (to prevent immersion breaking).";
+				displayName="Player or Enemy Disable Range";
+				description="Range in meters within which the script pauses itself if a player or enemy unit is present (to prevent immersion breaking).";
 				typeName="NUMBER";
 				defaultValue = "1000";
 			};
@@ -207,6 +215,153 @@ class CfgVehicles
 		};
 	};
 
+	class NR6_ReqPoint_Module: Module_F
+	{
+		scope=2;
+		displayName="Request Point";
+		author="NinjaRider600";
+		vehicleClass="Modules";
+		category="NR6_Reiforcements_MODULES";
+		function="NR6_fnc_reqPt";
+		icon = "\NR6_Reinforcements\icons\NR6_SPAWN_PIN.paa";
+		functionPriority=3;
+		isGlobal=0;
+		isTriggerActivated=1;
+		isDisposable=0;
+		is3DEN=0;
+		class Arguments: ArgumentsBaseUnits
+		{
+			class _side
+			{
+				displayName="Side";
+				description="Selects the side of spawned forces.";
+				class values
+				{
+					class west
+					{
+						name="BLUFOR";
+						value="west";
+						default=1;
+					};
+					class east
+					{
+						name="OPFOR";
+						value="east";
+					};
+					class resistance
+					{
+						name="INDEPENDENT";
+						value="resistance";
+					};
+				};
+			};
+			class _Pool
+			{
+				displayName="Custom Pool";
+				description="Array of all the unit options you want to have available for spawning via the request point. Asset compiler overrides this value if synced to the module.";
+				typeName="ARRAY";
+				defaultValue = "[]";
+			};
+			class NR6Supplies
+			{
+				displayName="Supplies At Point";
+				description="Number of supplies at start. Nearby reinforcements module overrides this value by using its available spawns x10 in terms of supplies.";
+				typeName="NUMBER";
+				defaultValue = "100";
+			};
+			class NR6ManCost
+			{
+				displayName="Infantry Unit Cost";
+				description="Cost of unit type in supplies.";
+				typeName="NUMBER";
+				defaultValue = "5";
+			};
+			class NR6CarCost
+			{
+				displayName="Car Vehicle Cost";
+				description="Cost of unit type in supplies.";
+				typeName="NUMBER";
+				defaultValue = "25";
+			};
+			class NR6OtherCost
+			{
+				displayName="Other Vehicle Cost";
+				description="Cost of unit type in supplies.";
+				typeName="NUMBER";
+				defaultValue = "50";
+			};
+			class NR6EmptySpawn
+			{
+				displayName="Spawn Vehicles Empty";
+				description="Spawns vehicles without crew.";
+				typeName="BOOL";
+				defaultValue = "true";
+			};
+		};
+		class ModuleDescription: ModuleDescription
+		{
+			description="";
+			sync[]=
+			{
+				"LocationArea_F"
+			};
+			class LocationArea_F
+			{
+				position=0;
+				optional=0;
+				duplicate=1;
+				synced[]=
+				{
+					"Anything"
+				};
+			};
+		};
+	};
+
+	class NR6_ReqPointCost_Module: Module_F
+	{
+		scope=2;
+		displayName="Set Req Pt Class Cost";
+		author="NinjaRider600";
+		vehicleClass="Modules";
+		category="NR6_Reiforcements_MODULES";
+		function="NR6_fnc_reqPtCost";
+		icon = "\NR6_Reinforcements\icons\NR6_SPAWN_PIN.paa";
+		functionPriority=1;
+		isGlobal=0;
+		isTriggerActivated=1;
+		isDisposable=0;
+		is3DEN=0;
+		class Arguments: ArgumentsBaseUnits
+		{
+			class NR6UnitClassCost
+			{
+				displayName="Cost Of Unit Class";
+				description="Cost, in supplies, of unit class for use via the request point.";
+				typeName="NUMBER";
+				defaultValue = "5";
+			};
+		};
+		class ModuleDescription: ModuleDescription
+		{
+			description="";
+			sync[]=
+			{
+				"LocationArea_F"
+			};
+			class LocationArea_F
+			{
+				position=0;
+				optional=0;
+				duplicate=1;
+				synced[]=
+				{
+					"Anything"
+				};
+			};
+		};
+	};
+	
 	class NR6_Spawn_Module: Module_F
 	{
 		scope=2;
@@ -336,6 +491,18 @@ class CfgFunctions
 				description="REINF1";
 				file="\NR6_Reinforcements\RInitNR6.sqf";
 				preinit=1;
+			};
+
+			class reqPt
+			{
+				description="reqPt";
+				file="\NR6_Reinforcements\RequestPointNR6.sqf";
+			};
+
+			class reqPtCost
+			{
+				description="reqPtCost";
+				file="\NR6_Reinforcements\RequestPointCostNR6.sqf";
 			};
 		};	
 	};

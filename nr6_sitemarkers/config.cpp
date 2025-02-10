@@ -162,4 +162,14 @@ class CfgNotifications
 			color[] = {0,0.5,0,1};
 			difficulty[] = {};
 		};
+		class NR6_Objective_N
+		{
+			title = "%1";
+			iconPicture = "\A3\ui_f\data\map\Markers\NATO\n_installation.paa";
+			description = "%2";
+			priority = 7;
+			duration = 5;
+			color[] = {0.5,0.5,0.5,1};
+			difficulty[] = {};
+		};
 	};

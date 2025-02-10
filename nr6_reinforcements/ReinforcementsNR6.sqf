@@ -6,15 +6,16 @@
 
 private 
     [
-    "_side","_logic","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2"
+    "_side","_logic","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_Leader","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2","_BluforHQs","_OpforHQs","_IndepHQs","_AllTaken","_nearObjs","_Objective"
     ];
 
 _logic = _this select 0;
 
 _Commanders = [];
+_Leaders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Commanders pushback (call compile (_x getvariable "LeaderType"))};
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Leaders pushback (call compile (_x getvariable "LeaderType"))};
 } foreach (synchronizedObjects _logic);
 
 _side = call compile (_logic getvariable "_side");
@@ -25,8 +26,10 @@ _sidetick = _logic getvariable "_sidetick";
 _faction = _logic getvariable "_faction";
 _Threshold = _logic getvariable "_Threshold";
 _HalReinf = _logic getvariable "_HalReinf";
-_Leaders = _Commanders;
+_playerFriend = _logic getvariable "_PlayerFriend";
+//_Leaders = _Commanders;
 _ObjSource = _logic;
+_objPos = getpos _logic;
 _RejoinPoint = call compile (_logic getvariable "_RejoinPoint");
 if (isNil "_RejoinPoint") then {_RejoinPoint = []};
 if (_RejoinPoint isEqualTo []) then  {_RejoinPoint = nil};
@@ -57,6 +60,46 @@ if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
 if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
 if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
 
+_OpforHQs = [];
+_BluforHQs = [];
+_IndepHQs = [];
+_nearObjs = [];
+
+_nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
+_nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
+
+{
+	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") exitwith {
+		_Objective = _x;
+        _ObjSource = _Objective;
+		_campName = _Objective getvariable ["_ObjName",""];
+		_objPos = getpos _Objective;
+//		_Commanders = [];
+		
+		{
+			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
+		} foreach (synchronizedObjects _Objective);
+
+		{
+			_Leader = (_x getvariable "LeaderType");
+
+			waitUntil {sleep 0.5; (not (isNil _Leader))};
+			
+			_Leader = call compile _Leader;
+
+			
+			switch (side _Leader) do
+			{
+				case west: {_BluforHQs pushBack _Leader};
+				case east: {_OpforHQs pushBack _Leader};
+				case resistance: {_IndepHQs pushBack _Leader};
+			};
+		} foreach _Commanders;
+		_Leaders = _Leaders + _BluforHQs + _OpforHQs + _IndepHQs;
+	};
+} foreach _nearObjs;
+
+_Commanders = _Leaders;
 
 //CUSTOM FACTIONS - EDIT AT WILL
 
@@ -792,22 +835,56 @@ sleep 20;
 
 private _counter = _side countSide allUnits;
 
-while {_StartForces < _counter} do 
-{
-    _StartForces = (_side countSide allUnits);
-    sleep 20;
-    _counter = _side countSide allUnits;
+if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
+    _Leaders = _Commanders;
+    {
+        if ((side _x) == _side) exitwith {
+            _CrrFr = [];
+            waitUntil {sleep 5; ((count ((group _x) getvariable ["RydHQ_Friends",[]])) > 0)};
+            _StartForces = (group _x) getvariable ["RydHQ_Friends",[]];
+            {
+                {_CrrFr pushBackUnique _x} foreach (units _x);
+            } foreach _StartForces;
+            _StartForces = (count _CrrFr);
+        };
+                    
+    } foreach _Commanders;
+} else {
+    while {_StartForces < _counter} do 
+    {
+        _StartForces = (_side countSide allUnits);
+        sleep 20;
+        _counter = _side countSide allUnits;
+    };
 };
 
 while {true} do 
 
     {
+
+    _sidetick = _logic getvariable ["_sidetick",0];
     
     _CanSpawn = true;
+
+    _CurrentForces = (_side countSide allUnits);
 
     if not (isNil "_ObjSource") then {
         if ((alive _ObjSource) and (_ObjSource getvariable ["CanSpawn",true])) then {
             _CanSpawn = true;
+            if not (_Objsource == _logic) then {              
+                {
+                    if ((side _x) == _side) then {
+                        _CrrFr = [];
+                        _CurrentForces = (group _x) getvariable ["RydHQ_Friends",[]];
+                        {
+                            {_CrrFr pushBackUnique _x} foreach (units _x);
+                        } foreach _CurrentForces;
+                        _CurrentForces = (count _CrrFr);
+                        if ((_Objsource in ((group _x) getvariable ["RydHQ_Taken",[]])) and not ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0))) then {_CanSpawn = true} else {_CanSpawn = false};
+                    };
+                    
+                } foreach _Commanders;
+            };
         } else {
             _CanSpawn = false;
         };
@@ -837,7 +914,7 @@ while {true} do
 
     _CurrentForces = (_side countSide allUnits);
 
-    if (((_CurrentForces) < (_Threshold*_StartForces)) and not ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_CanSpawn)) then 
+    if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allplayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
         {
         for "_i" from 1 to _rStrgt do
             {

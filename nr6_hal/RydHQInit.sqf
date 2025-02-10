@@ -3,10 +3,23 @@ if not (isServer) exitWith {};
 if (isNil ("RydHQ_Wait")) then 
 {
     RydHQ_Wait = ((_this select 0) getvariable "RydHQ_Wait"); 
-    if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
+    if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
 };
 
-sleep RydHQ_Wait;
+private _sc = 0;
+
+hint str RydHQ_Wait;
+sleep 5;
+while 
+{(RydHQ_Wait > _sc) and (missionNamespace getVariable ["Hal_FS", false] == false);} 
+do 
+{
+	_sc = _sc + 1;
+	sleep 1;
+	hint str _sc;
+};
+
+
 
 RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",true];
 publicVariable "RydxHQ_ReconCargo";
