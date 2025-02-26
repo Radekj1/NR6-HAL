@@ -99,120 +99,21 @@ RYD_Path = "\NR6_HAL\";
 // call compile preprocessFile (RYD_Path + "VarInit.sqf");
 // call compile preprocessFile (RYD_Path + "TaskMenu.sqf");
 // call compile preprocessFile (RYD_Path + "TaskInitNR6.sqf");
+
+//can be replaced with getMarkerType and getMarkerSize
 HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getType.sqf";
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
 
-publicVariable "RYD_MP_Sidechat";
-publicVariable "RYD_MP_SideRadio";
-publicVariable "RYD_MP_orderGetIn";
-publicVariable "RYD_MP_unassignVehicle";
-publicVariable "RYD_MP_assignedVehicle";
-publicVariable "RYD_MP_assignedVehicle2";
-
-publicVariable "RYD_ReqTransport_Actions";
-publicVariable "RYD_ReqLogistics_Actions";
-publicVariable "RYD_ReqLogisticsDelete_Actions";
-
-publicVariable "ActionMfnc";
-publicVariable "ACEActionMfnc";
-publicVariable "ActionMfncR";
-publicVariable "ACEActionMfncR";
-
-publicVariable "NR6_Player_Menu";
-publicVariable "NR6_Tasking_Menu";
-publicVariable "NR6_Supports_Menu";
-publicVariable "NR6_Logistics_Menu";
-
-publicVariable "Action1ct";
-publicVariable "Action1fnc";
-publicVariable "ACEAction1fnc";
-publicVariable "Action2ct";
-publicVariable "Action2fnc";
-publicVariable "ACEAction2fnc";
-publicVariable "Action3ct";
-publicVariable "Action3fnc";
-publicVariable "ACEAction3fnc";
-publicVariable "Action1fncR";
-publicVariable "ACEAction1fncR";
-publicVariable "Action2fncR";
-publicVariable "ACEAction2fncR";
-publicVariable "Action3fncR";
-publicVariable "ACEAction3fncR";
-
-publicVariable "Action4ct";
-publicVariable "Action4fnc";
-publicVariable "ACEAction4fnc";
-publicVariable "Action4fncR";
-publicVariable "ACEAction4fncR";
-
-publicVariable "Action5ct";
-publicVariable "Action5fnc";
-publicVariable "ACEAction5fnc";
-publicVariable "Action5fncR";
-publicVariable "ACEAction5fncR";
-
-publicVariable "Action6ct";
-publicVariable "Action6fnc";
-publicVariable "ACEAction6fnc";
-publicVariable "Action6fncR";
-publicVariable "ACEAction6fncR";
-
-publicVariable "Action7ct";
-publicVariable "Action7fnc";
-publicVariable "ACEAction7fnc";
-publicVariable "Action7fncR";
-publicVariable "ACEAction7fncR";
-
-publicVariable "Action8ct";
-publicVariable "Action8fnc";
-publicVariable "ACEAction8fnc";
-publicVariable "Action8fncR";
-publicVariable "ACEAction8fncR";
-
-publicVariable "Action9ct";
-publicVariable "Action9fnc";
-publicVariable "ACEAction9fnc";
-publicVariable "Action9fncR";
-publicVariable "ACEAction9fncR";
-
-publicVariable "Action10ct";
-publicVariable "Action10fnc";
-publicVariable "ACEAction10fnc";
-publicVariable "Action10fncR";
-publicVariable "ACEAction10fncR";
-
-publicVariable "Action11ct";
-publicVariable "Action11fnc";
-publicVariable "ACEAction11fnc";
-publicVariable "Action11fncR";
-publicVariable "ACEAction11fncR";
-
-publicVariable "Action12ct";
-publicVariable "Action12fnc";
-publicVariable "ACEAction12fnc";
-publicVariable "Action12fncR";
-publicVariable "ACEAction12fncR";
-
-publicVariable "Action13ct";
-publicVariable "Action13fnc";
-publicVariable "ACEAction13fnc";
-publicVariable "Action13fncR";
-publicVariable "ACEAction13fncR";
-
-publicVariable "ActionGTct";
-publicVariable "ActionArtct";
-publicVariable "ActionArt2ct";
-
-
+//used to "compile" list of units types usable by AI
 if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
 
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
 
-_clB = [(profileNamespace getVariable ['Map_BLUFOR_R',0]),(profileNamespace getVariable ['Map_BLUFOR_G',1]),(profileNamespace getVariable ['Map_BLUFOR_B',1]),(profileNamespace getVariable ['Map_BLUFOR_A',0.8])];
-_clO = [(profileNamespace getVariable ['Map_OPFOR_R',0]),(profileNamespace getVariable ['Map_OPFOR_G',1]),(profileNamespace getVariable ['Map_OPFOR_B',1]),(profileNamespace getVariable ['Map_OPFOR_A',0.8])];
-_clI = [(profileNamespace getVariable ['Map_Independent_R',0]),(profileNamespace getVariable ['Map_Independent_G',1]),(profileNamespace getVariable ['Map_Independent_B',1]),(profileNamespace getVariable ['Map_Independent_A',0.8])];
-_clU = [(profileNamespace getVariable ['Map_Unknown_R',0]),(profileNamespace getVariable ['Map_Unknown_G',1]),(profileNamespace getVariable ['Map_Unknown_B',1]),(profileNamespace getVariable ['Map_Unknown_A',0.8])];
+_clB = [Map_BLUFOR_R,Map_BLUFOR_G,Map_BLUFOR_B,Map_BLUFOR_A];
+_clO = [Map_OPFOR_R,Map_OPFOR_G,Map_OPFOR_B,Map_OPFOR_A];
+_clI = [Map_Independent_R,Map_Independent_G,Map_Independent_B,Map_Independent_A];
+_clU = [Map_Unknown_R,Map_Unknown_G,Map_Unknown_B,Map_Unknown_A];
 /*
 RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 
@@ -229,98 +130,98 @@ if !(isNull leaderHQ) then
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","A"];
 
-	if not (isNil ("HET_FA")) then
+	if !(isNil ("HET_FA")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FA]
 		}
 	};
 
-if not (isNull leaderHQB) then
+if !(isNull leaderHQB) then
 	{
 	_gp = group leaderHQB;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQB];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","B"];
 
-	if not (isNil ("HET_FB")) then
+	if !(isNil ("HET_FB")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FB]
 		}
 	};
 
-if not (isNull leaderHQC) then
+if !(isNull leaderHQC) then
 	{
 	_gp = group leaderHQC;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQC];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","C"];
 
-	if not (isNil ("HET_FC")) then
+	if !(isNil ("HET_FC")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FC]
 		}
 	};
 
-if not (isNull leaderHQD) then
+if !(isNull leaderHQD) then
 	{
 	_gp = group leaderHQD;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQD];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","D"];
 
-	if not (isNil ("HET_FD")) then
+	if !(isNil ("HET_FD")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FD]
 		}
 	};
 
-if not (isNull leaderHQE) then
+if !(isNull leaderHQE) then
 	{
 	_gp = group leaderHQE;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQE];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","E"];
 
-	if not (isNil ("HET_FE")) then
+	if !(isNil ("HET_FE")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FE]
 		}
 	};
 
-if not (isNull leaderHQF) then
+if !(isNull leaderHQF) then
 	{
 	_gp = group leaderHQF;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQF];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","F"];
 
-	if not (isNil ("HET_FF")) then
+	if !(isNil ("HET_FF")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FF]
 		}
 	};
 
-if not (isNull leaderHQG) then
+if !(isNull leaderHQG) then
 	{
 	_gp = group leaderHQG;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQG];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","G"];
 
-	if not (isNil ("HET_FG")) then
+	if !(isNil ("HET_FG")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FG]
 		}
 	};
 
-if not (isNull leaderHQH) then
+if !(isNull leaderHQH) then
 	{
 	_gp = group leaderHQH;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQH];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","H"];
 
-	if not (isNil ("HET_FH")) then
+	if !(isNil ("HET_FH")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FH]
 		}
@@ -365,14 +266,14 @@ if (RydBB_Active) then
 
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
 
-if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if !(isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{

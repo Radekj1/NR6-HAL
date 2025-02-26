@@ -1,27 +1,28 @@
-private ["_logic","_Commanders","_Leader","_prefix"];
+params ["_logic", "_units", "_activated"];
 
-_logic = (_this select 0);
-_Commanders = [];
+private _commanders = [];
+private _leader = objNull;
+private _prefix = "";
 
 {
-    if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+    if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_commanders pushBack _x};
 } forEach (synchronizedObjects _logic);
 
 {
-    _Leader = (_x getVariable "LeaderType");
+    _leader = (_x getVariable "LeaderType");
 
-    if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"};
-    if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"};
-    if (_Leader == "LeaderHQC") then {_prefix = "RydHQC_"};
-    if (_Leader == "LeaderHQD") then {_prefix = "RydHQD_"};
-    if (_Leader == "LeaderHQE") then {_prefix = "RydHQE_"};
-    if (_Leader == "LeaderHQF") then {_prefix = "RydHQF_"};
-    if (_Leader == "LeaderHQG") then {_prefix = "RydHQG_"};
-    if (_Leader == "LeaderHQH") then {_prefix = "RydHQH_"};
+    if (_leader == "LeaderHQ") then {_prefix = "RydHQ_"};
+    if (_leader == "LeaderHQB") then {_prefix = "RydHQB_"};
+    if (_leader == "LeaderHQC") then {_prefix = "RydHQC_"};
+    if (_leader == "LeaderHQD") then {_prefix = "RydHQD_"};
+    if (_leader == "LeaderHQE") then {_prefix = "RydHQE_"};
+    if (_leader == "LeaderHQF") then {_prefix = "RydHQF_"};
+    if (_leader == "LeaderHQG") then {_prefix = "RydHQG_"};
+    if (_leader == "LeaderHQH") then {_prefix = "RydHQH_"};
 
-    _Leader = call compile _Leader;
+    _leader = call compile _leader;
 
     _logic call compile (_prefix + "MAtt" + " = " + str (_logic getVariable "RydHQ_MAtt"));
     _logic call compile (_prefix + "Personality" + " = " + str (_logic getVariable "RydHQ_Personality"));
 
-} forEach _Commanders;
+} forEach _commanders;
