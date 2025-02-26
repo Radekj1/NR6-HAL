@@ -10,13 +10,13 @@ class CfgVehicles
 
 //General Modules
 
-	class NR6_HAL_Core_Module: Module_F
+	class GVAR(Core_Module): Module_F
 	{
 		scope=2;
 		displayName="HAL Core";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BASE_MODULES";
+		category= QGVAR(core);
 		function = QEFUNC(core,init);
 		icon = QPATHTOF(icons\HALCOREPIN.paa);
 		functionPriority=1;
@@ -54,13 +54,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_GenSettings_Module: Module_F
+	class GVAR(GenSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="HAL General Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BASE_MODULES";
+		category=QGVAR(core);
 		function= QFUNC(generalSettings);
 		icon = QPATHTOF(icons\HALGENSETPIN.paa);
 		functionPriority=1;
@@ -299,13 +299,13 @@ class CfgVehicles
 
 //Commander Modules
 
-	class NR6_HAL_Leader_Module: Module_F
+	class GVAR(Leader_Module): Module_F
 	{
 		scope=2;
 		displayName="HAL Commander";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(addLeader);
 		icon = QPATHTOF(icons\HALCOPIN.paa);
 		functionPriority=1;
@@ -423,13 +423,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_Settings_Module: Module_F
+	class GVAR(Leader_Settings_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(leaderSettings);
 		icon = QPATHTOF(icons\HALCOSETPIN.paa);
 		functionPriority=2;
@@ -565,13 +565,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_BehSettings_Module: Module_F
+	class GVAR(Leader_BehSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Behaviour Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(leaderBehaviourSettings);
 		icon = QPATHTOF(icons\HALCOSETBEHPIN.paa);
 		functionPriority=2;
@@ -764,13 +764,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_PersSettings_Module: Module_F
+	class GVAR(Leader_PersSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Personality Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(leaderPersonalitySettings);
 		icon = QPATHTOF(icons\HALCOSETPERSPIN.paa);
 		functionPriority=2;
@@ -863,13 +863,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_SupSettings_Module: Module_F
+	class GVAR(Leader_SupSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Support Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(leaderSupportSettings);
 		icon = QPATHTOF(icons\HAL_COSETSUP_PIN.paa);
 		functionPriority=2;
@@ -977,13 +977,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_ObjSettings_Module: Module_F
+	class GVAR(Leader_ObjSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Objectives Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(leaderObjectivesSettings);
 		icon = QPATHTOF(icons\HALCOSETOBJPIN.paa);
 		functionPriority=2;
@@ -1159,13 +1159,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_IdleDecoy_Module: Module_F
+	class GVAR(Leader_IdleDecoy_Module): Module_F
 	{
 		scope=2;
 		displayName="Idle Rally Point";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Util_MODULES";
+		category=QGVAR(utilities);
 		function= QFUNC(idleDecoy);
 		icon = QPATHTOF(icons\HAL_COIDLE_PIN.paa);
 		functionPriority=2;
@@ -1202,13 +1202,13 @@ class CfgVehicles
 			};
 		};
 	};
-	class NR6_HAL_Leader_WithdrawDecoy_Module: Module_F
+	class GVAR(Leader_WithdrawDecoy_Module): Module_F
 	{
 		scope=2;
 		displayName="Withdrawal Rally Point";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Util_MODULES";
+		category=QGVAR(utilities);
 		function=QFUNC(restDecoy);
 		icon = QPATHTOF(icons\HAL_CORETREAT_PIN.paa);
 		functionPriority=2;
@@ -1245,13 +1245,13 @@ class CfgVehicles
 			};
 		};
 	};
-	class NR6_HAL_Leader_SuppDecoy_Module: Module_F
+	class GVAR(Leader_SuppDecoy_Module): Module_F
 	{
 		scope=2;
 		displayName="Supports Rally Point";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Util_MODULES";
+		category=QGVAR(utilities);
 		function = QFUNC(SuppDecoy);
 		icon = QPATHTOF(icons\HAL_COSUPPORT_PIN.paa);
 		functionPriority=2;
@@ -1289,13 +1289,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_Front_Module: Module_F
+	class GVAR(Leader_Front_Module): Module_F
 	{
 		scope=2;
 		displayName="Commander Front";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Util_MODULES";
+		category=QGVAR(utilities);
 		function= QFUNC(front);
 		icon = QPATHTOF(icons\HAL_COFRONT_PIN.paa);
 		functionPriority=2;
@@ -1340,13 +1340,13 @@ class CfgVehicles
 	};
 
 
-	class NR6_HAL_Leader_Objective_Module: Module_F
+	class GVAR(Leader_Objective_Module): Module_F
 	{
 		scope=2;
 		displayName="Objective (Legacy Mode)";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Objectives_MODULES";
+		category=QGVAR(objectives);
 		function = QFUNC(objective);
 		icon = QPATHTOF(icons\HAL_OBJLEG_PIN.paa);
 		functionPriority=2;
@@ -1407,13 +1407,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_SimpleObjective_Module: Module_F
+	class GVAR(Leader_SimpleObjective_Module): Module_F
 	{
 		scope=2;
 		displayName="Objective (Simple Mode)";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Objectives_MODULES";
+		category=QGVAR(objectives);
 		function= QFUNC(simpleObjective);
 		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
@@ -1519,13 +1519,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_NavalObjective_Module: Module_F
+	class GVAR(Leader_NavalObjective_Module): Module_F
 	{
 		scope=2;
 		displayName="Naval Objective (Simple Mode)";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Objectives_MODULES";
+		category=QGVAR(objectives);
 		function= QFUNC(navalObjective);
 		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
@@ -1631,13 +1631,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_AmmoDepot_Module: Module_F
+	class GVAR(Leader_AmmoDepot_Module): Module_F
 	{
 		scope=2;
 		displayName="Ammo Drop Ammo Depot";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(ammoDepot);
 		icon = QPATHTOF(icons\HAL_COAMMO_PIN.paa);
 		functionPriority=2;
@@ -1681,13 +1681,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_Include_Module: Module_F
+	class GVAR(Leader_Include_Module): Module_F
 	{
 		scope=2;
 		displayName="Include Squads";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(include);
 		icon = QPATHTOF(icons\HAL_COCONT_PIN.paa);
 		functionPriority=2;
@@ -1718,13 +1718,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Leader_Exclude_Module: Module_F
+	class GVAR(Leader_Exclude_Module): Module_F
 	{
 		scope=2;
 		displayName="Exclude Squads";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_LEADER_MODULES";
+		category=QGVAR(leader);
 		function= QFUNC(exclude);
 		icon = QPATHTOF(icons\HAL_COEXCL_PIN.paa);
 		functionPriority=2;
@@ -1757,13 +1757,13 @@ class CfgVehicles
 
 //Squad Properties Modules
 
-	class NR6_HAL_Squad_AmmoDrop_Module: Module_F
+	class GVAR(Squad_AmmoDrop_Module): Module_F
 	{
 		scope=2;
 		displayName="Ammo Drop";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function = QFUNC(ammoDrop);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1794,13 +1794,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_AOnly_Module: Module_F
+	class GVAR(Squad_AOnly_Module): Module_F
 	{
 		scope=2;
 		displayName="Attack Only";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(aOnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1831,13 +1831,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_CargoOnly_Module: Module_F
+	class GVAR(Squad_CargoOnly_Module): Module_F
 	{
 		scope=2;
 		displayName="Transport Only";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(cargoOnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1868,13 +1868,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_ROnly_Module: Module_F
+	class GVAR(Squad_ROnly_Module): Module_F
 	{
 		scope=2;
 		displayName="Recon Only";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(ROnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1905,13 +1905,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_ExReammo_Module: Module_F
+	class GVAR(Squad_ExReammo_Module): Module_F
 	{
 		scope=2;
 		displayName="Never Request Ammo";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function=QFUNC(exReammo);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1942,13 +1942,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_ExMedic_Module: Module_F
+	class GVAR(Squad_ExMedic_Module): Module_F
 	{
 		scope=2;
 		displayName="Never Request Medic";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(exMedic);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -1979,13 +1979,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_ExRefuel_Module: Module_F
+	class GVAR(Squad_ExRefuel_Module): Module_F
 	{
 		scope=2;
 		displayName="Never Request Fuel";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(exRefuel);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2016,13 +2016,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_FirstToFight_Module: Module_F
+	class GVAR(Squad_FirstToFight_Module): Module_F
 	{
 		scope=2;
 		displayName="First To Fight";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(firstToFight);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2053,13 +2053,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_RTBRRR_Module: Module_F
+	class GVAR(Squad_RTBRRR_Module): Module_F
 	{
 		scope=2;
 		displayName="Vehicles RTB Refuel/Rearm/Repair";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_Attributes_MODULES";
+		category=QGVAR(attributes);
 		function= QFUNC(RTBRRR);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2090,13 +2090,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_ExRepair_Module: Module_F
+	class GVAR(Squad_ExRepair_Module): Module_F
 	{
 		scope=2;
 		displayName="Never Request Repairs";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function = QFUNC(ExRepair);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2127,13 +2127,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_Garrison_Module: Module_F
+	class GVAR(Squad_Garrison_Module): Module_F
 	{
 		scope=2;
 		displayName="Set Garrison";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(garrison);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2164,13 +2164,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoAttack_Module: Module_F
+	class GVAR(Squad_NoAttack_Module): Module_F
 	{
 		scope=2;
 		displayName="No Attack Orders";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(noAttack);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2201,13 +2201,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoCargo_Module: Module_F
+	class GVAR(Squad_NoCargo_Module): Module_F
 	{
 		scope=2;
 		displayName="No Transport Requests";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(noCargo);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2238,13 +2238,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoDef_Module: Module_F
+	class GVAR(Squad_NoDef_Module): Module_F
 	{
 		scope=2;
 		displayName="No Defense Orders";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(noDef);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2275,13 +2275,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoReports_Module: Module_F
+	class GVAR(Squad_NoReports_Module): Module_F
 	{
 		scope=2;
 		displayName="No Enemy Contact Reports";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(noReports);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2312,13 +2312,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_Unable_Module: Module_F
+	class GVAR(Squad_Unable_Module): Module_F
 	{
 		scope=2;
 		displayName="Disable Tasking";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(unable);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2349,13 +2349,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoRecon_Module: Module_F
+	class GVAR(Squad_NoRecon_Module): Module_F
 	{
 		scope=2;
 		displayName="No Recon Orders";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function = QFUNC(noRecon);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2386,13 +2386,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_NoFlank_Module: Module_F
+	class GVAR(Squad_NoFlank_Module): Module_F
 	{
 		scope=2;
 		displayName="No Flanking Orders";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(noFlank);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2423,13 +2423,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_SFBodyGuard_Module: Module_F
+	class GVAR(Squad_SFBodyGuard_Module): Module_F
 	{
 		scope=2;
 		displayName="Set As HQ Bodyguard";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(sfBodyGuard);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2460,13 +2460,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_AlwaysKnownU_Module: Module_F
+	class GVAR(Squad_AlwaysKnownU_Module): Module_F
 	{
 		scope=2;
 		displayName="Always Known Enemy";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function = QFUNC(alwaysKnownU);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2497,13 +2497,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_AlwaysUnKnownU_Module: Module_F
+	class GVAR(Squad_AlwaysUnKnownU_Module): Module_F
 	{
 		scope=2;
 		displayName="Always Unknown Enemy";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(alwaysUnKnownU);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2534,13 +2534,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_RCAS_Module: Module_F
+	class GVAR(Squad_RCAS_Module): Module_F
 	{
 		scope=2;
 		displayName="Assign Close Air Support";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(setRoleCAS);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2571,13 +2571,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_Squad_RCAP_Module: Module_F
+	class GVAR(Squad_RCAP_Module): Module_F
 	{
 		scope=2;
 		displayName="Assign Combat Air Patrol";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_SProp_MODULES";
+		category=QGVAR(squad);
 		function= QFUNC(setRoleCAP);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
@@ -2610,13 +2610,13 @@ class CfgVehicles
 
 //Big Boss Modules
 
-	class NR6_HAL_BBLeader_Module: Module_F
+	class GVAR(BBLeader_Module): Module_F
 	{
 		scope=2;
 		displayName="High Commander";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BB_MODULES";
+		category=QGVAR(BB);
 		function= QFUNC(bbLeader);
 		icon = QPATHTOF(icons\HAL_HCCO_PIN.paa);
 		functionPriority=1;
@@ -2667,13 +2667,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_BBSettings_Module: Module_F
+	class GVAR(BBSettings_Module): Module_F
 	{
 		scope=2;
 		displayName="High Commander Settings";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BB_MODULES";
+		category=QGVAR(BB);
 		function= QFUNC(bbSettings);
 		icon = QPATHTOF(icons\HAL_HCCOSET_PIN.paa);
 		functionPriority=1;
@@ -2734,13 +2734,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_BBZone_Module: Module_F
+	class GVAR(BBZone_Module): Module_F
 	{
 		scope=2;
 		displayName="High Commander Zone";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BB_MODULES";
+		category=QGVAR(BB);
 		function= QFUNC(bbZone);
 		icon = QPATHTOF(icons\HAL_HCZONE_PIN.paa);
 		functionPriority=1;
@@ -2778,13 +2778,13 @@ class CfgVehicles
 		};
 	};
 
-	class NR6_HAL_BBLeader_Objective_Module: Module_F
+	class GVAR(BBLeader_Objective_Module): Module_F
 	{
 		scope=2;
 		displayName="High Commander Objective";
 		author="NinjaRider600";
 		vehicleClass="Modules";
-		category="NR6_HAL_BB_MODULES";
+		category=QGVAR(BB);
 		function= QFUNC(bbObjective);
 		icon = QPATHTOF(icons\HAL_OBJHC_PIN.paa);
 		functionPriority=1;

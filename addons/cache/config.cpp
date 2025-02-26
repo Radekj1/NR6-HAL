@@ -8,7 +8,7 @@ class CfgPatches
 		{
 
 		};
-		requiredVersion=4.02;
+		requiredVersion=2.18;
 		requiredAddons[]=
 		{
 
@@ -152,7 +152,7 @@ class CfgFunctions
 				description="Nothing";
 				file="\NR6_zbe_cache\main.sqf";
 			};
-		};	
+		};
 	};
 };
 
