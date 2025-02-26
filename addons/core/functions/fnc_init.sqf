@@ -1,24 +1,10 @@
-if not (isServer) exitWith {};
+#include "..\script_component.hpp"
 
-if (isNil ("RydHQ_Wait")) then 
-{
-    RydHQ_Wait = ((_this select 0) getVariable "RydHQ_Wait"); 
-    if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
-};
+params ["_logic", "", "_activated"];
 
-private _sc = 0;
+if !(isServer) exitWith {};
 
-hint str RydHQ_Wait;
-sleep 5;
-while 
-{(RydHQ_Wait > _sc) and (missionNamespace getVariable ["Hal_FS", false] == false);} 
-do 
-{
-	_sc = _sc + 1;
-	sleep 1;
-	hint str _sc;
-};
-
+RydHQ_Wait = _logic getVariable ["RydHQ_Wait", 15];
 
 
 RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",true];
@@ -106,20 +92,13 @@ publicVariable "RYD_WS_ArtyMarks";
 
 RYD_Path = "\NR6_HAL\";
 
-call compile preprocessFile (RYD_Path + "HAL_Version.sqf");
+//move this to functions folder
 
-_hi = HAL_Ver + " Initialized";
-
-if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you? - Blame these night owls"};
-
-_hi remoteExecCall ["systemChat"];
-
-
-call compile preprocessFile (RYD_Path + "HAC_fnc.sqf");
-call compile preprocessFile (RYD_Path + "HAC_fnc2.sqf");
-call compile preprocessFile (RYD_Path + "VarInit.sqf");
-call compile preprocessFile (RYD_Path + "TaskMenu.sqf");
-call compile preprocessFile (RYD_Path + "TaskInitNR6.sqf");
+// call compile preprocessFile (RYD_Path + "HAC_fnc.sqf");
+// call compile preprocessFile (RYD_Path + "HAC_fnc2.sqf");
+// call compile preprocessFile (RYD_Path + "VarInit.sqf");
+// call compile preprocessFile (RYD_Path + "TaskMenu.sqf");
+// call compile preprocessFile (RYD_Path + "TaskInitNR6.sqf");
 HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getType.sqf";
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
 
@@ -241,107 +220,107 @@ RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 	_nouns = [_x] call RYD_RandomOrdB;
 	RydHQ_CallSignsN set [_foreachIndex,_nouns]
 	}
-foreach RydHQ_CallSignsN; 
+foreach RydHQ_CallSignsN;
 */
-if not (isNull leaderHQ) then 
+if !(isNull leaderHQ) then
 	{
 	_gp = group leaderHQ;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQ];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","A"];
-			
-	if not (isNil ("HET_FA")) then 
+
+	if not (isNil ("HET_FA")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FA]
 		}
 	};
-	
-if not (isNull leaderHQB) then 
+
+if not (isNull leaderHQB) then
 	{
 	_gp = group leaderHQB;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQB];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","B"];
-	
-	if not (isNil ("HET_FB")) then 
+
+	if not (isNil ("HET_FB")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FB]
 		}
 	};
-	
-if not (isNull leaderHQC) then 
+
+if not (isNull leaderHQC) then
 	{
 	_gp = group leaderHQC;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQC];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","C"];
-	
-	if not (isNil ("HET_FC")) then 
+
+	if not (isNil ("HET_FC")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FC]
 		}
 	};
-	
-if not (isNull leaderHQD) then 
+
+if not (isNull leaderHQD) then
 	{
 	_gp = group leaderHQD;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQD];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","D"];
-	
-	if not (isNil ("HET_FD")) then 
+
+	if not (isNil ("HET_FD")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FD]
 		}
 	};
-	
-if not (isNull leaderHQE) then 
+
+if not (isNull leaderHQE) then
 	{
 	_gp = group leaderHQE;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQE];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","E"];
-	
-	if not (isNil ("HET_FE")) then 
+
+	if not (isNil ("HET_FE")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FE]
 		}
 	};
-	
-if not (isNull leaderHQF) then 
+
+if not (isNull leaderHQF) then
 	{
 	_gp = group leaderHQF;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQF];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","F"];
-	
-	if not (isNil ("HET_FF")) then 
+
+	if not (isNil ("HET_FF")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FF]
 		}
 	};
-	
-if not (isNull leaderHQG) then 
+
+if not (isNull leaderHQG) then
 	{
 	_gp = group leaderHQG;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQG];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","G"];
-	
-	if not (isNil ("HET_FG")) then 
+
+	if not (isNil ("HET_FG")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FG]
 		}
 	};
-	
-if not (isNull leaderHQH) then 
+
+if not (isNull leaderHQH) then
 	{
 	_gp = group leaderHQH;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQH];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","H"];
-	
-	if not (isNil ("HET_FH")) then 
+
+	if not (isNil ("HET_FH")) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FH]
 		}
@@ -349,19 +328,19 @@ if not (isNull leaderHQH) then
 
 [] call compile preprocessFile (RYD_Path + "Front.sqf");
 
-if (RydHQ_TimeM) then 
+if (RydHQ_TimeM) then
 	{
 	[([player] + (switchableUnits - [player]))] call RYD_TimeMachine
 	};
-	
-if (RydBB_Active) then 
+
+if (RydBB_Active) then
 	{
 	call compile preprocessFile (RYD_Path + "Boss_fnc.sqf");
 	RydBBa_InitDone = false;
 	RydBBb_InitDone = false;
 
 		{
-		if ((count (_x select 0)) > 0) then 
+		if ((count (_x select 0)) > 0) then
 			{
 			if ((_x select 1) == "A") then {RydBBa_Init = false};
 			_BBHQs = _x select 0;
@@ -396,7 +375,7 @@ if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)]
 if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
 
 if ((count RydHQ_GroupMarks) > 0) then
-	{	
+	{
 	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
 	};
 

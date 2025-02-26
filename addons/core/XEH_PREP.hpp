@@ -1,1 +1,1 @@
-PREP();
+PREP(init);
