@@ -2,21 +2,21 @@ _SCRname = "GoDefRecon";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _DefPos = _this select 1;
 _angleV = _this select 2;
 _HQ = _this select 3;
 
 _unitvar = str _unitG;
 _busy = false;
-_busy = _unitG getvariable ("Busy" + _unitvar);
+_busy = _unitG getVariable ("Busy" + _unitvar);
 _isAPlayer = false;
 
 if (isNil ("_busy")) then {_busy = false};
 
 _alive = true;
 
-if (_busy) exitwith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
+if (_busy) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 	_defSpot = _defSpot - [_unitG];
 	_HQ setVariable ["RydHQ_DefSpot",_defSpot];
 	_def = _HQ getVariable ["RydHQ_Def",[]];
@@ -65,7 +65,7 @@ _unitG setVariable ["Defending", true];
 
 _UL = leader _unitG;
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 if not (isNull _AV) then { 
@@ -98,7 +98,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 
-_nE = _UL findnearestenemy _UL;
+_nE = _UL findNearestEnemy _UL;
 
 if not (isNull _nE) then
 	{
@@ -166,7 +166,7 @@ if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),tru
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _alive = _cause select 1;
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -249,7 +249,7 @@ if not (_alive) exitWith
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markDef" + (str _unitG));deleteMarker ("markWatch" + (str _unitG))};
 
-(units _unitG) doWatch ObjNull;
+(units _unitG) doWatch objNull;
 //(units _unitG) allowGetIn true;
 //(units _unitG) orderGetIn true;
 if (_attackAllowed) then {_unitG enableAttack true};

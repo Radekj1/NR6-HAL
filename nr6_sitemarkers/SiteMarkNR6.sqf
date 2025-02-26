@@ -1,6 +1,6 @@
 //[objective position(pos array),objective radius (number),friendly side (side),enemy side (side),name of location for notification (string),add name of location in marker too (boolean)] call fnc_NR6_SiteMarker;
 
-if (isnil "NR6_SiteMarkNotif") then {NR6_SiteMarkNotif = true};
+if (isNil "NR6_SiteMarkNotif") then {NR6_SiteMarkNotif = true};
 
 NR6_SiteFMarkB = {
 	if (NR6_SiteMarkNotif) then { ['NR6_Objective_B',[(_this select 0) + ' Update', (_this select 0) + ' under control of ' + (_this select 1)]] remoteExecCall ["BIS_fnc_showNotification",0];};
@@ -22,7 +22,7 @@ private ["_objPos","_objradius","_BluforType","_OpforType","_IndepType","_campNa
 
 _logic = _this select 0;
 
-_objPos = getpos _logic;
+_objPos = getPos _logic;
 _objradius = _logic getVariable "_objradius";
 _BluforType = _logic getVariable "_BluforType";
 _OpforType = _logic getVariable "_OpforType";
@@ -41,18 +41,18 @@ _nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
 _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") exitwith {
+	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") exitWith {
 		_Objective = _x;
-		_campName = _Objective getvariable ["_ObjName",""];
-		_objPos = getpos _Objective;
+		_campName = _Objective getVariable ["_ObjName",""];
+		_objPos = getPos _Objective;
 //		_Commanders = [];
 		
 		{
-			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-		} foreach (synchronizedObjects _Objective);
+			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+		} forEach (synchronizedObjects _Objective);
 
 		{
-			_Leader = (_x getvariable "LeaderType");
+			_Leader = (_x getVariable "LeaderType");
 
 			waitUntil {sleep 0.5; (not (isNil _Leader))};
 			
@@ -65,10 +65,10 @@ _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fn
 				case east: {_OpforHQs pushBack _Leader};
 				case resistance: {_IndepHQs pushBack _Leader};
 			};
-		} foreach _Commanders;
+		} forEach _Commanders;
 		_Commanders = (_BluforHQs + _OpforHQs + _IndepHQs);
 	};
-} foreach _nearObjs;
+} forEach _nearObjs;
 
 if (_campName isEqualTo "") then {
 	_nL = nearestLocations [_objPos, ["Hill","NameCityCapital","NameCity","NameVillage","NameLocal","Strategic","StrongpointArea"], 500];
@@ -102,25 +102,25 @@ if not (isNull _Objective) then {
 		
 		{
 			if (_x in _OpforHQs) then {
-				_OpforTaken = _OpforTaken + ((group _x) getvariable ["RydHQ_Taken",[]]);
+				_OpforTaken = _OpforTaken + ((group _x) getVariable ["RydHQ_Taken",[]]);
 			};
 
 			if (_x in _BluforHQs) then {
-				_BluforTaken = _BluforTaken + ((group _x) getvariable ["RydHQ_Taken",[]]);
+				_BluforTaken = _BluforTaken + ((group _x) getVariable ["RydHQ_Taken",[]]);
 			};
 
 			if (_x in _IndepHQs) then {
-				_IndepTaken = _IndepTaken + ((group _x) getvariable ["RydHQ_Taken",[]]);
+				_IndepTaken = _IndepTaken + ((group _x) getVariable ["RydHQ_Taken",[]]);
 			};
 			
-		} foreach _Commanders;
+		} forEach _Commanders;
 
 		_AllTaken = (_IndepTaken + _OpforTaken + _BluforTaken);
 
 		
 		if ((_Objective in _BluforTaken) and not (_ownership == "BLUFOR")) then {
     
-			If not (_firstChange) then {[_campName,_BluforType] call NR6_SiteFMarkB}; 
+			if not (_firstChange) then {[_campName,_BluforType] call NR6_SiteFMarkB}; 
 			_mrk setMarkerType  "b_installation";
 			_mrk setMarkerColor "Default";
 			_ownership = "BLUFOR";
@@ -130,7 +130,7 @@ if not (isNull _Objective) then {
 	
 		if ((_Objective in _OpforTaken) and not (_ownership == "OPFOR")) then {
 		
-			If not (_firstChange) then {[_campName,_OpforType] call NR6_SiteFMarkO}; 
+			if not (_firstChange) then {[_campName,_OpforType] call NR6_SiteFMarkO}; 
 			_mrk setMarkerType  "o_installation";
 			_mrk setMarkerColor "Default";
 			_ownership = "OPFOR";
@@ -139,7 +139,7 @@ if not (isNull _Objective) then {
 	
 		if ((_Objective in _IndepTaken) and not (_ownership == "INDEP")) then {
 		
-			If not (_firstChange) then {[_campName,_IndepType] call NR6_SiteFMarkI}; 
+			if not (_firstChange) then {[_campName,_IndepType] call NR6_SiteFMarkI}; 
 			_mrk setMarkerType  "n_installation";
 			_mrk setMarkerColor "Default";
 			_ownership = "INDEP";
@@ -148,7 +148,7 @@ if not (isNull _Objective) then {
 
 		if (not (_Objective in (_AllTaken)) and not (_ownership == "NONE")) then {
 			
-			If not (_firstChange) then {[_campName,_IndepType] call NR6_SiteFMarkN}; 
+			if not (_firstChange) then {[_campName,_IndepType] call NR6_SiteFMarkN}; 
 			_mrk setMarkerType  "n_installation";
 			_mrk setMarkerColor "ColorGrey";
 			_ownership = "NONE";

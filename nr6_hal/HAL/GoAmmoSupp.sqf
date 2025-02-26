@@ -16,7 +16,7 @@ _AmmoPoints = _HQ getVariable ["RydHQ_AmmoPoints",[]];
 
 _AmmoPoints pushBack _Trg;
 
-_unitG = group (assigneddriver _unit);
+_unitG = group (assignedDriver _unit);
 _unitvar = str (_unitG);
 _startpos = getPosASL _unit;
 
@@ -32,7 +32,7 @@ _mtr disableAI "TARGET";_mtr disableAI "AUTOTARGET";
 
 [_unitG] call RYD_WPdel;
 
-(group (assigneddriver _unit)) setVariable [("Deployed" + (str (group (assigneddriver _unit)))),false];
+(group (assignedDriver _unit)) setVariable [("Deployed" + (str (group (assignedDriver _unit)))),false];
 _unitvar = str (_unitG);
 _unitG setVariable [("Busy" + _unitvar), true];
 
@@ -122,7 +122,7 @@ if (_drop) then
 						_alive = _cause select 1;
 					};
 
-				if not (_alive) exitwith {if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+				if not (_alive) exitWith {if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 					{
 					deleteVehicle _ammoBox;
 					deleteMarker ("markAmmoSupp" + str (_unitG))};
@@ -156,7 +156,7 @@ if (_drop) then
 
 				//_unit setVariable ["KeepAlt",false];
 
-				if not (_alive) exitwith 
+				if not (_alive) exitWith 
 					{
 					if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 						{
@@ -190,7 +190,7 @@ if (_drop) then
 					_timer = _cause select 0;
 					_alive = _cause select 1;
 					
-					if (not (_alive) or {(_timer > 24)}) exitwith 
+					if (not (_alive) or {(_timer > 24)}) exitWith 
 						{
 						if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 							{
@@ -210,7 +210,7 @@ if (_drop) then
 					_timer = _cause select 0;
 					_alive = _cause select 1;
 					
-					if not (_alive) exitwith 
+					if not (_alive) exitWith 
 						{
 						if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 							{
@@ -259,7 +259,7 @@ if (_drop) then
 						_alive = switch (true) do
 							{
 							case (isNil "_unit") : {false};
-							case not ((typeName _unit) isEqualTo (typename objNull)) : {false};
+							case not ((typeName _unit) isEqualTo (typeName objNull)) : {false};
 							case (isNull _unit) : {false};
 							case not (alive _unit) : {false};
 							};
@@ -287,7 +287,7 @@ if (_drop) then
 						(not (_alive) or {(((_p1 distance _p2) < 10) and {(_l2 > 10) and {(_l1 > _l2)}})})
 						};
 						
-					if not (_alive) exitwith 
+					if not (_alive) exitWith 
 						{
 						if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 							{
@@ -310,7 +310,7 @@ if (_drop) then
 						_alive = switch (true) do
 							{
 							case (isNil "_unit") : {false};
-							case not ((typeName _unit) isEqualTo (typename objNull)) : {false};
+							case not ((typeName _unit) isEqualTo (typeName objNull)) : {false};
 							case (isNull _unit) : {false};
 							case not (alive _unit) : {false};
 							};
@@ -332,7 +332,7 @@ if (_drop) then
 						(not (_alive) or {(_l1 < (_sizeZ + 1))})
 						};					
 	
-					if not (_alive) exitwith 
+					if not (_alive) exitWith 
 						{
 						if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 							{
@@ -361,7 +361,7 @@ if (_drop) then
 					_timer = _cause select 0;
 					_alive = _cause select 1;
 					
-					if not (_alive) exitwith 
+					if not (_alive) exitWith 
 						{
 						if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 							{
@@ -386,7 +386,7 @@ if (_drop) then
 						_unit ropeDetach _x;
 						ropeDestroy _x;
 						}
-					foreach (ropes _unit);
+					forEach (ropes _unit);
 					
 					_ammoBox allowDamage false;
 					
@@ -473,7 +473,7 @@ else
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 
-		if not (_alive) exitwith 
+		if not (_alive) exitWith 
 			{
 			if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 				{
@@ -488,7 +488,7 @@ else
 			
 		if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1}; 
 
-		if ((RydxHQ_MagicRearm) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x setVehicleAmmo 1; if (isPlayer _x) then {"Vehicle Rearmed" remoteExec ["hint", _x]};}} foreach ((vehicle (leader _unitG)) nearEntities [["Air", "LandVehicle"], 100]);};
+		if ((RydxHQ_MagicRearm) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x setVehicleAmmo 1; if (isPlayer _x) then {"Vehicle Rearmed" remoteExec ["hint", _x]};}} forEach ((vehicle (leader _unitG)) nearEntities [["Air", "LandVehicle"], 100]);};
 		
 //		if ((_request) and ((_mtr getVariable ["HAL_Requested",false]) or ((_mtr distance _Trg) > 500))) then {_counter = 5};
 
@@ -505,7 +505,7 @@ else
 if (_request) then {[_mtr] remoteExecCall ["RYD_ReqLogisticsDelete_Actions"]};
 _mtr setVariable ["HAL_Requested",false,true];
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -523,7 +523,7 @@ _tp = "MOVE";
 if ((_HQ getVariable ["RydHQ_SupportWP",false]) and not (_drop)) then {_tp = "SUPPORT"};
 _pos = [_posX,_posY];
 
-if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getpos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _AmmoPoints = _AmmoPoints - [_Trg];};
+if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getPos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _AmmoPoints = _AmmoPoints - [_Trg];};
 
 if (_drop) then 
 	{
@@ -563,7 +563,7 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	_alive = _cause select 1;
 };
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -589,10 +589,10 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _lastOne = true;
 
 	{
-	if (((group (assigneddriver _x)) == (group (assigneddriver _Trg))) and (_x != _Trg)) exitwith {_lastOne = false};
-	if (((group _x) == (group _Trg)) and (_x != _Trg)) exitwith {_lastOne = false};
+	if (((group (assignedDriver _x)) == (group (assignedDriver _Trg))) and (_x != _Trg)) exitWith {_lastOne = false};
+	if (((group _x) == (group _Trg)) and (_x != _Trg)) exitWith {_lastOne = false};
 	}
-foreach _Hollow;
+forEach _Hollow;
 
 if (_lastOne) then 
 	{

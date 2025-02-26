@@ -2,19 +2,19 @@ _SCRname = "GoDefNav";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _Spot = _this select 1;
 _HQ = _this select 2;
 
 _unitvar = str _unitG;
 _busy = false;
-_busy = _unitG getvariable ("Busy" + _unitvar);
+_busy = _unitG getVariable ("Busy" + _unitvar);
 
 if (isNil ("_busy")) then {_busy = false};
 
 _alive = true;
 
-if (_busy) exitwith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
+if (_busy) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 	_defSpot = _defSpot - [_unitG];
 	_HQ setVariable ["RydHQ_DefSpot",_defSpot];
 	_def = _HQ getVariable ["RydHQ_Def",[]];
@@ -39,7 +39,7 @@ _DefPos = [_posX,_posY];
 
 _isWater = surfaceIsWater _DefPos;
 
-if not (_isWater) exitwith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
+if not (_isWater) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 	_defSpot = _defSpot - [_unitG];
 	_HQ setVariable ["RydHQ_DefSpot",_defSpot];
 	_def = _HQ getVariable ["RydHQ_Def",[]];
@@ -53,7 +53,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 
-_nE = _UL findnearestenemy _UL;
+_nE = _UL findNearestEnemy _UL;
  
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
@@ -112,7 +112,7 @@ _endThis = false;
 _suppHQ = false;
 _timer = 0;
 
-waituntil
+waitUntil
 	{
 	sleep 5;
 
@@ -123,7 +123,7 @@ waituntil
 	if ((isNull _unitG) or (isNull _HQ)) then {_endThis = true;_alive = false} else {if not (_unitG getVariable "Defending") then {_endThis = true}};
 	if (({alive _x} count (units _unitG)) < 1) then {_endThis = true;_alive = false};
 	if ((count (waypoints _unitG)) < 1) then {_endThis = true;};
-	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
+	if (_unitG getVariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
 	if (((vehicle (leader _unitG)) distance _DefPos) < 500) then {_endThis = true;};

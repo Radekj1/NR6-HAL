@@ -26,7 +26,7 @@ while {true} do {
 
 		if (RydxHQ_ActionsMenu) then {
 
-			if ((_x == leader _x) and (not (_x getVariable ["HAL_TaskMenuAdded",false]) or not (_x == (_x getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then {
+			if ((_x == leader _x) and (not (_x getVariable ["HAL_TaskMenuAdded",false]) or not (_x == (_x getVariable ["HAL_PlayerUnit",objNull]))) and (_IsHal)) then {
 
 					if not (RydxHQ_ActionsAceOnly) then {
 
@@ -502,7 +502,7 @@ while {true} do {
 			};
 		};
 		
-	} forEach allplayers;
+	} forEach allPlayers;
 
 	sleep 15;
 };

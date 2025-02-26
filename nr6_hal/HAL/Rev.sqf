@@ -13,7 +13,7 @@ if (_HQ getVariable ["RydHQ_KnowTL",true]) then
 		{
 		if (isPlayer (leader _x)) then {_players pushBack _x};
 		}
-	foreach _friends;
+	forEach _friends;
 	};
 
 for [{_z = 0},{_z < (count _enemies)},{_z = _z + 1}] do
@@ -26,7 +26,7 @@ for [{_z = 0},{_z < (count _enemies)},{_z = _z + 1}] do
 				{
 				_x reveal [_KnU,2]
 				} 
-			foreach ([_HQ] + _players);
+			forEach ([_HQ] + _players);
 
 			if (RydxHQ_NEAware > 0) then
 				{
@@ -38,11 +38,11 @@ for [{_z = 0},{_z < (count _enemies)},{_z = _z + 1}] do
 						_x reveal [_KnU,2]
 						}
 					}
-				foreach _friends;
+				forEach _friends;
 				}
 			}
 		}
-	foreach _friends 
+	forEach _friends 
 	};
 
 for [{_z = 0},{_z < (count _friends)},{_z = _z + 1}] do
@@ -52,5 +52,5 @@ for [{_z = 0},{_z < (count _friends)},{_z = _z + 1}] do
 		{
 		_x reveal [(vehicle (leader _KnU)),4]
 		} 
-	foreach ([_HQ] + _players)
+	forEach ([_HQ] + _players)
 	};

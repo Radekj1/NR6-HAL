@@ -47,7 +47,7 @@ if (RydBB_Debug) then
 		(_ready)
 		};
 	}
-foreach _BBHQGrps;
+forEach _BBHQGrps;
 
 _cntr = getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition");
 
@@ -94,7 +94,7 @@ if (_BBSide == "A") then
 
 	_nmbr = round (_lng/500);
 
-	missionNameSpace setVariable ["BattleF",[_cntr,_lng,_nmbr]];
+	missionNamespace setVariable ["BattleF",[_cntr,_lng,_nmbr]];
 
 	RydBB_Sectors = ([_cntr,_lng,0,_nmbr] call RYD_Sectorize) select 0;
 /*
@@ -112,7 +112,7 @@ if (_BBSide == "A") then
 
 	_nbr = 0;
 
-	startloadingscreen ["Big Boss studies the map","RscDisplayLoadCustom"];
+	startLoadingScreen ["Big Boss studies the map","RscDisplayLoadCustom"];
 	if (RydBB_Debug) then {diag_log "Big Boss studies the map."};
 
 		{
@@ -172,7 +172,7 @@ if (_BBSide == "A") then
 			progressLoadingScreen (_nbr/_sum)
 			}
 		}
-	foreach RydBB_Sectors;
+	forEach RydBB_Sectors;
 	endLoadingScreen;
 	};
 
@@ -194,8 +194,8 @@ if (RydBB_Debug) then
 
 _objRad = 25000;
 
-_cntr = (missionNameSpace getVariable "BattleF") select 0;
-_lng = (missionNameSpace getVariable "BattleF") select 1;
+_cntr = (missionNamespace getVariable "BattleF") select 0;
+_lng = (missionNamespace getVariable "BattleF") select 1;
 
 if not (isNil "RydBB_MC") then
 	{
@@ -211,22 +211,22 @@ _locHill = nearestLocations [_cntr, ["Hill","ViewPoint"], _objRad];
 	{
 	_strArea pushBack [(position _x),10,false]
 	}
-foreach _loc10;
+forEach _loc10;
 
 	{
 	_strArea pushBack [(position _x),5,false]
 	}
-foreach _loc5;
+forEach _loc5;
 
 	{
 	_strArea pushBack [(position _x),2,false]
 	}
-foreach _loc2;
+forEach _loc2;
 
 	{
 	_strArea pushBack [(position _x),1,false]
 	}
-foreach _loc1;
+forEach _loc1;
 
 
 	{
@@ -241,7 +241,7 @@ foreach _loc1;
 		_strArea pushBack [(position _x),2,false]
 		}
 	}
-foreach _locHill;
+forEach _locHill;
 
 _BBStr = [];
 
@@ -256,7 +256,7 @@ _fixedInitStatus = [];
 
 	_fixedInitStatus pushBack _pos
 	}
-foreach _BBStr;
+forEach _BBStr;
 
 _BBSAL = RydBBa_SAL;
 if (_BBSide == "B") then {_BBSAL = RydBBb_SAL};
@@ -267,7 +267,7 @@ if (_BBSide == "B") then {_BBSAL = RydBBb_SAL};
 
 	_BBStr pushBack [(position _x),_x getVariable "AreaValue",_vTkn];
 	}
-foreach (synchronizedObjects _BBSAL);
+forEach (synchronizedObjects _BBSAL);
 
 _strArea = _strArea + _BBStr;
 
@@ -311,9 +311,9 @@ _strArea0 = [] + _strArea;
 				}
 			}
 		}
-	foreach _strArea0
+	forEach _strArea0
 	}
-foreach _strArea0;
+forEach _strArea0;
 
 _strArea = _strArea - [0];
 
@@ -321,15 +321,15 @@ _strArea0 = nil;
 
 { 
 	if (isNil {_x select 1}) then {_strArea set [_foreachIndex,[_x select 0,5,_x select 2]]}
-} foreach _strArea;
+} forEach _strArea;
 
 
 if not (isNil "Debug") then {Debug setVariable ["d",_strArea]};
 
 switch (_BBSide) do
 	{
-	case ("A") : {missionNameSpace setVariable ["A_SAreas",_strArea]};
-	case ("B") : {missionNameSpace setVariable ["B_SAreas",_strArea]};
+	case ("A") : {missionNamespace setVariable ["A_SAreas",_strArea]};
+	case ("B") : {missionNamespace setVariable ["B_SAreas",_strArea]};
 	};
 	
 ////////////////////////////////////////////////////////////////////
@@ -387,7 +387,7 @@ while {(RydBB_Active)} do
 			{
 			if not (_x select 2) exitWith {_allAreTaken = false}
 			}
-		foreach _strArea;
+		forEach _strArea;
 
 		//not (_allAreTaken)
 		//};
@@ -422,7 +422,7 @@ while {(RydBB_Active)} do
 							}
 						}
 					}
-				foreach _HQg0;
+				forEach _HQg0;
 
 				if ((count _HQg) == 0) exitWith 
 					{
@@ -451,7 +451,7 @@ while {(RydBB_Active)} do
 				}
 			};
 		}
-	foreach _BBHQGrps;
+	forEach _BBHQGrps;
 
 	if ((count _BBHQs) == 0) exitWith 
 		{
@@ -500,7 +500,7 @@ while {(RydBB_Active)} do
 
 			_nmbr = _nmbr + _valGrp
 			}
-		foreach _ownGroups;
+		forEach _ownGroups;
 
 		_armyPos = _cntr;
 
@@ -513,8 +513,8 @@ while {(RydBB_Active)} do
 		_ct = 0;
 		_change = true;
 
-		_enAr = missionNameSpace getVariable ["B_SAreas",[]];
-		if (_BBSide == "B") then {_enAr = missionNameSpace getVariable ["A_SAreas",[]]};
+		_enAr = missionNamespace getVariable ["B_SAreas",[]];
+		if (_BBSide == "B") then {_enAr = missionNamespace getVariable ["A_SAreas",[]]};
 
 		while {(_change)} do
 			{
@@ -539,7 +539,7 @@ while {(RydBB_Active)} do
 					_nmbr = _nmbr + (_x select 1)
 					}
 				}
-			foreach _strArea;
+			forEach _strArea;
 
 			if (_nmbr > 0) then {_mainPos = [_posStrX/_nmbr,_posStrY/_nmbr,0]};
 
@@ -567,13 +567,13 @@ while {(RydBB_Active)} do
 						if ((faction (leader _x)) in _civF) then {_isCiv = true};
 						if not (_isCiv) then
 							{
-							if (((vehicle (leader _x)) distance _posStr) < 500) exitwith {_enemyClose = true}
+							if (((vehicle (leader _x)) distance _posStr) < 500) exitWith {_enemyClose = true}
 							}
 						};
 
-					if (_enemyClose) exitwith {}
+					if (_enemyClose) exitWith {}
 					}
-				foreach (Allgroups - _ownGroups);
+				forEach (allGroups - _ownGroups);
 
 				_gDst = 1000000;
 				
@@ -581,7 +581,7 @@ while {(RydBB_Active)} do
 					_actDist = (vehicle (leader _x)) distance _posStr;
 					if (_actDist < _gDst) then {_gDst = _actDist}
 					}
-				foreach _ownGroups;
+				forEach _ownGroups;
 
 				if (RydBB_CustomObjOnly) then 
 				
@@ -619,7 +619,7 @@ while {(RydBB_Active)} do
 						}
 					}
 				}
-			foreach _strArea;
+			forEach _strArea;
 
 			_ct = _ct + 1;
 
@@ -645,9 +645,9 @@ while {(RydBB_Active)} do
 							}
 						}
 					}
-				foreach _strArea
+				forEach _strArea
 				}
-			foreach _enAr
+			forEach _enAr
 			};
 
 
@@ -671,13 +671,13 @@ while {(RydBB_Active)} do
 			_isLeft = ([(getPosATL (vehicle (leader _x))),_ArmyPos,_attackAxis] call RYD_WhereIs) select 0;
 			_x setVariable ["isLeft",_isLeft]
 			}
-		foreach _BBHQGrps;
+		forEach _BBHQGrps;
 
 			{
 			_isLeft = ([(_x select 0),_ArmyPos,_attackAxis] call RYD_WhereIs) select 0;
 			_x set [3,_isLeft]
 			}
-		foreach _strArea;
+		forEach _strArea;
 
 
 
@@ -709,7 +709,7 @@ while {(RydBB_Active)} do
 			_x setVariable [_isFlankName,_isFlank];
 			_x setVariable [_isRearName,_isRear];
 			}
-		foreach _sectors;
+		forEach _sectors;
 
 		if (RydBB_Debug) then
 			{
@@ -770,7 +770,7 @@ while {(RydBB_Active)} do
 				_frontSANmbr = _frontSANmbr + 1
 				}
 			}
-		foreach _strArea;
+		forEach _strArea;
 
 		_leftSpace = count _leftSectors;
 		_rightSpace = count _rightSectors;
@@ -827,7 +827,7 @@ while {(RydBB_Active)} do
 				_spaceF = _fl select 1;
 				if (_spaceF) exitWith {_flSMaxStr = _x}
 				}
-			foreach [_rightFlankName,_centerFrontName];
+			forEach [_rightFlankName,_centerFrontName];
 			};
 
 		_flSAMaxStr = _leftFlankName;
@@ -840,7 +840,7 @@ while {(RydBB_Active)} do
 				_SAF = _fl select 2;
 				if (_SAF) exitWith {_flSAMaxStr = _x}
 				}
-			foreach [_rightFlankName,_centerFrontName];
+			forEach [_rightFlankName,_centerFrontName];
 			};
 
 		_flVMaxStr = _leftFlankName;
@@ -853,7 +853,7 @@ while {(RydBB_Active)} do
 				_vehF = _fl select 3;
 				if (_vehF) exitWith {_flVMaxStr = _x}
 				}
-			foreach [_rightFlankName,_centerFrontName];
+			forEach [_rightFlankName,_centerFrontName];
 			};
 
 
@@ -867,7 +867,7 @@ while {(RydBB_Active)} do
 
 			_vehAll = _vehAll + _vehPerc
 			}
-		foreach _BBHQGrps;
+		forEach _BBHQGrps;
 
 		_vehAv = _vehAll/(count _BBHQGrps);
 
@@ -888,7 +888,7 @@ while {(RydBB_Active)} do
 				_x setVariable ["ForceProfile","I"]
 				}
 			}
-		foreach _BBHQGrps;
+		forEach _BBHQGrps;
 
 		_numAll = 0;
 
@@ -898,7 +898,7 @@ while {(RydBB_Active)} do
 
 			_numAll = _numAll + _forceNum
 			}
-		foreach _BBHQGrps;
+		forEach _BBHQGrps;
 
 		_numAv = _numAll/(count _BBHQGrps);
 
@@ -919,7 +919,7 @@ while {(RydBB_Active)} do
 				}
 
 			}
-		foreach _BBHQGrps;
+		forEach _BBHQGrps;
 
 		_goingLeft = [];
 		_goingRight = [];
@@ -943,7 +943,7 @@ while {(RydBB_Active)} do
 			{
 			if ((_x getVariable ["ForceProfile","V"]) == "I") then {_resCand pushBack _x}
 			}
-		foreach _moreNumHQ;
+		forEach _moreNumHQ;
 		
 		while {(_resCount > 0)} do
 			{
@@ -1270,7 +1270,7 @@ while {(RydBB_Active)} do
 							};
 						};
 					}
-				foreach _allFree;
+				forEach _allFree;
 
 				if ((count (_BBHQGrps - (_goingReserve + _goingLeft + _goingRight + _goingAhead))) > 0) then 
 					{
@@ -1308,7 +1308,7 @@ while {(RydBB_Active)} do
 							_centerCount = _centerCount - 1
 							}
 						}
-					foreach (_BBHQGrps - (_goingReserve + _goingLeft + _goingRight + _goingAhead))
+					forEach (_BBHQGrps - (_goingReserve + _goingLeft + _goingRight + _goingAhead))
 					}
 				}
 			else
@@ -1357,7 +1357,7 @@ while {(RydBB_Active)} do
 			
 		if not (_aliveHQ) then {_goingReserve = _goingReserve - [_x]};
 		}
-	foreach _goingReserve0;
+	forEach _goingReserve0;
 
 	if ((count _goingReserve) > 0) then
 		{
@@ -1378,7 +1378,7 @@ while {(RydBB_Active)} do
 				};
 			if not (_aliveHQ) then {_goingAhead = _goingAhead - [_x]};
 			}
-		foreach _lastGAhead;
+		forEach _lastGAhead;
 
 		if ((count _goingAhead) < _lastGAheadN) then
 			{
@@ -1400,7 +1400,7 @@ while {(RydBB_Active)} do
 				
 			if not (_aliveHQ) then {_goingLeft = _goingLeft - [_x]};
 			}
-		foreach _lastGLeft;
+		forEach _lastGLeft;
 
 		if ((count _goingLeft) <  _lastGLeftN) then
 			{
@@ -1422,7 +1422,7 @@ while {(RydBB_Active)} do
 				
 			if not (_aliveHQ) then {_goingRight = _goingRight - [_x]};
 			}
-		foreach _lastGRight;
+		forEach _lastGRight;
 
 		if ((count _goingRight) < _lastGRightN) then
 			{
@@ -1511,7 +1511,7 @@ while {(RydBB_Active)} do
 						_dpX = _dpX + (_x select 0);
 						_dpY = _dpY + (_x select 1)
 						}
-					foreach _knEnemy;
+					forEach _knEnemy;
 
 					_dpX = _dpX/(count _knEnemy);
 					_dpY = _dpY/(count _knEnemy);
@@ -1538,12 +1538,12 @@ while {(RydBB_Active)} do
 
 					//_mark = [(str (random 1000)),[_perX,_perY,0],"ColorPink","ICON",[0.5,0.5],0,1,"DOT",(str _HQ)] call RYD_Marker;
 					}
-				foreach [_tObj1,_tObj2,_tObj3,_tObj4];
+				forEach [_tObj1,_tObj2,_tObj3,_tObj4];
 
 				//[_front,_HQPos,_perDirPos,1500] call RYD_LocLineTransform;
 				}
 			}
-		foreach (_goingLeft + _goingRight + _goingAhead)
+		forEach (_goingLeft + _goingRight + _goingAhead)
 		}
 	else
 		{
@@ -1554,7 +1554,7 @@ while {(RydBB_Active)} do
 			_tkn = _x select 2;
 			if not (_tkn) then {_leftNotTaken pushBack _x}
 			}
-		foreach _leftSA;
+		forEach _leftSA;
 
 		_rightNotTaken = [];
 
@@ -1562,7 +1562,7 @@ while {(RydBB_Active)} do
 			_tkn = _x select 2;
 			if not (_tkn) then {_rightNotTaken pushBack _x}
 			}
-		foreach _rightSA;
+		forEach _rightSA;
 
 		_frontNotTaken = [];
 
@@ -1570,7 +1570,7 @@ while {(RydBB_Active)} do
 			_tkn = _x select 2;
 			if not (_tkn) then {_frontNotTaken pushBack _x}
 			}
-		foreach _frontSA;
+		forEach _frontSA;
 
 			{
 			_notTaken = _leftNotTaken;
@@ -1628,7 +1628,7 @@ while {(RydBB_Active)} do
 					}
 				}
 			}
-		foreach _goingLeft;
+		forEach _goingLeft;
 
 			{
 			_notTaken = _rightNotTaken;
@@ -1686,7 +1686,7 @@ while {(RydBB_Active)} do
 					}
 				}
 			}
-		foreach _goingRight;
+		forEach _goingRight;
 
 			{
 			_notTaken = _frontNotTaken;
@@ -1745,7 +1745,7 @@ while {(RydBB_Active)} do
 					}
 				}
 			}
-		foreach _goingAhead;
+		forEach _goingAhead;
 
 			{
 				{
@@ -1808,19 +1808,19 @@ while {(RydBB_Active)} do
 							{
 							_points pushBack (_x select 0)
 							}
-						foreach _tgtsAround;
+						forEach _tgtsAround;
 
 						_AAOPts = [];
 						
 						{
 							_AAOPts pushBack (_x select 0)
 							}
-						foreach _tgtsAround;
+						forEach _tgtsAround;
 
 							{
 							_points pushBack _x
 							}
-						foreach [_HQpos,_acT];
+						forEach [_HQpos,_acT];
 					
 						//[_front,+_points,1200] call RYD_LocMultiTransform;
 
@@ -1838,9 +1838,9 @@ while {(RydBB_Active)} do
 						}
 					}
 				}
-			foreach _x
+			forEach _x
 			}
-		foreach [_goingLeft,_goingRight,_goingAhead]
+		forEach [_goingLeft,_goingRight,_goingAhead]
 		};
 
 	_points = [];
@@ -1849,14 +1849,14 @@ while {(RydBB_Active)} do
 		_tkn = _x select 2;
 		if (_tkn) then {_points pushBack _x}
 		}
-	foreach _strArea;
+	forEach _strArea;
 
 	_HQpoints = [];
 
 		{
 		_HQpoints pushBack (getPosATL (vehicle (leader _x)))
 		}
-	foreach _BBHQGrps;
+	forEach _BBHQGrps;
 	
 	_takenPoints = _points;
 
@@ -1865,7 +1865,7 @@ while {(RydBB_Active)} do
 		{
 		_points pushBack (_x select 0)
 		}
-	foreach _takenPoints;
+	forEach _takenPoints;
 
 	_HQ setVariable ["BBDEFPts",_points];
 
@@ -1909,7 +1909,7 @@ while {(RydBB_Active)} do
 				};
 			}
 		}
-	foreach _goingReserve;
+	forEach _goingReserve;
 
 	if (_BBcycle == 1) then
 		{
@@ -1990,7 +1990,7 @@ while {(RydBB_Active)} do
 			{
 			if not (isNull (group _x)) then {(group _x) setVariable ["PathDone",true]};
 			}
-		foreach _BBHQs
+		forEach _BBHQs
 		};
 
 	_BBalive = true;

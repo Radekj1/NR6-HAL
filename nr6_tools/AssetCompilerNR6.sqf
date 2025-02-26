@@ -27,15 +27,15 @@ _civFact = [];
 
         };
 
-} foreach (synchronizedObjects _logic);
+} forEach (synchronizedObjects _logic);
 
-_ArrVar = _logic getvariable ["_ArrVar",""];
+_ArrVar = _logic getVariable ["_ArrVar",""];
 
 {
 
     if ((crew _x) isNotEqualTo []) then {_SyncedGroups pushBackUnique (group _x)} else {_SyncedEmpties pushBackUnique _x};
 
-} foreach _SyncedAssets;
+} forEach _SyncedAssets;
 
 {
     _GUnits = [];
@@ -44,29 +44,29 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
     {
         if ((vehicle _x) == _x) then {_civMen pushBack (typeOf _x); _civFact pushBackUnique (faction _x); _GUnits pushBack [(typeOf _x),getUnitLoadout _x];} else {_Vehicles pushBackUnique (vehicle _x)};
 
-    } foreach (units _x);
+    } forEach (units _x);
 
     {
         _crewGear = [];
         _crewClasses = [];
         _pylons = [];
-        {_crewGear pushBack (getUnitLoadout _x)} foreach (crew _x);
-        {_crewClasses pushBack (typeOf _x)} foreach (crew _x);
+        {_crewGear pushBack (getUnitLoadout _x)} forEach (crew _x);
+        {_crewClasses pushBack (typeOf _x)} forEach (crew _x);
         _pylons = getPylonMagazines _x;
 
         _civFact pushBackUnique (faction _x);
         _civVeh pushBack (typeOf _x);
         _GUnits pushBack [(typeOf _x),_crewGear,_crewClasses,_pylons];
 
-    } foreach _Vehicles;
+    } forEach _Vehicles;
 
     _MainPool pushBack _GUnits;
 
-    {deleteVehicle _x} foreach (units _x);
-    {deleteVehicle _x} foreach _Vehicles;
+    {deleteVehicle _x} forEach (units _x);
+    {deleteVehicle _x} forEach _Vehicles;
     deleteGroup _x;
 
-} foreach _SyncedGroups;
+} forEach _SyncedGroups;
 
 {
     _pylons = [];
@@ -77,7 +77,7 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
     _MainPool pushBack [[(typeOf _x),[],[],_pylons]];
     deleteVehicle _x;
     
-} foreach _SyncedEmpties;
+} forEach _SyncedEmpties;
 
 
 {
@@ -89,8 +89,8 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
         _ModPool = [];
 
         {
-            {_ModPool pushBack _x} foreach _x
-        } foreach _MainPool;
+            {_ModPool pushBack _x} forEach _x
+        } forEach _MainPool;
 
         _x setVariable ["_Pool",str _ModPool];
 
@@ -104,6 +104,6 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
 
     };
 
-} foreach _PoolModules;
+} forEach _PoolModules;
 
 if (_ArrVar isNotEqualTo "") then {call compile (_ArrVar + " = " + (str _MainPool))};

@@ -24,14 +24,14 @@ SpawnARVicC = {
     units (group _VC) joinSilent _grp;
     [units _grp,false] remoteExecCall ["orderGetIn"];
 
-    _VC setvariable ["Air_ReinforcementsNR6_Crew",_grp];
-    _VC setvariable ["Air_ReinforcementsNR6_CrewSize",(count (units _grp))];
+    _VC setVariable ["Air_ReinforcementsNR6_Crew",_grp];
+    _VC setVariable ["Air_ReinforcementsNR6_CrewSize",(count (units _grp))];
 
-    _grp setvariable ["Unable",true];
+    _grp setVariable ["Unable",true];
 
 
-    if (_VC isKindof "Plane") then {
-        _VC FlyInHeight (random [100,1000,3500]);
+    if (_VC isKindOf "Plane") then {
+        _VC flyInHeight (random [100,1000,3500]);
     };
 
     _grp setBehaviour "SAFE";
@@ -43,14 +43,14 @@ SpawnARVicC = {
             if (isNull _x) then {} else 
                 {
             //    _x sideChat (format ["Air asset %2 deployed at grid: %1",mapGridPosition _selectedPos,groupId _grp]);
-                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setvariable ["RydHQ_Included",RydHQ_Included];};
-                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setvariable ["RydHQ_Included",RydHQB_Included];};
-                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setvariable ["RydHQ_Included",RydHQC_Included];};
-                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setvariable ["RydHQ_Included",RydHQD_Included];};
-                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setvariable ["RydHQ_Included",RydHQE_Included];};
-                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setvariable ["RydHQ_Included",RydHQF_Included];};
-                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setvariable ["RydHQ_Included",RydHQG_Included];};
-                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setvariable ["RydHQ_Included",RydHQH_Included];};
+                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setVariable ["RydHQ_Included",RydHQ_Included];};
+                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setVariable ["RydHQ_Included",RydHQB_Included];};
+                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setVariable ["RydHQ_Included",RydHQC_Included];};
+                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setVariable ["RydHQ_Included",RydHQD_Included];};
+                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setVariable ["RydHQ_Included",RydHQE_Included];};
+                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setVariable ["RydHQ_Included",RydHQF_Included];};
+                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setVariable ["RydHQ_Included",RydHQG_Included];};
+                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setVariable ["RydHQ_Included",RydHQH_Included];};
                 }; 
             };
 
@@ -70,12 +70,12 @@ SpawnARGroupC = {
 
     _selectedAircraft = selectRandom _GoodsideForces;
 
-    _grp = _selectedAircraft getvariable ["Air_ReinforcementsNR6_Crew",grpNull];
+    _grp = _selectedAircraft getVariable ["Air_ReinforcementsNR6_Crew",grpNull];
 
-    _selectedAircraft setvariable ["Air_ReinforcementsNR6_Taken",true];
+    _selectedAircraft setVariable ["Air_ReinforcementsNR6_Taken",true];
 
     [units _grp,true] remoteExecCall ["orderGetIn"];
-    _grp setvariable ["Unable",false];
+    _grp setVariable ["Unable",false];
 
 //  _grp setBehaviour "AWARE";
 

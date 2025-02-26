@@ -21,7 +21,7 @@ _HQ setVariable ["RydHQ_DefDone",false];
 
 _distances = [];
 
-_HQ setVariable ["RydHQ_NearestE",ObjNull];
+_HQ setVariable ["RydHQ_NearestE",objNull];
 
 _nObj = _HQ getVariable ["RydHQ_NObj",1];
 _BBAOObj = _HQ getVariable ["RydHQ_BBAOObj",1];
@@ -56,7 +56,7 @@ if ((count _landE) > 0) then
 			}
 		
 		}
-	foreach _landE;
+	forEach _landE;
 
 	_Trg = vehicle (leader (_HQ getVariable ["RydHQ_NearestE",grpNull]));
 	};
@@ -74,7 +74,7 @@ if not ((_HQ getVariable ["RydHQ_ReconReserve",0]) > 0) then {_HQ setVariable ["
 		_busy = false;
 		_Unable = false;
 		_busy = _x getVariable ("Busy" + _unitvar);
-		_Unable = _x getvariable "Unable";
+		_Unable = _x getVariable "Unable";
 		if (isNil ("_Unable")) then {_Unable = false};
 		if (isNil ("_busy")) then {_busy = false};
 		_vehready = true;
@@ -97,7 +97,7 @@ if not ((_HQ getVariable ["RydHQ_ReconReserve",0]) > 0) then {_HQ setVariable ["
 				if (((count (magazines _x)) == 0) and (((vehicle _x) == _x) or ((vehicle _x) in (_HQ getVariable ["RydHQ_NCVeh",[]])))) exitWith {_ammo = false};
 				if (((damage _x) > 0.5) or not (canStand _x)) exitWith {_effective = false};
 				}
-			foreach (units _x)
+			forEach (units _x)
 			};
 			
 		_nominal = _x getVariable ("Nominal" + (str _x));if (isNil "_nominal") then {_x setVariable ["Nominal" + _unitvar,(count (units _x))];_nominal = _x getVariable ("Nominal" + (str _x))};
@@ -114,20 +114,20 @@ if not ((_HQ getVariable ["RydHQ_ReconReserve",0]) > 0) then {_HQ setVariable ["
 			};
 
 		_ammo = 0;
-		_veh = ObjNull;
+		_veh = objNull;
 
 			{
-			_veh = assignedvehicle _x;
-			if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - ((_HQ getVariable ["RydHQ_NCAirG",[]]) + (_HQ getVariable ["RydHQ_RAirG",[]]))) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitwith {_vehready = false};
+			_veh = assignedVehicle _x;
+			if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - ((_HQ getVariable ["RydHQ_NCAirG",[]]) + (_HQ getVariable ["RydHQ_RAirG",[]]))) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitWith {_vehready = false};
 			}
-		foreach (units _x);
+		forEach (units _x);
 
 		if (_IsAPlayer) then {_vehready = true; _solready = true;};
 
 		if (not (_x in (_ReconAv + (_HQ getVariable ["RydHQ_SpecForG",[]]))) and not (_busy) and not (_Unable) and (_vehready) and ((_solready) or (_x in (_HQ getVariable ["RydHQ_RAirG",[]])))) then {_ReconAv pushBack _x};
 		}
 	}
-foreach (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])));
+forEach (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])));
 
 _ReconAv = [_ReconAv] call RYD_RandomOrd;
 
@@ -154,8 +154,8 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 
 {
 
-	if not (_x getvariable [("Resting" + (str _x)),false]) then {_exhausted = _exhausted - [_x]}
-} foreach _exhausted;
+	if not (_x getVariable [("Resting" + (str _x)),false]) then {_exhausted = _exhausted - [_x]}
+} forEach _exhausted;
 
 	{
 	if ((typeName _x) in [(typeName grpNull)]) then
@@ -166,8 +166,8 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			if (_HQ getVariable ["RydHQ_Orderfirst",true]) then {_x setVariable [("Nominal" + _unitvar),(count (units _x))]};
 			_busy = false;
 			_Unable = false;
-			_busy = _x getvariable ("Busy" + _unitvar);
-			_Unable = _x getvariable "Unable";
+			_busy = _x getVariable ("Busy" + _unitvar);
+			_Unable = _x getVariable "Unable";
 			if (isNil ("_Unable")) then {_Unable = false};
 			if (isNil ("_busy")) then {_busy = false};
 			_vehready = true;
@@ -190,7 +190,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 					if (((count (magazines _x)) == 0) and (((vehicle _x) == _x) or ((vehicle _x) in (_HQ getVariable ["RydHQ_NCVeh",[]])))) exitWith {_ammo = false};
 					if (((damage _x) > 0.5) or not (canStand _x)) exitWith {_effective = false};
 					}
-				foreach (units _x)
+				forEach (units _x)
 				};
 				
 			_nominal = _x getVariable ("Nominal" + (str _x));if (isNil "_nominal") then {_x setVariable ["Nominal" + _unitvar,(count (units _x))];_nominal = _x getVariable ("Nominal" + (str _x))};
@@ -200,10 +200,10 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			_ammo = 0;
 
 				{
-				_veh = assignedvehicle _x;
-				if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCAirG",[]])) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitwith {_vehready = false};
+				_veh = assignedVehicle _x;
+				if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCAirG",[]])) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitWith {_vehready = false};
 				}
-			foreach (units _x);
+			forEach (units _x);
 
 			if (_IsAPlayer) then {_vehready = true; _solready = true;};
 			
@@ -220,9 +220,9 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 				if (not (_x in _exhausted) and (((random (2 + (_HQ getVariable ["RydHQ_Recklessness",0.5]))) max 0.5) < (_inD * (_HQ getVariable ["RydHQ_Withdraw",1])))) then 
 					{
 					_recvar = str _x;
-					_resting = _x getvariable ("Resting" + _recvar);
+					_resting = _x getVariable ("Resting" + _recvar);
 					if (isNil ("_resting")) then {_resting = false};
-					_Unable = _x getvariable "Unable";
+					_Unable = _x getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 					
 					if (not (_resting) and not (_Unable) and not (_IsAPlayer)) then
@@ -235,7 +235,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			}
 		}
 	}
-foreach (((_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_reconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_SupportG",[]]))) - (_HQ getVariable ["RydHQ_NoAttack",[]]));
+forEach (((_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_reconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_SupportG",[]]))) - (_HQ getVariable ["RydHQ_NoAttack",[]]));
 _AttackAv = [_AttackAv] call RYD_RandomOrd;
 
 _AttackAv = _AttackAv - (_HQ getVariable ["RydHQ_ROnly",[]]);
@@ -257,7 +257,7 @@ if ((_HQ getVariable ["RydHQ_AttackReserve",0]) > 0) then
 
 {
 	if ((({alive _x} count (units _x)) == 0) or (_x == grpNull)) then {_exhausted = _exhausted - [_x]};
-} foreach _exhausted;
+} forEach _exhausted;
 	
 _FlankAv = _FlankAv - ((_HQ getVariable ["RydHQ_NoFlank",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]));
 _HQ setVariable ["RydHQ_AttackAv",_AttackAv];
@@ -305,10 +305,10 @@ if (_BBAOObj > 1) then {
 
 	_toRecon resize _BBAOObj;
 
-	if ((_HQ getvariable ["BBObj1Done",false]) and ((_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj2Done",false]) and ((_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj3Done",false]) and ((_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj4Done",false]) and ((_HQ getVariable ["RydHQ_Obj4",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj1Done",false]) and ((_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj2Done",false]) and ((_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj3Done",false]) and ((_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj4Done",false]) and ((_HQ getVariable ["RydHQ_Obj4",(leader _HQ)]) in _toRecon)) then {_toRecon = _toRecon - [(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])]};
 };
 
 if (_nObj == 5) then {_toRecon = []};
@@ -335,7 +335,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 			{
 			_allAttackers = _allAttackers + (count (units _x))
 			}
-		foreach _AttackAv;
+		forEach _AttackAv;
 
 		/*
 
@@ -374,7 +374,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			if (not ((count (_HQ getVariable ["RydHQ_reconG",[]])) == 0) and ((count (_HQ getVariable ["RydHQ_ReconAv",[]])) > 0) and not (_HQ getVariable ["RydHQ_ReconDone",false]) and not ((_HQ getVariable ["RydHQ_ReconStage",1]) > (_stages * (count _toRecon)))) then
@@ -391,7 +391,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			if (not ((count (_HQ getVariable ["RydHQ_FOG",[]])) == 0) and ((count (_HQ getVariable ["RydHQ_ReconAv",[]])) > 0) and not (_HQ getVariable ["RydHQ_ReconDone",false]) and not ((_HQ getVariable ["RydHQ_ReconStage",1]) > (_stages * (count _toRecon)))) then
@@ -408,7 +408,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			if (not ((count (_HQ getVariable ["RydHQ_snipersG",[]])) == 0) and ((count (_HQ getVariable ["RydHQ_ReconAv",[]])) > 0) and not (_HQ getVariable ["RydHQ_ReconDone",false]) and not ((_HQ getVariable ["RydHQ_ReconStage",1]) > (_stages * (count _toRecon)))) then
@@ -425,7 +425,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			_onlyL = (_HQ getVariable ["RydHQ_LArmorG",[]]) - (_HQ getVariable ["RydHQ_MArmorG",[]]);
@@ -443,7 +443,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			if (not ((count ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SpecForG",[]]))) == 0) and ((count (_HQ getVariable ["RydHQ_ReconAv",[]])) > 0) and not (_HQ getVariable ["RydHQ_ReconDone",false]) and not ((_HQ getVariable ["RydHQ_ReconStage",1]) > (_stages * (count _toRecon)))) then
@@ -461,7 +461,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					//[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] spawn HAL_GoRecon;
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				};
 
 			_LMCUA = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]));
@@ -480,10 +480,10 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					//[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] spawn HAL_GoRecon;
 					[[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false],HAL_GoRecon] call RYD_Spawn;
 					}
-				foreach _gps
+				forEach _gps
 				}
 			}
-		foreach _toRecon
+		forEach _toRecon
 		}
 	}
 else
@@ -492,7 +492,7 @@ else
 	};
 	
 _reserve = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]))));
-if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariable ["RydHQ_KnEnemies",[]])) == 0)) exitwith 
+if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariable ["RydHQ_KnEnemies",[]])) == 0)) exitWith 
 	{
 	if (_HQ getVariable ["RydHQ_Orderfirst",true]) then 
 		{
@@ -502,9 +502,9 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 		{
 		_recvar = str _x;
 		_resting = false;
-		_resting = _x getvariable ("Resting" + _recvar);
+		_resting = _x getVariable ("Resting" + _recvar);
 		if (isNil ("_resting")) then {_resting = false};
-		_Unable = _x getvariable "Unable";
+		_Unable = _x getVariable "Unable";
 		if (isNil ("_Unable")) then {_Unable = false};
 		_IsAPlayer = false;
 		if (RydxHQ_NoRestPlayers and (isPlayer (leader _x))) then {_IsAPlayer = true};
@@ -514,7 +514,7 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 			[[_x,_HQ],HAL_GoRest] call RYD_Spawn;
 			}
 		}
-	foreach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
+	forEach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
 
 	if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 		{
@@ -528,10 +528,10 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 			_capturing = false;
 			_capturing = _x getVariable ("Capt" + _recvar);
 			if (isNil ("_capturing")) then {_capturing = false};
-			_deployed = _x getvariable ("Deployed" + _recvar);
-			_busy = _x getvariable ("Busy" + _recvar);
+			_deployed = _x getVariable ("Deployed" + _recvar);
+			_busy = _x getVariable ("Busy" + _recvar);
 			_isDef = _x getVariable "Defending";
-			_Unable = _x getvariable "Unable";
+			_Unable = _x getVariable "Unable";
 			if (isNil ("_Unable")) then {_Unable = false};
 			if (isNil ("_isDef")) then {_isDef = false};
 			if (isNil ("_busy")) then {_busy = false};
@@ -542,13 +542,13 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 				//[_x,_HQ] spawn HAL_GoIdle
 
 				if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
-					[[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ],HAL_GoDefRes] call RYD_Spawn;
+					[[_x,selectRandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ],HAL_GoDefRes] call RYD_Spawn;
 					} else {
 					[[_x,_HQ],HAL_GoIdle] call RYD_Spawn;
 					};
 				};
 			}
-		foreach _reserve;
+		forEach _reserve;
 		}
 	};
 
@@ -577,8 +577,8 @@ _Otherthreat = [];
 	{
 	_GE = (group _x);
 	_GEvar = str _GE;
-	_checked = _GE getvariable ("Checked" + _GEvar);
-	if (isNil ("_checked")) then {_GE setvariable [("Checked" + _GEvar),false]};
+	_checked = _GE getVariable ("Checked" + _GEvar);
+	if (isNil ("_checked")) then {_GE setVariable [("Checked" + _GEvar),false]};
 	_checked = false;
 
 	if ((_x in (_HQ getVariable ["RydHQ_Enrecon",[]])) and not (_GE in _reconthreat) and not (_checked)) then {_reconthreat pushBack _GE};
@@ -604,7 +604,7 @@ _Otherthreat = [];
 
 	if ((isNil ("_checked")) or not (_checked)) then {_GE setVariable [("Checked" + _GEvar), true]};
 	}
-foreach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
+forEach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
 
 _HQ setVariable ["RydHQ_AAthreat",(_AAinfthreat + _StaticAAthreat)];
 _HQ setVariable ["RydHQ_ATthreat",(_ATinfthreat + _StaticATthreat + _HArmorthreat + _LArmorATthreat)];
@@ -693,10 +693,10 @@ if (_BBAOObj > 1) then {
 
 	_toTake resize _BBAOObj;
 
-	if ((_HQ getvariable ["BBObj1Done",false]) and ((_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj2Done",false]) and ((_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj3Done",false]) and ((_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])]};
-	if ((_HQ getvariable ["BBObj4Done",false]) and ((_HQ getVariable ["RydHQ_Obj4",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj1Done",false]) and ((_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj2Done",false]) and ((_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj3Done",false]) and ((_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])]};
+	if ((_HQ getVariable ["BBObj4Done",false]) and ((_HQ getVariable ["RydHQ_Obj4",(leader _HQ)]) in _toTake)) then {_toTake = _toTake - [(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])]};
 };
 
 if (_nObj == 5) then {_toTake = []};
@@ -717,7 +717,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 			_toTake set [_foreachIndex,objNull];
 			}
 		}
-	foreach _toTake;
+	forEach _toTake;
 	
 	_toTake = _toTake - [objNull];
 		
@@ -726,7 +726,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 		{
 		_allAttackers = _allAttackers + (count (units _x))
 		}
-	foreach _AttackAv;
+	forEach _AttackAv;
 
 	/*			
 	while {(((_allAttackers/(_HQ getVariable ["RydHQ_CaptLimit",10])) < (count _toTake)) or ((count _AttackAv) < ((1.5 * (count _toTake)))))} do
@@ -740,7 +740,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 	{
 	if (isNil {_x}) then {_toTake set [_foreachIndex,objNull]};
 	}
-foreach _toTake;
+forEach _toTake;
 
 _toTake = _toTake - [objNull];
 	
@@ -752,10 +752,10 @@ _toTake = _toTake - [objNull];
 			{
 			_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]
 			}
-		foreach (_objectives - [(_HQ getVariable ["RydHQ_Obj",nil])]);
+		forEach (_objectives - [(_HQ getVariable ["RydHQ_Obj",nil])]);
 		};
 
-	_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 
 	if (isNil ("_isAttacked")) then {_isAttacked = [0,0]};
 
@@ -783,20 +783,20 @@ _toTake = _toTake - [objNull];
 				{
 				for [{_m = 500},{_m <= 50000},{_m = _m + 500}] do
 					{
-					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+					_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 					_captCount = _isAttacked select 1;
 					_isAttacked = _isAttacked select 0;
 
-					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 						{
-						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+						_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 						_captCount = _isAttacked select 1;
 						_isAttacked = _isAttacked select 0;
 
-						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 						if (_x in (_HQ getVariable ["RydHQ_AttackAv",[]])) then
 							{
@@ -821,10 +821,10 @@ _toTake = _toTake - [objNull];
 
 											switch (_isAttacked) do
 												{
-												case (4) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
-												case (3) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
-												case (2) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
-												case (1) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
+												case (4) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
+												case (3) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
+												case (2) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
+												case (1) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
 												case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 												};
 
@@ -836,12 +836,12 @@ _toTake = _toTake - [objNull];
 								}
 							}
 						}
-					foreach _forCapt;
+					forEach _forCapt;
 					_forCapt = _forCapt - _checked
 					}
 				};
 
-			if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+			if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 			_LMCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_Exhausted",[]]) + ((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_Garrison",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))));
 			_LMCU = _LMCU - ((_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]));
@@ -850,19 +850,19 @@ _toTake = _toTake - [objNull];
 				{
 				for [{_m = 1000},{_m <= 200000},{_m = _m + 1000}] do
 					{
-					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+					_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 					_captCount = _isAttacked select 1;
 					_isAttacked = _isAttacked select 0;
-					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 						{
-						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+						_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 						_captCount = _isAttacked select 1;
 						_isAttacked = _isAttacked select 0;
 
-						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 						if (_x in (_HQ getVariable ["RydHQ_AttackAv",[]])) then
 							{
 							if (((leader _x) distance _Trg) <= _m) then
@@ -882,10 +882,10 @@ _toTake = _toTake - [objNull];
 
 										switch (_isAttacked) do
 											{
-											case (4) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
-											case (3) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
-											case (2) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
-											case (1) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
+											case (4) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
+											case (3) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
+											case (2) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
+											case (1) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
 											case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 											};
 
@@ -896,14 +896,14 @@ _toTake = _toTake - [objNull];
 								}
 							}
 						}
-					foreach _LMCU;
+					forEach _LMCU;
 					_LMCU = _LMCU - _checked
 					}
 				}
 			}
 		}
 	}
-foreach _toTake;
+forEach _toTake;
 
 // NAVAL OBJECTIVES
 
@@ -931,14 +931,14 @@ if (((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false]))) then
 	{
 	if (isNil {_x}) then {_toTakeNav set [_foreachIndex,objNull]};
 	}
-foreach _toTakeNav;
+forEach _toTakeNav;
 
 _toTakeNav = _toTakeNav - [objNull];
 	
 	{
 	_Trg = _x;
 
-	_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 
 	if (isNil ("_isAttacked")) then {_isAttacked = [0,0]};
 
@@ -966,20 +966,20 @@ _toTakeNav = _toTakeNav - [objNull];
 				{
 				for [{_m = 500},{_m <= 50000},{_m = _m + 500}] do
 					{
-					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+					_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 					_captCount = _isAttacked select 1;
 					_isAttacked = _isAttacked select 0;
 
-					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 						{
-						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
+						_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
 						_captCount = _isAttacked select 1;
 						_isAttacked = _isAttacked select 0;
 
-						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
+						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitWith {};
 
 						if (true) then
 							{
@@ -1004,10 +1004,10 @@ _toTakeNav = _toTakeNav - [objNull];
 
 											switch (_isAttacked) do
 												{
-												case (4) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
-												case (3) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
-												case (2) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
-												case (1) : {_Trg setvariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
+												case (4) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[5,_captCount + _groupCount]]};
+												case (3) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[4,_captCount + _groupCount]]};
+												case (2) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[3,_captCount + _groupCount]]};
+												case (1) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[2,_captCount + _groupCount]]};
 												case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 												};
 
@@ -1018,14 +1018,14 @@ _toTakeNav = _toTakeNav - [objNull];
 								}
 							}
 						}
-					foreach _forNavCapt;
+					forEach _forNavCapt;
 					_forNavCapt = _forNavCapt - _checked
 					}
 				};
 			}
 		}
 	}
-foreach _toTakeNav;
+forEach _toTakeNav;
 
 /*if (_HQ getVariable ["RydHQ_WA",true]) then
 	{
@@ -1103,10 +1103,10 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 		_capturing = false;
 		_capturing = _x getVariable ("Capt" + _recvar);
 		if (isNil ("_capturing")) then {_capturing = false};
-		_deployed = _x getvariable ("Deployed" + _recvar);
+		_deployed = _x getVariable ("Deployed" + _recvar);
 		_isDef = _x getVariable "Defending";
-		_busy = _x getvariable ("Busy" + _recvar);
-		_Unable = _x getvariable "Unable";
+		_busy = _x getVariable ("Busy" + _recvar);
+		_Unable = _x getVariable "Unable";
 		if (isNil ("_Unable")) then {_Unable = false};
 		if (isNil ("_isDef")) then {_isDef = false};
 		if (isNil ("_busy")) then {_busy = false};
@@ -1117,13 +1117,13 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
-				[[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ],HAL_GoDefRes] call RYD_Spawn;
+				[[_x,selectRandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ],HAL_GoDefRes] call RYD_Spawn;
 				} else {
 				[[_x,_HQ],HAL_GoIdle] call RYD_Spawn;
 				};
 			};
 		}
-	foreach _reserve;
+	forEach _reserve;
 
 		{
 		_recvar = str _x;
@@ -1133,10 +1133,10 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 		_capturing = false;
 		_capturing = _x getVariable ("Capt" + _recvar);
 		if (isNil ("_capturing")) then {_capturing = false};
-		_deployed = _x getvariable ("Deployed" + _recvar);
+		_deployed = _x getVariable ("Deployed" + _recvar);
 		_isDef = _x getVariable "Defending";
-		_busy = _x getvariable ("Busy" + _recvar);
-		_Unable = _x getvariable "Unable";
+		_busy = _x getVariable ("Busy" + _recvar);
+		_Unable = _x getVariable "Unable";
 		if (isNil ("_Unable")) then {_Unable = false};
 		if (isNil ("_isDef")) then {_isDef = false};
 		if (isNil ("_busy")) then {_busy = false};
@@ -1147,11 +1147,11 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_TakenNaval",[]]) isEqualTo [])) then {
-				[[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ],HAL_GoDefNav] call RYD_Spawn;
+				[[_x,selectRandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ],HAL_GoDefNav] call RYD_Spawn;
 				};
 			};
 		}
-	foreach (_HQ getVariable ["RydHQ_NavalG",[]]);
+	forEach (_HQ getVariable ["RydHQ_NavalG",[]]);
 
 	};
 
@@ -1159,9 +1159,9 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 	_recvar = str _x;
 	_resting = false;
 	_Unable = false;
-	_resting = _x getvariable ("Resting" + _recvar);
+	_resting = _x getVariable ("Resting" + _recvar);
 	if (isNil ("_resting")) then {_resting = false};
-	_Unable = _x getvariable "Unable";
+	_Unable = _x getVariable "Unable";
 	if (isNil ("_Unable")) then {_Unable = false};
 	_IsAPlayer = false;
 	if (RydxHQ_NoRestPlayers and (isPlayer (leader _x))) then {_IsAPlayer = true};
@@ -1174,14 +1174,14 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			}
 		}
 	}
-foreach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
+forEach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
 
 
 	{
 	_GE = (group _x);
 	_GEvar = str _GE;
-	_GE setvariable [("Checked" + _GEvar),false];
+	_GE setVariable [("Checked" + _GEvar),false];
 	}
-foreach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
+forEach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
 
 if (_HQ getVariable ["RydHQ_Orderfirst",true]) then {_HQ setVariable ["RydHQ_Orderfirst",false]};

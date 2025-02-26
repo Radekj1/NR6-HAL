@@ -9,7 +9,7 @@ _debug = _HQ getVariable ["RydHQ_Debug",false];
 while {not (isNull _HQ)} do
 	{
 	_last = _HQ getVariable ["leaderHQ",objNull];
-	if (isNil ("_last")) then {_last = ObjNull};
+	if (isNil ("_last")) then {_last = objNull};
 	sleep 0.2;
 	if (isNull _HQ) exitWith {};
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {}; 

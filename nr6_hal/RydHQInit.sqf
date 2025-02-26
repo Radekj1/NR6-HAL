@@ -2,7 +2,7 @@ if not (isServer) exitWith {};
 
 if (isNil ("RydHQ_Wait")) then 
 {
-    RydHQ_Wait = ((_this select 0) getvariable "RydHQ_Wait"); 
+    RydHQ_Wait = ((_this select 0) getVariable "RydHQ_Wait"); 
     if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
 };
 
@@ -21,34 +21,34 @@ do
 
 
 
-RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",true];
+RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",true];
 publicVariable "RydxHQ_ReconCargo";
-RydxHQ_SynchroAttack = missionNamespace getvariable ["RydxHQ_SynchroAttack",false];
+RydxHQ_SynchroAttack = missionNamespace getVariable ["RydxHQ_SynchroAttack",false];
 publicVariable "RydxHQ_SynchroAttack";
-RydxHQ_InfoMarkersID = missionNamespace getvariable ["RydxHQ_InfoMarkersID",true];
+RydxHQ_InfoMarkersID = missionNamespace getVariable ["RydxHQ_InfoMarkersID",true];
 publicVariable "RydxHQ_InfoMarkersID";
 
-RydxHQ_Actions = missionNamespace getvariable ["RydxHQ_Actions",true];
+RydxHQ_Actions = missionNamespace getVariable ["RydxHQ_Actions",true];
 publicVariable "RydxHQ_Actions";
-RydxHQ_ActionsMenu = missionNamespace getvariable ["RydxHQ_ActionsMenu",true];
+RydxHQ_ActionsMenu = missionNamespace getVariable ["RydxHQ_ActionsMenu",true];
 publicVariable "RydxHQ_ActionsMenu";
 
-RydxHQ_TaskActions = missionNamespace getvariable ["RydxHQ_TaskActions",false];
+RydxHQ_TaskActions = missionNamespace getVariable ["RydxHQ_TaskActions",false];
 publicVariable "RydxHQ_TaskActions";
-RydxHQ_SupportActions = missionNamespace getvariable ["RydxHQ_SupportActions",false];
+RydxHQ_SupportActions = missionNamespace getVariable ["RydxHQ_SupportActions",false];
 publicVariable "RydxHQ_SupportActions";
-RydxHQ_ActionsAceOnly = missionNamespace getvariable ["RydxHQ_ActionsAceOnly",false];
+RydxHQ_ActionsAceOnly = missionNamespace getVariable ["RydxHQ_ActionsAceOnly",false];
 publicVariable "RydxHQ_ActionsAceOnly";
 
-RydxHQ_NoRestPlayers = missionNamespace getvariable ["RydxHQ_NoRestPlayers",true];
+RydxHQ_NoRestPlayers = missionNamespace getVariable ["RydxHQ_NoRestPlayers",true];
 publicVariable "RydxHQ_NoRestPlayers";
-RydxHQ_NoCargoPlayers = missionNamespace getvariable ["RydxHQ_NoCargoPlayers",true];
+RydxHQ_NoCargoPlayers = missionNamespace getVariable ["RydxHQ_NoCargoPlayers",true];
 publicVariable "RydxHQ_NoCargoPlayers";
 
-RydxHQ_LZ = missionNamespace getvariable ["RydxHQ_LZ",true];
+RydxHQ_LZ = missionNamespace getVariable ["RydxHQ_LZ",true];
 publicVariable "RydxHQ_LZ";
 
-RydART_Safe = missionNamespace getvariable ["RydART_Safe",250];
+RydART_Safe = missionNamespace getVariable ["RydART_Safe",250];
 publicVariable "RydART_Safe";
 
 RydHQ_LZ = RydxHQ_LZ;
@@ -62,51 +62,51 @@ RydHQH_LZ = RydxHQ_LZ;
 
 //LZ setting was coded in entire system as Leader specific despite making far more sense as a general setting. Will clean it up eventually.
 
-RydxHQ_HQChat = missionNamespace getvariable ["RydxHQ_HQChat",true];
+RydxHQ_HQChat = missionNamespace getVariable ["RydxHQ_HQChat",true];
 publicVariable "RydxHQ_HQChat";
-RydxHQ_AIChatDensity = missionNamespace getvariable ["RydxHQ_AIChatDensity",100];
+RydxHQ_AIChatDensity = missionNamespace getVariable ["RydxHQ_AIChatDensity",100];
 publicVariable "RydxHQ_AIChatDensity";
-RydxHQ_AIChat_Type = missionNamespace getvariable ["RydxHQ_AIChat_Type",100];
+RydxHQ_AIChat_Type = missionNamespace getVariable ["RydxHQ_AIChat_Type",100];
 publicVariable "RydxHQ_AIChat_Type";
-RydxHQ_GarrisonV2 = missionNamespace getvariable ["RydxHQ_GarrisonV2",true];
+RydxHQ_GarrisonV2 = missionNamespace getVariable ["RydxHQ_GarrisonV2",true];
 publicVariable "RydxHQ_GarrisonV2";
-RydxHQ_NEAware = missionNamespace getvariable ["RydxHQ_NEAware",500];
+RydxHQ_NEAware = missionNamespace getVariable ["RydxHQ_NEAware",500];
 publicVariable "RydxHQ_NEAware";
-RydxHQ_SlingDrop = missionNamespace getvariable ["RydxHQ_SlingDrop",false];
+RydxHQ_SlingDrop = missionNamespace getVariable ["RydxHQ_SlingDrop",false];
 publicVariable "RydxHQ_SlingDrop";
-RydxHQ_RHQAutoFill = missionNamespace getvariable ["RydxHQ_RHQAutoFill",true];
+RydxHQ_RHQAutoFill = missionNamespace getVariable ["RydxHQ_RHQAutoFill",true];
 publicVariable "RydxHQ_RHQAutoFill";
 
-RydxHQ_PathFinding = missionNamespace getvariable ["RydxHQ_PathFinding",0];
+RydxHQ_PathFinding = missionNamespace getVariable ["RydxHQ_PathFinding",0];
 publicVariable "RydxHQ_PathFinding";
 
-RydxHQ_MagicHeal = missionNamespace getvariable ["RydxHQ_MagicHeal",false];
+RydxHQ_MagicHeal = missionNamespace getVariable ["RydxHQ_MagicHeal",false];
 publicVariable "RydxHQ_MagicHeal";
-RydxHQ_MagicRepair = missionNamespace getvariable ["RydxHQ_MagicRepair",false];
+RydxHQ_MagicRepair = missionNamespace getVariable ["RydxHQ_MagicRepair",false];
 publicVariable "RydxHQ_MagicRepair";
-RydxHQ_MagicRearm = missionNamespace getvariable ["RydxHQ_MagicRearm",false];
+RydxHQ_MagicRearm = missionNamespace getVariable ["RydxHQ_MagicRearm",false];
 publicVariable "RydxHQ_MagicRearm";
-RydxHQ_MagicRefuel = missionNamespace getvariable ["RydxHQ_MagicRefuel",false];
+RydxHQ_MagicRefuel = missionNamespace getVariable ["RydxHQ_MagicRefuel",false];
 publicVariable "RydxHQ_MagicRefuel";
 
-RydxHQ_PlayerCargoCheckLoopTime = missionNamespace getvariable ["RydxHQ_PlayerCargoCheckLoopTime",2];
+RydxHQ_PlayerCargoCheckLoopTime = missionNamespace getVariable ["RydxHQ_PlayerCargoCheckLoopTime",2];
 publicVariable "RydxHQ_PlayerCargoCheckLoopTime";
 
-RydxHQ_DisembarkRange = missionNamespace getvariable ["RydxHQ_DisembarkRange",200];
+RydxHQ_DisembarkRange = missionNamespace getVariable ["RydxHQ_DisembarkRange",200];
 publicVariable "RydxHQ_DisembarkRange";
 
-RydxHQ_CargoObjRange = missionNamespace getvariable ["RydxHQ_CargoObjRange",1500];
+RydxHQ_CargoObjRange = missionNamespace getVariable ["RydxHQ_CargoObjRange",1500];
 publicVariable "RydxHQ_CargoObjRange";
 
-RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",false];
+RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",false];
 publicVariable "RydxHQ_ReconCargo";
 
-RYD_WS_ArtyMarks = missionNamespace getvariable ["RYD_WS_ArtyMarks",false];
+RYD_WS_ArtyMarks = missionNamespace getVariable ["RYD_WS_ArtyMarks",false];
 publicVariable "RYD_WS_ArtyMarks";
 
 RYD_Path = "\NR6_HAL\";
 
-call compile preprocessfile (RYD_Path + "HAL_Version.sqf");
+call compile preprocessFile (RYD_Path + "HAL_Version.sqf");
 
 _hi = HAL_Ver + " Initialized";
 
@@ -115,11 +115,11 @@ if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoo
 _hi remoteExecCall ["systemChat"];
 
 
-call compile preprocessfile (RYD_Path + "HAC_fnc.sqf");
-call compile preprocessfile (RYD_Path + "HAC_fnc2.sqf");
-call compile preprocessfile (RYD_Path + "VarInit.sqf");
-call compile preprocessfile (RYD_Path + "TaskMenu.sqf");
-call compile preprocessfile (RYD_Path + "TaskInitNR6.sqf");
+call compile preprocessFile (RYD_Path + "HAC_fnc.sqf");
+call compile preprocessFile (RYD_Path + "HAC_fnc2.sqf");
+call compile preprocessFile (RYD_Path + "VarInit.sqf");
+call compile preprocessFile (RYD_Path + "TaskMenu.sqf");
+call compile preprocessFile (RYD_Path + "TaskInitNR6.sqf");
 HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getType.sqf";
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
 
@@ -230,10 +230,10 @@ if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
 
-_clB = [(profilenamespace getvariable ['Map_BLUFOR_R',0]),(profilenamespace getvariable ['Map_BLUFOR_G',1]),(profilenamespace getvariable ['Map_BLUFOR_B',1]),(profilenamespace getvariable ['Map_BLUFOR_A',0.8])];
-_clO = [(profilenamespace getvariable ['Map_OPFOR_R',0]),(profilenamespace getvariable ['Map_OPFOR_G',1]),(profilenamespace getvariable ['Map_OPFOR_B',1]),(profilenamespace getvariable ['Map_OPFOR_A',0.8])];
-_clI = [(profilenamespace getvariable ['Map_Independent_R',0]),(profilenamespace getvariable ['Map_Independent_G',1]),(profilenamespace getvariable ['Map_Independent_B',1]),(profilenamespace getvariable ['Map_Independent_A',0.8])];
-_clU = [(profilenamespace getvariable ['Map_Unknown_R',0]),(profilenamespace getvariable ['Map_Unknown_G',1]),(profilenamespace getvariable ['Map_Unknown_B',1]),(profilenamespace getvariable ['Map_Unknown_A',0.8])];
+_clB = [(profileNamespace getVariable ['Map_BLUFOR_R',0]),(profileNamespace getVariable ['Map_BLUFOR_G',1]),(profileNamespace getVariable ['Map_BLUFOR_B',1]),(profileNamespace getVariable ['Map_BLUFOR_A',0.8])];
+_clO = [(profileNamespace getVariable ['Map_OPFOR_R',0]),(profileNamespace getVariable ['Map_OPFOR_G',1]),(profileNamespace getVariable ['Map_OPFOR_B',1]),(profileNamespace getVariable ['Map_OPFOR_A',0.8])];
+_clI = [(profileNamespace getVariable ['Map_Independent_R',0]),(profileNamespace getVariable ['Map_Independent_G',1]),(profileNamespace getVariable ['Map_Independent_B',1]),(profileNamespace getVariable ['Map_Independent_A',0.8])];
+_clU = [(profileNamespace getVariable ['Map_Unknown_R',0]),(profileNamespace getVariable ['Map_Unknown_G',1]),(profileNamespace getVariable ['Map_Unknown_B',1]),(profileNamespace getVariable ['Map_Unknown_A',0.8])];
 /*
 RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 
@@ -347,7 +347,7 @@ if not (isNull leaderHQH) then
 		}
 	};
 
-[] call compile preprocessfile (RYD_Path + "Front.sqf");
+[] call compile preprocessFile (RYD_Path + "Front.sqf");
 
 if (RydHQ_TimeM) then 
 	{
@@ -356,7 +356,7 @@ if (RydHQ_TimeM) then
 	
 if (RydBB_Active) then 
 	{
-	call compile preprocessfile (RYD_Path + "Boss_fnc.sqf");
+	call compile preprocessFile (RYD_Path + "Boss_fnc.sqf");
 	RydBBa_InitDone = false;
 	RydBBb_InitDone = false;
 
@@ -370,18 +370,18 @@ if (RydBB_Active) then
 				{
 				_BBHQGrps set [(count _BBHQGrps),(group _x)]
 				}
-			foreach _BBHQs;
+			forEach _BBHQs;
 
 				{
 				_x setVariable ["BBProgress",0]
 				}
-			foreach _BBHQGrps;
+			forEach _BBHQGrps;
 			[[_x,_BBHQGrps],Boss] call RYD_Spawn
 			};
 
 		sleep 1;
 		}
-	foreach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
+	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};
 
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};

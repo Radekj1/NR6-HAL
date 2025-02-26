@@ -6,7 +6,7 @@ zbe_deleteunitsnotleader = {
 
 zbe_setPosFull = {
 	{	
-		if ( not (stopped _x) and not (_x getvariable ["NR6Site",false])) then { 
+		if ( not (stopped _x) and not (_x getVariable ["NR6Site",false])) then { 
 
 			_testpos = (formationPosition _x);
 			if (!(isNil "_testpos") && (count _testpos > 0)) then {
@@ -22,7 +22,7 @@ zbe_setPosFull = {
 
 zbe_removeDead = {
 	{if !(alive _x) then {
-		_x enablesimulationglobal true;
+		_x enableSimulationGlobal true;
 		_x hideObjectGlobal false;
 		[_x,false] remoteExecCall ["hideobject",0];
 		[_x,true] remoteExecCall ["enableSimulation",0];
@@ -47,12 +47,12 @@ zbe_ObjcacheEvent = {
 };
 
 zbe_AliveCrewEvent = {
-	({Alive _x} count (crew _vehicle) > 0)
+	({alive _x} count (crew _vehicle) > 0)
 };
 
 zbe_vehicleCache = {
 
-	_vehicle enablesimulationglobal false;
+	_vehicle enableSimulationGlobal false;
 	_vehicle hideObjectGlobal false;
 	[_vehicle,false] remoteExecCall ["hideobject",0];
 	[_vehicle,false] remoteExecCall ["enableSimulation",0];
@@ -60,7 +60,7 @@ zbe_vehicleCache = {
 
 zbe_vehicleUncache = {
 
-	_vehicle enablesimulationglobal true;
+	_vehicle enableSimulationGlobal true;
 	_vehicle hideObjectGlobal false;
 	[_vehicle,false] remoteExecCall ["hideobject",0];
 	[_vehicle,true] remoteExecCall ["enableSimulation",0];
@@ -68,14 +68,14 @@ zbe_vehicleUncache = {
 
 zbe_hideVeh = {
 
-	if (zbe_NoHideMode) exitwith {};
+	if (zbe_NoHideMode) exitWith {};
 
 	private ["_CGR"];
 	
 
 
 		{
-			if (((vehicle _x) iskindof "Air") or (_x getvariable ["zbe_SeeAll",false])) then {
+			if (((vehicle _x) isKindOf "Air") or (_x getVariable ["zbe_SeeAll",false])) then {
 
 				[_vehicle,false] remoteExecCall ["hideobject",_x];
 				[_vehicle,true] remoteExecCall ["enableSimulation",_x];
@@ -83,7 +83,7 @@ zbe_hideVeh = {
 
 			} else {
 
-				if (not ((_vehicle iskindof "Air") and (10 > (random 100))) and not ((owner _vehicle) isEqualTo (owner _x))) then {
+				if (not ((_vehicle isKindOf "Air") and (10 > (random 100))) and not ((owner _vehicle) isEqualTo (owner _x))) then {
 
 					[_vehicle,true] remoteExecCall ["hideobject",_x];
 					[_vehicle,false] remoteExecCall ["enableSimulation",_x];
@@ -145,7 +145,7 @@ zbe_objhide = {
 			_CGR = _x;
 
 			{
-				if (((vehicle _x) iskindof "Air") or (_x getvariable ["zbe_SeeAll",false])) then {
+				if (((vehicle _x) isKindOf "Air") or (_x getVariable ["zbe_SeeAll",false])) then {
 
 					if (((_x distance _CGR) > zbe_aiCacheDist) and not ((owner _CGR) isEqualTo (owner _x))) then {
 
@@ -182,7 +182,7 @@ zbe_objhide = {
 zbe_objunCache = {
 
 	{
-		_x enablesimulationglobal true;
+		_x enableSimulationGlobal true;
 		_x hideObjectGlobal false;
 		[_x,false] remoteExecCall ["hideobject",0];
 		[_x,true] remoteExecCall ["enableSimulation",0];
@@ -192,7 +192,7 @@ zbe_objunCache = {
 
 zbe_objCache2 = {
 
-	_obj enablesimulationglobal false;
+	_obj enableSimulationGlobal false;
 //	_obj hideObjectGlobal true;
 
 	{
@@ -214,7 +214,7 @@ zbe_objCache2 = {
 zbe_objunCache2 = {
 
 	
-	_obj enablesimulationglobal true;
+	_obj enableSimulationGlobal true;
 //	_obj hideObjectGlobal false;
 
 //	[_obj,false] remoteExecCall ["hideobject",0];

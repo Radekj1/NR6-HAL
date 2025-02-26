@@ -1,8 +1,8 @@
 private ["_Leader","_logic","_grp","_LeaderType"];
 
 _logic = (_this select 0);
-_grpID = (_logic getvariable "HQname");
-_LeaderType = (_logic getvariable "BBLeader");
+_grpID = (_logic getVariable "HQname");
+_LeaderType = (_logic getVariable "BBLeader");
 
 _logic call compile (_LeaderType + " = _this");
 
@@ -13,11 +13,11 @@ if (isNil "RydBBa_HQs") then {RydBBa_HQs = []};
 if (isNil "RydBBb_HQs") then {RydBBb_HQs = []};
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+} forEach (synchronizedObjects _logic);
 
 {
-	_Leader = (_x getvariable "LeaderType");
+	_Leader = (_x getVariable "LeaderType");
 
 	if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"};
 	if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"};
@@ -35,4 +35,4 @@ if (isNil "RydBBb_HQs") then {RydBBb_HQs = []};
 	if (_LeaderType == "RydBBa_SAL") then {RydBBa_HQs pushBackUnique _Leader};
 	if (_LeaderType == "RydBBb_SAL") then {RydBBb_HQs pushBackUnique _Leader};
 
-} foreach _Commanders;
+} forEach _Commanders;

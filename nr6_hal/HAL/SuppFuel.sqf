@@ -14,7 +14,7 @@ _fuelSG = [];
 	{
 	if not (_x in _fuelS) then
 		{
-		if ((toLower (typeOf (assignedvehicle _x))) in _fuel) then 
+		if ((toLower (typeOf (assignedVehicle _x))) in _fuel) then 
 			{
 			_fuelS pushBack _x;
 			if not ((group _x) in (_fuelSG + (_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))) then 
@@ -24,7 +24,7 @@ _fuelSG = [];
 			}
 		}
 	}
-foreach (_HQ getVariable ["RydHQ_Support",[]]);
+forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
 _HQ setVariable ["RydHQ_FuelSupport",_fuelS];
 _HQ setVariable ["RydHQ_FuelSupportG",_fuelSG];
@@ -35,16 +35,16 @@ _ZeroF = [];
 	{
 	if not (isPlayer (leader _x)) then {
 		{
-		_av = assignedvehicle _x;
+		_av = assignedVehicle _x;
 		if not (isNull _av) then
 			{
 			if ((fuel _av) <= 0.1) then
 				{
 				if not (_av in _dried) then
 					{
-					if (((getposATL _x) select 2) < 5) then 
+					if (((getPosATL _x) select 2) < 5) then 
 						{
-						_dried pushBack (assignedvehicle _x)
+						_dried pushBack (assignedVehicle _x)
 						}
 					}
 				}
@@ -56,18 +56,18 @@ _ZeroF = [];
 				{
 				if not (_av in _ZeroF) then
 					{
-					if (((getposATL _x) select 2) < 5) then 
+					if (((getPosATL _x) select 2) < 5) then 
 						{
-						_ZeroF pushBack (assignedvehicle _x)
+						_ZeroF pushBack (assignedVehicle _x)
 						}
 					}
 				}
 			}
 		}
-	foreach (units _x)
+	forEach (units _x)
 	};
 	}
-foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExRefuel",[]]));
+forEach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExRefuel",[]]));
 
 _HQ setVariable ["RydHQ_Dried",_dried];
 _cisterns = [];
@@ -84,11 +84,11 @@ _cisterns = [];
 				{
 				_unitvar = str (_x);
 				_busy = false;
-				_busy = _x getvariable ("Busy" + _unitvar);
+				_busy = _x getVariable ("Busy" + _unitvar);
 				if (isNil ("_busy")) then {_busy = false};
 
 				_unable = false;
-				_unable = _x getvariable "Unable";
+				_unable = _x getVariable "Unable";
 				if (isNil ("_unable")) then {_unable = false};
 
 				if (not (_busy) and not (_unable)) then
@@ -102,7 +102,7 @@ _cisterns = [];
 			}
 		}
 	}
-foreach _fuelSG;
+forEach _fuelSG;
 
 _cisterns2 = +_cisterns;
 _Zunits = +_ZeroF;
@@ -110,14 +110,14 @@ _a = 0;
 for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 	{
 		{
-		_cistern = assignedvehicle (leader _x);
+		_cistern = assignedVehicle (leader _x);
 
 		for [{_b = 0},{_b < (count _ZeroF)},{_b = _b + 1}] do 
 			{
 			_Zunit = _ZeroF select _b;
 
 				{
-				if ((_Zunit distance (assignedvehicle (leader _x))) < 300) exitwith 
+				if ((_Zunit distance (assignedVehicle (leader _x))) < 300) exitWith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then 
 						{
@@ -128,10 +128,10 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach _fuelSG;
+			forEach _fuelSG;
 
 				{
-				if ((_Zunit distance _x) < 300) exitwith 
+				if ((_Zunit distance _x) < 300) exitWith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then 
 						{
@@ -142,7 +142,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach (_HQ getVariable ["RydHQ_FuelPoints",[]]);
+			forEach (_HQ getVariable ["RydHQ_FuelPoints",[]]);
 
 			_noenemy = true;
 			_halfway = [(((position _cistern) select 0) + ((position _Zunit) select 0))/2,(((position _cistern) select 1) + ((position _Zunit) select 1))/2];
@@ -180,12 +180,12 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 					};
 				};
 			
-			if (((count _cisterns) == 0) or ((count _Zunits) == 0)) exitwith {};
+			if (((count _cisterns) == 0) or ((count _Zunits) == 0)) exitWith {};
 			};
 			
-		if (((count _cisterns) == 0) or ((count _Zunits) == 0)) exitwith {};
+		if (((count _cisterns) == 0) or ((count _Zunits) == 0)) exitWith {};
 		}
-	foreach _cisterns2;
+	forEach _cisterns2;
 	};
 
 _Dunits = +_dried;
@@ -193,13 +193,13 @@ _Dunits = +_dried;
 for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 	{
 		{
-		_cistern = assignedvehicle (leader _x);
+		_cistern = assignedVehicle (leader _x);
 		for [{_b = 0},{_b < (count _dried)},{_b = _b + 1}] do 
 			{
 			_Dunit = _dried select _b;
 
 				{
-				if ((_Dunit distance (assignedvehicle (leader _x))) < 400) exitwith 
+				if ((_Dunit distance (assignedVehicle (leader _x))) < 400) exitWith 
 					{
 					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then 
 						{
@@ -210,10 +210,10 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach _fuelSG;
+			forEach _fuelSG;
 
 				{
-				if ((_Dunit distance _x) < 400) exitwith 
+				if ((_Dunit distance _x) < 400) exitWith 
 					{
 					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then 
 						{
@@ -224,7 +224,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach (_HQ getVariable ["RydHQ_FuelPoints",[]]);
+			forEach (_HQ getVariable ["RydHQ_FuelPoints",[]]);
 
 			_noenemy = true;
 			_halfway = [(((position _cistern) select 0) + ((position _Dunit) select 0))/2,(((position _cistern) select 1) + ((position _Dunit) select 1))/2];
@@ -262,10 +262,10 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 					};
 				};
 			
-			if (((count _cisterns) == 0) or ((count _Dunits) == 0)) exitwith {};
+			if (((count _cisterns) == 0) or ((count _Dunits) == 0)) exitWith {};
 			};
 			
-		if (((count _cisterns) == 0) or ((count _Dunits) == 0)) exitwith {};
+		if (((count _cisterns) == 0) or ((count _Dunits) == 0)) exitWith {};
 		}
-	foreach _cisterns2;
+	forEach _cisterns2;
 	};

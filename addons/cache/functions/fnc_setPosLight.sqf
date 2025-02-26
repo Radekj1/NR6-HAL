@@ -1,7 +1,7 @@
 params [];
 
 {	
-    if ( !(stopped _x) && (unitReady _x) && (isNull objectParent _x) && !(_x getvariable ["NR6Site", false])) then { 
+    if ( !(stopped _x) && (unitReady _x) && (isNull objectParent _x) && !(_x getVariable ["NR6Site", false])) then { 
         
         _testpos = (formationPosition _x);
         if (!(isNil "_testpos") && (count _testpos > 0)) then {

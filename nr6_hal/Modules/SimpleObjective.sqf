@@ -3,15 +3,15 @@ private ["_logic","_Commanders","_Leader","_prefix","_objName","_prefixT"];
 _logic = (_this select 0);
 _Commanders = [];
 
-_objName = _logic getvariable "_ObjName";
-if not (_objName isEqualTo "") then {_logic setvariable ["ObjName",_objName]};
+_objName = _logic getVariable "_ObjName";
+if not (_objName isEqualTo "") then {_logic setVariable ["ObjName",_objName]};
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+} forEach (synchronizedObjects _logic);
 
 {
-	_Leader = (_x getvariable "LeaderType");
+	_Leader = (_x getVariable "LeaderType");
 
 	if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"; _prefixT = "SetTakenA"};
 	if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"; _prefixT = "SetTakenB"};
@@ -34,9 +34,9 @@ if not (_objName isEqualTo "") then {_logic setvariable ["ObjName",_objName]};
 
 	_logic call compile (_prefix + "SimpleObjs" + " pushback " + "_this");
 	
-	if ((_logic getvariable "RydHQ_TakenLeader") isEqualTo (_x getvariable "LeaderType")) then  {
-		(group _Leader) setvariable ["RydHQ_Taken",((group _Leader) getvariable ["RydHQ_Taken",[]]) + [_logic]];
+	if ((_logic getVariable "RydHQ_TakenLeader") isEqualTo (_x getVariable "LeaderType")) then  {
+		(group _Leader) setVariable ["RydHQ_Taken",((group _Leader) getVariable ["RydHQ_Taken",[]]) + [_logic]];
 		_logic setVariable [_prefixT,true];
 	};
 
-} foreach _Commanders;
+} forEach _Commanders;

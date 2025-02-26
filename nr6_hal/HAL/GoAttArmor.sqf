@@ -2,14 +2,14 @@ _SCRname = "GoAttArmor";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _Trg = _this select 1;
 _HQ = _this select 2;
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
 
-_isAttacked = (group _Trg) getvariable ("ArmorAttacked" + (str (group _Trg)));
+_isAttacked = (group _Trg) getVariable ("ArmorAttacked" + (str (group _Trg)));
 if (isNil ("_isAttacked")) then {_isAttacked = 0};
 
 
@@ -46,8 +46,8 @@ _dXc = _distance2 * (cos _angle);
 _dYc = _distance2 * (sin _angle);
 
 if not (_request) then {
-	if (_isAttacked == 1) then {(group _Trg) setvariable [("ArmorAttacked" + (str (group _Trg))),2,true];_dYc = - _dYc};
-	if (_isAttacked < 1) then {(group _Trg) setvariable [("ArmorAttacked" + (str (group _Trg))),1,true];_dXc = - _dXc};
+	if (_isAttacked == 1) then {(group _Trg) setVariable [("ArmorAttacked" + (str (group _Trg))),2,true];_dYc = - _dYc};
+	if (_isAttacked < 1) then {(group _Trg) setVariable [("ArmorAttacked" + (str (group _Trg))),1,true];_dXc = - _dXc};
 	if (_isAttacked > 1) then {_distance = _distance - _distance2;_dXc = 0;_dYc = 0};
 };
 
@@ -73,7 +73,7 @@ while {((_isWater) and (([_posX,_posY] distance _PosObj1) >= 50))} do
 
 _isWater = surfaceIsWater [_posX,_posY];
 
-if (_isWater) exitwith 
+if (_isWater) exitWith 
 	{
 	_attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 	_attAv pushBack _unitG;
@@ -126,7 +126,7 @@ _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -181,7 +181,7 @@ _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -213,7 +213,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
+	if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
 	if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 	_unitG setVariable ["Garrisoned" + (str _unitG),false];
 	};

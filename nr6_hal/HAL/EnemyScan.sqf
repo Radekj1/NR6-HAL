@@ -16,7 +16,7 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 		_i = [(position (vehicle (leader _x))),_x,"markDanger","ColorGreen","ICON","mil_dot",(str _dngr),""] call RYD_Mark;
 		_x setVariable ["RydHQ_MarkerES",true];
 		}
-	foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+	forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 	
 	if ((_HQ getVariable ["RydHQ_Cyclecount",1]) == 1) then
 		{
@@ -52,14 +52,14 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 						if (_dngr > 0.5) then {_cl = "ColorRed"};
 						
 						_mark setMarkerColor _cl;
-						_mark setmarkerText (str _dngr)
+						_mark setMarkerText (str _dngr)
 						}
 					else
 						{
 						deleteMarker ("MarkDanger" + (str _x))
 						}
 					}
-				foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+				forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 				sleep 5;
 				}
 			};
@@ -85,7 +85,7 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 		if ((isNull _aV) or (isNull _cV)) then {_dstC = 1000};
 		if ((_dstC < 500) and (_dstC > 0)) then {_fCount = _fCount + (({alive _x} count (units _x))/(_dstC/3))}
 		}
-	foreach (_LCU - [_x]);
+	forEach (_LCU - [_x]);
 
 		{
 		if not (isNull _x) then
@@ -98,14 +98,14 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 				}
 			}
 		}
-	foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
+	forEach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
 
 	if (_danger > 0.15) then
 		{
 		_UL = leader _x;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InDanger,"InDanger"] call RYD_AIChatter}};
 		};
 
-	_x setvariable ["NearE",_danger];
+	_x setVariable ["NearE",_danger];
 
 	if (_HQ getVariable ["RydHQ_DynForm",false]) then
 		{
@@ -165,6 +165,6 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 			}
 		}
 	}
-foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]));
+forEach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]));
 
 _HQ setVariable ["RydHQ_ES",true];

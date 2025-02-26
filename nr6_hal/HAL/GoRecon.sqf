@@ -3,7 +3,7 @@ _SCRname = "GoRecon";
 _i = "";
 
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _stage = _this select 2;
 _HQ = _this select 3;
 
@@ -34,8 +34,8 @@ _HQ setVariable ["RydHQ_ReconAv",_reconAv];
 
 _UL = leader _unitG;
 
-_PosLand = _unitG getvariable ("START" + _unitvar); 
-if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getvariable ("START" + _unitvar);};
+_PosLand = _unitG getVariable ("START" + _unitvar); 
+if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getVariable ("START" + _unitvar);};
 
 _nothing = true;
 _End = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200];
@@ -74,7 +74,7 @@ _ct = 0;
 _posX = 0;
 _posY = 0;
 
-_POASL = ATLtoASL _PosObj1;
+_POASL = ATLToASL _PosObj1;
 
 //_tgtV = vehicle (_this select 4);
 _VL = vehicle _UL;
@@ -128,7 +128,7 @@ _isWater = surfaceIsWater [_posX,_posY];
 
 _onlyL = (_HQ getVariable ["RydHQ_LArmorG",[]]) - (_HQ getVariable ["RydHQ_MArmorG",[]]);
 
-if (_isWater) exitwith 
+if (_isWater) exitWith 
 	{
 	if (_unitG in (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])))) then
 		{
@@ -259,7 +259,7 @@ if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_ta
 
 */
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 _EnNearTrg = false;
 _NeNMode = false;
@@ -310,7 +310,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 
 	_endThis = false;
 
-	waituntil
+	waitUntil
 		{
 		sleep 5;
 
@@ -329,7 +329,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 		//New Cargo???
 
 		_alive = true;
-		_CargoCheck = _unitG getvariable ("CC" + _unitvar);
+		_CargoCheck = _unitG getVariable ("CC" + _unitvar);
 		if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), true]};
 		
 		_AV = assignedVehicle _UL;
@@ -353,7 +353,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 			
 		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
 			{	
-			waituntil 
+			waitUntil 
 				{
 				sleep 2;
 				switch (true) do
@@ -367,7 +367,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 				_cc = false;
 				if (_alive) then
 					{
-					_cc = (_unitG getvariable ("CC" + _unitvar))
+					_cc = (_unitG getVariable ("CC" + _unitvar))
 					};
 
 				if ((_unitG getVariable ["CargoChosen",false]) and not ((count (waypoints _unitG)) < 1)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle (leader _unitG)), 0]; _wp0 = [];};
@@ -397,7 +397,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 
 		_AV = assignedVehicle _UL;
 
-		_DAV = assigneddriver _AV;
+		_DAV = assignedDriver _AV;
 		_GDV = group _DAV;
 
 		if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_GDV == _unitG) and not (_IsAPlayer)) then
@@ -415,7 +415,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 			_wp waypointAttachVehicle _AV;
 			_wp setWaypointCompletionRadius 750;
 
-			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
+			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} forEach (units _unitG);
 
 			_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
 			_timer2 = _cause select 0;
@@ -425,10 +425,10 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 
 			if (isNil "_timer2") then {_timer2 = 0};
 
-			if ((isNull (leader (_this select 0))) or (_timer2 > 300)) exitwith 
+			if ((isNull (leader (_this select 0))) or (_timer2 > 300)) exitWith 
 				{
 
-				{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG)) then {[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; [[_x],false] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
+				{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG)) then {[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; [[_x],false] remoteExecCall ["orderGetIn",0];}} forEach (units _unitG);
 
 				if not (_task isEqualTo taskNull) then {[_task,"CANCELED",true] call BIS_fnc_taskSetState};
 
@@ -449,10 +449,10 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 		};	
 	};
 
-if not (_unitG getVariable [("Busy" + (str _unitG)),false]) exitwith {};
+if not (_unitG getVariable [("Busy" + (str _unitG)),false]) exitWith {};
 
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 _LX1 = _posX;
@@ -540,7 +540,7 @@ _crr = false;
 if ((_nW == 1) and (isNull _AV)) then {_crr = true};
 if not (isNull _AV) then {_crr = true};
 _sts = ["true","deletewaypoint [(group this), 0];"];
-if (((group (assigneddriver _AV)) in (_HQ getVariable ["RydHQ_AirG",[]])) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]]))) then {_sts = ["true","(vehicle this) land 'GET OUT';deletewaypoint [(group this), 0]"]};
+if (((group (assignedDriver _AV)) in (_HQ getVariable ["RydHQ_AirG",[]])) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]]))) then {_sts = ["true","(vehicle this) land 'GET OUT';deletewaypoint [(group this), 0]"]};
 
 _wp = [_gp,_pos,_tp,_beh,"GREEN",_spd,_sts,_crr,0.001,_TO] call RYD_WPadd;
 
@@ -550,7 +550,7 @@ _posX = _SpX;
 _posY = _SpY;
 _pos = [_posX,_posY];
 
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _alive = true;
 _timer = 0;
 _OtherGroup = false;
@@ -582,10 +582,10 @@ if not (_IsAPlayer) then {
 		};
 };
 
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
 if (((_timer > 30) or (_enemy)) and not (_OtherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
-if (not (_alive) and not (_OtherGroup)) exitwith 
+if (not (_alive) and not (_OtherGroup)) exitWith 
 	{
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
@@ -599,7 +599,7 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 		};
 	};
 
-if (isNull (leader (_this select 0))) exitwith 
+if (isNull (leader (_this select 0))) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -623,7 +623,7 @@ _pass = assignedCargo _AV;
 _allowed = true;
 if not ((_GDV == _unitG) or (isNull _GDV)) then 
 	{
-	{[[_x],false] remoteExecCall ["orderGetIn",0]} foreach _pass;
+	{[[_x],false] remoteExecCall ["orderGetIn",0]} forEach _pass;
 	_allowed = false;
 	(units _unitG) allowGetIn false;
 	[_unitG] call RYD_WPdel;
@@ -636,7 +636,7 @@ else
 
 //if not (isNull _lz) then {deleteVehicle _lz};
 
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) and not (_GDV == _unitG) and not (_IsAPlayer)) then
@@ -648,14 +648,14 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_uni
 
 if not ((_GDV == _unitG) or (isNull _GDV)) then 
 	{
-	{[[_x],false] remoteExecCall ["orderGetIn",0]} foreach (units _unitG);
-	{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0];} foreach (units _unitG);
+	{[[_x],false] remoteExecCall ["orderGetIn",0]} forEach (units _unitG);
+	{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0];} forEach (units _unitG);
 	};
 
 if not (_allowed) then {(units _unitG) allowGetIn true};
 if (_HQ getVariable ["RydHQ_LZ",false]) then {deleteVehicle _lz};
 
-if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith 
+if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -706,11 +706,11 @@ if ((_halfway) and not (_IsAPlayer)) then
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
+	if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
 	if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 	};
 
-if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];};
+if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];};
 
 if ((_HQ getVariable ["RydHQ_UAVAlt",150]) > 0) then
 	{
@@ -733,7 +733,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 1000};
 _cause = [_unitG,6,true,_enRg,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 _alive = _cause select 1;
 
-if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
+if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
 if ((count (waypoints _unitG)) >= 1) then {deleteWaypoint [_unitG, 1]};
 
 if (_stage >= 4) then {_HQ setVariable ["RydHQ_ReconDone",true]};
@@ -756,7 +756,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_FOG",[]])) then
 	_enemy = _cause select 2
 	};
 
-if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
+if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
 
 [_unitG] call RYD_WPdel;
@@ -764,7 +764,7 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 
 //Specialised behavior disabled until bug fixing complete
 //if not (_specialized) exitWith
-if (true) exitwith	
+if (true) exitWith	
 	{
 
 	if not (isNull _unitG) then
@@ -833,7 +833,7 @@ while {(_nothing)} do
 	if (((not (isNull (_UL findNearestEnemy _UL)) or (_timer2 > 4)) and not (isNull _unitG) and not (_unitG in (_HQ getVariable ["RydHQ_FOG",[]]))) or ((_timer2 > 40) and not (isNull _unitG))) then 
 		{
 
-		if (isNull (_UL findNearestEnemy _UL)) exitwith {
+		if (isNull (_UL findNearestEnemy _UL)) exitWith {
 			if (_unitG in (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])))) then 
 				{
 				_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
@@ -882,7 +882,7 @@ while {(_nothing)} do
 		_nothing = false;
 //		_alive = true;
 
-		if not (_nothing) exitwith
+		if not (_nothing) exitWith
 			{
 			if (_unitG in (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])))) then 
 				{
@@ -898,7 +898,7 @@ while {(_nothing)} do
 
 	if (isNull _unitG) then {_alive = false} else {if (({alive _x} count (units _unitG)) < 1) then {_alive = false;}};
 	if (_unitG getVariable ["Break",false]) then {_nothing = false;_alive=false;_unitG setVariable ["Break",false]};
-	if not (_alive) exitwith {
+	if not (_alive) exitWith {
 		if (isNull (_UL findNearestEnemy _UL)) then {
 			if (_unitG in (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])))) then 
 				{

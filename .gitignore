@@ -1,0 +1,24 @@
+# ArmA 3
+*.pbo
+*.bisign
+
+# from ACE3 github
+release/*
+tools/temp
+*.cache
+*.pbo
+texHeaders.bin
+*.swp
+*.swo
+*.biprivatekey
+Thumbs.db
+#CHANGELOG.md
+
+## Added by HEMTT
+releases/*
+keys/*
+.hemtt/local
+.hemttout
+####
+hemtt.exe
+ArmaScriptCompiler.exe

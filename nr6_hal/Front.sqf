@@ -94,4 +94,4 @@ _code2 =
 		[[_x,_front,_isRec,_pos,_XAxis,_YAxis,_dir,_code],_code2] call RYD_Spawn		
 		}
 	}
-foreach RydxHQ_AllHQ;
+forEach RydxHQ_AllHQ;

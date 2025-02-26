@@ -16,7 +16,7 @@ RYD_Marker =
 	if not (_shape == "ICON") then {_brush = _this select 7} else {_type = _this select 7};
 	_text = _this select 8;
 
-	if not ((typename _pos) == "ARRAY") exitWith {};
+	if not ((typeName _pos) == "ARRAY") exitWith {};
 	if ((_pos select 0) == 0) exitWith {};
 	if ((count _pos) < 2) exitWith {};
 //diag_log format ["BB mark: %1 pos: %2 col: %3 size: %4 dir: %5 text: %6",_name,_pos,_cl,_size,_dir,_text];
@@ -30,7 +30,7 @@ RYD_Marker =
 	_i setMarkerDir _dir;
 	if not (_shape == "ICON") then {_i setMarkerBrush _brush} else {_i setMarkerType _type};
 	_i setMarkerAlpha _alpha;
-	_i setmarkerText _text;
+	_i setMarkerText _text;
 	
 	RydxHQ_Markers set [(count RydxHQ_Markers),_i]; 
 
@@ -52,12 +52,12 @@ RYD_DistOrdB =
 		_dst = round ((_x select 0) distance _point);
 		if (_dst <= _limit) then {_first set [_dst,_x]}
 		}
-	foreach _array;
+	forEach _array;
 
 		{
 		if not (isNil "_x") then {_final pushBack _x}
 		}
-	foreach _first;
+	forEach _first;
 
 	_first = nil;
 
@@ -167,7 +167,7 @@ RYD_TerraCognita =
 			case ("Sea") : {_sea = _sea + _valS};
 			};
 		}
-	foreach ["Houses","Trees","Forest","Hills","Meadow","Sea"];
+	forEach ["Houses","Trees","Forest","Hills","Meadow","Sea"];
 
 	[_urban,_forest,_hills,_flat,_sea,_sGr]
 	};
@@ -205,12 +205,12 @@ RYD_Sectorize =
 		while {(true)} do
 			{
 			if not (_first) then {_first = true;_posX = _posX + _step};
-			if not ([_posX,_PosY] in _main) exitwith {_posX = ((_ctr select 0) - _rd) + _step/2;_first = true};
+			if not ([_posX,_PosY] in _main) exitWith {_posX = ((_ctr select 0) - _rd) + _step/2;_first = true};
 			_centers pushBack [_posX,_PosY];
 			_first = false
 			};
 		_posY = _posY + _step;
-		if not ([_posX,_PosY] in _main) exitwith {}
+		if not ([_posX,_PosY] in _main) exitWith {}
 		};
 
 	if not (_ang in [0,90,180,270]) then
@@ -236,7 +236,7 @@ RYD_Sectorize =
 			_center = [_Xb,_Yb];
 			_centers pushBack _center
 			}
-		foreach _centers2
+		forEach _centers2
 		};
 	
 	_sectors = [];
@@ -251,7 +251,7 @@ RYD_Sectorize =
 
 		_sectors pushBack _sec;
 		}
-	foreach _centers;
+	forEach _centers;
 
 	[_sectors,_main]	
 	};
@@ -294,7 +294,7 @@ RYD_LocMultiTransform =
 		_sx = _sx + (_x select 0);
 		_sy = _sy + (_x select 1)
 		}
-	foreach _ps;
+	forEach _ps;
 
 	_cnt = count _ps;
 
@@ -380,7 +380,7 @@ RYD_LocMultiTransform =
 
 			if not ([_pX,_pY,0] in _loc) exitWith {_allIn = false};
 			}
-		foreach (_ps + [_pfMain]);
+		forEach (_ps + [_pfMain]);
 
 		_mpl = _mpl - 0.1;
 		};
@@ -402,7 +402,7 @@ RYD_LocMultiTransform =
 
 			if not ([_pX,_pY,0] in _loc) exitWith {_allIn = false};
 			}
-		foreach (_ps + [_pfMain]);
+		forEach (_ps + [_pfMain]);
 
 		_mpl = _mpl - 0.1;
 		};
@@ -474,7 +474,7 @@ RYD_ForceCount =
 			if (not (_x in _enG) and (_x in _eair)) then {_eAirG pushBack _x};
 			if (not (_x in _enG) and (_x in _enc)) then {_eNCG pushBack _x};	
 			}
-		foreach _enemies;
+		forEach _enemies;
 
 		_eAllP = {not (_x in _enG)} count _enemies;
 
@@ -561,11 +561,11 @@ RYD_ForceAnalyze =
 					{
 					if not (_x in _enG) then {_enG pushBack _x};
 					}
-				foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]])
+				forEach (_HQ getVariable ["RydHQ_KnEnemiesG",[]])
 				}
 			}	
 		}
-	foreach _HQarr;
+	forEach _HQarr;
 
 	_frArr pushBack _frG;
 	_enArr pushBack _enG;
@@ -618,7 +618,7 @@ RYD_TopoAnalize =
 			_sectors = _sectors - [_x];
 			}
 		}
-	foreach _sectors0;
+	forEach _sectors0;
 
 	if (_ct > 0) then {_infF = _infF/_ct};
 	if (_ct > 0) then {_vehF = _vehF/_ct};
@@ -647,7 +647,7 @@ RYD_Itinerary =
 		{
 		if ((position _x) in _bound) then {_secIn pushBack _x}
 		}
-	foreach _sectors;
+	forEach _sectors;
 
 		{
 		if ((_x select 0) in _bound) then 
@@ -657,27 +657,27 @@ RYD_Itinerary =
 				{
 				_cSum = _cSum + _x
 				}
-			foreach (_x select 0);
+			forEach (_x select 0);
 
 			_varName = "HandledAreas" + _side;
 
-			_HandledArray = missionNameSpace getVariable _varName;
+			_HandledArray = missionNamespace getVariable _varName;
 
 			if (isNil "_HandledArray") then 
 				{
-				missionNameSpace setVariable [_varName,[]];
-				_HandledArray = missionNameSpace getVariable _varName
+				missionNamespace setVariable [_varName,[]];
+				_HandledArray = missionNamespace getVariable _varName
 				};
 
 			if not (_cSum in _HandledArray) then 
 				{
 				_tgtIn pushBack _x;
 				_HandledArray pushBack _cSum;
-				missionNameSpace setVariable [_varName,_HandledArray];
+				missionNamespace setVariable [_varName,_HandledArray];
 				}
 			}
 		}
-	foreach _targets;
+	forEach _targets;
 
 	deleteLocation _bound;
 
@@ -737,7 +737,7 @@ RYD_ExecuteObj =
 			{
 			_cSum = _cSum + _x
 			}
-		foreach (_actO select 0);
+		forEach (_actO select 0);
 
 		_actOPos = [(_actO select 0) select 0,(_actO select 0) select 1,0];
 		_lColor = "ColorBlue";
@@ -759,7 +759,7 @@ RYD_ExecuteObj =
 					_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]];
 					}
 				}
-			foreach [_o1];
+			forEach [_o1];
 			};
 
 		if (_BBAOObj == 2) then
@@ -771,7 +771,7 @@ RYD_ExecuteObj =
 					_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]];
 					}
 				}
-			foreach [_o2];
+			forEach [_o2];
 			};
 
 		if (_BBAOObj == 3) then
@@ -783,7 +783,7 @@ RYD_ExecuteObj =
 					_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]];
 					}
 				}
-			foreach [_o3];
+			forEach [_o3];
 			};
 
 		if (_BBAOObj == 4) then
@@ -795,7 +795,7 @@ RYD_ExecuteObj =
 					_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]];
 					}
 				}
-			foreach [_o4];
+			forEach [_o4];
 			};
 
 		//if (_AAOPts) then {_HQ setVariable ["RydHQ_Objectives",_AAOPts]};
@@ -839,7 +839,7 @@ RYD_ExecuteObj =
 						{
 						if ((position (vehicle (leader _x))) in _front) then {_ctOwn = _ctOwn + 1}
 						}
-					foreach _ownKnEn;
+					forEach _ownKnEn;
 
 					_prop = 100;
 
@@ -874,7 +874,7 @@ RYD_ExecuteObj =
 										_enY = _enY + (_VLpos select 1);
 										}
 									}
-								foreach _KnEnAct;
+								forEach _KnEnAct;
 									
 								if (_ct > 0) then
 									{
@@ -886,7 +886,7 @@ RYD_ExecuteObj =
 								};
 
 							}
-						foreach _allied;
+						forEach _allied;
 
 						if ((count _KnEn) > 0) then
 							{
@@ -908,7 +908,7 @@ RYD_ExecuteObj =
 									_chosenPos = _enPos;
 									}
 								}
-							foreach _KnEn;
+							forEach _KnEn;
 
 							if ((count _chosenPos) > 1) then {_chosenPos = [(_chosenPos select 0),(_chosenPos select 1),0]};
 
@@ -922,7 +922,7 @@ RYD_ExecuteObj =
 										{
 										_x setPosATL _chosenPos;
 										}
-									foreach [_o1];
+									forEach [_o1];
 									};
 
 								if (_BBAOObj == 2) then
@@ -930,7 +930,7 @@ RYD_ExecuteObj =
 										{
 										_x setPosATL _chosenPos;
 										}
-									foreach [_o2];
+									forEach [_o2];
 									};
 
 								if (_BBAOObj == 3) then
@@ -938,7 +938,7 @@ RYD_ExecuteObj =
 										{
 										_x setPosATL _chosenPos;
 										}
-									foreach [_o3];
+									forEach [_o3];
 									};
 
 								if (_BBAOObj == 4) then
@@ -946,7 +946,7 @@ RYD_ExecuteObj =
 										{
 										_x setPosATL _chosenPos;
 										}
-									foreach [_o4];
+									forEach [_o4];
 									};
 									
 									
@@ -979,7 +979,7 @@ RYD_ExecuteObj =
 
 										{
 											if (((side _HQ) getFriend _x) >= 0.6) then {_SideAllies pushBack _x} else {_SideEnemies pushBack _x};
-										} foreach [west,east,resistance];
+										} forEach [west,east,resistance];
 
 										if (isNull _HQ) then {_nObj = 100};
 										if (({alive _x} count (units _HQ)) < 1) then {_nObj = 100};
@@ -1002,7 +1002,7 @@ RYD_ExecuteObj =
 												if ((count (crew _x)) > 0) then {_AllV = _AllV - [_x] + (crew _x)};
 												}
 											}
-										foreach _AllV0;
+										forEach _AllV0;
 
 											{
 											if not (_x isKindOf "Man") then
@@ -1011,7 +1011,7 @@ RYD_ExecuteObj =
 												if ((count (crew _x)) > 0) then {_AllV2 = _AllV2 - [_x] + (crew _x)};
 												}
 											}
-										foreach _AllV20;
+										forEach _AllV20;
 
 										//_NearAllies = (leader _HQ) countfriendly _AllV;
 										_NearAllies = ({(side _x) in _SideAllies} count _AllV);
@@ -1035,7 +1035,7 @@ RYD_ExecuteObj =
 											{
 											_x setPosATL _chosenPos;
 											}
-										foreach [_o1];
+										forEach [_o1];
 										};
 
 									if (_BBAOObj == 2) then
@@ -1043,7 +1043,7 @@ RYD_ExecuteObj =
 											{
 											_x setPosATL _chosenPos;
 											}
-										foreach [_o2];
+										forEach [_o2];
 										};
 
 										if (_BBAOObj == 3) then
@@ -1051,7 +1051,7 @@ RYD_ExecuteObj =
 											{
 											_x setPosATL _chosenPos;
 											}
-										foreach [_o3];
+										forEach [_o3];
 										};
 
 										if (_BBAOObj == 4) then
@@ -1059,7 +1059,7 @@ RYD_ExecuteObj =
 											{
 											_x setPosATL _chosenPos;
 											}
-										foreach [_o4];
+										forEach [_o4];
 										};
 										
 
@@ -1082,24 +1082,24 @@ RYD_ExecuteObj =
 
 			{
 			{
-				if (((_actO select 0) distance (leader _x)) < 200) exitwith {_noGarrAround = false};
-			} foreach (_x getVariable ["RydHQ_Garrison",[]]);
+				if (((_actO select 0) distance (leader _x)) < 200) exitWith {_noGarrAround = false};
+			} forEach (_x getVariable ["RydHQ_Garrison",[]]);
 
 			_fG = (_x getVariable ["RydHQ_NCrewInfG",[]]) - ((_x getVariable ["RydHQ_Exhausted",[]]) + (_x getVariable ["RydHQ_Garrison",[]]));
 
 			{
-				if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
-			} foreach _fG;
+				if (((_x getVariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
+			} forEach _fG;
 
 			_fG = _fG - (_UnableArr);
 
 			if ((count _fG) > 2) then {_garrPool = _garrPool + 1}
 			}
-		foreach _reserve;
+		forEach _reserve;
 
 		{
-			if (((_actO select 0) distance (leader _x)) < 200) exitwith {_noGarrAround = false};
-		} foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
+			if (((_actO select 0) distance (leader _x)) < 200) exitWith {_noGarrAround = false};
+		} forEach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 		if (_garrPool == 0) then
 			{
@@ -1109,8 +1109,8 @@ RYD_ExecuteObj =
 			_fG = (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_Exhausted",[]]) + (_garrison));
 
 			{
-				if (_x getvariable ["Unable",false]) then {_UnableArr pushBack _x};
-			} foreach _fG;
+				if (_x getVariable ["Unable",false]) then {_UnableArr pushBack _x};
+			} forEach _fG;
 
 			_fG = _fG - (_UnableArr);
 
@@ -1130,14 +1130,14 @@ RYD_ExecuteObj =
 						_chosen = _actG
 						}
 					}
-				foreach _fG;
+				forEach _fG;
 					
 				_code =
 					{
 					_unitG = _this select 0;
 					_HQ = _this select 1;
 			
-					_busy = _unitG getvariable [("Busy" + (str _unitG)),false];
+					_busy = _unitG getVariable [("Busy" + (str _unitG)),false];
 
 					_alive = true;
 
@@ -1182,7 +1182,7 @@ RYD_ExecuteObj =
 		_HQ setVariable ["BBProgress",_BBProg + 1];
 
 		_HandledArray = _HandledArray - [_cSum];
-		missionNameSpace setVariable [_varName,_HandledArray];
+		missionNamespace setVariable [_varName,_HandledArray];
 			
 		if not (RydBB_Active) exitWith {};
 
@@ -1229,7 +1229,7 @@ RYD_ExecutePath =
 
 	_varName = "HandledAreas" + _side;
 
-	_HandledArray = missionNameSpace getVariable _varName;
+	_HandledArray = missionNamespace getVariable _varName;
 
 	_frPos = position _front;
 	_frDir = direction _front;
@@ -1253,7 +1253,7 @@ RYD_ExecutePath =
 			_j = [(_x select 0),(random 1000),"markBBPath","ColorBlack","ICON","mil_box",(str _pCnt),"",[0.35,0.35]] call RYD_Mark;
 			_marksT pushBack _j
 			}
-		foreach _sortedA;
+		forEach _sortedA;
 
 		for "_i" from 0 to ((count _sortedA) - 1) do
 			{
@@ -1282,10 +1282,10 @@ RYD_ExecutePath =
 
 	if ( not (_BBAOObj <= (count _sortedA))) then {_BBAOObj = (count _sortedA)};
 
-	_HQ setvariable ["BBObj1Done",true];
-	_HQ setvariable ["BBObj2Done",true];
-	_HQ setvariable ["BBObj3Done",true];
-	_HQ setvariable ["BBObj4Done",true];
+	_HQ setVariable ["BBObj1Done",true];
+	_HQ setVariable ["BBObj2Done",true];
+	_HQ setVariable ["BBObj3Done",true];
+	_HQ setVariable ["BBObj4Done",true];
 
 	if (_BBAOObj >= 1) then {_AssObj = 1; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
 	if (_BBAOObj >= 2) then {_AssObj = 2; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
@@ -1301,7 +1301,7 @@ RYD_ExecutePath =
 
 		sleep 15;
 		
-		((_HQ getvariable ["BBObj1Done",false]) and (_HQ getvariable ["BBObj2Done",false]) and (_HQ getvariable ["BBObj3Done",false]) and (_HQ getvariable ["BBObj4Done",false])) 
+		((_HQ getVariable ["BBObj1Done",false]) and (_HQ getVariable ["BBObj2Done",false]) and (_HQ getVariable ["BBObj3Done",false]) and (_HQ getVariable ["BBObj4Done",false])) 
 	};
 		
 	if not (RydBB_Active) exitWith {};
@@ -1311,10 +1311,10 @@ RYD_ExecutePath =
 			{
 			deleteMarker _x
 			}
-		foreach (_marksT + [_m])
+		forEach (_marksT + [_m])
 		};
 
-	if not (isNull _HQ) then {_HQ setVariable ["PathDone",true]; _HQ setvariable ["RydHQ_NObj",5]};
+	if not (isNull _HQ) then {_HQ setVariable ["PathDone",true]; _HQ setVariable ["RydHQ_NObj",5]};
 	};
 
 RYD_ReserveExecuting = 
@@ -1446,7 +1446,7 @@ RYD_ReserveExecuting =
 						_timer = _cause select 0;
 						_alive = _cause select 1;
 
-						if not (_alive) exitwith {};
+						if not (_alive) exitWith {};
 						if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 1]};
 
 						if ((isPlayer (leader _unitG)) and not (isMultiplayer)) then {(leader _unitG) removeSimpleTask _task};
@@ -1459,7 +1459,7 @@ RYD_ReserveExecuting =
 				}
 			}
 		}
-	foreach _taken;
+	forEach _taken;
 	
 	_middlePos = [((_HQpos select 0) + (_StancePos select 0))/2,((_HQpos select 1) + (_StancePos select 1))/2,0];
 	_closeMid = false;
@@ -1484,7 +1484,7 @@ RYD_ReserveExecuting =
 						_assg pushBack _x;			
 						}				
 					}
-				foreach _hostileG;
+				forEach _hostileG;
 
 				_nr = count _posArr;
 
@@ -1497,7 +1497,7 @@ RYD_ReserveExecuting =
 						_sX = _sX + (_x select 0);
 						_sY = _sY + (_x select 1);
 						}
-					foreach _posArr;
+					forEach _posArr;
 					
 					_poss = [[_sX/_nr,_sY/_nr,0],_nr];
 					if not (surfaceIsWater [_sX/_nr,_sY/_nr]) then {_possPos pushBack _poss}
@@ -1509,7 +1509,7 @@ RYD_ReserveExecuting =
 					};	
 				};
 			}
-		foreach _hostileG;
+		forEach _hostileG;
 
 		_stancePos = (_possPos select 0) select 0;
 		_maxT = 0;
@@ -1526,7 +1526,7 @@ RYD_ReserveExecuting =
 				}
 
 			}
-		foreach _possPos
+		forEach _possPos
 		};
 
 		{
@@ -1536,7 +1536,7 @@ RYD_ReserveExecuting =
 			_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]];
 			}
 		}
-	foreach [_o1,_o2,_o3,_o4];
+	forEach [_o1,_o2,_o3,_o4];
 	
 	_HQ setVariable ["RydHQ_NObj",1];
 	_HQ setVariable ["RydHQ_Taken",[]]; 
@@ -1597,7 +1597,7 @@ RYD_ObjectivesMon =
 
 		{
 			if (((side _HQ) getFriend _x) >= 0.6) then {_SideAllies pushBack _x} else {_SideEnemies pushBack _x};
-		} foreach [west,east,resistance];
+		} forEach [west,east,resistance];
 
 			{
 			_isTaken = _x select 2;
@@ -1624,7 +1624,7 @@ RYD_ObjectivesMon =
 						if ((count (crew _x)) == 0) then {_AllV = _AllV - [_x]}
 						}
 					}
-				foreach _AllV0;
+				forEach _AllV0;
 
 					{
 					if not (_x isKindOf "Man") then
@@ -1632,7 +1632,7 @@ RYD_ObjectivesMon =
 						if ((count (crew _x)) == 0) then {_AllV2 = _AllV2 - [_x]}
 						}
 					}
-				foreach _AllV20;
+				forEach _AllV20;
 
 				//_NearAllies = (leader _HQ) countfriendly _AllV;
 				_NearAllies = ({(side _x) in _SideAllies} count _AllV);
@@ -1650,7 +1650,7 @@ RYD_ObjectivesMon =
 						_morale = _x getVariable ["RydHQ_Morale",0];
 						_x setVariable ["RydHQ_Morale",_morale - _mChange]
 						}
-					foreach _HQs
+					forEach _HQs
 					}
 				}
 			else
@@ -1672,7 +1672,7 @@ RYD_ObjectivesMon =
 						if ((count (crew _x)) == 0) then {_AllV = _AllV - [_x]}
 						}
 					}
-				foreach _AllV0;
+				forEach _AllV0;
 
 					{
 					if not (_x isKindOf "Man") then
@@ -1680,7 +1680,7 @@ RYD_ObjectivesMon =
 						if ((count (crew _x)) == 0) then {_AllV2 = _AllV2 - [_x]}
 						}
 					}
-				foreach _AllV20;
+				forEach _AllV20;
 
 				//_NearAllies = (leader _HQ) countfriendly _AllV;
 				_NearAllies = ({(side _x) in _SideAllies} count _AllV);
@@ -1691,8 +1691,8 @@ RYD_ObjectivesMon =
 					{
 					_x set [2,true];
 
-					_enArea = missionNameSpace getVariable ["B_SAreas",[]];
-					if (_BBSide == "B") then {_enArea = missionNameSpace getVariable ["A_SAreas",[]]};
+					_enArea = missionNamespace getVariable ["B_SAreas",[]];
+					if (_BBSide == "B") then {_enArea = missionNamespace getVariable ["A_SAreas",[]]};
 
 						{
 						_enPos = _x select 0;
@@ -1702,7 +1702,7 @@ RYD_ObjectivesMon =
 							_x set [2,false]
 							}
 						}
-					foreach _enArea;
+					forEach _enArea;
 
 					if (_BBSide == "A") then {RydBBb_Urgent = true} else {RydBBa_Urgent = true};
 
@@ -1712,11 +1712,11 @@ RYD_ObjectivesMon =
 						_morale = _x getVariable ["RydHQ_Morale",0];
 						_x setVariable ["RydHQ_Morale",_morale + _mChange]
 						}
-					foreach _HQs
+					forEach _HQs
 					}
 				}
 			}
-		foreach _area
+		forEach _area
 		}
 	};
 
@@ -1741,7 +1741,7 @@ RYD_ObjMark =
 		_mark = [_mark,_posStr,_color,"ICON",[_valStr/2,_valStr/2],0,_alpha,"mil_dot",(str _valStr)] call RYD_Marker;
 		_markers pushBack _mark			
 		}
-	foreach _strArea;
+	forEach _strArea;
 
 	while {((RydBB_Active) and {(RydBB_Debug)})} do
 		{
@@ -1762,7 +1762,7 @@ RYD_ObjMark =
 			_mark setMarkerColor _color;
 			_mark setMarkerAlpha _alpha;			
 			}
-		foreach _strArea;
+		forEach _strArea;
 		};
 	};
 
@@ -1798,12 +1798,12 @@ RYD_ClusterA =
 						}
 					}
 				}
-			foreach _points;
+			forEach _points;
 
 			_clusters pushBack _newCluster
 			}
 		}
-	foreach _points;
+	forEach _points;
 
 	_clusters
 	};
@@ -1828,11 +1828,11 @@ RYD_ClusterB =
 				_sum = (_x select 0) + (_x select 1);
 				if (_sum == _sumC) exitWith {_inside = true}
 				}
-			foreach _x;
+			forEach _x;
 
 			if (_inside) exitWith {}
 			}
-		foreach _clusters;
+		forEach _clusters;
 
 		if not (_inside) then
 			{
@@ -1854,7 +1854,7 @@ RYD_ClusterB =
 						}
 					}
 				}
-			foreach _points;
+			forEach _points;
 
 				{
 				_cluster = _x;
@@ -1867,11 +1867,11 @@ RYD_ClusterB =
 						_cluster pushBack _point
 						};
 					}
-				foreach _cluster;
+				forEach _cluster;
 
 				if (_added) exitWith {}
 				}
-			foreach _clusters;
+			forEach _clusters;
 
 			if not (_added) then 
 				{
@@ -1879,7 +1879,7 @@ RYD_ClusterB =
 				};
 			}
 		}
-	foreach _points;
+	forEach _points;
 
 	_clusters
 	};
@@ -1905,12 +1905,12 @@ RYD_Cluster =
 			_midX = _midX + (_x select 0);
 			_midY = _midY + (_x select 1);
 			}
-		foreach _cluster;
+		forEach _cluster;
 
 		_center = [_midX/(count _cluster),_midY/(count _cluster),0];
 		_centers pushBack _center;
 		}
-	foreach _clusters;
+	forEach _clusters;
 
 	_clusters pushBack _centers;
 
@@ -1928,21 +1928,21 @@ RYD_Cluster =
 				{
 				if (((_centers select _foreachIndex) select 0) == (_centerC select 0)) then {_clusterNearby pushBack (_clusters select _foreachIndex)}
 				}
-			foreach _clusters
+			forEach _clusters
 			}
-		foreach _x;
+		forEach _x;
 
 			{
 				{
 				_newCluster pushBack _x
 				}
-			foreach _x
+			forEach _x
 			}
-		foreach _clusterNearby;
+		forEach _clusterNearby;
 
 		_newClusters pushBack _newCluster
 		}
-	foreach _clustersC;
+	forEach _clustersC;
 
 	_clusters = _newClusters;
 
@@ -2044,7 +2044,7 @@ RYD_BBSimpleD =
 					_midX = _midX + ((getPosATL (vehicle (leader _x))) select 0);
 					_midY = _midY + ((getPosATL (vehicle (leader _x))) select 1);
 					}
-				foreach _frs;
+				forEach _frs;
 
 				if ((count _frs) > 0) then
 					{
@@ -2108,7 +2108,7 @@ RYD_BBSimpleD =
 				deleteMarker ("HQMark" + (str _x))
 				}
 			}
-		foreach _HQs;
+		forEach _HQs;
 
 		_midX = 0;
 		_midY = 0;
@@ -2117,7 +2117,7 @@ RYD_BBSimpleD =
 			_midX = _midX + (_x select 0);
 			_midY = _midY + (_x select 1);
 			}
-		foreach _frCenters;
+		forEach _frCenters;
 
 		_mainCenter = [_midX/(count _HQs),_midY/(count _HQs),0];
 
@@ -2140,13 +2140,13 @@ RYD_BBSimpleD =
 					_midX = _midX + (_x select 0);
 					_midY = _midY + (_x select 1);
 					}
-				foreach _x;
+				forEach _x;
 
 				_centers pushBack [_midX/(count _x),_midY/(count _x),0];
 				_amounts pushBack _amount;
 				}
 			}
-		foreach _clusters;
+		forEach _clusters;
 
 		_battles = missionNamespace getVariable ["Battlemarks",[]];
 		_battle = "";
@@ -2166,7 +2166,7 @@ RYD_BBSimpleD =
 
 					if (_mSize > _dstAct) exitWith {_tooClose = true;_battle = _x}
 					}
-				foreach _battles;
+				forEach _battles;
 
 				_colorBatt = "ColorBlue";
 				if (_BBSide == "B") then {_colorBatt = "ColorRed"};
@@ -2195,7 +2195,7 @@ RYD_BBSimpleD =
 					}
 				}
 			}
-		foreach _centers;
+		forEach _centers;
 
 		sleep 300
 		}

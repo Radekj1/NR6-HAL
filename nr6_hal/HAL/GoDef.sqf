@@ -2,7 +2,7 @@ _SCRname = "GoDef";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))]}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))]}; 
 _DefPos = _this select 1;
 
 _dX = _this select 2;
@@ -23,12 +23,12 @@ _unitvar = str _unitG;
 _alive = true;
 
 _busy = false;
-_busy = _unitG getvariable ("Busy" + _unitvar);
+_busy = _unitG getVariable ("Busy" + _unitvar);
 _isAPlayer = false;
 
 if (isNil ("_busy")) then {_busy = false};
 
-if ((_busy) or (_unitG in (_HQ getVariable ["RydHQ_SupportG",[]]))) exitwith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
+if ((_busy) or (_unitG in (_HQ getVariable ["RydHQ_SupportG",[]]))) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 	_defSpot = _defSpot - [_unitG];
 	_HQ setVariable ["RydHQ_DefSpot",_defSpot];
 	_def = _HQ getVariable ["RydHQ_Def",[]];
@@ -73,7 +73,7 @@ _unitG setVariable ["Defending", true];
 
 _UL = leader _unitG;
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 if not (isNull _AV) then { 
@@ -106,7 +106,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 
-_nE = _UL findnearestenemy _UL;
+_nE = _UL findNearestEnemy _UL;
 
 if not (isNull _nE) then
 	{
@@ -187,7 +187,7 @@ _suppHQ = false;
 _timer = 0;
 
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 waitUntil {
@@ -198,7 +198,7 @@ waitUntil {
 	if ((isNull _unitG) or (isNull _HQ)) then {_endThis = true;_alive = false} else {if not (_unitG getVariable "Defending") then {_endThis = true}};
 	if (({alive _x} count (units _unitG)) < 1) then {_endThis = true;_alive = false};
 	if ((count (waypoints _unitG)) < 1) then {_endThis = true;};
-	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
+	if (_unitG getVariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
 	if ((_GDV == _unitG) and not (_endThis) and not (isNull _AV) and not (isNull ((vehicle (leader _unitG)) findNearestEnemy (vehicle (leader _unitG))))) then 
@@ -220,7 +220,7 @@ waitUntil {
 	(_endThis)
 	};
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{

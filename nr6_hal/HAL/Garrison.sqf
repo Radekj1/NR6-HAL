@@ -8,7 +8,7 @@ _garrRange = _HQ getVariable ["RydHQ_GarrRange",1];
 {
 	if (_x getVariable [("NOGarrisoned" + (str _x)),false]) then {_x setVariable [("Garrisoned" + (str _x)),false];_x setVariable [("NOGarrisoned" + (str _x)),false];_Garrison = _Garrison - [_x];};
 
-} foreach _Garrison;
+} forEach _Garrison;
 
 _HQ setVariable ["RydHQ_Garrison",_Garrison];
 
@@ -25,7 +25,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 	_NOgarrisoned = _unitG getVariable ("NOGarrisoned" + (str _unitG));
 	if (isNil "_NOgarrisoned") then {_NOgarrisoned = false};
 
-	_Unable = _unitG getvariable "Unable";
+	_Unable = _unitG getVariable "Unable";
 	if (isNil ("_Unable")) then {_Unable = false};
 
 	_busy = _unitG getVariable ("Busy" + (str _unitG));
@@ -55,7 +55,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			{
 			//{unassignVehicle _x} foreach (units _unitG);
 			(units _unitG) orderGetIn false;
-			(units _unitG) allowGetin false;//if (player in (units _unitG)) then {diag_log "NOT ALLOW garr"};
+			(units _unitG) allowGetIn false;//if (player in (units _unitG)) then {diag_log "NOT ALLOW garr"};
 			sleep 5
 			};
 
@@ -98,17 +98,17 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			forEach _staticWeapons;
 
 			_Bldngs = _pos nearObjects ["House",300 * _garrRange];
-			_posTaken = missionnamespace getvariable ["PosTaken",[]];
+			_posTaken = missionNamespace getVariable ["PosTaken",[]];
 			_posAll = [];
 			_posAll0 = [];
 
 				{
 				_Bldg = _x;
-				if ((_Bldg distance _UL) > (300 * _garrRange)) then {_Bldg = ObjNull};
+				if ((_Bldg distance _UL) > (300 * _garrRange)) then {_Bldg = objNull};
 
 				if not (isNull _Bldg) then
 					{
-					_posAct = _Bldg buildingpos 0;
+					_posAct = _Bldg buildingPos 0;
 					_j = 0;	
 					while {((_posAct distance [0,0,0]) > 0)} do
 						{
@@ -120,7 +120,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 								if (((_x select 0) + (_x select 1)) == ((_posAct select 0) + (_posAct select 1))) exitWith {_tkn = true}
 								}
 							}
-						foreach _posTaken;
+						forEach _posTaken;
 
 						if not (_tkn) then
 							{
@@ -133,7 +133,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 									if (((_x select 0) + (_x select 1)) == _sum) exitWith {_tkn = true}
 									}
 								}
-							foreach _posTaken;
+							forEach _posTaken;
 
 							if not (_tkn) then 
 								{
@@ -142,11 +142,11 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 							};
 							
 						_j = _j + 1;
-						_posAct = _Bldg buildingpos _j;
+						_posAct = _Bldg buildingPos _j;
 						}
 					}
 				}
-			foreach _Bldngs;
+			forEach _Bldngs;
 
 			_posAll0 = +_posAll;
 
@@ -160,7 +160,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 					_posS = _posS select 0;
 					_ct = 0;
 
-					_posTaken = missionnamespace getVariable ["PosTaken",[]];
+					_posTaken = missionNamespace getVariable ["PosTaken",[]];
 
 					while {((_posS in _posTaken) and (_ct < 20))} do
 						{
@@ -182,7 +182,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 									if (((_x select 0) + (_x select 1)) == _sum) exitWith {_tkn = true}
 									}
 								}
-							foreach _posTaken;
+							forEach _posTaken;
 
 							if not (_tkn) then 
 								{
@@ -191,7 +191,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 								_ix  = count _posTaken;
 								_posTaken pushBack _posS;
 								_posTaken = _posTaken - [0];
-								missionnamespace setVariable ["PosTaken",_posTaken];
+								missionNamespace setVariable ["PosTaken",_posTaken];
 								//[_x,_posS,_bld,[_posTaken,_ix],_HQ] spawn RYD_GarrS;
 								[[_x,_posS,_bld,[_posTaken,_ix],_HQ],RYD_GarrS] call RYD_Spawn;
 								_units = _units - [_x]
@@ -200,7 +200,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 						}
 					}
 				}
-			foreach _units;
+			forEach _units;
 
 			_patrolPos = [];
 
@@ -236,7 +236,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 						}
 					}
 				}
-			foreach _posAll0;
+			forEach _posAll0;
 			
 			if ((count _patrolPos) > 1) then 
 				{

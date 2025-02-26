@@ -39,7 +39,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					{
 					 case "N" : 
 						{
-						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeNorth) select 2)+_steepnessActual)) exitwith 
+						if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeNorth) select 2)+_steepnessActual)) exitWith 
 							{
 							_isGood = false
 							};
@@ -48,27 +48,27 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 							{
 							case "E" : 
 								{
-								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
+								if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeEast) select 2)+_steepnessActual)) exitWith 
 									{
 									_isGood = false
 									};
 							
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitWith {_isGood = true}
 								};
 					
 							case "W" : 
 								{
-								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
+								if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeWest) select 2)+_steepnessActual)) exitWith 
 									{
 									_isGood = false
 									}; 
 						
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitWith {_isGood = true}
 								};
 					
 							default 
 								{
-								if _true exitwith 
+								if _true exitWith 
 									{
 									_isGood = true
 									}
@@ -78,7 +78,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 							
 					 case "S": 
 					 	{
-						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeSouth) select 2)+_steepnessActual)) exitwith 
+						if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeSouth) select 2)+_steepnessActual)) exitWith 
 							{
 							_isGood = false
 							}; 
@@ -87,54 +87,54 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 							{
 							case "E" : 
 								{
-								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
+								if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeEast) select 2)+_steepnessActual)) exitWith 
 									{
 									_isGood = false
 									}; 
 							
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitWith {_isGood = true}
 								};
 					
 							case "W" : 
 								{
-								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
+								if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeWest) select 2)+_steepnessActual)) exitWith 
 									{
 									_isGood = false
 									}; 
 						
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitWith {_isGood = true}
 								};
 					
 							default 
 								{
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitWith {_isGood = true}
 								}
 							}
 						};
 					
 					 case "E" : 
 					 	{
-						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
+						if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeEast) select 2)+_steepnessActual)) exitWith 
 							{
 							_isGood = false
 							}; 
 						
-						if (_true) exitwith {_isGood = true}
+						if (_true) exitWith {_isGood = true}
 						};
 					
 					 case "W" : 
 					 	{
-						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
+						if (((getPosASL _centralSpot) select 2) <= (((getPosASL _probeWest) select 2)+_steepnessActual)) exitWith 
 							{
 							_isGood = false
 							}; 
 							
-						if (_true) exitwith {_isGood = true}
+						if (_true) exitWith {_isGood = true}
 						};
 					
 					 default 
 					 	{
-					 	if (_true) exitwith 
+					 	if (_true) exitWith 
 					 		{
 					 		_isGood = false
 					 		}
@@ -144,7 +144,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					{					
 					deleteVehicle _x
 					}
-				foreach [_centralSpot,_probeNorth,_probeSouth,_probeEast,_probeWest]
+				forEach [_centralSpot,_probeNorth,_probeSouth,_probeEast,_probeWest]
 				};
 	
 			if (_isGood) then 
@@ -160,7 +160,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					}
 				};
 				
-			if ((count _goodSpots) >= _Spotsneeded) exitwith {_isdone = true}
+			if ((count _goodSpots) >= _Spotsneeded) exitWith {_isdone = true}
 			}
 		}
 	};

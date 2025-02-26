@@ -4,11 +4,11 @@ _logic = (_this select 0);
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+} forEach (synchronizedObjects _logic);
 
 {
-	_Leader = (_x getvariable "LeaderType");
+	_Leader = (_x getVariable "LeaderType");
 
 	if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"};
 	if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"};
@@ -21,7 +21,7 @@ _Commanders = [];
 
 	_Leader = call compile _Leader;
 
-	_logic call compile (_prefix + "MAtt" + " = " + str (_logic getvariable "RydHQ_MAtt"));
-	_logic call compile (_prefix + "Personality" + " = " + str (_logic getvariable "RydHQ_Personality"));
+	_logic call compile (_prefix + "MAtt" + " = " + str (_logic getVariable "RydHQ_MAtt"));
+	_logic call compile (_prefix + "Personality" + " = " + str (_logic getVariable "RydHQ_Personality"));
 
-} foreach _Commanders;
+} forEach _Commanders;

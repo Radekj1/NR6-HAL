@@ -15,13 +15,13 @@ private ["_unit","_shooter","_id_civ","_twn","_coef"];
 
 _unit = _this select 0;
 _shooter = _this select 1;
-_id_civ = _unit getvariable "ALICE_id";
+_id_civ = _unit getVariable "ALICE_id";
 
 //--- Reset action variables
 //--- Terminate action
-_unit setvariable ["ALICE_action",""];
-_unit setvariable ["ALICE_action_locked",-1];
-_unit setvariable ["ALICE_action_fsm",-1];
+_unit setVariable ["ALICE_action",""];
+_unit setVariable ["ALICE_action_locked",-1];
+_unit setVariable ["ALICE_action_fsm",-1];
 
 /*
 //--- Remove unit from town list

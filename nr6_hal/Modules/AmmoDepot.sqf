@@ -5,11 +5,11 @@ _Commanders = [];
 _Boxes = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x} else {_Boxes pushBack _x};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x} else {_Boxes pushBack _x};
+} forEach (synchronizedObjects _logic);
 
 {
-	_Leader = (_x getvariable "LeaderType");
+	_Leader = (_x getVariable "LeaderType");
 
 	if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"};
 	if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"};
@@ -24,14 +24,14 @@ _Boxes = [];
 
 		_Boxes call compile (_prefix + "AmmoBoxes" + " = _this");
 
-		if (_logic getvariable ["VirtualBoxes",false]) then {
-			{_x enableSimulationGlobal false; _x hideObjectGlobal true;} foreach _Boxes;
+		if (_logic getVariable ["VirtualBoxes",false]) then {
+			{_x enableSimulationGlobal false; _x hideObjectGlobal true;} forEach _Boxes;
 		};
 
 		} else {
 
-		_area = _logic getvariable ["objectArea",[0,0,0,true,0]];
-		_trig = createTrigger ["EmptyDetector",getpos _logic];
+		_area = _logic getVariable ["objectArea",[0,0,0,true,0]];
+		_trig = createTrigger ["EmptyDetector",getPos _logic];
 		_trig setTriggerArea [_area select 0,_area select 1, _area select 2, _area select 3];
 		_trig call compile (_prefix + "AmmoDepot" + " = _this");
 
@@ -40,4 +40,4 @@ _Boxes = [];
 
 
 
-} foreach _Commanders;
+} forEach _Commanders;

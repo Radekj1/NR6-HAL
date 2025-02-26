@@ -13,7 +13,7 @@ _RepPoints = _HQ getVariable ["RydHQ_RepPoints",[]];
 
 _RepPoints pushBack _Trg;
 
-_unitG = group (assigneddriver _unit);
+_unitG = group (assignedDriver _unit);
 _unitvar = str (_unitG);
 _startpos = getPosASL _unit;
 
@@ -25,7 +25,7 @@ _rtr disableAI "TARGET";_rtr disableAI "AUTOTARGET";
 
 [_unitG] call RYD_WPdel;
 
-(group (assigneddriver _unit)) setVariable [("Deployed" + (str (group (assigneddriver _unit)))),false,true];
+(group (assignedDriver _unit)) setVariable [("Deployed" + (str (group (assignedDriver _unit)))),false,true];
 _unitvar = str (_unitG);
 _unitG setVariable [("Busy" + _unitvar), true];
 
@@ -114,8 +114,8 @@ while {(_counter <= 3)} do
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if (((_rtr distance _Trg) < 50) and not (CanMove _Trg)) then {_Trg setdamage ((damage _Trg) - 0.1)};
-	if not (_alive) exitwith 
+	if (((_rtr distance _Trg) < 50) and not (canMove _Trg)) then {_Trg setDamage ((damage _Trg) - 0.1)};
+	if not (_alive) exitWith 
 		{
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 			{
@@ -130,7 +130,7 @@ while {(_counter <= 3)} do
 		
 	if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1};
 
-	if ((RydxHQ_MagicRepair) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x setDamage 0; if (isPlayer _x) then {"Vehicle Repaired" remoteExec ["hint", _x]};}} foreach ((vehicle (leader _unitG)) nearEntities [["Air", "LandVehicle"], 100]);};
+	if ((RydxHQ_MagicRepair) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x setDamage 0; if (isPlayer _x) then {"Vehicle Repaired" remoteExec ["hint", _x]};}} forEach ((vehicle (leader _unitG)) nearEntities [["Air", "LandVehicle"], 100]);};
 
 //	if ((_request) and ((_rtr getVariable ["HAL_Requested",false]) or ((_rtr distance _Trg) > 500))) then {_counter = 5};
 
@@ -140,13 +140,13 @@ while {(_counter <= 3)} do
 
 	_UL = leader _unitG;if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}}; 
 
-	if (((damage _Trg) < 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (assigneddriver (_this select 1))))) then {_damaged = _damaged - [_Trg]};
+	if (((damage _Trg) < 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (assignedDriver (_this select 1))))) then {_damaged = _damaged - [_Trg]};
 	};
 
 if (_request) then {[_rtr] remoteExecCall ["RYD_ReqLogisticsDelete_Actions"]};
 _rtr setVariable ["HAL_Requested",false,true];
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -165,7 +165,7 @@ if (_HQ getVariable ["RydHQ_SupportWP",false]) then {_tp = "SUPPORT"};
 
 _pos = [_posX,_posY];
 
-if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getpos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _RepPoints = _RepPoints - [_Trg]; if not (_task isEqualTo taskNull) then {[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_pos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;}};
+if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getPos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _RepPoints = _RepPoints - [_Trg]; if not (_task isEqualTo taskNull) then {[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_pos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;}};
 
 _rrr = (_unitG getVariable ["Ryd_RRR",false]);
 
@@ -183,9 +183,9 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	_alive = _cause select 1;
 };
 
-if (((_rtr distance _Trg) < 50) and not (CanMove _Trg)) then {_Trg setdamage ((damage _Trg) - 0.1)};
+if (((_rtr distance _Trg) < 50) and not (canMove _Trg)) then {_Trg setDamage ((damage _Trg) - 0.1)};
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -206,14 +206,14 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {if not (_task isEqualT
 _rtr enableAI "TARGET";_rtr enableAI "AUTOTARGET";
 _unitG setVariable [("Busy" + _unitvar), false];
 
-if (((damage _Trg) < 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (assigneddriver (_this select 1))))) then {_damaged = _damaged - [_Trg]};
+if (((damage _Trg) < 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (assignedDriver (_this select 1))))) then {_damaged = _damaged - [_Trg]};
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRepSupp" + str (_unitG))};
 _lastOne = true;
 
 	{
-	if (((group (assigneddriver _x)) == (group (assigneddriver _Trg))) and not (_x == _Trg)) exitwith {_lastOne = false};
+	if (((group (assignedDriver _x)) == (group (assignedDriver _Trg))) and not (_x == _Trg)) exitWith {_lastOne = false};
 	}
-foreach _damaged;
+forEach _damaged;
 
 if (_lastOne) then 
 	{

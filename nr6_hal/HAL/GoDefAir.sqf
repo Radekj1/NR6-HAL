@@ -8,7 +8,7 @@ _HQ = _this select 2;
 
 _unitvar = str _unitG;
 _busy = false;
-_busy = _unitG getvariable ("Busy" + _unitvar);
+_busy = _unitG getVariable ("Busy" + _unitvar);
 
 _startpos = getPosASL (leader _unitG);
 if (isNil ("_StartPos")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle (leader _unitG)))]};
@@ -80,7 +80,7 @@ _endThis = false;
 _timer = 0;
 
 
-waituntil
+waitUntil
 	{
 	sleep 5;
 
@@ -89,7 +89,7 @@ waituntil
 	if ((isNull _unitG) or (isNull _HQ)) then {_endThis = true;_alive = false} else {if not (_unitG getVariable "Defending") then {_endThis = true}};
 	if (({alive _x} count (units _unitG)) < 1) then {_endThis = true;_alive = false};
 	if ((count (waypoints _unitG)) < 1) then {_endThis = true;};
-	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
+	if (_unitG getVariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
 	if (_timer > 240) then {_endThis = true};
@@ -97,7 +97,7 @@ waituntil
 	(_endThis)
 	};
 
-if (_unitG getvariable [("Busy" + _unitvar),false]) exitWith 
+if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -139,7 +139,7 @@ _alive = true;
 _endThis = false;
 _timer = 0;
 
-waituntil
+waitUntil
 	{
 	sleep 5;
 
@@ -148,7 +148,7 @@ waituntil
 	if ((isNull _unitG) or (isNull _HQ)) then {_endThis = true;_alive = false} else {if not (_unitG getVariable "Defending") then {_endThis = true}};
 	if (({alive _x} count (units _unitG)) < 1) then {_endThis = true;_alive = false};
 	if ((count (waypoints _unitG)) < 1) then {_endThis = true;};
-	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
+	if (_unitG getVariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
 	if (_timer > 240) then {_endThis = true};
@@ -156,7 +156,7 @@ waituntil
 	(_endThis)
 	};
 
-if (_unitG getvariable [("Busy" + _unitvar),false]) exitWith 
+if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -169,7 +169,7 @@ if (_unitG getvariable [("Busy" + _unitvar),false]) exitWith
 	_unitG setVariable ["Defending", false];
 	};
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{

@@ -4,11 +4,11 @@ _logic = (_this select 0);
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+} forEach (synchronizedObjects _logic);
 
 {
-	_Leader = (_x getvariable "LeaderType");
+	_Leader = (_x getVariable "LeaderType");
 
 	if (_Leader == "LeaderHQ") then {_prefix = "RydHQ_"};
 	if (_Leader == "LeaderHQB") then {_prefix = "RydHQB_"};
@@ -19,7 +19,7 @@ _Commanders = [];
 	if (_Leader == "LeaderHQG") then {_prefix = "RydHQG_"};
 	if (_Leader == "LeaderHQH") then {_prefix = "RydHQH_"};
 	
-	_logic call compile (_prefix + "Front" + " = " + str (_logic getvariable "RydHQ_Front"));
+	_logic call compile (_prefix + "Front" + " = " + str (_logic getVariable "RydHQ_Front"));
 
 	if (_Leader == "LeaderHQ") then {_prefix = "A"};
 	if (_Leader == "LeaderHQB") then {_prefix = "B"};
@@ -30,12 +30,12 @@ _Commanders = [];
 	if (_Leader == "LeaderHQG") then {_prefix = "G"};
 	if (_Leader == "LeaderHQH") then {_prefix = "H"};
 
-	_area = _logic getvariable ["objectArea",[0,0,0,true,0]];
+	_area = _logic getVariable ["objectArea",[0,0,0,true,0]];
 
-	_trig = createTrigger ["EmptyDetector",getpos _logic];
+	_trig = createTrigger ["EmptyDetector",getPos _logic];
 	_trig setTriggerArea [_area select 0,_area select 1, _area select 2, _area select 3];
 
 	_trig call compile ("HET_F" + _prefix + " = _this");
 
 
-} foreach _Commanders;
+} forEach _Commanders;

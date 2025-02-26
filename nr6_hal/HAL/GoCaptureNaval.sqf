@@ -2,7 +2,7 @@ _SCRname = "GoCaptureNaval";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _Trg = objNull;
 _isAttacked = _this select 1;
 _HQ = _this select 2;
@@ -64,7 +64,7 @@ _dropposY = ((getPosATL (leader _unitG)) select 1) + ((_distanceD - (random [400
 _isWater = surfaceIsWater [_posX,_posY];
 
 
-if not (_isWater) exitwith 
+if not (_isWater) exitWith 
 	{
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
@@ -95,7 +95,7 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 
 
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 _wp0 = [];_wp = [];
 _nW = 1;
@@ -127,11 +127,11 @@ if not (isNull _NeN) then
 if (_EnNearTrg) then {_NeNMode = true};
 
 
-if not (_unitG getVariable [("Busy" + (str _unitG)),false]) exitwith {};
+if not (_unitG getVariable [("Busy" + (str _unitG)),false]) exitWith {};
 
 
 _AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
 _task = [(leader _unitG),["Secure the objective. Neutralize any hostile ships and hold the objective.", "Secure And Hold Objective", ""],[_posX,_posY],"move"] call RYD_AddTask;
@@ -161,7 +161,7 @@ _earlyD = false;
 _wp = [_gp,_pos,_tp,_beh,"YELLOW",_spd,_sts,_crr,0,_TO] call RYD_WPadd;
 if ((isPlayer (leader _gp)) and ((_GDV == _unitG) or (isNull _GDV))) then {deleteWaypoint _wp};
 
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 _alive = false;
 _timer = 0;
 _OtherGroup = false;
@@ -176,10 +176,10 @@ _timer = _cause select 0;
 _alive = _cause select 1;
 _enemy = _cause select 2;
 
-_DAV = assigneddriver _AV;
+_DAV = assignedDriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
 if (((_timer > 30) or (_enemy)) and not (_OtherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
-if (not (_alive) and not (_OtherGroup)) exitwith 
+if (not (_alive) and not (_OtherGroup)) exitWith 
 	{
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
@@ -195,7 +195,7 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 		}
 	};
 
-if (({alive _x} count (units _unitG)) < 1) exitwith 
+if (({alive _x} count (units _unitG)) < 1) exitWith 
 	{
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
@@ -218,7 +218,7 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if (not (_halfway) and (_timer <
 //if not (isNull _lz) then {deleteVehicle _lz};
 
 
-if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith 
+if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitWith 
 	{
 	if not (({alive _x} count (units _unitG)) < 1) then {_unitG setVariable [("Capt" + (str _unitG)),false]};
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
@@ -259,7 +259,7 @@ _cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
@@ -287,9 +287,9 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _all = true;
 
 	{
-	if ((_x in (_HQ getVariable ["RydHQ_AttackAv",[]])) and not (_x getVariable ("Busy" + str (_x)))) exitwith {_all = false};
+	if ((_x in (_HQ getVariable ["RydHQ_AttackAv",[]])) and not (_x getVariable ("Busy" + str (_x)))) exitWith {_all = false};
 	}
-foreach (_HQ getVariable ["RydHQ_NavalG",[]]) - (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))));
+forEach (_HQ getVariable ["RydHQ_NavalG",[]]) - (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))));
 
 //_pass orderGetIn true;
 

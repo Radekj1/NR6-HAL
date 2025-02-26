@@ -12,4 +12,4 @@ _logic = (_this select 0);
 		_x setVariable ["_ExtraArgs",(_logic getVariable ["_ExtraArgs",""]) + "; (group _this) setVariable [""Ryd_RRR"",true];"];
 	};
 
-} foreach (synchronizedObjects _logic);
+} forEach (synchronizedObjects _logic);

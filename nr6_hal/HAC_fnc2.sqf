@@ -109,7 +109,7 @@ RYD_StatusQuo =
 				};
 			
 			_front = true;
-			_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+			_fr = _HQ getVariable ["RydHQ_Front",locationNull];
 			if not (isNull _fr) then 
 				{
 				_front = ((getPosATL (vehicle (leader _x))) in _fr)
@@ -135,7 +135,7 @@ RYD_StatusQuo =
 				};
 			}
 		}
-	foreach allGroups;
+	forEach allGroups;
 	
 	_HQ setVariable ["RydHQ_Enemies",_enemies];
 
@@ -143,7 +143,7 @@ RYD_StatusQuo =
 		{
 		_excl pushBack _x
 		}
-		foreach (_HQ getVariable ["RydHQ_Excluded",[]]);
+		forEach (_HQ getVariable ["RydHQ_Excluded",[]]);
 	
 	_HQ setVariable ["RydHQ_Excl",_excl];
 	
@@ -162,7 +162,7 @@ RYD_StatusQuo =
 				_subOrd pushBack _x
 				};
 			}
-		foreach allGroups;
+		forEach allGroups;
 		};
 
 	if (_HQ getVariable ["RydHQ_SubNamed",false]) then 
@@ -179,7 +179,7 @@ RYD_StatusQuo =
 					};
 				};
 			}
-		foreach allGroups;
+		forEach allGroups;
 		};
 		
 	_HQ setVariable ["RydHQ_Subordinated",_subOrd];
@@ -201,9 +201,9 @@ RYD_StatusQuo =
 					_toAdd pushBack _x
 					}
 				}
-			foreach (units _x)
+			forEach (units _x)
 			}
-		foreach _friends;
+		forEach _friends;
 		
 		_channel radioChannelAdd _toAdd
 		};
@@ -212,7 +212,7 @@ RYD_StatusQuo =
 
 	{
 		if ((({alive _x} count (units _x)) == 0) or (_x == grpNull)) then {_friends = _friends - [_x]};
-	} foreach _checkFriends;
+	} forEach _checkFriends;
 
 	_friends = [_friends] call RYD_RandomOrd;
 	
@@ -221,7 +221,7 @@ RYD_StatusQuo =
 		{
 		[_x] call RYD_WPdel;
 		}
-	foreach (((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl) - (_HQ getVariable ["RydHQ_NoWayD",[]]));
+	forEach (((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl) - (_HQ getVariable ["RydHQ_NoWayD",[]]));
 	
 	if (_HQ getVariable ["RydHQ_Init",true]) then 
 		{
@@ -233,10 +233,10 @@ RYD_StatusQuo =
 					{
 					if (_x in ([player] + (switchableUnits - [player]))) then {[_x,_HQ] call RYD_LiveFeed}
 					}
-				foreach (units _x)
+				forEach (units _x)
 				}
 			}
-		foreach (_friends + [_HQ])
+		forEach (_friends + [_HQ])
 		};
 		
 	_HQ setVariable ["RydHQ_CInitial",_cInitial];
@@ -248,7 +248,7 @@ RYD_StatusQuo =
 		{
 		_CCurrent = _CCurrent + (count (units _x))
 		}
-	foreach (_friends + [_HQ]);
+	forEach (_friends + [_HQ]);
 	
 	_HQ setVariable ["RydHQ_CCurrent",_CCurrent];
 
@@ -268,7 +268,7 @@ RYD_StatusQuo =
 			_enemyU = vehicle ((units _x) select _a);
 			
 				{
-				if (((_x knowsAbout _enemyU) >= 0.05) and not (_x getVariable ["Ryd_NoReports",false])) exitwith 
+				if (((_x knowsAbout _enemyU) >= 0.05) and not (_x getVariable ["Ryd_NoReports",false])) exitWith 
 					{
 					if not (_enemyU in _knownE) then 
 						{
@@ -278,7 +278,7 @@ RYD_StatusQuo =
 
 					if not ((group _enemyU) in _knownEG) then 
 						{
-						_already = missionnameSpace getVariable ["AlreadySpotted",[]];
+						_already = missionNamespace getVariable ["AlreadySpotted",[]];
 						_knownEG pushBack (group _enemyU);
 						if not ((group _enemyU) in _already) then
 							{
@@ -287,10 +287,10 @@ RYD_StatusQuo =
 						}
 					} 
 				}
-			foreach (_friends + [_HQ] + _Ex)
+			forEach (_friends + [_HQ] + _Ex)
 			}
 		}
-	foreach _enemies;
+	forEach _enemies;
 	
 	_alwaysKn = ((_HQ getVariable ["RydHQ_AlwaysKnownU",[]]) - (_HQ getVariable ["RydHQ_AlwaysUnKnownU",[]])) - _knownE;
 	
@@ -300,7 +300,7 @@ RYD_StatusQuo =
 		_gp = group _x;
 		if not (_gp in _knownEG) then {_knownEG pushBack _gp};
 		}
-	foreach _alwaysKn;
+	forEach _alwaysKn;
 	
 	_HQ setVariable ["RydHQ_KnEnemies",_knownE];
 	_HQ setVariable ["RydHQ_KnEnemiesG",_knownEG];
@@ -308,7 +308,7 @@ RYD_StatusQuo =
 
 	[_HQ] spawn HAL_EBFT;
 
-	_already = missionnameSpace getVariable ["AlreadySpotted",[]];
+	_already = missionNamespace getVariable ["AlreadySpotted",[]];
 
 		{
 		if not (_x in _already) then
@@ -316,9 +316,9 @@ RYD_StatusQuo =
 			_already pushBack _x
 			}
 		}
-	foreach _knownEG;
+	forEach _knownEG;
 
-	missionnameSpace setVariable ["AlreadySpotted",_already];
+	missionNamespace setVariable ["AlreadySpotted",_already];
 
 	_lossFinal = _cInitial - _CCurrent;
 
@@ -362,7 +362,7 @@ RYD_StatusQuo =
 				
 			_lossWeight = _lossWeight + ((_loss/(_age^1.15)) * (0.75 + (random 0.125) + (random 0.125) + (random 0.125) + (random 0.125)))
 			}
-		foreach (_HQ getVariable ["RydHQ_LossArr",[]]);
+		forEach (_HQ getVariable ["RydHQ_LossArr",[]]);
 		
 		_balanceF = (((random 5) + (random 5))/((1 + _lossP)^2)) - ((random 1) + (random 1)) - (((random 1.5) + (random 1.5)) * ((count _knownE)/_CCurrent));
 		
@@ -444,9 +444,9 @@ RYD_StatusQuo =
 			_grp = group _x;
 			_vh = vehicle _x;
 			if (_x == _vh) then {_vh = objNull};
-			_asV = assignedvehicle _x;
-			_grpD = group (Driver _vh);
-			_grpG = group (Gunner _vh);
+			_asV = assignedVehicle _x;
+			_grpD = group (driver _vh);
+			_grpG = group (gunner _vh);
 			if (isNull _grpD) then {_grpD = _grpG};
 			_Tvh = toLower (typeOf _vh);
 			_TasV = toLower (typeOf _asV);
@@ -499,7 +499,7 @@ RYD_StatusQuo =
 				if (_BAircheck) then {if not (_vh in _BAir) then {_BAir pushBack _vh};if not (_grp in _BAirG) then {_BAirG pushBack _grp}};				
 				if (_RAircheck) then {if not (_vh in _RAir) then {_RAir pushBack _vh};if not (_grp in _RAirG) then {_RAirG pushBack _grp}};				
 				if (_NCAircheck) then {if not (_vh in _NCAir) then {_NCAir pushBack _vh};if not (_grp in _NCAirG) then {_NCAirG pushBack _grp}};
-				if (_Navalcheck) then {if not (_vh in _Naval) then {_Naval pushBack _vh};if not ((group _vh) in _NavalG) then {_NavalG pushBackunique (group _vh)}};
+				if (_Navalcheck) then {if not (_vh in _Naval) then {_Naval pushBack _vh};if not ((group _vh) in _NavalG) then {_NavalG pushBackUnique (group _vh)}};
 				if (_Staticcheck) then {if not (_vh in _Static) then {_FValue = _FValue + 1;_Static pushBack _vh};if not (_grp in _StaticG) then {_StaticG pushBack _grp}};
 				if (_StaticAAcheck) then {if not (_vh in _StaticAA) then {_StaticAA pushBack _vh};if not (_grp in _StaticAAG) then {_StaticAAG pushBack _grp}};
 				if (_StaticATcheck) then {if not (_vh in _StaticAT) then {_StaticAT pushBack _vh};if not (_grp in _StaticATG) then {_StaticATG pushBack _grp}};
@@ -510,9 +510,9 @@ RYD_StatusQuo =
 				if (_NCrewInfcheck) then {if not (_vh in _NCrewInf) then {_NCrewInf pushBack _vh};if not (_grp in _NCrewInfG) then {_NCrewInfG pushBack _grp}};
 				
 			}
-		foreach (units _x)
+		forEach (units _x)
 		}
-	foreach _friends;
+	forEach _friends;
 	
 	_HQ setVariable ["RydHQ_FValue",_FValue];
 
@@ -586,9 +586,9 @@ RYD_StatusQuo =
 			_SupportG pushBack _x
 			}
 		}
-	foreach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
+	forEach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
 
-	if not (isnil "LeaderHQ") then {if (_HQ == (group LeaderHQ)) then {
+	if not (isNil "LeaderHQ") then {if (_HQ == (group LeaderHQ)) then {
 		ArtyFriendsA = _friends;
 		ArtyArtA = _Art;
 		ArtyArtGA = _ArtG;
@@ -598,7 +598,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQB") then {if (_HQ == (group LeaderHQB)) then {
+	if not (isNil "LeaderHQB") then {if (_HQ == (group LeaderHQB)) then {
 		ArtyFriendsB = _friends;
 		ArtyArtB = _Art;
 		ArtyArtGB = _ArtG;
@@ -608,7 +608,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQC") then {if (_HQ == (group LeaderHQC)) then {
+	if not (isNil "LeaderHQC") then {if (_HQ == (group LeaderHQC)) then {
 		ArtyFriendsC = _friends;
 		ArtyArtC = _Art;
 		ArtyArtGC = _ArtG;
@@ -618,7 +618,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQD") then {if (_HQ == (group LeaderHQD)) then {
+	if not (isNil "LeaderHQD") then {if (_HQ == (group LeaderHQD)) then {
 		ArtyFriendsD = _friends;
 		ArtyArtD = _Art;
 		ArtyArtGD = _ArtG;
@@ -628,7 +628,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQE") then {if (_HQ == (group LeaderHQE)) then {
+	if not (isNil "LeaderHQE") then {if (_HQ == (group LeaderHQE)) then {
 		ArtyFriendsE = _friends;
 		ArtyArtE = _Art;
 		ArtyArtGE = _ArtG;
@@ -638,7 +638,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQF") then {if (_HQ == (group LeaderHQF)) then {
+	if not (isNil "LeaderHQF") then {if (_HQ == (group LeaderHQF)) then {
 		ArtyFriendsF = _friends;
 		ArtyArtF = _Art;
 		ArtyArtGF = _ArtG;
@@ -648,7 +648,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQG") then {if (_HQ == (group LeaderHQG)) then {
+	if not (isNil "LeaderHQG") then {if (_HQ == (group LeaderHQG)) then {
 		ArtyFriendsG = _friends;
 		ArtyArtG = _Art;
 		ArtyArtGG = _ArtG;
@@ -658,7 +658,7 @@ RYD_StatusQuo =
 		}
 	};
 
-	if not (isnil "LeaderHQH") then {if (_HQ == (group LeaderHQH)) then {
+	if not (isNil "LeaderHQH") then {if (_HQ == (group LeaderHQH)) then {
 		ArtyFriendsH = _friends;
 		ArtyArtH = _Art;
 		ArtyArtGH = _ArtG;
@@ -713,9 +713,9 @@ RYD_StatusQuo =
 			_grp = group _x;
 			_vh = vehicle _x;
 			if (_x == _vh) then {_vh = objNull};
-			_asV = assignedvehicle _x;
-			_grpD = group (Driver _vh);
-			_grpG = group (Gunner _vh);
+			_asV = assignedVehicle _x;
+			_grpD = group (driver _vh);
+			_grpG = group (gunner _vh);
 			if (isNull _grpD) then {_grpD = _grpG};
 			_Tvh = toLower (typeOf _vh);
 			_TasV = toLower (typeOf _asV);
@@ -779,9 +779,9 @@ RYD_StatusQuo =
 				if (_NCrewInfcheck) then {if not (_vh in _EnNCrewInf) then {_EnNCrewInf pushBack _vh};if not (_grp in _EnNCrewInfG) then {_EnNCrewInfG pushBack _grp}};
 				
 			}
-		foreach (units _x)
+		forEach (units _x)
 		}
-	foreach _knownEG;
+	forEach _knownEG;
 	
 	_HQ setVariable ["RydHQ_EValue",_EValue];
 
@@ -863,7 +863,7 @@ RYD_StatusQuo =
 
 			if (_panic) then {_AllPanic = _AllPanic + 1};
 			}
-		foreach _friends;
+		forEach _friends;
 
 		if (_AllPanic == 0) then {_AllPanic = 1};
 		_midCow = 0;
@@ -953,13 +953,13 @@ RYD_StatusQuo =
 											{
 											_weapon = (weapons _unit) select _a;
 											private _weaponHolder = "GroundWeaponHolder" createVehicle getPosATL _unit;
-											_unit Action ["dropWeapon", _weaponHolder, _weapon] 
+											_unit action ["dropWeapon", _weaponHolder, _weapon] 
 											};
 
-										_unit PlayAction "Surrender";
+										_unit playAction "Surrender";
 										}
 									}
-								foreach (units _gp)
+								forEach (units _gp)
 								}
 							}
 						}
@@ -987,14 +987,14 @@ RYD_StatusQuo =
 					}
 				}
 			}
-		foreach _friends
+		forEach _friends
 		};
 
 		{
 		_KnEnPos pushBack (getPosATL (vehicle (leader _x)));
 		if ((count _KnEnPos) >= 100) then {_KnEnPos = _KnEnPos - [_KnEnPos select 0]};
 		}
-	foreach _knownEG;
+	forEach _knownEG;
 	
 	_HQ setVariable ["RydHQ_KnEnPos",_KnEnPos];
 
@@ -1004,7 +1004,7 @@ RYD_StatusQuo =
 			{
 			if ((_x knowsAbout _KnEnemy) > 0.01) then {_HQ reveal [_KnEnemy,2]}
 			}
-		foreach _friends
+		forEach _friends
 		};
 
 	if (_cycleC == 1) then
@@ -1115,7 +1115,7 @@ RYD_StatusQuo =
 				if ((_x getVariable ["SetTakenG",false]) and ((str (leader _HQ)) == "LeaderHQG") and not (_x in _taken)) then {_taken pushBack _x;};
 				if ((_x getVariable ["SetTakenH",false]) and ((str (leader _HQ)) == "LeaderHQH") and not (_x in _taken)) then {_taken pushBack _x;};		
 			
-		} foreach (_HQ getVariable ["RydHQ_Objectives",[]]);
+		} forEach (_HQ getVariable ["RydHQ_Objectives",[]]);
 
 		{
 
@@ -1128,7 +1128,7 @@ RYD_StatusQuo =
 				if ((_x getVariable ["SetTakenG",false]) and ((str (leader _HQ)) == "LeaderHQG") and not (_x in _Navaltaken)) then {_Navaltaken pushBack _x;};
 				if ((_x getVariable ["SetTakenH",false]) and ((str (leader _HQ)) == "LeaderHQH") and not (_x in _Navaltaken)) then {_Navaltaken pushBack _x;};		
 			
-		} foreach (_HQ getVariable ["RydHQ_NavalObjectives",[]]);
+		} forEach (_HQ getVariable ["RydHQ_NavalObjectives",[]]);
 
 		_HQ setVariable ["RydHQ_Taken",_taken];
 		_HQ setVariable ["RydHQ_TakenNaval",_Navaltaken];
@@ -1147,12 +1147,12 @@ RYD_StatusQuo =
 
 			{
 				_objStr = (str _x);
-				_objStr = (_prefix + (_objStr splitString " " joinstring ""));
+				_objStr = (_prefix + (_objStr splitString " " joinString ""));
 				if (_x in _taken) then {
 					
 					if ((_x getVariable [_objStr,[]]) isEqualTo []) then {
 						private _respPoint = [];
-						if not ((_x getvariable ["ObjName",""]) isEqualTo "") then {_respPoint = [(side _HQ), getPosATL _x,(_x getvariable ["ObjName",""])] call BIS_fnc_addRespawnPosition} else {_respPoint = [(side _HQ), getPosATL _x] call BIS_fnc_addRespawnPosition};
+						if not ((_x getVariable ["ObjName",""]) isEqualTo "") then {_respPoint = [(side _HQ), getPosATL _x,(_x getVariable ["ObjName",""])] call BIS_fnc_addRespawnPosition} else {_respPoint = [(side _HQ), getPosATL _x] call BIS_fnc_addRespawnPosition};
 						_x setVariable [_objStr,_respPoint];
 					};
 
@@ -1164,7 +1164,7 @@ RYD_StatusQuo =
 					};
 				}
 
-			} foreach (_HQ getVariable ["RydHQ_Objectives",[]]);
+			} forEach (_HQ getVariable ["RydHQ_Objectives",[]]);
 
 		};
 
@@ -1216,7 +1216,7 @@ RYD_StatusQuo =
 					_SFTgts pushBack _HQ
 					}
 				}
-			foreach (RydxHQ_AllLeaders - [(_HQ getVariable ["leaderHQ",(leader _HQ)])]);
+			forEach (RydxHQ_AllLeaders - [(_HQ getVariable ["leaderHQ",(leader _HQ)])]);
 
 			if ((count _SFTgts) == 0) then
 				{
@@ -1273,7 +1273,7 @@ RYD_StatusQuo =
 								}
 							}
 						}
-					foreach _SpecForG;
+					forEach _SpecForG;
 
 					_team = _SFAv select (floor (random (count _SFAv)));
 					_trg = vehicle (leader _trgG);
@@ -1336,7 +1336,7 @@ RYD_StatusQuo =
 
 					if (_eDst < 600) exitWith {_enemyN = true}
 					}
-				foreach _knownEG;
+				forEach _knownEG;
 
 				if not (_enemyN) then 
 					{
@@ -1368,7 +1368,7 @@ RYD_StatusQuo =
 
 									if (_eDst < 600) exitWith {_getBack = true}
 									}
-								foreach _knownEG;
+								forEach _knownEG;
 
 								if (isNull _HQ) then 
 									{
@@ -1404,7 +1404,7 @@ RYD_StatusQuo =
 
 									if (_eDst < 600) exitWith {_getBack = true}
 									}
-								foreach _knownEG;
+								forEach _knownEG;
 
 								if (_getBack) then {_Lpos = getPosATL (vehicle (_HQ getVariable ["leaderHQ",(leader _HQ)]));_rds = 0};
 
@@ -1562,7 +1562,7 @@ RYD_StatusQuo =
 		{
 		_HQ reveal (vehicle (leader _x))
 		}
-	foreach _friends;
+	forEach _friends;
 
 	for [{_z = 0},{_z < (count _knownE)},{_z = _z + 1}] do
 		{
@@ -1571,7 +1571,7 @@ RYD_StatusQuo =
 			{
 			if ((_x knowsAbout _KnEnemy) > 0.01) then {_HQ reveal [_KnEnemy,2]} 
 			}
-		foreach _friends
+		forEach _friends
 		};
 	};
 
@@ -1609,11 +1609,11 @@ RYD_isInside =
 		_pos2 = +_pos1;
 		_pos2 set [_axis,(_pos2 select _axis) + (_level * _mark)];
 
-		_roofed = lineIntersects [ATLtoASL (_vh modelToWorld _pos1), ATLtoASL (_vh modelToWorld _pos2),_cam,_target];
+		_roofed = lineIntersects [ATLToASL (_vh modelToWorld _pos1), ATLToASL (_vh modelToWorld _pos2),_cam,_target];
 		
 		if (_roofed) exitWith {}
 		}
-	foreach _axisArr;
+	forEach _axisArr;
 
 	_roofed
 	};
@@ -1667,7 +1667,7 @@ RYD_LF =
 			_vPos = [0,30,0];
 						
 			_pX = 0;
-			_pY = (sizeOf (typeof _vh))/15;
+			_pY = (sizeOf (typeOf _vh))/15;
 			_pZ = -_pY;
 			
 			_sign = 1;
@@ -1679,7 +1679,7 @@ RYD_LF =
 			
 			if (_vh isKindOf "Air") then 
 				{
-				_pY = (sizeOf (typeof _vh))/4;
+				_pY = (sizeOf (typeOf _vh))/4;
 				_pZ = 0;
 				_sign = 2
 				};
@@ -1832,7 +1832,7 @@ RYD_LF_Loop =
 					}
 				
 				}
-			foreach _friends
+			forEach _friends
 			};
 		
 		_currentS = _HQ getVariable ["RydHQ_LFSource",objNull];
@@ -1954,7 +1954,7 @@ RYD_FindClosest =
 				_dstMin = _dstAct
 				}
 			}
-		foreach _objects
+		forEach _objects
 		};
 
 	_closest
@@ -2023,12 +2023,12 @@ RYD_ClusterC =
 					_newCluster pushBack _x;
 					}
 				}
-			foreach _points;
+			forEach _points;
 
 			_clusters pushBack _newCluster
 			}
 		}
-	foreach _points;
+	forEach _points;
 
 	_clusters
 	};
@@ -2060,7 +2060,7 @@ RYD_Spawn =
 				}
 			}
 		}
-	foreach RydxHQ_Handles;
+	forEach RydxHQ_Handles;
 		
 	RydxHQ_Handles = RydxHQ_Handles - [0];
 	
@@ -2132,7 +2132,7 @@ RYD_ReverseArr =
 		_amnt = _amnt - 1;
 		_final set [_amnt,_x]
 		}
-	foreach _arr;
+	forEach _arr;
 	
 	_final
 	};
@@ -2202,7 +2202,7 @@ RYD_GroupMarkerLoop =
 					}
 				}
 			}
-		foreach AllGroups
+		forEach allGroups
 		}
 	};
 
@@ -2227,7 +2227,7 @@ RYD_PresentRHQ =
 				}
 			}
 		}
-	foreach vehicles;	
+	forEach vehicles;	
 	
 	_allUnits = [];
 	
@@ -2242,7 +2242,7 @@ RYD_PresentRHQ =
 				}
 			}
 		}
-	foreach allUnits;
+	forEach allUnits;
 	
 	_vehClass = configFile >> "CfgVehicles";
 	_wpClass = configFile >> "CfgWeapons";
@@ -2292,7 +2292,7 @@ RYD_PresentRHQ =
 							
 						if (_hasLaserD) exitWith {}
 						}
-					foreach _weapons;
+					forEach _weapons;
 					
 					if (_hasLaserD) then
 						{
@@ -2310,7 +2310,7 @@ RYD_PresentRHQ =
 				
 					{
 					_sWeapon = _x;
-					_mgs = configfile >> "CfgWeapons" >> _sWeapon >> "magazines";
+					_mgs = configFile >> "CfgWeapons" >> _sWeapon >> "magazines";
 					if (isArray _mgs) then
 						{
 						_mgs = getArray _mgs;
@@ -2318,8 +2318,8 @@ RYD_PresentRHQ =
 						if ((count _mgs) > 0) then
 							{
 							_mag = _mgs select 0;
-							_ammo = getText (configfile >> "CfgMagazines" >> _mag >> "ammo");
-							_ammoC = configfile >> "CfgAmmo" >> _ammo;
+							_ammo = getText (configFile >> "CfgMagazines" >> _mag >> "ammo");
+							_ammoC = configFile >> "CfgAmmo" >> _ammo;
 							
 							_isAA = ((getNumber (_ammoC >> "airLock")) > 1) or {((getNumber (_ammoC >> "airLock")) > 0) and {((getNumber (_ammoC >> "irLock")) > 0)}};
 							
@@ -2332,13 +2332,13 @@ RYD_PresentRHQ =
 								{
 								
 									{
-									_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-									_ammoC = configfile >> "CfgAmmo" >> _ammo;
+									_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+									_ammoC = configFile >> "CfgAmmo" >> _ammo;
 									_actHit = getNumber (_ammoC >> "hit");
 
 									if (_actHit > 150) exitWith {_isAT = true}
 									}
-								foreach _mgs
+								forEach _mgs
 								};
 							
 							if (_isAT) then 
@@ -2355,11 +2355,11 @@ RYD_PresentRHQ =
 						
 					if ((_isAT) or {(_isAA)}) exitWith {}
 					}
-				foreach _wps
+				forEach _wps
 				}
 			}	
 		}
-	foreach _allUnits;
+	forEach _allUnits;
 
 	_flareMags = ["Laserbatteries","60Rnd_CMFlareMagazine","120Rnd_CMFlareMagazine","240Rnd_CMFlareMagazine","60Rnd_CMFlare_Chaff_Magazine","120Rnd_CMFlare_Chaff_Magazine","240Rnd_CMFlare_Chaff_Magazine","192Rnd_CMFlare_Chaff_Magazine","168Rnd_CMFlare_Chaff_Magazine","300Rnd_CMFlare_Chaff_Magazine"];
 	
@@ -2477,7 +2477,7 @@ RYD_PresentRHQ =
 								_posCheck = [(_pos select 0) + _checkRange, (_pos select 1),0];
 								_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
 
-								if not (_canFire) exitwith {_minRange = _checkRange};
+								if not (_canFire) exitWith {_minRange = _checkRange};
 							};
 						};
 
@@ -2520,7 +2520,7 @@ RYD_PresentRHQ =
 								_posCheck = [(_pos select 0) + _checkRange, (_pos select 1),0];
 								_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
 
-								if (_canFire) exitwith {_maxRange = _checkRange};
+								if (_canFire) exitWith {_maxRange = _checkRange};
 							};
 						};
 
@@ -2558,8 +2558,8 @@ RYD_PresentRHQ =
 					_maxHit = 10;
 					
 						{
-						_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-						_ammoC = configfile >> "CfgAmmo" >> _ammo;
+						_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						_ammoC = configFile >> "CfgAmmo" >> _ammo;
 						
 						_actHit = getNumber (_ammoC >> "indirectHitRange");
 						_subM = toLower (getText (_ammoC >> "submunitionAmmo"));
@@ -2568,7 +2568,7 @@ RYD_PresentRHQ =
 							{
 							if not (_subM isEqualTo "") then
 								{
-								_ammoC = configfile >> "CfgAmmo" >> _subM;
+								_ammoC = configFile >> "CfgAmmo" >> _subM;
 								_actHit = getNumber (_ammoC >> "indirectHitRange")
 								}
 							};
@@ -2579,7 +2579,7 @@ RYD_PresentRHQ =
 							_prim = _x
 							}
 						}
-					foreach _mags;
+					forEach _mags;
 					
 					_mags = _mags - [_prim];
 					_mags0 = +_mags;
@@ -2589,8 +2589,8 @@ RYD_PresentRHQ =
 					_secChosen = false;
 					
 						{
-						_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-						_ammoC = configfile >> "CfgAmmo" >> _ammo;
+						_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						_ammoC = configFile >> "CfgAmmo" >> _ammo;
 						
 						_hit = getNumber (_ammoC >> "indirectHit");
 						_lc = _ammoC >> "lightColor";
@@ -2601,7 +2601,7 @@ RYD_PresentRHQ =
 							{
 							if not (_subM isEqualTo "") then
 								{
-								_ammoC = configfile >> "CfgAmmo" >> _subM;
+								_ammoC = configFile >> "CfgAmmo" >> _subM;
 								_hit = getNumber (_ammoC >> "indirectHit")
 								}
 							};
@@ -2637,20 +2637,20 @@ RYD_PresentRHQ =
 								}
 							}
 						}
-					foreach _mags0;
+					forEach _mags0;
 					
 					if (_sec isEqualTo "") then
 						{
 						_maxHit = 10;
 						
 							{
-							_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-							_ammoC = configfile >> "CfgAmmo" >> _ammo;
+							_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+							_ammoC = configFile >> "CfgAmmo" >> _ammo;
 							_subAmmo = _ammoC >> "subMunitionAmmo";
 							
 							if ((isText _subAmmo) and {not ((getText _subAmmo) isEqualTo "")}) then
 								{
-								_ammoC = configfile >> "CfgAmmo" >> (getText _subAmmo);
+								_ammoC = configFile >> "CfgAmmo" >> (getText _subAmmo);
 								};
 								
 							_actHit = getNumber (_ammoC >> "indirectHit");
@@ -2661,7 +2661,7 @@ RYD_PresentRHQ =
 								_sec = _x
 								}
 							}
-						foreach _mags;
+						forEach _mags;
 						}
 					};
 					
@@ -2725,8 +2725,8 @@ RYD_PresentRHQ =
 						};
 					
 						{
-						_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-						_ammoC = configfile >> "CfgAmmo" >> _ammo;
+						_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						_ammoC = configFile >> "CfgAmmo" >> _ammo;
 						
 						_isAA = (getNumber (_ammoC >> "airLock")) > 1;
 						_isAT = ((((getNumber (_ammoC >> "irLock")) + (getNumber (_ammoC >> "laserLock"))) > 0) and {((getNumber (_ammoC >> "airLock")) < 2)});
@@ -2749,7 +2749,7 @@ RYD_PresentRHQ =
 							
 						if ((_isAA) or {(_isAT)}) exitWith {}
 						}
-					foreach _mags
+					forEach _mags
 					}
 				}
 			else
@@ -2766,8 +2766,8 @@ RYD_PresentRHQ =
 						};
 					
 						{
-						_ammo = getText (configfile >> "CfgMagazines" >> _x >> "ammo");
-						_ammoC = configfile >> "CfgAmmo" >> _ammo;
+						_ammo = getText (configFile >> "CfgMagazines" >> _x >> "ammo");
+						_ammoC = configFile >> "CfgAmmo" >> _ammo;
 						
 						_isAA = (getNumber (_ammoC >> "airLock")) > 1;
 						_isAT = ((((getNumber (_ammoC >> "irLock")) + (getNumber (_ammoC >> "laserLock"))) > 0) and {((getNumber (_ammoC >> "airLock")) < 2)});
@@ -2777,7 +2777,7 @@ RYD_PresentRHQ =
 							
 						if ((_isAA) or {(_isAT)}) exitWith {}
 						}
-					foreach _mags
+					forEach _mags
 					}
 				};
 				
@@ -2849,7 +2849,7 @@ RYD_PresentRHQ =
 				}
 			};			
 		}
-	foreach _allVehs;
+	forEach _allVehs;
 
 	if (isNil "RydHQ_Add_OtherArty") then {RydHQ_Add_OtherArty = []};
 
@@ -2859,9 +2859,9 @@ RYD_PresentRHQ =
 			{
 			RydHQ_AllArty pushBackUnique (toLower _x)
 			}
-		foreach (_x select 0)
+		forEach (_x select 0)
 		}
-	foreach RydHQ_OtherArty;
+	forEach RydHQ_OtherArty;
 
 	publicVariable "RydHQ_OtherArty";
 	
@@ -2889,13 +2889,13 @@ HAL_FBFTLOOP =
 				if ((side _x) == (side _HQ)) then {_SidePLY pushBack _x};
 				if ((group _x) in (_HQ getVariable ["RydHQ_Friends",[]])) then  {_IgnoredPLY pushBack (group _x)};
 
-			} foreach allplayers;
+			} forEach allPlayers;
 
-			_OldMarkGrps = _HQ getvariable ["RydMarkGrpF",[]];
-			_OldRydMarks = _HQ getvariable ["RydMarksF",[]];
+			_OldMarkGrps = _HQ getVariable ["RydMarkGrpF",[]];
+			_OldRydMarks = _HQ getVariable ["RydMarksF",[]];
 
-			_OldRydOrd = _HQ getvariable ["RydOrdnances",[]];
-			_OldRydMarksOrd = _HQ getvariable ["RydMarksOrd",[]];
+			_OldRydOrd = _HQ getVariable ["RydOrdnances",[]];
+			_OldRydMarksOrd = _HQ getVariable ["RydMarksOrd",[]];
 
 			_MarkGrps = [];
 			_RydMarks = [];
@@ -2903,7 +2903,7 @@ HAL_FBFTLOOP =
 			_RydOrd = [];
 			_RydMarksOrd = [];
 
-			if (_HQ getvariable ["RydHQ_InfoMarkers",false]) then {
+			if (_HQ getVariable ["RydHQ_InfoMarkers",false]) then {
 
 				//{
 				//	private ["_ply"];
@@ -2922,9 +2922,9 @@ HAL_FBFTLOOP =
 
 						switch (side _x) do {
 
-							case WEST : {_mrktype = "b_" + _mrktype};
-							case EAST : {_mrktype = "o_" + _mrktype};
-							case RESISTANCE : {_mrktype = "n_" + _mrktype};
+							case west : {_mrktype = "b_" + _mrktype};
+							case east : {_mrktype = "o_" + _mrktype};
+							case resistance : {_mrktype = "n_" + _mrktype};
 							default {_mrktype = "Empty"};
 
 						};
@@ -2941,7 +2941,7 @@ HAL_FBFTLOOP =
 
 						};
 
-						_mrktext = _x getvariable ["Ryd_MarkText",nil];
+						_mrktext = _x getVariable ["Ryd_MarkText",nil];
 
 						if (isNil "_mrktext") then {
 
@@ -2956,9 +2956,9 @@ HAL_FBFTLOOP =
 						_mrk setMarkerSize [0.75,0.75];
 						if not (_mrksize == -1) then {
 
-							if ((side _x) == EAST) then {_mrk2 setMarkerSize [0.85,1.15]};
-							if ((side _x) == WEST) then {_mrk2 setMarkerSize [0.85,0.85]};
-							if ((side _x) == RESISTANCE) then {_mrk2 setMarkerSize [0.85,1.05]};
+							if ((side _x) == east) then {_mrk2 setMarkerSize [0.85,1.15]};
+							if ((side _x) == west) then {_mrk2 setMarkerSize [0.85,0.85]};
+							if ((side _x) == resistance) then {_mrk2 setMarkerSize [0.85,1.05]};
 							_mrk2 setMarkerPos (position (leader _x));
 							_RydMarks pushBack _mrk2;
 
@@ -2967,7 +2967,7 @@ HAL_FBFTLOOP =
 						_RydMarks pushBack _mrk;
 						_mrk setMarkerPos (position (leader _x));
 									
-					} foreach _MarkGrps;
+					} forEach _MarkGrps;
 
 					{
 						private ["_mrk","_mrkcolor","_mrktype"];
@@ -2978,9 +2978,9 @@ HAL_FBFTLOOP =
 
 						switch (side (leader _HQ)) do {
 
-							case WEST : {_mrktype = "b_" + "Ordnance"};
-							case EAST : {_mrktype = "o_" + "Ordnance"};
-							case RESISTANCE : {_mrktype = "n_" + "Ordnance"};
+							case west : {_mrktype = "b_" + "Ordnance"};
+							case east : {_mrktype = "o_" + "Ordnance"};
+							case resistance : {_mrktype = "n_" + "Ordnance"};
 							default {_mrktype = "Empty"};
 
 						};
@@ -2994,7 +2994,7 @@ HAL_FBFTLOOP =
 						_RydMarksOrd pushBack _mrk;
 						_mrk setMarkerPos (position _x);
 									
-					} foreach _RydOrd;
+					} forEach _RydOrd;
 
 				//} foreach _SidePLY;
 
@@ -3003,26 +3003,26 @@ HAL_FBFTLOOP =
 			{
 				_x setVariable ["FirstMarkF",nil];
 				_x setVariable ["FirstMarkF2",nil];
-			} foreach (_OldMarkGrps - (_MarkGrps - [grpNull]));
+			} forEach (_OldMarkGrps - (_MarkGrps - [grpNull]));
 
 			{
 				deleteMarker _x;
-			} foreach (_OldRydMarks - _RydMarks);
+			} forEach (_OldRydMarks - _RydMarks);
 
 
 			{
 				_x setVariable ["FirstMarkOrd",nil];
-			} foreach (_OldRydOrd - (_RydOrd - [objNull]));
+			} forEach (_OldRydOrd - (_RydOrd - [objNull]));
 
 			{
 				deleteMarker _x;
-			} foreach (_OldRydMarksOrd - _RydMarksOrd);
+			} forEach (_OldRydMarksOrd - _RydMarksOrd);
 
-			_HQ setvariable ["RydMarkGrpF",_MarkGrps];
-			_HQ setvariable ["RydMarksF",_RydMarks];
+			_HQ setVariable ["RydMarkGrpF",_MarkGrps];
+			_HQ setVariable ["RydMarksF",_RydMarks];
 
-			_HQ setvariable ["RydOrdnances",_RydOrd];
-			_HQ setvariable ["RydMarksOrd",_RydMarksOrd];
+			_HQ setVariable ["RydOrdnances",_RydOrd];
+			_HQ setVariable ["RydMarksOrd",_RydMarksOrd];
 
 			sleep 5;
 
@@ -3038,13 +3038,13 @@ HAL_EBFT =
 
 		_HQ = (_this select 0);
 
-		_OldMarkGrps = _HQ getvariable ["RydMarkGrpE",[]];
-		_OldRydMarks = _HQ getvariable ["RydMarksE",[]];
+		_OldMarkGrps = _HQ getVariable ["RydMarkGrpE",[]];
+		_OldRydMarks = _HQ getVariable ["RydMarksE",[]];
 
 		_MarkGrps = [];
 		_RydMarks = [];
 
-		if (_HQ getvariable ["RydHQ_InfoMarkers",false]) then {
+		if (_HQ getVariable ["RydHQ_InfoMarkers",false]) then {
 
 			//{
 			//	private ["_ply"];
@@ -3062,9 +3062,9 @@ HAL_EBFT =
 
 					switch (side _x) do {
 
-							case WEST : {_mrktype = "b_" + _mrktype};
-							case EAST : {_mrktype = "o_" + _mrktype};
-							case RESISTANCE : {_mrktype = "n_" + _mrktype};
+							case west : {_mrktype = "b_" + _mrktype};
+							case east : {_mrktype = "o_" + _mrktype};
+							case resistance : {_mrktype = "n_" + _mrktype};
 							default {_mrktype = "Empty"};
 
 					};
@@ -3080,7 +3080,7 @@ HAL_EBFT =
 
 					};
 
-					_mrktext = _x getvariable ["Ryd_MarkText",nil];
+					_mrktext = _x getVariable ["Ryd_MarkText",nil];
 
 					if (isNil "_mrktext") then {
 
@@ -3095,9 +3095,9 @@ HAL_EBFT =
 					_mrk setMarkerSize [0.75,0.75];
 					if not (_mrksize == -1) then {
 
-						if ((side _x) == EAST) then {_mrk2 setMarkerSize [0.85,1.15]};
-						if ((side _x) == WEST) then {_mrk2 setMarkerSize [0.85,0.85]};
-						if ((side _x) == RESISTANCE) then {_mrk2 setMarkerSize [0.85,1.05]};
+						if ((side _x) == east) then {_mrk2 setMarkerSize [0.85,1.15]};
+						if ((side _x) == west) then {_mrk2 setMarkerSize [0.85,0.85]};
+						if ((side _x) == resistance) then {_mrk2 setMarkerSize [0.85,1.05]};
 
 						_mrk2 setMarkerPos (position (leader _x));
 						_RydMarks pushBack _mrk2;
@@ -3107,7 +3107,7 @@ HAL_EBFT =
 					_RydMarks pushBack _mrk;
 					_mrk setMarkerPos (position (leader _x));
 								
-				} foreach _MarkGrps;
+				} forEach _MarkGrps;
 			//} foreach _SidePLY;
 
 			};
@@ -3115,14 +3115,14 @@ HAL_EBFT =
 			{
 				_x setVariable ["FirstMarkE",nil];
 				_x setVariable ["FirstMarkE2",nil];
-			} foreach (_OldMarkGrps - (_MarkGrps - [grpNull]));
+			} forEach (_OldMarkGrps - (_MarkGrps - [grpNull]));
 
 			{
 				deleteMarker _x;
-			} foreach (_OldRydMarks - _RydMarks);
+			} forEach (_OldRydMarks - _RydMarks);
 
-			_HQ setvariable ["RydMarkGrpE",_MarkGrps];
-			_HQ setvariable ["RydMarksE",_RydMarks];
+			_HQ setVariable ["RydMarkGrpE",_MarkGrps];
+			_HQ setVariable ["RydMarksE",_RydMarks];
 	};
 
 HAL_SecTasks =
@@ -3134,7 +3134,7 @@ HAL_SecTasks =
 
 		while {not (isNull _HQ)} do {
 
-			if ((_HQ getvariable ["RydHQ_SecTasks",true]) and (_HQ getvariable ["RydHQ_SimpleMode",true])) then {
+			if ((_HQ getVariable ["RydHQ_SecTasks",true]) and (_HQ getVariable ["RydHQ_SimpleMode",true])) then {
 
 				_taskedGroups = [];
 
@@ -3144,7 +3144,7 @@ HAL_SecTasks =
 					if ((group _x) in _friends) then {
 						_taskedGroups pushBackUnique (group _x);
 					}
-				} foreach allPlayers;
+				} forEach allPlayers;
 
 				{
 					private ["_Group","_TaskedObjectives","_DefendObjectives","_taskedGroups","_taskedGroups","_setTaken","_taskID","_ObjName","_ParentID"];
@@ -3170,10 +3170,10 @@ HAL_SecTasks =
 						_ObjName = _x getVariable "ObjName";
 						if (isNil "_ObjName") then {
 
-							_where = mapGridPosition (getpos _x);
+							_where = mapGridPosition (getPos _x);
 							_ObjName = "Objective At " + _where;
 	
-							_nL = nearestLocations [(getpos _x), ["Hill","NameCityCapital","NameCity","NameVillage","NameLocal","Strategic","StrongpointArea"], 500];
+							_nL = nearestLocations [(getPos _x), ["Hill","NameCityCapital","NameCity","NameVillage","NameLocal","Strategic","StrongpointArea"], 500];
 							
 							if ((count _nL) > 0) then {
 								_nL = _nL select 0;
@@ -3195,7 +3195,7 @@ HAL_SecTasks =
 
 							};
 
-					} foreach ((_HQ getVariable ["RydHQ_Objectives",[]]) - _TaskedObjectives);
+					} forEach ((_HQ getVariable ["RydHQ_Objectives",[]]) - _TaskedObjectives);
 
 					{
 						_taskID = (str _Group) + (str _x) + "HALStsk";
@@ -3204,7 +3204,7 @@ HAL_SecTasks =
 						_TaskedObjectives = _TaskedObjectives - [_x];
 						_DefendObjectives = _DefendObjectives - [_x];
 
-					} foreach (_TaskedObjectives - (_HQ getVariable ["RydHQ_Objectives",[]]));
+					} forEach (_TaskedObjectives - (_HQ getVariable ["RydHQ_Objectives",[]]));
 
 					{
 
@@ -3215,7 +3215,7 @@ HAL_SecTasks =
 							_TaskedObjectives = _TaskedObjectives - [_x];
 							};			
 
-					} foreach (_TaskedObjectives - _DefendObjectives);
+					} forEach (_TaskedObjectives - _DefendObjectives);
 
 					{
 
@@ -3227,12 +3227,12 @@ HAL_SecTasks =
 							_TaskedObjectives = _TaskedObjectives - [_x];
 							};
 
-					} foreach _DefendObjectives;
+					} forEach _DefendObjectives;
 
 					_Group setVariable ["TaskedObjectives",_TaskedObjectives];
 					_Group setVariable ["DefendObjectives",_DefendObjectives];
 
-				} foreach _taskedGroups;
+				} forEach _taskedGroups;
 
 				sleep 15;
 			};
@@ -3265,7 +3265,7 @@ RYD_deployUAV =
 		{
 		_unit = _x;
 
-		_backpack = unitBackPack _unit;
+		_backpack = unitBackpack _unit;
 
 		if (not (isNull _backPack) and {(_unit == (vehicle _unit))}) then
 			{
@@ -3286,7 +3286,7 @@ RYD_deployUAV =
 							_x setUnitPos "MIDDLE"
 							}
 						}
-					foreach (units _gp);
+					forEach (units _gp);
 					
 					sleep (5 + (random 5));
 					
@@ -3310,7 +3310,7 @@ RYD_deployUAV =
 						_x setSkill ["spotDistance",1];
 						_x setSkill ["spotTime",1]
 						}
-					foreach (units _gpUAV);
+					forEach (units _gpUAV);
 					
 					_excl = _HQ getVariable ["RydHQ_Excluded",[]];
 					_excl pushBack _gpUAV;
@@ -3321,7 +3321,7 @@ RYD_deployUAV =
 					_mPos set [2,_alt];//does nothing, 50 meters alt by default
 					_uav flyInHeight _alt;//works fine
 					
-					deletewaypoint [_gpUAV,0];
+					deleteWaypoint [_gpUAV,0];
 					
 					_wp = _gpUAV addWaypoint [_mPos, 0];
 					_wp setWaypointType "SAD";
@@ -3369,7 +3369,7 @@ RYD_deployUAV =
 						{
 						deleteVehicle _x
 						}
-					foreach (crew _uav);
+					forEach (crew _uav);
 					
 					deleteVehicle _uav;
 					deleteGroup _gpUAV;
@@ -3381,19 +3381,19 @@ RYD_deployUAV =
 							_x setUnitPos "AUTO"
 							}
 						}
-					foreach (units _gp);
+					forEach (units _gp);
 															
 					if (not (_alive) or {((time - _timer) > 900)}) exitWith {};
 					if ((_unit distance _sPos) > 100) exitWith {};
 					
-					_unit addBackPack _backPackClass			
+					_unit addBackpack _backPackClass			
 					}
 				}
 			};
 			
 		if (_hasUAV) exitWith {};
 		}
-	foreach (units _gp);
+	forEach (units _gp);
 	
 	_hasUAV
 	};

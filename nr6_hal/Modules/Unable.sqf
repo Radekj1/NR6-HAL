@@ -7,4 +7,4 @@ _logic = (_this select 0);
 	if not ((typeOf _x) == "NR6_HAL_Leader_Module") then {
 		(group _x) setVariable ["Unable",true];
 	};
-} foreach (synchronizedObjects _logic);
+} forEach (synchronizedObjects _logic);

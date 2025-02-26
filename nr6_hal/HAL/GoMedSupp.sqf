@@ -19,13 +19,13 @@ _startpos = getPosASL _unit;
 
 if (isNil ("_startpos")) then {_unitG setVariable [("START" + _unitvar),(position _unit)]};
 
-_amb = assignedvehicle (leader (_unitG));
+_amb = assignedVehicle (leader (_unitG));
 
 _amb disableAI "TARGET";_amb disableAI "AUTOTARGET";
 
 [_unitG] call RYD_WPdel;
 
-(group (assigneddriver _unit)) setVariable [("Deployed" + (str (group (assigneddriver _unit)))),false,true];
+(group (assignedDriver _unit)) setVariable [("Deployed" + (str (group (assignedDriver _unit)))),false,true];
 _unitvar = str (_unitG);
 _unitG setVariable [("Busy" + _unitvar), true];
 
@@ -115,7 +115,7 @@ while {(_counter <= 3)} do
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitwith 
+	if not (_alive) exitWith 
 		{
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 			{
@@ -130,7 +130,7 @@ while {(_counter <= 3)} do
 		
 	if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1}; 
 
-	if ((RydxHQ_MagicHeal) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x call ace_medical_treatment_fnc_fullHealLocal; if (isPlayer _x) then {"Medical Treatment Applied" remoteExec ["hint", _x]};}} foreach ((vehicle (leader _unitG)) nearEntities [["Man"], 25]);};
+	if ((RydxHQ_MagicHeal) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x call ace_medical_treatment_fnc_fullHealLocal; if (isPlayer _x) then {"Medical Treatment Applied" remoteExec ["hint", _x]};}} forEach ((vehicle (leader _unitG)) nearEntities [["Man"], 25]);};
 	
 //	if ((_request) and ((_amb getVariable ["HAL_Requested",false]) or ((_amb distance _Trg) > 500))) then {_counter = 5};
 
@@ -146,7 +146,7 @@ while {(_counter <= 3)} do
 if (_request) then {[_amb] remoteExecCall ["RYD_ReqLogisticsDelete_Actions"]};
 _amb setVariable ["HAL_Requested",false,true];
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -165,7 +165,7 @@ if (_HQ getVariable ["RydHQ_SupportWP",false]) then {_tp = "SUPPORT"};
 
 _pos = [_posX,_posY];
 
-if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getpos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _MedPoints = _MedPoints - [_Trg]; if not (_task isEqualTo taskNull) then {[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_pos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;}};
+if (_HQ getVariable ["RydHQ_SupportRTB",false]) then {_pos = _startpos; if not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) then {if ((random 100) <= (_HQ getVariable ["RydHQ_SDChance",100])) then {_pos = (getPos (_HQ getVariable ["RydHQ_SupportDecoy",objNull]))}}; _MedPoints = _MedPoints - [_Trg]; if not (_task isEqualTo taskNull) then {[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_pos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;}};
 
 _rrr = (_unitG getVariable ["Ryd_RRR",false]);
 
@@ -183,7 +183,7 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	_alive = _cause select 1;
 };
 
-if not (_alive) exitwith 
+if not (_alive) exitWith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -209,9 +209,9 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _lastOne = true;
 
 	{
-	if (((group _x) == (group _Trg)) and not (_x == _Trg)) exitwith {_lastOne = false};
+	if (((group _x) == (group _Trg)) and not (_x == _Trg)) exitWith {_lastOne = false};
 	}
-foreach _wounded;
+forEach _wounded;
 
 if (_lastOne) then 
 	{

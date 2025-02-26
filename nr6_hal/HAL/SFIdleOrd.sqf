@@ -63,4 +63,4 @@ _pos = getPosATL (vehicle (leader _HQ));
 			}
 		}
 	}
-foreach  (_HQ getVariable ["RydHQ_SpecForG",[]]);
+forEach  (_HQ getVariable ["RydHQ_SpecForG",[]]);
