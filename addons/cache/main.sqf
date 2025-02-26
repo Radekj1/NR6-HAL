@@ -20,9 +20,6 @@ zbe_cachedVehicles 			= 0;
 zbe_objectView	   			= 0;
 zbe_players					= [];
 
-sleep 5;
-
-call compileFinal preprocessFileLineNumbers "\NR6_zbe_cache\zbe_functions.sqf";
 
 if (zbe_minFrameRate == -1) then {if (isDedicated) then {zbe_minFrameRate = 1} else {zbe_minFrameRate = 1};};
 
@@ -62,7 +59,7 @@ if (true) then {
 	zbe_cached_cars = [];
 	zbe_cached_air = [];
 	zbe_cached_boat = [];
-	while {true} do 
+	while {true} do
 		{
 			_assetscar = zbe_centerPOS nearEntities ["LandVehicle", zbe_mapside];
 			{
@@ -139,7 +136,7 @@ if (zbe_ObjCache) then {
 
 	zbe_cachedEnt = (zbe_centerPOS nearObjects ["Static", 5000000]);
 	zbe_cachedEnt1 = zbe_cachedEnt;
-	
+
 if ((count zbe_cachedEnt) > 30) then {
 
 	zbe_cachedEnt1 = zbe_cachedEnt select [0, ((count zbe_cachedEnt)/30)];

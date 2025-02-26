@@ -4,36 +4,6 @@ zbe_deleteunitsnotleader = {
 	} forEach allGroups;
 };
 
-zbe_setPosFull = {
-	{	
-		if ( not (stopped _x) and not (_x getVariable ["NR6Site",false])) then { 
-
-			_testpos = (formationPosition _x);
-			if (!(isNil "_testpos") && (count _testpos > 0)) then {
-			if (!(isPlayer _x) && (vehicle _x == _x)) then {
-					_x setPos [_testpos select 0,_testpos select 1,0];
-					_x allowDamage false;
-					[_x]spawn {sleep 3;(_this select 0) allowDamage true;};
-				};
-			};
-		};
-	} forEach _toCache;
-};
-
-zbe_removeDead = {
-	{if !(alive _x) then {
-		_x enableSimulationGlobal true;
-		_x hideObjectGlobal false;
-		[_x,false] remoteExecCall ["hideobject",0];
-		[_x,true] remoteExecCall ["enableSimulation",0];
-		if (zbe_debug) then {
-			diag_log format ["ZBE_Cache %1 died while cached from group %2, uncaching and removing from cache loop",_x,_group];
-		};
-	_toCache = _toCache - [_x];
-	};
-	} forEach _toCache;
-};
-
 zbe_cacheEvent = {
 	({_x distance _leader < _distance} count (allPlayers - (entities "HeadlessClient_F")) > 0) || !isNull (_leader findNearestEnemy _leader)
 };
@@ -66,130 +36,6 @@ zbe_vehicleUncache = {
 	[_vehicle,true] remoteExecCall ["enableSimulation",0];
 };
 
-zbe_hideVeh = {
-
-	if (zbe_NoHideMode) exitWith {};
-
-	private ["_CGR"];
-	
-
-
-		{
-			if (((vehicle _x) isKindOf "Air") or (_x getVariable ["zbe_SeeAll",false])) then {
-
-				[_vehicle,false] remoteExecCall ["hideobject",_x];
-				[_vehicle,true] remoteExecCall ["enableSimulation",_x];
-
-
-			} else {
-
-				if (not ((_vehicle isKindOf "Air") and (10 > (random 100))) and not ((owner _vehicle) isEqualTo (owner _x))) then {
-
-					[_vehicle,true] remoteExecCall ["hideobject",_x];
-					[_vehicle,false] remoteExecCall ["enableSimulation",_x];
-
-				} else {
-
-					[_vehicle,false] remoteExecCall ["hideobject",_x];
-					[_vehicle,true] remoteExecCall ["enableSimulation",_x];
-
-				};
-			};
-		} forEach (allPlayers - (entities "HeadlessClient_F"));
-		
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-zbe_objhide = {
-
-
-	private ["_CGR"];
-
-	{
-		if not (isPlayer _x) then {
-
-			_CGR = _x;
-
-			{
-				if (((vehicle _x) isKindOf "Air") or (_x getVariable ["zbe_SeeAll",false])) then {
-
-					if (((_x distance _CGR) > zbe_aiCacheDist) and not ((owner _CGR) isEqualTo (owner _x))) then {
-
-						[_CGR,false] remoteExecCall ["hideobject",_x];
-						[_CGR,false] remoteExecCall ["enableSimulation",_x];
-
-					} else {
-
-						[_CGR,false] remoteExecCall ["hideobject",_x];
-						[_CGR,true] remoteExecCall ["enableSimulation",_x];
-
-					};
-
-				} else {
-
-					if (((_x distance _CGR) > zbe_aiCacheDist) and not ((owner _CGR) isEqualTo (owner _x))) then {
-
-						[_CGR,true] remoteExecCall ["hideobject",_x];
-						[_CGR,false] remoteExecCall ["enableSimulation",_x];
-
-					} else {
-
-						[_CGR,false] remoteExecCall ["hideobject",_x];
-						[_CGR,true] remoteExecCall ["enableSimulation",_x];
-
-					};
-				};
-			} forEach (allPlayers - (entities "HeadlessClient_F"));
-			
-		};
-	} forEach _objects;
-};
-
-zbe_objunCache = {
-
-	{
-		_x enableSimulationGlobal true;
-		_x hideObjectGlobal false;
-		[_x,false] remoteExecCall ["hideobject",0];
-		[_x,true] remoteExecCall ["enableSimulation",0];
-		
-	} forEach (allMissionObjects "Static");
-};
-
 zbe_objCache2 = {
 
 	_obj enableSimulationGlobal false;
@@ -198,13 +44,13 @@ zbe_objCache2 = {
 	{
 //		[_obj,true] remoteExecCall ["hideobject",_x];
 		[_obj,false] remoteExecCall ["enableSimulation",_x];
-		
+
 	} forEach allPlayers;
 
 	{
 //		[_obj,false] remoteExecCall ["hideobject",_x];
 		[_obj,true] remoteExecCall ["enableSimulation",_x];
-		
+
 	} forEach (entities "HeadlessClient_F");
 
 //	[_obj,false] remoteExecCall ["hideobject",2];
@@ -213,7 +59,7 @@ zbe_objCache2 = {
 
 zbe_objunCache2 = {
 
-	
+
 	_obj enableSimulationGlobal true;
 //	_obj hideObjectGlobal false;
 
