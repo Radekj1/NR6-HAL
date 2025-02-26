@@ -1414,7 +1414,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_Objectives_MODULES";
-		function="NR6_fnc_HALSObj";
+		function= QFUNC(simpleObjective);
 		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1526,7 +1526,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_Objectives_MODULES";
-		function="NR6_fnc_HALNObj";
+		function= QFUNC(navalObjective);
 		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1638,7 +1638,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
-		function="NR6_fnc_HALAmmoDepot";
+		function= QFUNC(ammoDepot);
 		icon = QPATHTOF(icons\HAL_COAMMO_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1688,7 +1688,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
-		function="NR6_fnc_HALInclude";
+		function= QFUNC(include);
 		icon = QPATHTOF(icons\HAL_COCONT_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1725,7 +1725,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
-		function="NR6_fnc_HALExclude";
+		function= QFUNC(exclude);
 		icon = QPATHTOF(icons\HAL_COEXCL_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1764,7 +1764,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_AmmoDrop";
+		function = QFUNC(ammoDrop);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1801,7 +1801,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_AOnly";
+		function= QFUNC(aOnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1838,7 +1838,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_CargoOnly";
+		function= QFUNC(cargoOnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1875,7 +1875,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_ROnly";
+		function= QFUNC(ROnly);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1912,7 +1912,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_ExReammo";
+		function=QFUNC(exReammo);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1949,7 +1949,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_ExMedic";
+		function= QFUNC(exMedic);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -1986,7 +1986,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_ExRefuel";
+		function= QFUNC(exRefuel);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2023,7 +2023,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_FirstToFight";
+		function= QFUNC(firstToFight);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2060,7 +2060,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_Attributes_MODULES";
-		function="NR6_fnc_RTBRRR";
+		function= QFUNC(RTBRRR);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2097,7 +2097,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_ExRepair";
+		function = QFUNC(ExRepair);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2134,7 +2134,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_Garrison";
+		function= QFUNC(garrison);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2171,7 +2171,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoAttack";
+		function= QFUNC(noAttack);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2208,7 +2208,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoCargo";
+		function= QFUNC(noCargo);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2245,7 +2245,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoDef";
+		function= QFUNC(noDef);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2282,7 +2282,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoReports";
+		function= QFUNC(noReports);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2319,7 +2319,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_Unable";
+		function= QFUNC(unable);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2356,7 +2356,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoRecon";
+		function = QFUNC(noRecon);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2393,7 +2393,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_NoFlank";
+		function= QFUNC(noFlank);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2430,7 +2430,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_SFBodyGuard";
+		function= QFUNC(sfBodyGuard);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2467,7 +2467,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_AlwaysKnownU";
+		function = QFUNC(alwaysKnownU);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2504,7 +2504,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_AlwaysUnKnownU";
+		function= QFUNC(alwaysUnKnownU);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2541,7 +2541,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_RCAS";
+		function= QFUNC(setRoleCAS);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2578,7 +2578,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
-		function="NR6_fnc_RCAP";
+		function= QFUNC(setRoleCAP);
 		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
@@ -2617,7 +2617,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
-		function="NR6_fnc_HALBB";
+		function= QFUNC(bbLeader);
 		icon = QPATHTOF(icons\HAL_HCCO_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
@@ -2674,7 +2674,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
-		function="NR6_fnc_HALBBSet";
+		function= QFUNC(bbSettings);
 		icon = QPATHTOF(icons\HAL_HCCOSET_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
@@ -2741,7 +2741,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
-		function="NR6_fnc_HALBBZone";
+		function= QFUNC(bbZone);
 		icon = QPATHTOF(icons\HAL_HCZONE_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
@@ -2785,7 +2785,7 @@ class CfgVehicles
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
-		function="NR6_fnc_HALBBObj";
+		function= QFUNC(bbObjective);
 		icon = QPATHTOF(icons\HAL_OBJHC_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;

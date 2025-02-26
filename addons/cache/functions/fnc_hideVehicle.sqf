@@ -16,7 +16,7 @@ private _CGR = "";
 
     } else {
 
-        if (!((_vehicle isKindOf "Air") && (10 > (random 100))) && !((owner _vehicle) isEqualTo (owner _x))) then {
+        if (!((_vehicle isKindOf "Air") && (10 > (random 100))) && ((owner _vehicle) isNotEqualTo (owner _x))) then {
 
             [_vehicle,true] remoteExecCall ["hideobject",_x];
             [_vehicle,false] remoteExecCall ["enableSimulation",_x];
