@@ -1167,7 +1167,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_Util_MODULES";
 		function= QFUNC(idleDecoy);
-		icon = "\NR6_HAL\icons\HAL_COIDLE_PIN.paa";
+		icon = QPATHTOF(icons\HAL_COIDLE_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1415,7 +1415,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_Objectives_MODULES";
 		function="NR6_fnc_HALSObj";
-		icon = "\NR6_HAL\icons\HAL_OBJMOD_PIN.paa";
+		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1527,7 +1527,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_Objectives_MODULES";
 		function="NR6_fnc_HALNObj";
-		icon = "\NR6_HAL\icons\HAL_OBJMOD_PIN.paa";
+		icon = QPATHTOF(icons\HAL_OBJMOD_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1639,7 +1639,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
 		function="NR6_fnc_HALAmmoDepot";
-		icon = "\NR6_HAL\icons\HAL_COAMMO_PIN.paa";
+		icon = QPATHTOF(icons\HAL_COAMMO_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1689,7 +1689,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
 		function="NR6_fnc_HALInclude";
-		icon = "\NR6_HAL\icons\HAL_COCONT_PIN.paa";
+		icon = QPATHTOF(icons\HAL_COCONT_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1726,7 +1726,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_LEADER_MODULES";
 		function="NR6_fnc_HALExclude";
-		icon = "\NR6_HAL\icons\HAL_COEXCL_PIN.paa";
+		icon = QPATHTOF(icons\HAL_COEXCL_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1765,7 +1765,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_AmmoDrop";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1802,7 +1802,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_AOnly";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1839,7 +1839,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_CargoOnly";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1876,7 +1876,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_ROnly";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1913,7 +1913,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_ExReammo";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1950,7 +1950,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_ExMedic";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -1987,7 +1987,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_ExRefuel";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2024,7 +2024,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_FirstToFight";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2061,7 +2061,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_Attributes_MODULES";
 		function="NR6_fnc_RTBRRR";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2098,7 +2098,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_ExRepair";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2135,7 +2135,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_Garrison";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2172,7 +2172,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoAttack";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2209,7 +2209,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoCargo";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2246,7 +2246,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoDef";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2283,7 +2283,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoReports";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2320,7 +2320,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_Unable";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2357,7 +2357,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoRecon";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2394,7 +2394,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_NoFlank";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2431,7 +2431,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_SFBodyGuard";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2468,7 +2468,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_AlwaysKnownU";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2505,7 +2505,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_AlwaysUnKnownU";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2542,7 +2542,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_RCAS";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2579,7 +2579,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_SProp_MODULES";
 		function="NR6_fnc_RCAP";
-		icon = "\NR6_HAL\icons\HAL_SQDPRP_PIN.paa";
+		icon = QPATHTOF(icons\HAL_SQDPRP_PIN.paa);
 		functionPriority=2;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2618,7 +2618,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
 		function="NR6_fnc_HALBB";
-		icon = "\NR6_HAL\icons\HAL_HCCO_PIN.paa";
+		icon = QPATHTOF(icons\HAL_HCCO_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2675,7 +2675,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
 		function="NR6_fnc_HALBBSet";
-		icon = "\NR6_HAL\icons\HAL_HCCOSET_PIN.paa";
+		icon = QPATHTOF(icons\HAL_HCCOSET_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2742,7 +2742,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
 		function="NR6_fnc_HALBBZone";
-		icon = "\NR6_HAL\icons\HAL_HCZONE_PIN.paa";
+		icon = QPATHTOF(icons\HAL_HCZONE_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
 		isTriggerActivated=0;
@@ -2786,7 +2786,7 @@ class CfgVehicles
 		vehicleClass="Modules";
 		category="NR6_HAL_BB_MODULES";
 		function="NR6_fnc_HALBBObj";
-		icon = "\NR6_HAL\icons\HAL_OBJHC_PIN.paa";
+		icon = QPATHTOF(icons\HAL_OBJHC_PIN.paa);
 		functionPriority=1;
 		isGlobal=0;
 		isTriggerActivated=0;
