@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_GarrS)
 
 /**
  * @description Places a unit in a garrison position and configures their stance/direction

@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_AmmoCount)
 
 /**
  * @description Counts total ammunition in a group, both on units and in vehicles

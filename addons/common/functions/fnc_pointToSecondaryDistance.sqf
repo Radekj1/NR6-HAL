@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_PointToSecDst)
 
 /**
  * @description Calculates the distance from a point to a line segment defined by two points

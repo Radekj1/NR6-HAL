@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_AmmoFullCount)
 
 /**
  * @description Calculates ammunition count ratio (current/max) for a group, focusing on damaging ammunition

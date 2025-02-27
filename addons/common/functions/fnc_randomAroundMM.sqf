@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_RandomAroundMM)
 
 /**
  * @description Selects a random position around a given center point within min-max radius

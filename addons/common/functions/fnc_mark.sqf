@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_Mark)
 
 /**
  * @description Creates a marker with given parameters and adds it to the marker tracking array
