@@ -33,7 +33,7 @@ if (_isDebugEnabled) then {
     {
         private _dangerValue = _x getVariable ["NearE", 0];
         private _marker = [(position (vehicle (leader _x))), _x, "markDanger", "ColorGreen",
-                        "ICON", "mil_dot", (str _dangerValue), ""] call FUNC(mark);
+                        "ICON", "mil_dot", (str _dangerValue), ""] call EFUNC(common,mark);
         _x setVariable ["RydHQ_MarkerES", true];
     } forEach _friendlyGroups;
 
@@ -144,7 +144,7 @@ private _groupStrengthMap = createHashMap;
 
     // Send danger message to AI if appropriate
     if (_dangerValue > 0.15 && {!isPlayer _groupLeader} && {random 100 < _chatDensity}) then {
-        [_groupLeader, (missionNamespace getVariable ["RydxHQ_AIC_InDanger", ["SentCombatDanger"]]), "InDanger"] call FUNC(AIChatter);
+        [_groupLeader, (missionNamespace getVariable ["RydxHQ_AIC_InDanger", ["SentCombatDanger"]]), "InDanger"] call EFUNC(common,AIChatter);
     };
 
     // Skip formation changes for air units

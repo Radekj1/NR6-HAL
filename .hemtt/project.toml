@@ -5,14 +5,9 @@ mainprefix = "z"
 
 [files]
 include = [
-    "*.dll",
-    "*.so",
     "mod.cpp",
     "README*.md",  # Translated READMEs get moved to root in a hook (virtual file system)
-    "AUTHORS.txt",
     "LICENSE",
-    "logo_ace3_ca.paa",
-    "meta.cpp",
 ]
 
 [version]

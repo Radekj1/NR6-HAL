@@ -301,32 +301,32 @@ class CfgVehicles
 
 	class GVAR(Leader_Module): Module_F
 	{
-		scope=2;
-		displayName="HAL Commander";
-		author="NinjaRider600";
-		vehicleClass="Modules";
-		category=QGVAR(leader);
-		function= QFUNC(addLeader);
+		scope = 2;
+		displayName = "HAL Commander";
+		author = "NinjaRider600";
+		vehicleClass = "Modules";
+		category = QGVAR(leader);
+		function = QFUNC(addLeader);
 		icon = QPATHTOF(icons\HALCOPIN.paa);
-		functionPriority=1;
-		isGlobal=0;
-		isTriggerActivated=0;
-		isDisposable=0;
-		is3DEN=0;
+		functionPriority = 1;
+		isGlobal = 0;
+		isTriggerActivated = 0;
+		isDisposable = 0;
+		is3DEN = 0;
 		class Arguments: ArgumentsBaseUnits
 		{
 			class LeaderType
 			{
-				displayName="AI Commander Selection";
-				description="Selects which AI leader slot will be selected for the synchronized unit (or virtually created for non-synchronized).";
-				typeName="STRING";
+				displayName = "AI Commander Selection";
+				description = "Selects which AI leader slot will be selected for the synchronized unit (or virtually created for non-synchronized).";
+				typeName = "STRING";
 				class values
 				{
 					class A
 					{
 						name="Leader A";
 						value="LeaderHQ";
-						default=1;
+						default = 1;
 					};
 					class B
 					{

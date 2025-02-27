@@ -111,24 +111,22 @@ if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
 
-_clB = [Map_BLUFOR_R,Map_BLUFOR_G,Map_BLUFOR_B,Map_BLUFOR_A];
-_clO = [Map_OPFOR_R,Map_OPFOR_G,Map_OPFOR_B,Map_OPFOR_A];
-_clI = [Map_Independent_R,Map_Independent_G,Map_Independent_B,Map_Independent_A];
-_clU = [Map_Unknown_R,Map_Unknown_G,Map_Unknown_B,Map_Unknown_A];
+private _clB = [Map_BLUFOR_R,Map_BLUFOR_G,Map_BLUFOR_B,Map_BLUFOR_A];
+private _clO = [Map_OPFOR_R,Map_OPFOR_G,Map_OPFOR_B,Map_OPFOR_A];
+private _clI = [Map_Independent_R,Map_Independent_G,Map_Independent_B,Map_Independent_A];
+private _clU = [Map_Unknown_R,Map_Unknown_G,Map_Unknown_B,Map_Unknown_A];
 
 
-if !(isNull leaderHQ) then
-	{
+if !(isNull leaderHQ) then {
 	_gp = group leaderHQ;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQ];
 	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
 	_gp setVariable ["RydHQ_CodeSign","A"];
 
-	if !(isNil ("HET_FA")) then
-		{
-		_gp setVariable ["RydHQ_Front",HET_FA]
-		}
+	if !(isNil ("HET_FA")) then {
+		_gp setVariable ["RydHQ_Front", HET_FA]
 	};
+};
 
 if !(isNull leaderHQB) then
 	{
