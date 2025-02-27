@@ -1,4 +1,6 @@
 #include "..\script_component.hpp"
+// Originally from HAL\Personality.sqf
+
 params ["_HQ"];
 
 private _signum = _HQ getVariable ["RydHQ_CodeSign", "X"];

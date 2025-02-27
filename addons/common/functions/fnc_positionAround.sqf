@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_RandomAround)
 
 //based on Muzzleflash' function
 params ["_pos", "_a"];

@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_GarrP)
 
 params ["_group", "_points", "_HQ"];
 

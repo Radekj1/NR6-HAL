@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_PosTowards2D)
 
 params ["_source", "_angle", "_distT"];
 

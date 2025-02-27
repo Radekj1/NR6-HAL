@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_WPdel)
 
 //used for deleting waypoints?
 //[_group] call RYD_WPdel

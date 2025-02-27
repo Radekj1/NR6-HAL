@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from HAC_fnc.sqf (RYD_AngTowards)
 
 params ["_source", "_target", "random"];
 

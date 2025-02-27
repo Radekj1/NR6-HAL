@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+// Originally from RydHQInit.sqf
 
 params ["_logic", "_units", "_activated"];
 
