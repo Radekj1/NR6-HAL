@@ -19,7 +19,7 @@ private _minDistance = _reference distance _closest;
 // Check all objects in the array
 {
     private _currentDistance = _reference distance _x;
-    
+
     // If we found a closer object, update the minimum
     if (_currentDistance < _minDistance) then {
         _minDistance = _currentDistance;
@@ -28,4 +28,4 @@ private _minDistance = _reference distance _closest;
 } forEach _objectsArray;
 
 // Return the closest object
-_closest 
+_closest

@@ -16,13 +16,13 @@
  * @return {String} Created marker name
  */
 params [
-    "_pos", 
-    "_ref", 
-    "_prefix", 
-    "_color", 
-    "_shape", 
-    "_type", 
-    "_defaultText", 
+    "_pos",
+    "_ref",
+    "_prefix",
+    "_color",
+    "_shape",
+    "_type",
+    "_defaultText",
     "_playerText",
     ["_size", [1, 1]],
     ["_dir", 0]
@@ -44,9 +44,9 @@ if (typeName _pos == "OBJECT") then {
 };
 
 // Validate position
-if (!(_pos isEqualType []) || 
-    count _pos < 2 || 
-    (_pos select 0) == 0 || 
+if (!(_pos isEqualType []) ||
+    count _pos < 2 ||
+    (_pos select 0) == 0 ||
     isNil "_pos") exitWith {""};
 
 // Create unique marker name
@@ -54,17 +54,17 @@ private _markerName = _prefix + (str _ref);
 private _marker = createMarker [_markerName, _pos];
 
 // Set marker properties
-_marker setMarkerColor _color;
-_marker setMarkerShape _shape;
+_marker setMarkerColorLocal _color;
+_marker setMarkerShapeLocal _shape;
 
 if (_shape == "ICON") then {
-    _marker setMarkerType _type;
+    _marker setMarkerTypeLocal _type;
 } else {
-    _marker setMarkerBrush _type;
+    _marker setMarkerBrushLocal _type;
 };
 
-_marker setMarkerSize _size;
-_marker setMarkerDir _dir;
+_marker setMarkerSizeLocal _size;
+_marker setMarkerDirLocal _dir;
 _marker setMarkerText _text;
 
 // Add to marker tracking array if it exists
@@ -73,4 +73,4 @@ if (!isNil "RydxHQ_Markers") then {
 };
 
 // Return marker name
-_marker 
+_marker

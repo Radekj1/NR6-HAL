@@ -15,4 +15,4 @@ private _radius = random _radiusMax;
 private _X = _radius * sin _angle;
 private _Y = _radius * cos _angle;
 
-[(_pos select 0) + _X, (_pos select 1) + _Y, 0] 
+[(_pos select 0) + _X, (_pos select 1) + _Y, 0]

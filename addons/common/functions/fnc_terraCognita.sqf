@@ -43,7 +43,7 @@ _groundGradient = _groundGradient / 10;
 // Analyze terrain features using selectBestPlaces
 {
     private _valueSum = 0;
-    
+
     // Take multiple samples for each terrain type to improve accuracy
     for "_i" from 1 to _samples do {
         // Use a small radius for each sample but randomize the center position
@@ -51,19 +51,19 @@ _groundGradient = _groundGradient / 10;
             _posX + (random (_radius/5)) - (_radius/10),
             _posY + (random (_radius/5)) - (_radius/10)
         ];
-        
+
         // Get the best place of this type in a small radius
         private _bestValue = selectBestPlaces [_sampleCenter, 5, _x, 1, 1];
-        
+
         // Extract the value from the result
         if (count _bestValue > 0) then {
             _valueSum = _valueSum + ((_bestValue select 0) select 1);
         };
     };
-    
+
     // Calculate average value for this terrain type
     private _average = _valueSum / _samples;
-    
+
     // Store in the appropriate variable
     switch (_x) do {
         case "Houses": { _urban = _urban + _average };
@@ -76,4 +76,4 @@ _groundGradient = _groundGradient / 10;
 } forEach ["Houses", "Trees", "Forest", "Hills", "Meadow", "Sea"];
 
 // Return combined terrain analysis
-[_urban, _forest, _hills, _flat, _sea, _groundGradient] 
+[_urban, _forest, _hills, _flat, _sea, _groundGradient]

@@ -22,4 +22,4 @@ if (_fireCount >= 2) exitWith {
 };
 
 // Increment the fire count
-_unit setVariable ["FireCount", _fireCount + 1]; 
+_unit setVariable ["FireCount", _fireCount + 1];

@@ -21,7 +21,7 @@ private _closestEnemyGroup = _enemyGroups select 0;
 // Find the closest enemy group and its distance
 {
     private _enemyDistance = (vehicle (leader _x)) distance _position;
-    
+
     if (_enemyDistance < _minimumDistance) then {
         _closestEnemyGroup = _x;
         _minimumDistance = _enemyDistance;
@@ -34,4 +34,4 @@ if (_minimumDistance < _maxDistance) then {
 };
 
 // Return result array with all information
-[_enemyIsClose, _minimumDistance, _closestEnemyGroup] 
+[_enemyIsClose, _minimumDistance, _closestEnemyGroup]

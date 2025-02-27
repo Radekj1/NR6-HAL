@@ -12,11 +12,11 @@
  * @return {Boolean} True if line of sight is clear, false otherwise
  */
 params [
-    "_pos1", 
-    "_pos2", 
-    "_height1", 
-    "_height2", 
-    ["_ignoreObject", objNull], 
+    "_pos1",
+    "_pos2",
+    "_height1",
+    "_height2",
+    ["_ignoreObject", objNull],
     ["_ignoreObject2", objNull]
 ];
 
@@ -42,4 +42,4 @@ if (_isLOS) then {
     _isLOS = !lineIntersects [_checkPos1, _checkPos2, _ignoreObject, _ignoreObject2];
 };
 
-_isLOS 
+_isLOS

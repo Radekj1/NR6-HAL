@@ -25,4 +25,4 @@ private _enemyIsClose = false;
 } forEach _enemyGroups;
 
 // Return the result
-_enemyIsClose 
+_enemyIsClose

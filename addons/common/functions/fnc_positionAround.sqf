@@ -13,4 +13,4 @@ private _mag = sqrt ((random _a) * _a);
 private _nX = _mag * (sin _dir);
 private _nY = _mag * (cos _dir);
 
-[_xPos + _nX, _yPos + _nY, 0]	
+[_xPos + _nX, _yPos + _nY, 0]

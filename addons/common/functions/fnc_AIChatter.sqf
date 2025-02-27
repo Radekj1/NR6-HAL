@@ -61,7 +61,7 @@ private _shouldExit = false;
 if (_lastKind isEqualTo _messageType) then {
     private _chatRepetitions = missionNamespace getVariable ["HAC_AIChatRep" + _varSuffix, 0];
     private _repetitionExitChance = round (random 2);
-    
+
     if (_chatRepetitions >= _repetitionExitChance) then {
         if ((random 100) < (90 + _chatRepetitions)) then {
             _shouldExit = true;
@@ -89,11 +89,11 @@ if (missionNamespace getVariable ["RydHQ_ChatDebug", false]) then {
     // Select marker color and type based on message category
     private _color = "ColorGrey";
     private _type = "mil_warning";
-    
+
     if (_messageType in ["ArtyReq", "SmokeReq", "IllumReq", "SuppReq", "MedReq"]) then {
         _type = "mil_unknown";
     };
-    
+
     switch (true) do {
         case (_messageType in ["OffStance", "DefStance", "OrdConf", "OrdFinal", "OrdEnd", "ArtFire"]): {
             _color = "Color4_FD_F"; // light blue
@@ -114,31 +114,31 @@ if (missionNamespace getVariable ["RydHQ_ChatDebug", false]) then {
             _color = "ColorRed";
         };
     };
-    
+
     // Get the translated sentence text
     private _sentenceText = getText (configFile >> "CfgRadio" >> _sentence >> "title");
-    
+
     // Add the unit's group name to the marker text
     private _who = groupId (group _unit);
-    
+
     // Create the marker
     private _marker = [(getPosATL _unit), _unit, "markChatter" + (str (random 10)), _color, "ICON", _type, _who + " : " + _sentenceText, "", [0.5, 0.5]] call FUNC(mark);
-    
+
     // Make the marker fade out after a delay
     [_marker] spawn {
         params ["_marker"];
-        
+
         private _alpha = 1;
-        
+
         sleep 27.5;
-        
+
         for "_i" from 1 to 20 do {
             _alpha = _alpha - 0.05;
             _marker setMarkerAlpha _alpha;
-            
+
             sleep 0.1;
         };
-        
+
         deleteMarker _marker;
     };
-}; 
+};

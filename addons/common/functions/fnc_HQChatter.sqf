@@ -49,4 +49,4 @@ if (isMultiplayer) then {
     [_commander, _message] remoteExecCall ["sideChat"];
 } else {
     _commander sideChat _message;
-}; 
+};

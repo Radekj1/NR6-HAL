@@ -8,10 +8,10 @@ params ["_group", "_points", "_HQ"];
     private _posAll = [];
     private _i = 0;
     private _posAct = _nHouse buildingPos _i;
-    
+
     while {((_posAct distance [0,0,0]) > 0)} do {
         _posAll pushBack _posAct;
-            
+
         _i = _i + 1;
         _posAct = _nHouse buildingPos _i;
     };
@@ -42,7 +42,7 @@ private _fnc_code = {
     waitUntil {
         sleep 20;
         _distance = 10000;
-        
+
         _alive = true;
         switch (true) do {
             case (isNull _group) : {_alive = false};
@@ -60,11 +60,11 @@ private _fnc_code = {
                 if  !(isNull _neareastEnemy) then {_distance = _neareastEnemy distance (vehicle _leader)}
             };
         };
-        
+
         (_distance < 500)
     };
 
     _group setVariable ["Garrisoned" + (str _group), false]
 };
-    
+
 [[_group, _HQ], _fnc_code] call RYD_Spawn

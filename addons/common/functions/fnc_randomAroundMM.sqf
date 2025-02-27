@@ -18,4 +18,4 @@ private _mag = _minRadius + (sqrt ((random _range) * _range));
 private _nX = _mag * sin _dir;
 private _nY = _mag * cos _dir;
 
-[(_pos select 0) + _nX, (_pos select 1) + _nY, 0] 
+[(_pos select 0) + _nX, (_pos select 1) + _nY, 0]

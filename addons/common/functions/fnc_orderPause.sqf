@@ -25,9 +25,9 @@ private _pauseDuration = 3 + (random 1.5);
 // Wait until enough time has passed since last order
 waitUntil {
     sleep 0.1;
-    
+
     private _lastOrderTime = _HQ getVariable ["RydHQ_MyLastOrder", 0];
-    
+
     ((time - _lastOrderTime) > _pauseDuration)
 };
 
@@ -40,4 +40,4 @@ if (missionNamespace getVariable ["RydxHQ_HQChat", false]) then {
 };
 
 // Always return true
-true 
+true

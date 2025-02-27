@@ -11,4 +11,4 @@
 private _isNight = (sunOrMoon - ((overcast/2)^(2 - overcast))) <= 0.15;
 
 // Return the result
-_isNight 
+_isNight

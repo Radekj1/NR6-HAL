@@ -18,4 +18,4 @@ _decoy setPosATL _pos;
 _decoy setObjectTexture [0, "#(ARGB,8,8,3)color(1,1,1,0,ca)"];
 
 // Return the created object
-_decoy 
+_decoy
