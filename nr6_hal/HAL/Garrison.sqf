@@ -61,9 +61,9 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 
 		if (not (isNull _AV) and not (_HQ getVariable ["RydHQ_GarrVehAb",false])) exitWith
 			{
-			_frm = "DIAMOND";
-			if (isPlayer (leader _unitG)) then {_frm = formation _unitG};
-			_wp = [_unitG,position (leader _unitG),"SENTRY","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_frm] call RYD_WPadd
+			_formation = "DIAMOND";
+			if (isPlayer (leader _unitG)) then {_formation = formation _unitG};
+			_wp = [_unitG,position (leader _unitG),"SENTRY","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_formation] call RYD_WPadd
 			};
 
 		_units = (units _unitG) - [leader _unitG]; 
@@ -245,9 +245,9 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 				}
 			else
 				{
-				_frm = "DIAMOND";
-				if (isPlayer (leader _unitG)) then {_frm = formation _unitG};
-				_wp = [_unitG,position (leader _unitG),"SENTRY","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_frm] call RYD_WPadd;
+				_formation = "DIAMOND";
+				if (isPlayer (leader _unitG)) then {_formation = formation _unitG};
+				_wp = [_unitG,position (leader _unitG),"SENTRY","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_formation] call RYD_WPadd;
 				}
 			}
 		};

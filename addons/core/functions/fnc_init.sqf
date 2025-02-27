@@ -1,6 +1,6 @@
 #include "..\script_component.hpp"
 
-params ["_logic", "", "_activated"];
+params ["_logic", "_units", "_activated"];
 
 if !(isServer) exitWith {};
 
@@ -114,15 +114,8 @@ _clB = [Map_BLUFOR_R,Map_BLUFOR_G,Map_BLUFOR_B,Map_BLUFOR_A];
 _clO = [Map_OPFOR_R,Map_OPFOR_G,Map_OPFOR_B,Map_OPFOR_A];
 _clI = [Map_Independent_R,Map_Independent_G,Map_Independent_B,Map_Independent_A];
 _clU = [Map_Unknown_R,Map_Unknown_G,Map_Unknown_B,Map_Unknown_A];
-/*
-RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 
-	{
-	_nouns = [_x] call RYD_RandomOrdB;
-	RydHQ_CallSignsN set [_foreachIndex,_nouns]
-	}
-foreach RydHQ_CallSignsN;
-*/
+
 if !(isNull leaderHQ) then
 	{
 	_gp = group leaderHQ;

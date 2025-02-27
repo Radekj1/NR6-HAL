@@ -674,10 +674,10 @@ _GDV = group _DAV;
 _alive = true;
 if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 	{
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "STAG COLUMN"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "STAG COLUMN"};
 
-	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
+	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_formation] call RYD_WPadd;
 	if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
 	if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG)) and not (_request)) then
@@ -714,8 +714,8 @@ if not (_task isEqualTo taskNull) then
 _beh = "AWARE";
 _spd = "NORMAL";
 //if (not (_enemy) and not (_halfway) and (((vehicle (leader _unitG)) distance _trg) > 1000) and not (_NeNMode)) then {_spd = "LIMITED";_beh = "SAFE"};
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 _cur = true;
 //if (RydxHQ_SynchroAttack) then {_cur = false};
 
@@ -723,11 +723,11 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if ((_halfway) and (_timer <= 30
 
 if not (_request) then {
 	if not (isPlayer (leader _unitG)) then {
-		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_formation] call RYD_WPadd;
 
 		} else {
 
-		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp = [_unitG,_trg,"SAD",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_formation] call RYD_WPadd;
 		_wp waypointAttachVehicle _trg;
 		};
 };

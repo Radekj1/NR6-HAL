@@ -157,10 +157,10 @@ if not (isNull _AV) then {
 
 _task = [(leader _unitG),["Take a defensive position and search for hostile targets.", "Scout The Area", ""],_DefPos,"scout"] call RYD_AddTask;
 
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "FILE"};_tp = "MOVE";
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "FILE"};_tp = "MOVE";
 
-_wp = [_unitG,_DefPos,_tp,"AWARE","GREEN","FULL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,_DefPos,_tp,"AWARE","GREEN","FULL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
@@ -186,10 +186,10 @@ if ((_unitG in ((_HQ getVariable ["RydHQ_CargoG",[]]) - ((_HQ getVariable ["RydH
 	(units _unitG) orderGetIn false
 	};
 */
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
-_wp = [_unitG,_DefPos,"SENTRY","STEALTH","YELLOW","FULL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,_DefPos,"SENTRY","STEALTH","YELLOW","FULL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 _TED = getPosATL (leader _HQ);
 

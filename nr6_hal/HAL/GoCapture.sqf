@@ -730,10 +730,10 @@ if (_BBProgN > _BBProg) exitWith
 _alive = true;
 if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 	{
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "STAG COLUMN"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "STAG COLUMN"};
 
-	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
+	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_formation] call RYD_WPadd;
 	if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
 	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
@@ -802,10 +802,10 @@ if not (_task isEqualTo taskNull) then
 _beh = "AWARE";
 _spd = "NORMAL";
 //if (not (_enemy) and not (_halfway) and (((vehicle (leader _unitG)) distance _Trg) > 1000) and not (_NeNMode)) then {_spd = "LIMITED";_beh = "SAFE"};
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
-_wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,100,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,100,[0,0,0],_formation] call RYD_WPadd;
 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};

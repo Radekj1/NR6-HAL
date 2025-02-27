@@ -279,9 +279,9 @@ if ((_ammo > 0) and not (_busy)) then
 	if (not (isNull _AV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]]))) then {_beh = "STEALTH"};
 	_TO = [0,0,0];
 	if ((isNull _AV) and (([_posXWP1,_posYWP1] distance _UL) > 1000)) then {_TO = [40, 45, 50]};
-	_frm = formation _grp;
-	if not (isPlayer (leader _grp)) then {_frm = "STAG COLUMN"};
-	_wp1 = [_grp,[_posXWP1,_posYWP1],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,_TO,_frm] call RYD_WPadd;
+	_formation = formation _grp;
+	if not (isPlayer (leader _grp)) then {_formation = "STAG COLUMN"};
+	_wp1 = [_grp,[_posXWP1,_posYWP1],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,_TO,_formation] call RYD_WPadd;
 
 	_DAV = assignedDriver _AV;
 	_OtherGroup = false;
@@ -340,10 +340,10 @@ if ((_ammo > 0) and not (_busy)) then
 	if (not (isNull _AV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]]))) then {_beh = "STEALTH"};
 	_TO = [0,0,0];
 	if ((isNull _AV) and (([_posXWP2,_posYWP2] distance _UL) > 1000)) then {_TO = [40, 45, 50]};
-	_frm = formation _grp;
-	if not (isPlayer (leader _grp)) then {_frm = "STAG COLUMN"};
+	_formation = formation _grp;
+	if not (isPlayer (leader _grp)) then {_formation = "STAG COLUMN"};
 
-	_wp2 = [_grp,[_posXWP2,_posYWP2],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,_TO,_frm] call RYD_WPadd;
+	_wp2 = [_grp,[_posXWP2,_posYWP2],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,_TO,_formation] call RYD_WPadd;
 
 	_DAV = assignedDriver _AV;
 	_OtherGroup = false;
@@ -424,8 +424,8 @@ if ((_ammo > 0) and not (_busy)) then
 	if (((group (assignedDriver _AV)) in (_HQ getVariable ["RydHQ_AirG",[]])) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]]))) then {_sts = ["true","(vehicle this) land 'GET OUT';deletewaypoint [(group this), 0]"]};
 	_TO = [0,0,0];
 	if ((isNull _AV) and (([_posXWP3,_posYWP3] distance _UL) > 1000)) then {_TO = [40, 45, 50]};
-	_frm = formation _grp;
-	if not (isPlayer (leader _grp)) then {_frm = "STAG COLUMN"};
+	_formation = formation _grp;
+	if not (isPlayer (leader _grp)) then {_formation = "STAG COLUMN"};
 	
 	_EDPos = _GDV getVariable "RydHQ_EDPos";
 	_posDis = [_posXWP3,_posYWP3];
@@ -437,7 +437,7 @@ if ((_ammo > 0) and not (_busy)) then
 		_posDis = _EDPos select 1
 		};
 
-	_wp3 = [_grp,_posDis,_tp,_beh,"GREEN","NORMAL",_sts,true,0,_TO,_frm] call RYD_WPadd;
+	_wp3 = [_grp,_posDis,_tp,_beh,"GREEN","NORMAL",_sts,true,0,_TO,_formation] call RYD_WPadd;
 
 	_DAV = assignedDriver _AV;
 	_OtherGroup = false;
@@ -544,10 +544,10 @@ if ((_ammo > 0) and not (_busy)) then
 	_beh = "AWARE";
 	_spd = "NORMAL";
 	//if (not (_enemy) and (((vehicle (leader _unitG)) distance [_posXWP4,_posYWP4]) > 1000)) then {_spd = "LIMITED";_beh = "SAFE"};
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
-	_wp4 = [_unitG,[_posXWP4,_posYWP4],"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,200,[0,0,0],_frm] call RYD_WPadd;
+	_wp4 = [_unitG,[_posXWP4,_posYWP4],"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,200,[0,0,0],_formation] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 	_timer = _cause select 0;

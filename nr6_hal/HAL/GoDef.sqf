@@ -172,11 +172,11 @@ _task = [(leader _unitG),["Take a defensive position at the designated coordinat
 
 _tp = "MOVE";
 
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "FILE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "FILE"};
 
-//_wp = [_unitG,_DefPos,_tp,"SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
-_wp = [_unitG,_DefPos,"SENTRY","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
+//_wp = [_unitG,_DefPos,_tp,"SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_formation] call RYD_WPadd;
+_wp = [_unitG,_DefPos,"SENTRY","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_formation] call RYD_WPadd;
 
 
 //if not ((_HQ getVariable ["RydHQ_Order","ATTACK"]) == "DEFEND") then {_unitG setVariable [("Busy" + _unitvar), false]};

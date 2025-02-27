@@ -1,6 +1,6 @@
 _SCRname = "EnemyScan";
 
-private ["_HQ","_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_frm","_code"];
+private ["_HQ","_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_formation","_code"];
 
 _HQ = _this select 0;
 
@@ -117,11 +117,11 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 					{
 					if not (isPlayer (leader _x)) then 
 						{
-						_frm = _x getVariable "FormChanged";
+						_formation = _x getVariable "FormChanged";
 
 						if (_danger > 0.005) then
 							{
-							if (isNil "_frm") then {_x setVariable ["FormChanged",[formation _x,behaviour (leader _x),speedMode _x]]};
+							if (isNil "_formation") then {_x setVariable ["FormChanged",[formation _x,behaviour (leader _x),speedMode _x]]};
 							if ((behaviour (leader _x)) in ["CARELESS","SAFE"]) then
 								{
 								_x setBehaviour "AWARE"
@@ -139,21 +139,21 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 							}
 						else
 							{
-							if not (isNil "_frm") then
+							if not (isNil "_formation") then
 								{
-								if not ((_frm select 1) == (behaviour (leader _x))) then
+								if not ((_formation select 1) == (behaviour (leader _x))) then
 									{
-									_x setBehaviour (_frm select 1);
+									_x setBehaviour (_formation select 1);
 									};
 
-								if not ((_frm select 2) == (speedMode _x)) then
+								if not ((_formation select 2) == (speedMode _x)) then
 									{
-									_x setSpeedMode (_frm select 2);
+									_x setSpeedMode (_formation select 2);
 									};
 
-								if not ((_frm select 0) == (formation _x)) then
+								if not ((_formation select 0) == (formation _x)) then
 									{
-									_x setFormation (_frm select 0)
+									_x setFormation (_formation select 0)
 									};
 
 								_x setVariable ["FormChanged",nil]

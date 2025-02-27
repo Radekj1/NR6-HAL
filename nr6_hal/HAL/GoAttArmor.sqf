@@ -151,8 +151,8 @@ if not (_task isEqualTo taskNull) then
 
 _cur = true;
 //if (RydxHQ_SynchroAttack) then {_cur = false};
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
@@ -165,11 +165,11 @@ _tPosY = (_tPosY + _posY)/2;
 
 if not (_request) then {
 	if not (isPlayer (leader _unitG)) then {
-		_wp = [_unitG,[_tPosX,_tPosY],"SAD","AWARE","RED","NORMAL",["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp = [_unitG,[_tPosX,_tPosY],"SAD","AWARE","RED","NORMAL",["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_formation] call RYD_WPadd;
 
 		} else {
 
-		_wp = [_unitG,_Trg,"SAD","AWARE","RED","NORMAL",["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_frm] call RYD_WPadd;
+		_wp = [_unitG,_Trg,"SAD","AWARE","RED","NORMAL",["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_formation] call RYD_WPadd;
 		_wp waypointAttachVehicle _Trg;
 		
 		};

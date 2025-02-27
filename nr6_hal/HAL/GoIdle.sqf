@@ -271,9 +271,9 @@ _busy = _cause select 3;
 if (not (_patrol) and not (_busy) and (_alive)) then 
 	{
 	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "DIAMOND"};
-	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_frm] call RYD_WPadd;
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "DIAMOND"};
+	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_formation] call RYD_WPadd;
 	};
 
 //if not (isNull _task) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};

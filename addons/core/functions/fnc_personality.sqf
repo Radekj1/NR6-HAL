@@ -1,9 +1,7 @@
 #include "..\script_component.hpp"
 params ["_HQ"];
 
-private _signum = _HQ getVariable ["RydHQ_CodeSign","X"];
-
-private _rnd = random 100;
+private _signum = _HQ getVariable ["RydHQ_CodeSign", "X"];
 
 //get personality type
 private _personality = _HQ getVariable ["RydHQ_Personality", "OTHER"];

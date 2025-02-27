@@ -695,10 +695,10 @@ if ((_halfway) and not (_IsAPlayer)) then
 	{
 	_beh = "AWARE";
 	if (_unitG in (_HQ getVariable ["RydHQ_RAirG",[]])) then {_beh = "STEALTH"};
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "STAG COLUMN"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "STAG COLUMN"};
 
-	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 //	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
@@ -719,12 +719,12 @@ if ((_HQ getVariable ["RydHQ_UAVAlt",150]) > 0) then
 
 _beh = "AWARE";
 if (_unitG in (_HQ getVariable ["RydHQ_RAirG",[]])) then {_beh = "STEALTH"};
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((_halfway) and (_timer <= 30)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
-_wp = [_unitG,[_posX,_posY],"SAD",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,[_posX,_posY],"SAD",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 //_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
@@ -742,10 +742,10 @@ if (_unitG in (_HQ getVariable ["RydHQ_FOG",[]])) then
 	{
 	_beh = "STEALTH";
 	if (_unitG in (_HQ getVariable ["RydHQ_RAirG",[]])) then {_beh = "STEALTH"};
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 
-	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 	_enRg = 150;

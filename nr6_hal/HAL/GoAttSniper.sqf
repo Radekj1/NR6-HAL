@@ -234,10 +234,10 @@ sleep 5;
 _alive = true;
 if (_halfway) then
 	{
-	_frm = formation _unitG;
-	if not (isPlayer (leader _unitG)) then {_frm = "STAG COLUMN"};
+	_formation = formation _unitG;
+	if not (isPlayer (leader _unitG)) then {_formation = "STAG COLUMN"};
 
-	_wp = [_unitG,[_posX,_posY],"MOVE","STEALTH","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
+	_wp = [_unitG,[_posX,_posY],"MOVE","STEALTH","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 
 	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
@@ -265,15 +265,15 @@ if not (_task isEqualTo taskNull) then
 		
 	};
 
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
 _unitG enableAttack false; 
 _cur = true;
 //if (RydxHQ_SynchroAttack) then {_cur = false};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
-_wp = [_unitG,getPosATL (vehicle (leader _unitG)),"SENTRY","STEALTH","RED","NORMAL",["true",""],_cur,0.001,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,getPosATL (vehicle (leader _unitG)),"SENTRY","STEALTH","RED","NORMAL",["true",""],_cur,0.001,[0,0,0],_formation] call RYD_WPadd;
 
 _fEH = (leader _unitG) addEventHandler ["Fired",{[_this,RYD_FireCount] call RYD_Spawn}];
 (leader _unitG) setVariable ["HAC_FEH",_fEH];
@@ -310,10 +310,10 @@ _sPosY = _Spos select 1;
 _wPosX = (_sPosX + _posX)/2;
 _wPosY = (_sPosY + _posY)/2;
 
-_frm = formation _unitG;
-if not (isPlayer (leader _unitG)) then {_frm = "DIAMOND"};
+_formation = formation _unitG;
+if not (isPlayer (leader _unitG)) then {_formation = "DIAMOND"};
 
-_wp = [_unitG,[_wPosX,_wPosY],"MOVE","STEALTH","GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
+_wp = [_unitG,[_wPosX,_wPosY],"MOVE","STEALTH","GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_formation] call RYD_WPadd;
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 _cause = [_unitG,6,true,0,300,[],false] call RYD_Wait;
 _timer = _cause select 0;
