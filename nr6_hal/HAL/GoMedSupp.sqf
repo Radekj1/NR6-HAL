@@ -23,7 +23,7 @@ _amb = assignedVehicle (leader (_unitG));
 
 _amb disableAI "TARGET";_amb disableAI "AUTOTARGET";
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 (group (assignedDriver _unit)) setVariable [("Deployed" + (str (group (assignedDriver _unit)))),false,true];
 _unitvar = str (_unitG);
@@ -43,7 +43,7 @@ while {((_isWater) and (_cnt <= 20))} do
 	_isWater = surfaceIsWater [_posX,_posY];
 	_cnt = _cnt + 1;
 	};
-	
+
 [_unitG,[_posX,_posY,0],"HQ_ord_medS",_HQ] call RYD_OrderPause;
 
 _alive = false;
@@ -54,7 +54,7 @@ _UL = leader _unitG;
 
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markMedSupp","ColorKhaki","ICON","waypoint","MED " + (groupId _unitG) + " "  + _signum," - MEDICAL SUPPORT",[0.5,0.5]] call RYD_Mark
@@ -70,15 +70,15 @@ if (_request) then {
 	[_amb,"Medical"] remoteExecCall ["RYD_ReqLogistics_Actions"];
 
 	_amb setVariable ["HAL_Requested",true,true];
-	
+
 };
 
 while {(_counter <= 3)} do
 	{
-	
-	[_unitG] call RYD_WPdel;
 
-	if not (_counter == 0) then 
+	[_unitG] call CBA_fnc_clearWaypoints;
+
+	if not (_counter == 0) then
 		{
 		_posX = ((position _unit) select 0) + (random 100) -  50;
 		_posY = ((position _unit) select 1) + (random 100) -  50;
@@ -95,9 +95,9 @@ while {(_counter <= 3)} do
 			_cnt = _cnt + 1;
 			};
 
-		if not (_task isEqualTo taskNull) then 
+		if not (_task isEqualTo taskNull) then
 			{
-			
+
 			[_task,(leader _unitG),["Provide medical attention to nearby troops.", "Provide Medical Support", ""],[_posX,_posY],"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
 			}
 		};
@@ -115,29 +115,29 @@ while {(_counter <= 3)} do
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitWith 
+	if not (_alive) exitWith
 		{
-		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 			{
 			deleteMarker ("markMedSupp" + str (_unitG))
 			};
-			
+
 		_MedPoints = _MedPoints - [_Trg];
 		_HQ setVariable ["RydHQ_MedPoints",_MedPoints];
 		_unitG setVariable [("Busy" + _unitvar), false];
 		_amb setVariable ["HAL_Requested",false,true];
 		};
-		
-	if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1}; 
+
+	if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1};
 
 	if ((RydxHQ_MagicHeal) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x call ace_medical_treatment_fnc_fullHealLocal; if (isPlayer _x) then {"Medical Treatment Applied" remoteExec ["hint", _x]};}} forEach ((vehicle (leader _unitG)) nearEntities [["Man"], 25]);};
-	
+
 //	if ((_request) and ((_amb getVariable ["HAL_Requested",false]) or ((_amb distance _Trg) > 500))) then {_counter = 5};
 
 	if ((_request) and (_amb getVariable ["HAL_Requested",false]) and ((_amb distance _Trg) < 500)) then {_counter = 0};
 
 	if ((_request) and not (_amb getVariable ["HAL_Requested",false])) then {_counter = 5};
-	
+
 	_UL = leader _unitG;if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
 	if (((damage _Trg) < 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (_this select 1)))) then {_wounded = _wounded - [_Trg]};
@@ -146,18 +146,18 @@ while {(_counter <= 3)} do
 if (_request) then {[_amb] remoteExecCall ["RYD_ReqLogisticsDelete_Actions"]};
 _amb setVariable ["HAL_Requested",false,true];
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markMedSupp" + str (_unitG))
 		};
-		
+
 	_MedPoints = _MedPoints - [_Trg];
 	_HQ setVariable ["RydHQ_MedPoints",_MedPoints];
 	_unitG setVariable [("Busy" + _unitvar), false];
 	};
-	
+
 [_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];
 
 _tp = "MOVE";
@@ -183,19 +183,19 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	_alive = _cause select 1;
 };
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markMedSupp" + str (_unitG))
 		};
-		
+
 	_MedPoints = _MedPoints - [_Trg];
 	_HQ setVariable ["RydHQ_MedPoints",_MedPoints];
 	_unitG setVariable [("Busy" + _unitvar), false];
 	};
-	
-if (_timer > 24) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle _UL), 0]}; 
+
+if (_timer > 24) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle _UL), 0]};
 
 _MedPoints = _MedPoints - [_Trg];
 _HQ setVariable ["RydHQ_MedPoints",_MedPoints];
@@ -213,7 +213,7 @@ _lastOne = true;
 	}
 forEach _wounded;
 
-if (_lastOne) then 
+if (_lastOne) then
 	{
 	_mSupp = _HQ getVariable ["RydHQ_SupportedG",[]];
 	_mSupp = _mSupp - [(group _Trg)];

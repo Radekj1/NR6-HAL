@@ -2,7 +2,7 @@ _SCRname = "GoDefRecon";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 _DefPos = _this select 1;
 _angleV = _this select 2;
 _HQ = _this select 3;
@@ -25,38 +25,38 @@ if (_busy) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 
 
 /*
-if (_busy) then 
+if (_busy) then
 	{
 	_unitG setVariable ["RydHQ_MIA",true];
 	_ct = time;
-	
+
 	waitUntil
 		{
 		sleep 0.1;
-		
+
 		switch (true) do
 			{
 			case (isNull (_unitG)) : {_alive = false};
 			case (({alive _x} count (units _unitG)) < 1) : {_alive = false};
 			case ((time - _ct) > 300) : {_alive = false};
 			};
-			
+
 		_MIApass = false;
 		if (_alive) then
 			{
 			_MIAPass = not (_unitG getVariable ["RydHQ_MIA",false]);
 			};
-			
-		(not (_alive) or (_MIApass))	
+
+		(not (_alive) or (_MIApass))
 		}
 	};
 */
 
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _attackAllowed = attackEnabled _unitG;
-_unitG enableAttack false; 
+_unitG enableAttack false;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 _unitG setVariable [("Busy" + _unitvar), true];
@@ -68,7 +68,7 @@ _AV = assignedVehicle _UL;
 _DAV = assignedDriver _AV;
 _GDV = group _DAV;
 
-if not (isNull _AV) then { 
+if not (isNull _AV) then {
 
 	{
 		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
@@ -83,7 +83,7 @@ _isWater = surfaceIsWater _DefPos;
 
 while {((_isWater) and ((leader _HQ) distance _DefPos >= 10))} do
 	{
-	_PosX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
+	_PosX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2;
 	_PosY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
 	_DefPos = [_posX,_posY]
 	};
@@ -114,13 +114,13 @@ if not (isNull _nE) then
 
 		_CFF = false;
 
-		if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then 
+		if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then
 			{
 			_CFF = ([_pos,(_HQ getVariable ["RydHQ_ArtG",[]]),"SMOKE",9,_UL] call RYD_ArtyMission) select 0;
 			if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SmokeReq,"SmokeReq"] call RYD_AIChatter}};
 			};
 
-		if (_CFF) then 
+		if (_CFF) then
 			{
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter}};
 			sleep 60
@@ -137,18 +137,18 @@ if not (isNull _nE) then
 	};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [_DefPos,_unitG,"markDef","ColorBrown","ICON","waypoint","REC " + (groupId _unitG) + " " + _signum," - WATCH FOREGROUND",[0.5,0.5]] call RYD_Mark
 	};
-	
+
 _AV = assignedVehicle _UL;
 
-if not (isNull _AV) then { 
+if not (isNull _AV) then {
 
 	{
 		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
@@ -166,13 +166,13 @@ if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),tru
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _alive = _cause select 1;
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + str (_unitG))
 		};
-		
+
 	_RecDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 	_RecDefSpot = _RecDefSpot - [_unitG];
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -180,7 +180,7 @@ if not (_alive) exitWith
 	_HQ setVariable ["RydHQ_RecDefSpot",_RecDefSpot]
 	};
 /*
-if ((_unitG in ((_HQ getVariable ["RydHQ_CargoG",[]]) - ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - (_HQ getVariable ["RydHQ_NCCargoG",[]]))))) or (not (isNull _AV) and not (_unitG == (group (assigneddriver _AV))))) then 
+if ((_unitG in ((_HQ getVariable ["RydHQ_CargoG",[]]) - ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - (_HQ getVariable ["RydHQ_NCCargoG",[]]))))) or (not (isNull _AV) and not (_unitG == (group (assigneddriver _AV))))) then
 	{
 	(units _unitG) allowGetIn false;
 	(units _unitG) orderGetIn false
@@ -201,7 +201,7 @@ _posY = ((getPosATL (leader _HQ)) select 1) + _dY + (random 2000) - 1000;
 
 _TED = [_posX,_posY];
 
-if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [_TED,_unitG,"markWatch","Default","ICON","waypoint", (groupId _unitG) + _signum,_signum,[0.2,0.2]] call RYD_Mark
@@ -220,22 +220,22 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChat
 
 _alive = true;
 /*
-waituntil 
+waituntil
 	{
 	sleep 10;
 	_endThis = false;
-	
+
 	switch (true) do
 		{
 		case not (_unitG getVariable "Defending") : {_endThis = true};
 		case (isNull _unitG) : {_endThis = true;_alive = false};
 		case (({alive _x} count (units _unitG)) < 1) : {_endThis = true;_alive = false};
-		};	
-	
+		};
+
 	(_endThis)
 	};
 */
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markDef" + _unitVar);deleteMarker ("markWatch" + _unitVar)};
 	_RecDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];

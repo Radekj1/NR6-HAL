@@ -23,7 +23,7 @@ _cis = _unit;
 
 _cis disableAI "TARGET";_cis disableAI "AUTOTARGET";
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 (group (assignedDriver _unit)) setVariable [("Deployed" + (str (group (assignedDriver _unit)))),false,true];
 _unitvar = str (_unitG);
@@ -43,7 +43,7 @@ while {((_isWater) and (_cnt <= 20))} do
 	_isWater = surfaceIsWater [_posX,_posY];
 	_cnt = _cnt + 1;
 	};
-	
+
 [_unitG,[_posX,_posY,0],"HQ_ord_fuelS",_HQ] call RYD_OrderPause;
 
 _alive = false;
@@ -54,7 +54,7 @@ _UL = leader _unitG;
 
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markFuelSupp","ColorKhaki","ICON","waypoint","REFUEL " + (groupId _unitG) + " " + _signum," - REFUEL",[0.5,0.5]] call RYD_Mark
@@ -70,14 +70,14 @@ if (_request) then {
 	[_cis,"Fuel"] remoteExecCall ["RYD_ReqLogistics_Actions"];
 
 	_cis setVariable ["HAL_Requested",true,true];
-	
+
 };
 
 while {(_counter <= 3)} do
 	{
-	[_unitG] call RYD_WPdel;
+	[_unitG] call CBA_fnc_clearWaypoints;
 
-	if not (_counter == 0) then 
+	if not (_counter == 0) then
 		{
 		_posX = ((position _unit) select 0) + (random 100) -  50;
 		_posY = ((position _unit) select 1) + (random 100) -  50;
@@ -94,9 +94,9 @@ while {(_counter <= 3)} do
 			_cnt = _cnt + 1;
 			};
 
-		if not (_task isEqualTo taskNull) then 
+		if not (_task isEqualTo taskNull) then
 			{
-			
+
 			[_task,(leader _unitG),["Deliver Fuel.", "Provide Refueling Services", ""],[_posX,_posY],"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
 			}
 		};
@@ -125,19 +125,19 @@ while {(_counter <= 3)} do
 
 	};
 
-	if not (_alive) exitWith 
+	if not (_alive) exitWith
 		{
-		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 			{
 			deleteMarker ("markFuelSupp" + str (_unitG))
 			};
-			
+
 		_FuelPoints = _FuelPoints - [_Trg];
 		_HQ setVariable ["RydHQ_FuelPoints",_FuelPoints];
 		_unitG setVariable [("Busy" + _unitvar), false];
 		_cis setVariable ["HAL_Requested",false,true];
 		};
-		
+
 	if (_timer > 24) then {_counter = _counter + 1;[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];} else {_counter = _counter + 1};
 
 	if ((RydxHQ_MagicRefuel) and (_timer <= 24)) then { {if (((side _x) getFriend (side _unitG)) >= 0.6) then {_x setFuel 1; if (isPlayer _x) then {"Vehicle Refueled" remoteExec ["hint", _x]};}} forEach ((vehicle (leader _unitG)) nearEntities [["Air", "LandVehicle"], 100]);};
@@ -148,7 +148,7 @@ while {(_counter <= 3)} do
 
 	if ((_request) and not (_cis getVariable ["HAL_Requested",false])) then {_counter = 5};
 
-	_UL = leader _unitG;if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}}; 
+	_UL = leader _unitG;if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
 	if (((fuel _Trg) > 0.1) or ((damage _Trg) >= 0.9) or (isNull (group (assignedDriver (_this select 1))))) then {_dried = _dried - [_Trg]};
 	};
@@ -156,18 +156,18 @@ while {(_counter <= 3)} do
 if (_request) then {[_cis] remoteExecCall ["RYD_ReqLogisticsDelete_Actions"]};
 _cis setVariable ["HAL_Requested",false,true];
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markFuelSupp" + str (_unitG))
 		};
-		
+
 	_FuelPoints = _FuelPoints - [_Trg];
 	_HQ setVariable ["RydHQ_FuelPoints",_FuelPoints];
 	_unitG setVariable [("Busy" + _unitvar), false];
 	};
-	
+
 [_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];
 
 _tp = "MOVE";
@@ -194,19 +194,19 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 };
 
 if (((_cis distance _Trg) < 50) and ((fuel _Trg) == 0)) then {_Trg setFuel 0.09};
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markFuelSupp" + str (_unitG))
 		};
-		
+
 	_FuelPoints = _FuelPoints - [_Trg];
 	_HQ setVariable ["RydHQ_FuelPoints",_FuelPoints];
 	_unitG setVariable [("Busy" + _unitvar), false];
 	};
-	
-if (_timer > 24) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle _UL), 0]}; 
+
+if (_timer > 24) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle _UL), 0]};
 
 _FuelPoints = _FuelPoints - [_Trg];
 _HQ setVariable ["RydHQ_FuelPoints",_FuelPoints];
@@ -224,7 +224,7 @@ _lastOne = true;
 	}
 forEach _dried;
 
-if (_lastOne) then 
+if (_lastOne) then
 	{
 	_fSupp = _HQ getVariable ["RydHQ_FSupportedG",[]];
 	_fSupp = _fSupp - [(group _Trg)];

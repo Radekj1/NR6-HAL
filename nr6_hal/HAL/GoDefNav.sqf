@@ -2,7 +2,7 @@ _SCRname = "GoDefNav";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 _Spot = _this select 1;
 _HQ = _this select 2;
 
@@ -23,7 +23,7 @@ if (_busy) exitWith {_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 	};
 
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];
@@ -54,10 +54,10 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 _UL = leader _unitG;
 
 _nE = _UL findNearestEnemy _UL;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [_DefPos,_unitG,"markDef","ColorWhite","ICON","waypoint","DEFR " + (groupId _unitG) + " " + _signum," - DEFEND POSITION",[0.5,0.5]] call RYD_Mark
@@ -88,7 +88,7 @@ _posY = ((getPosATL (leader _HQ)) select 1) + _dY + (random 2000) - 1000;
 
 _TED = [_posX,_posY];
 
-if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [_TED,_unitG,"markWatch","Default","ICON","waypoint", (groupId _unitG) + " " + _signum,_signum,[0.2,0.2]] call RYD_Mark
@@ -117,7 +117,7 @@ waitUntil
 	sleep 5;
 
 //	if not ((_HQ getVariable ["RydHQ_Order","ATTACK"]) == "DEFEND") then {_unitG setVariable [("Busy" + _unitvar), false];} else {_unitG setVariable [("Busy" + _unitvar), true];};
-	
+
 	if (abs (speed (vehicle (leader _unitG))) < 0.05) then {_timer = _timer + 5};
 
 	if ((isNull _unitG) or (isNull _HQ)) then {_endThis = true;_alive = false} else {if not (_unitG getVariable "Defending") then {_endThis = true}};
@@ -132,9 +132,9 @@ waitUntil
 	(_endThis)
 	};
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + _unitVar);
 		};

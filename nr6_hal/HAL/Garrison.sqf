@@ -30,10 +30,10 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 
 	_busy = _unitG getVariable ("Busy" + (str _unitG));
 	if (isNil "_busy") then {_busy = false};
-	
+
 	if (not (_garrisoned) and not (_NOgarrisoned) and not (RydxHQ_GarrisonV2) and not (_Unable) and not (_busy)) then
 		{
-		[_unitG] call RYD_WPdel;
+		[_unitG] call CBA_fnc_clearWaypoints;
 
 		_unitG setVariable ["Garrisoned" + (str _unitG),true];
 
@@ -45,7 +45,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 
 		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 			{
 			_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 			_i = [_pos,_unitG,"markGarrison","ColorBrown","ICON","mil_box","Garr " + _signum," - GARRISON",[0.5,0.5]] call RYD_Mark;
@@ -66,7 +66,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			_wp = [_unitG,position (leader _unitG),"SENTRY","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_formation] call RYD_WPadd
 			};
 
-		_units = (units _unitG) - [leader _unitG]; 
+		_units = (units _unitG) - [leader _unitG];
 
 		if not (isPlayer _UL) then
 			{
@@ -74,27 +74,27 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			_staticWeapons = [];
 
 				{
-				if ((_x emptyPositions "gunner") > 0) then 
+				if ((_x emptyPositions "gunner") > 0) then
 					{
-					_staticWeapons pushBack _x;	
+					_staticWeapons pushBack _x;
 					};
-				} 
+				}
 			forEach _list;
 
 				{
-				if ((count _units) > 0) then 
+				if ((count _units) > 0) then
 					{
 					_unit = (_units select ((count _units) - 1));
 
-					if (((random 1) > 0.1) and not ((toLower (typeOf _unit)) in _recArr)) then 
+					if (((random 1) > 0.1) and not ((toLower (typeOf _unit)) in _recArr)) then
 						{
 						_unit assignAsGunner _x;
 						[_unit] orderGetIn true;
-						
+
 						_units resize ((count _units) - 1)
 						}
 					}
-				} 
+				}
 			forEach _staticWeapons;
 
 			_Bldngs = _pos nearObjects ["House",300 * _garrRange];
@@ -109,7 +109,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 				if not (isNull _Bldg) then
 					{
 					_posAct = _Bldg buildingPos 0;
-					_j = 0;	
+					_j = 0;
 					while {((_posAct distance [0,0,0]) > 0)} do
 						{
 						_tkn = false;
@@ -135,12 +135,12 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 								}
 							forEach _posTaken;
 
-							if not (_tkn) then 
+							if not (_tkn) then
 								{
 								_posAll pushBack [_posAct,_Bldg]
 								}
 							};
-							
+
 						_j = _j + 1;
 						_posAct = _Bldg buildingPos _j;
 						}
@@ -184,7 +184,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 								}
 							forEach _posTaken;
 
-							if not (_tkn) then 
+							if not (_tkn) then
 								{
 								_posAll set [_ix,0];
 								_posAll = _posAll - [0];
@@ -213,23 +213,23 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 						{
 						_isGood = false
 						};
-						
+
 					if (_isGood) then
-						{								
+						{
 						for "_i" from 0 to ((count _patrolPos) - 1) do
 							{
 							_pPos = _patrolPos select _i;
 							_dst = _pPos distance _pA;
 							if (_dst > 0.1) then
 								{
-								if (_dst < 16) then 
+								if (_dst < 16) then
 									{
 									_isGood = false
 									}
 								};
 							}
 						};
-						
+
 					if (_isGood) then
 						{
 						_patrolPos pushBack _pA;
@@ -237,8 +237,8 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 					}
 				}
 			forEach _posAll0;
-			
-			if ((count _patrolPos) > 1) then 
+
+			if ((count _patrolPos) > 1) then
 				{
 				//[_unitG,_patrolPos,_HQ] spawn RYD_GarrP
 				[[_unitG,_patrolPos,_HQ],RYD_GarrP] call RYD_Spawn;
@@ -268,9 +268,9 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			waitUntil {sleep 1; not (_unitG getVariable ["Break",false])};
 		};
 
-		[_unitG] call RYD_WPdel;
+		[_unitG] call CBA_fnc_clearWaypoints;
 
-		if (_HQ getVariable ["RydHQ_Debug",false]) then 
+		if (_HQ getVariable ["RydHQ_Debug",false]) then
 			{
 			_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 			_i = [_pos,_unitG,"markGarrison","ColorBlack","ICON","mil_box","GARR " + (groupId _unitG) + " " + _signum," - GARRISON",[0.5,0.5]] call RYD_Mark;
@@ -279,6 +279,6 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 		_task = [(leader _unitG),["Setup Garrison", "Setup a garrison and defend the area.", ""],(getPosATL (leader _unitG)),"defend"] call RYD_AddTask;
 
 		[_unitG,_pos,150,1,0.5,0,false] remoteExecCall ["NR6_fnc_CBA_Defend",(leader _unitG)];
-	
+
 		}
 	};

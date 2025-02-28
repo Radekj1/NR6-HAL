@@ -17,33 +17,33 @@ if (isNil ("_busy")) then {_busy = false};
 
 _alive = true;
 
-if (_busy) then 
+if (_busy) then
 	{
 	_unitG setVariable ["RydHQ_MIA",true];
 	_ct = time;
-	
+
 	waitUntil
 		{
 		sleep 0.1;
-		
+
 		switch (true) do
 			{
 			case (isNull (_unitG)) : {_alive = false};
 			case (({alive _x} count (units _unitG)) < 1) : {_alive = false};
 			case ((time - _ct) > 300) : {_alive = false};
 			};
-			
+
 		_MIApass = false;
 		if (_alive) then
 			{
 			_MIAPass = not (_unitG getVariable ["RydHQ_MIA",false]);
 			};
-			
-		(not (_alive) or (_MIApass))	
+
+		(not (_alive) or (_MIApass))
 		}
 	};
-			
-[_unitG] call RYD_WPdel;
+
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];
 _unitG setVariable [("Capt" + (str _unitG)),false];
@@ -56,7 +56,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 _plane = vehicle _UL;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
 _endThis = false;
@@ -64,7 +64,7 @@ _alive = true;
 
 
 _DefPos = [((getPosATL _Spot) select 0) + (random 1000) - 500,((getPosATL _Spot) select 1) + (random 1000) - 500];
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [_DefPos,_unitG,"markDef","ColorBrown","ICON","waypoint","CAP " + (groupId _unitG) + " " + _signum," - DEFEND AREA",[0.5,0.5]] call RYD_Mark
@@ -97,13 +97,13 @@ waitUntil
 	(_endThis)
 	};
 
-if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith 
+if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + _unitVar);
 		};
-		
+
 	_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
 	_AirInDef = _AirInDef - [_unitG];
 	_HQ setVariable ["RydHQ_AirInDef",_AirInDef];
@@ -113,13 +113,13 @@ if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith
 if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + _unitVar);
 		};
-		
+
 	_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
 	_AirInDef = _AirInDef - [_unitG];
 	_unitG setVariable ["Defending", false];
@@ -156,26 +156,26 @@ waitUntil
 	(_endThis)
 	};
 
-if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith 
+if (_unitG getVariable [("Busy" + _unitvar),false]) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + _unitVar);
 		};
-		
+
 	_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
 	_AirInDef = _AirInDef - [_unitG];
 	_HQ setVariable ["RydHQ_AirInDef",_AirInDef];
 	_unitG setVariable ["Defending", false];
 	};
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then
 		{
 		deleteMarker ("markDef" + (str _unitG))
 		};
-		
+
 	_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
 	_AirInDef = _AirInDef - [_unitG];
 	_unitG setVariable ["Defending", false];

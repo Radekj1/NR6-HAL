@@ -2,7 +2,7 @@ _SCRname = "GoAttNaval";
 
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 _Trg = _this select 1;
 _HQ = _this select 2;
 _request = false;
@@ -19,7 +19,7 @@ _busy = false;
 
 //if (_isAttacked > 1) exitwith {};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 
@@ -55,13 +55,13 @@ if (_request) then {
 	_posX = (_PosObj1 select 0) + (random 300) - 150;
 	_posY = (_PosObj1 select 1) + (random 300) - 150;
 };
-	
+
 [_unitG,[_posX,_posY,0],"HQ_ord_attackNaval",_HQ] call RYD_OrderPause;
 
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
 if (_HQ getVariable ["RydHQ_Debug",false]) then
@@ -80,8 +80,8 @@ if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 if (RydxHQ_SynchroAttack) then
 	{
 	if not (_request) then {[_wp,_Trg] call RYD_WPSync};
-	 
-	 
+
+
 	};
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
@@ -89,7 +89,7 @@ _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -100,9 +100,9 @@ if (_timer > 24) then {deleteWaypoint _wp};
 
 if not (_task isEqualTo taskNull) then
 	{
-	
+
 	[_task,(leader _unitG),["Engage the designated hostile ship(s). ROE: WEAPONS FREE.", "Engage Hostile Ship(s)"],(getPosATL _Trg),"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-		
+
 	};
 
 _cur = true;
@@ -127,7 +127,7 @@ if not (_request) then {
 
 		_wp = [_unitG,_Trg,"SAD","AWARE","RED","NORMAL",["true","deletewaypoint [(group this), 0];"],_cur,0,[0,0,0],_formation] call RYD_WPadd;
 		_wp waypointAttachVehicle _Trg;
-		
+
 		};
 };
 
@@ -136,7 +136,7 @@ _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -149,18 +149,18 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 
 	if not (_task isEqualTo taskNull) then
 		{
-		
+
 //		[_task,(leader _unitG),["Hold position and standby for further orders.", "Standby", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-			 
+
 		};
 
 if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leader _unitG))) then
 	{
 	if not (_task isEqualTo taskNull) then
 		{
-		
-		[_task,(leader _unitG),["Hold position and standby for further orders.", "Standby", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask; 
-			
+
+		[_task,(leader _unitG),["Hold position and standby for further orders.", "Standby", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
+
 		};
 	_wp = [_unitG,_Spos,"MOVE","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,5] call RYD_WPadd;
 

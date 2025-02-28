@@ -6,7 +6,7 @@ _unitG = _this select 0;
 _HQ = _this select 2;
 
 _Spos = _unitG getVariable ("START" + (str _unitG));
-if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 
 _Trg = _this select 1;
 
@@ -20,7 +20,7 @@ _request = false;
 
 //if (_isAttacked > 2) exitwith {};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 if (_isAttacked < 1) then {(group _Trg) setVariable [("SnpAttacked" + (str (group _Trg))),1,true]};
@@ -70,7 +70,7 @@ while {((_isWater) and (([_posX,_posY] distance _PosObj1) >= 50))} do
 
 _isWater = surfaceIsWater [_posX,_posY];
 
-if (_isWater) exitWith 
+if (_isWater) exitWith
 	{
 	_attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 	_attAv pushBack _unitG;
@@ -89,31 +89,31 @@ if (_cnt > 0) then
 
 	switch (true) do
 		{
-		case ((_rnd < 25) or (_cnt == 1)) : 
+		case ((_rnd < 25) or (_cnt == 1)) :
 			{
 			_posX = (_positions select 0) select 0;
 			_posY = (_positions select 0) select 1
 			};
 
-		case (((_rnd >= 25) and (_rnd < 45)) or (_cnt == 2)) : 
+		case (((_rnd >= 25) and (_rnd < 45)) or (_cnt == 2)) :
 			{
 			_posX = (_positions select 1) select 0;
 			_posY = (_positions select 1) select 1
 			};
 
-		case (((_rnd >= 45) and (_rnd < 60)) or (_cnt == 3)) : 
+		case (((_rnd >= 45) and (_rnd < 60)) or (_cnt == 3)) :
 			{
 			_posX = (_positions select 2) select 0;
 			_posY = (_positions select 2) select 1
 			};
 
-		case (((_rnd >= 60) and (_rnd < 70)) or (_cnt == 4)) : 
+		case (((_rnd >= 60) and (_rnd < 70)) or (_cnt == 4)) :
 			{
 			_posX = (_positions select 3) select 0;
 			_posY = (_positions select 3) select 1
 			};
 
-		default 
+		default
 			{
 			_posR = _positions select (floor (random (count _positions)));
 			_posX = _posR select 0;
@@ -121,16 +121,16 @@ if (_cnt > 0) then
 			};
 		}
 	};
-	
+
 [_unitG,[_posX,_posY,0],"HQ_ord_attackSnip",_HQ] call RYD_OrderPause;
 
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markAttack","ColorRed","ICON","waypoint","SNP " + (groupId _unitG) + " " + _signum," - ATTACK",[0.5,0.5]] call RYD_Mark
@@ -221,7 +221,7 @@ _timer = _cause select 0;
 _alive = _cause select 1;
 
 if (_timer > 300) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0];[_unitG] call RYD_ResetAI};
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -254,20 +254,20 @@ if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];[_T
 if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG))) then
 	{
 	[_wp,_Trg,_unitG,_HQ] call RYD_WPSync;
-	 
-	 
+
+
 	};
 
 if not (_task isEqualTo taskNull) then
 	{
-		 
+
 	[_task,(leader _unitG),["Take out the designated hostile targets", "Neutralize Hostile Targets", ""],(getPosATL _Trg),"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-		
+
 	};
 
 _formation = formation _unitG;
 if not (isPlayer (leader _unitG)) then {_formation = "WEDGE"};
-_unitG enableAttack false; 
+_unitG enableAttack false;
 _cur = true;
 //if (RydxHQ_SynchroAttack) then {_cur = false};
 
@@ -283,7 +283,7 @@ _cause = [_unitG,5,true,0,240,[],false,true,true,false,false,false,true] call RY
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-_unitG enableAttack true; 
+_unitG enableAttack true;
 _fEH = (leader _unitG) getVariable "HAC_FEH";
 (leader _unitG) setVariable ["FireCount",nil];
 
@@ -293,14 +293,14 @@ if not (isNil "_fEH") then
 	(leader _unitG) setVariable ["HAC_FEH",nil]
 	};
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	[_Trg,"SnpAttacked"] call RYD_VarReductor
 	};
 
-if (_timer > 240) then {[_unitG] call RYD_WPdel};
+if (_timer > 240) then {[_unitG] call CBA_fnc_clearWaypoints};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
 
@@ -324,10 +324,10 @@ if (_timer > 300) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [
 
 if not (_task isEqualTo taskNull) then
 	{
-	
+
 	[_task,(leader _unitG),["Withdraw.", "Withdraw", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-		 
-		
+
+
 	};
 
 _wp = [_unitG,_Spos,"MOVE","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,5] call RYD_WPadd;
@@ -340,12 +340,12 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 	{
 	if not (_task isEqualTo taskNull) then
 		{
-		
+
 		[_task,(leader _unitG),["Hold position and standby for further orders.", "Standby", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-			 
-		
+
+
 		};
-	
+
 	_wp = [_unitG,_Spos,"MOVE","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,5] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;

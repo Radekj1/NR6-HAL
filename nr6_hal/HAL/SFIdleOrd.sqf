@@ -31,7 +31,7 @@ _pos = getPosATL (vehicle (leader _HQ));
 	if not (_isBad) then
 		{
 		_unitG = _x;
-		[_unitG] call RYD_WPdel;
+		[_unitG] call CBA_fnc_clearWaypoints;
 
 		_pos = getPosATL (vehicle (leader _HQ));
 		_posX = (_pos select 0) + (random 200) - 100;
@@ -48,7 +48,7 @@ _pos = getPosATL (vehicle (leader _HQ));
 			_isWater = surfaceIsWater [_posX,_posY]
 			};
 
-		if not (_isWater) then 
+		if not (_isWater) then
 			{
 			_UL = leader _unitG;
 

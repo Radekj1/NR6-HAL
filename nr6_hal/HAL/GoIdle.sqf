@@ -1,6 +1,6 @@
 _SCRname = "GoIdle";
 
-_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_unitG = _this select 0;_Spos = _unitG getVariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 _pos = getPosATL (leader _unitG);
 _LU = leader _unitG;
 _VLU = vehicle _LU;
@@ -60,7 +60,7 @@ if (not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) and (_unitG in
 	_posY = (_tPos select 1) + (random 200) - 100;
 	};
 
-if not (_isDecoy) then 
+if not (_isDecoy) then
 	{
 	_safedist = 100/(0.75 + ((_HQ getVariable ["RydHQ_Recklessness",0.5])/2));
 	_behind = false;
@@ -103,21 +103,21 @@ if not (_isDecoy) then
 
 	_HQ setVariable ["RydHQ_Bpoint",_position];
 
-	if (not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]))) and ((random 100) >= 50) and ((_VLU distance [_Xpos,_Ypos]) > (_VLU distance (leader _HQ)))) then 
+	if (not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]))) and ((random 100) >= 50) and ((_VLU distance [_Xpos,_Ypos]) > (_VLU distance (leader _HQ)))) then
 		{
 		//_position = [((getPosATL (leader _HQ)) select 0) + (random 400) - 200,((getPosATL (leader _HQ)) select 1) + (random 400) - 200]
 		_position = [((getPosATL _VLU) select 0) + (random 200) - 100,((getPosATL _VLU) select 1) + (random 200) - 100]
 		}
 	else
 		{
-		if (not (_unitG in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))) and ((_VLU distance [_Xpos,_Ypos]) < (_VLU distance _obj)) and (_behind)) then 
+		if (not (_unitG in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))) and ((_VLU distance [_Xpos,_Ypos]) < (_VLU distance _obj)) and (_behind)) then
 			{
 			_position = [_Xpos + (random 400) - 200,_Ypos + (random 400) - 200];
 			_allowed = true;
 			}
 		else
 			{
-			if not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]))) then 
+			if not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]))) then
 				{
 				_position = [((getPosATL _VLU) select 0) + (random 200) - 100,((getPosATL _VLU) select 1) + (random 200) - 100]
 				};
@@ -130,7 +130,7 @@ if not (_isDecoy) then
 	_precision = 20;
 	_sourcesCount = 1;
 	_expression = "Meadow";
-	switch (true) do 
+	switch (true) do
 		{
 		case (_unitG in ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]]))) : {_expression = "(1 + (2 * Houses)) * (1 + (1.5 * Forest)) * (1 + Trees) * (1 - Meadow) * (1 - (10 * sea))"};
 		case (not (_unitG in ((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SupportG",[]])))) : {_expression = "(1 + (2 * Meadow)) * (1 - Forest) * (1 - (0.5 * Trees)) * (1 - (10 * sea)) * (1 - (2 * Houses))"};
@@ -147,11 +147,11 @@ if not (_isDecoy) then
 	if (isPlayer (leader _unitG)) then {_patrol = false};
 	_sec = false;
 
-	if  ((not (_unitG in (_HQ getVariable ["RydHQ_NCCargoG",[]])) or ((count (units _unitG)) > 1)) and not (_unitG in (_HQ getVariable ["RydHQ_SupportG",[]])) and ((_VLU distance _obj) > (_VLU distance (leader _HQ)))) then 
+	if  ((not (_unitG in (_HQ getVariable ["RydHQ_NCCargoG",[]])) or ((count (units _unitG)) > 1)) and not (_unitG in (_HQ getVariable ["RydHQ_SupportG",[]])) and ((_VLU distance _obj) > (_VLU distance (leader _HQ)))) then
 		{
 		_rnd = random 100;
 
-		switch (true) do 
+		switch (true) do
 			{
 			case ((_rnd > 50) and (_rnd <= 75)) : {if not (isNull (_HQ getVariable ["RydHQ_Sec1",objNull])) then {_posX = ((getPosATL (_HQ getVariable ["RydHQ_Sec1",objNull])) select 0) + (random 200) - 100;_posY = ((getPosATL (_HQ getVariable ["RydHQ_Sec1",objNull])) select 1) + (random 200) - 100};_sec = true};
 			case (_rnd > 75) : {if not (isNull (_HQ getVariable ["RydHQ_Sec2",objNull])) then {_posX = ((getPosATL (_HQ getVariable ["RydHQ_Sec2",objNull])) select 0) + (random 200) - 100;_posY = ((getPosATL (_HQ getVariable ["RydHQ_Sec2",objNull])) select 1) + (random 200) - 100};_sec = true};
@@ -160,7 +160,7 @@ if not (_isDecoy) then
 
 	_NR = _pos nearRoads 400;
 	_cnt = 0;
-	if (not (_patrol) and not (_sec) and not ((random 100) < (20/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) and not ((count _NR) == 0) and not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])))) then 
+	if (not (_patrol) and not (_sec) and not ((random 100) < (20/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) and not ((count _NR) == 0) and not (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])))) then
 		{
 		while {(true)} do
 			 {
@@ -181,14 +181,14 @@ _isWater = surfaceIsWater [_posX,_posY];
 
 if (_isWater) exitWith {_unitG setVariable [("Deployed" + (str _unitG)),false]};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 [_unitG,[_posX,_posY,0],"HQ_ord_idle",_HQ] call RYD_OrderPause;
 
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
 _i = "";
@@ -217,9 +217,9 @@ if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_sts = ["true", "{(vehi
 
 _wp = [_unitG,[_posX,_posY],_tp,"SAFE",_CM,_spd,_sts,true,0,[0,0,0],"STAG COLUMN"] call RYD_WPadd;
 
-if (_patrol) then 
+if (_patrol) then
 	{
-	[_unitG] call RYD_WPdel;
+	[_unitG] call CBA_fnc_clearWaypoints;
 
 	_firstpos = [_posX,_posY];
 	_Nway = (ceil (random 4)) + 2;
@@ -248,7 +248,7 @@ if (_patrol) then
 
 		_isWater = surfaceIsWater [_posX,_posY];
 
-		if not (_isWater) then 
+		if not (_isWater) then
 			{
 			_task = [(leader _unitG),["Patrol area.", "Patrol area", ""],[_posX,_posY],"walk"] call RYD_AddTask;
 
@@ -268,7 +268,7 @@ _timer = _cause select 0;
 _alive = _cause select 1;
 _busy = _cause select 3;
 
-if (not (_patrol) and not (_busy) and (_alive)) then 
+if (not (_patrol) and not (_busy) and (_alive)) then
 	{
 	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 	_formation = formation _unitG;
@@ -282,7 +282,7 @@ if not (_alive) exitWith {if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlay
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markIdle" + str (_unitG))};
 
-if (_alive) then 
+if (_alive) then
 	{
 	_cause = [_unitG,6,false,0,0,[],true,true,false,true] call RYD_Wait;
 	_alive = _cause select 1;

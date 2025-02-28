@@ -12,10 +12,10 @@ _PosObj1 = getPosATL _Trg;
 _unitvar = str (_unitG);
 
 _UL = leader _unitG;
-_PosLand = _unitG getVariable ("START" + _unitvar); 
+_PosLand = _unitG getVariable ("START" + _unitvar);
 if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getVariable ("START" + _unitvar);};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 
@@ -67,10 +67,10 @@ if (_request) then {
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markAttack","ColorRed","ICON","waypoint","CAP " + (groupId _unitG) + " " + _signum," - CAS",[0.5,0.5]] call RYD_Mark
@@ -88,7 +88,7 @@ _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitWith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	if not (isNull _lasT) then {deleteVehicle _lasT};
@@ -100,9 +100,9 @@ if (_timer > 120) then {deleteWaypoint _wp};
 
 if not (_task isEqualTo taskNull) then
 	{
-	
+
 	[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_Posland,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-	
+
 	};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
@@ -128,7 +128,7 @@ if not (_mustRTB) then {
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitWith 
+	if not (_alive) exitWith
 		{
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 		_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -144,7 +144,7 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 _attAv pushBack _unitG;
 _HQ setVariable ["RydHQ_AttackAv",_attAv];
- 
+
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};
