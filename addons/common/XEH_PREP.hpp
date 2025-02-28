@@ -5,7 +5,6 @@ PREP(angleTowards);
 PREP(closeEnemy);
 PREP(closeEnemyB);
 PREP(createDecoy);
-PREP(deleteWaypoint);
 PREP(findClosest);
 PREP(fireCount);
 PREP(flares);
