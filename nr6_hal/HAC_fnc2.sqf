@@ -1575,208 +1575,208 @@ RYD_StatusQuo =
 		};
 	};
 
-RYD_isInside =
-	{
-	private ["_pos","_cam","_target","_pX","_pY","_pZ","_pos1","_pos2","_level","_roofed","_axis","_mark","_vh","_axisArr","_marks"];
+// RYD_isInside =
+// 	{
+// 	private ["_pos","_cam","_target","_pX","_pY","_pZ","_pos1","_pos2","_level","_roofed","_axis","_mark","_vh","_axisArr","_marks"];
 
-	_vh = _this select 0;
-	_pos = _this select 1;
-	_level = _this select 2;
-	_axisArr = _this select 3;
-	_marks = _axisArr select 1;
-	_axisArr = _axisArr select 0;
+// 	_vh = _this select 0;
+// 	_pos = _this select 1;
+// 	_level = _this select 2;
+// 	_axisArr = _this select 3;
+// 	_marks = _axisArr select 1;
+// 	_axisArr = _axisArr select 0;
 
-	_cam = objNull;
+// 	_cam = objNull;
 
-	if ((count _this) > 5) then {_cam = _this select 5};
+// 	if ((count _this) > 5) then {_cam = _this select 5};
 
-	_target = objNull;
+// 	_target = objNull;
 
-	if ((count _this) > 6) then {_target = _this select 6};
+// 	if ((count _this) > 6) then {_target = _this select 6};
 
-	_pX = _pos select 0;
-	_pY = _pos select 1;
-	_pZ = _pos select 2;
+// 	_pX = _pos select 0;
+// 	_pY = _pos select 1;
+// 	_pZ = _pos select 2;
 
-	_pos1 = [_pX,_pY,_pZ];
+// 	_pos1 = [_pX,_pY,_pZ];
 
-	_roofed = false;
+// 	_roofed = false;
 
-		{
-		_axis = _x;
-		_mark = _marks select _foreachIndex;
+// 		{
+// 		_axis = _x;
+// 		_mark = _marks select _foreachIndex;
 
-		_pos2 = +_pos1;
-		_pos2 set [_axis,(_pos2 select _axis) + (_level * _mark)];
+// 		_pos2 = +_pos1;
+// 		_pos2 set [_axis,(_pos2 select _axis) + (_level * _mark)];
 
-		_roofed = lineIntersects [ATLToASL (_vh modelToWorld _pos1), ATLToASL (_vh modelToWorld _pos2),_cam,_target];
+// 		_roofed = lineIntersects [ATLToASL (_vh modelToWorld _pos1), ATLToASL (_vh modelToWorld _pos2),_cam,_target];
 
-		if (_roofed) exitWith {}
-		}
-	forEach _axisArr;
+// 		if (_roofed) exitWith {}
+// 		}
+// 	forEach _axisArr;
 
-	_roofed
-	};
+// 	_roofed
+// 	};
 
-RYD_LiveFeed =
-	{
-	private ["_unit","_HQ","_id"];
+// RYD_LiveFeed =
+// 	{
+// 	private ["_unit","_HQ","_id"];
 
-	_unit = _this select 0;
-	_HQ = _this select 1;
+// 	_unit = _this select 0;
+// 	_HQ = _this select 1;
 
-	_id = _unit addAction ["Enable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -71, false, true, "", "(not RydxHQ_LFActive) and (_this == _target)"];
-	_id = _unit addAction ["Disable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -81, false, true, "", "(RydxHQ_LFActive) and (_this == _target)"];
+// 	_id = _unit addAction ["Enable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -71, false, true, "", "(not RydxHQ_LFActive) and (_this == _target)"];
+// 	_id = _unit addAction ["Disable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -81, false, true, "", "(RydxHQ_LFActive) and (_this == _target)"];
 
-	true
-	};
+// 	true
+// 	};
 
-RYD_LF =
-	{
-	_SCRname = "RYD_LF";
+// RYD_LF =
+// 	{
+	// _SCRname = "RYD_LF";
 
-	private ["_src","_dc","_leader","_posS"];
+	// private ["_src","_dc","_leader","_posS"];
 
-	_src = _this select 0;
-	_leader = _this select 1;
+	// _src = _this select 0;
+	// _leader = _this select 1;
 
-	if not (RydHQ_LF) then
-		{
-		_dc = "EmptyDetector" createVehicle (getPosATL _src);
+	// if not (RydHQ_LF) then
+	// 	{
+	// 	_dc = "EmptyDetector" createVehicle (getPosATL _src);
 
-		RydHQ_LF = true;
-		[_src,_src,_leader,0] call BIS_fnc_liveFeed;
+	// 	RydHQ_LF = true;
+	// 	[_src,_src,_leader,0] call BIS_fnc_liveFeed;
 
-		waitUntil {not (isNil "BIS_liveFeed")};
-		waitUntil {camCommitted BIS_liveFeed};
+	// 	waitUntil {not (isNil "BIS_liveFeed")};
+	// 	waitUntil {camCommitted BIS_liveFeed};
 
-		if ([] call RYD_isNight) then
-			{
-			[1] call RYD_LF_EFF
-			};
+	// 	if ([] call RYD_isNight) then
+	// 		{
+	// 		[1] call RYD_LF_EFF
+	// 		};
 
-		_vh = vehicle _src;
-		_tp = toLower (typeOf _vh);
+	// 	_vh = vehicle _src;
+	// 	_tp = toLower (typeOf _vh);
 
-		(group _leader) setVariable ["RydHQ_LFSourceFin",_vh];
+	// 	(group _leader) setVariable ["RydHQ_LFSourceFin",_vh];
 
-		_vPos = [0,50,2];
+	// 	_vPos = [0,50,2];
 
-		if not (_src == _vh) then
-			{
-			_vPos = [0,30,0];
+	// 	if not (_src == _vh) then
+	// 		{
+	// 		_vPos = [0,30,0];
 
-			_pX = 0;
-			_pY = (sizeOf (typeOf _vh))/15;
-			_pZ = -_pY;
+	// 		_pX = 0;
+	// 		_pY = (sizeOf (typeOf _vh))/15;
+	// 		_pZ = -_pY;
 
-			_sign = 1;
+	// 		_sign = 1;
 
-			if (_tp in ["b_truck_01_ammo_f"]) then
-				{
-				_pZ = 0
-				};
+	// 		if (_tp in ["b_truck_01_ammo_f"]) then
+	// 			{
+	// 			_pZ = 0
+	// 			};
 
-			if (_vh isKindOf "Air") then
-				{
-				_pY = (sizeOf (typeOf _vh))/4;
-				_pZ = 0;
-				_sign = 2
-				};
+	// 		if (_vh isKindOf "Air") then
+	// 			{
+	// 			_pY = (sizeOf (typeOf _vh))/4;
+	// 			_pZ = 0;
+	// 			_sign = 2
+	// 			};
 
-			_inside = true;
+	// 		_inside = true;
 
-			while {_inside} do
-				{
-				_inside = [_vh,[_pX,_pY,_pZ],6,[[1],[1]]] call RYD_isInside;
-				_pZ = _pZ + (0.01 * _sign);
-				};
+	// 		while {_inside} do
+	// 			{
+	// 			_inside = [_vh,[_pX,_pY,_pZ],6,[[1],[1]]] call RYD_isInside;
+	// 			_pZ = _pZ + (0.01 * _sign);
+	// 			};
 
-			if (_tp in ["b_mbt_01_cannon_f","i_mbt_03_cannon_f"]) then
-				{
-				_pZ = _pZ + 0.1;
-				}
-			else
-				{
-				_pZ = _pZ + 0.2;
-				};
+	// 		if (_tp in ["b_mbt_01_cannon_f","i_mbt_03_cannon_f"]) then
+	// 			{
+	// 			_pZ = _pZ + 0.1;
+	// 			}
+	// 		else
+	// 			{
+	// 			_pZ = _pZ + 0.2;
+	// 			};
 
-			//_dc setPos (_vh modelToWorld [_pX,_pY,0]);
-			_dc attachTo [_vh,[_pX,_pY,_pZ]];
-			}
-		else
-			{
-			//_dc setPos (_vh modelToWorld [0.22,0.05,0]);
-			_dc attachTo [_vh,[0.22,0.05,0.1],"head"];
-			};
+	// 		//_dc setPos (_vh modelToWorld [_pX,_pY,0]);
+	// 		_dc attachTo [_vh,[_pX,_pY,_pZ]];
+	// 		}
+	// 	else
+	// 		{
+	// 		//_dc setPos (_vh modelToWorld [0.22,0.05,0]);
+	// 		_dc attachTo [_vh,[0.22,0.05,0.1],"head"];
+	// 		};
 
-		[[_dc,[0,0,0]]] call BIS_fnc_liveFeedSetSource;
+	// 	[[_dc,[0,0,0]]] call BIS_fnc_liveFeedSetSource;
 
-		_code =
-			{
-			_tgt = _this select 0;
-			_vPos = _this select 1;
-			_isFoot = (_tgt == (vehicle _tgt));
+	// 	_code =
+	// 		{
+	// 		_tgt = _this select 0;
+	// 		_vPos = _this select 1;
+	// 		_isFoot = (_tgt == (vehicle _tgt));
 
-			while {not (isNil "BIS_liveFeed")} do
-				{
-				if ((_isFoot) and not (_tgt == (vehicle _tgt))) exitWith
-					{
-					if (isNil "RydxHQ_LFTerminating") then
-						{
-						RydxHQ_LFTerminating = true;
-						[] call BIS_fnc_liveFeedTerminate;
-						waitUntil {isNil "BIS_liveFeed"};
-						RydxHQ_LFTerminating = nil;
-						_dc = _tgt getVariable ["RydHQ_CamPoint",objNull];
+	// 		while {not (isNil "BIS_liveFeed")} do
+	// 			{
+	// 			if ((_isFoot) and not (_tgt == (vehicle _tgt))) exitWith
+	// 				{
+	// 				if (isNil "RydxHQ_LFTerminating") then
+	// 					{
+	// 					RydxHQ_LFTerminating = true;
+	// 					[] call BIS_fnc_liveFeedTerminate;
+	// 					waitUntil {isNil "BIS_liveFeed"};
+	// 					RydxHQ_LFTerminating = nil;
+	// 					_dc = _tgt getVariable ["RydHQ_CamPoint",objNull];
 
-						deleteVehicle _dc;
+	// 					deleteVehicle _dc;
 
-						_tgt setVariable ["RydHQ_CamPoint",nil];
+	// 					_tgt setVariable ["RydHQ_CamPoint",nil];
 
-						RydHQ_LF = false;
-						}
-					};
+	// 					RydHQ_LF = false;
+	// 					}
+	// 				};
 
-				_tgtF = _tgt modelToWorld _vPos;
-				if not (_isFoot) then {BIS_liveFeed setDir (getDir _tgt)};
-				[_tgtF] call BIS_fnc_liveFeedSetTarget;
-				sleep 0.02
-				}
-			};
+	// 			_tgtF = _tgt modelToWorld _vPos;
+	// 			if not (_isFoot) then {BIS_liveFeed setDir (getDir _tgt)};
+	// 			[_tgtF] call BIS_fnc_liveFeedSetTarget;
+	// 			sleep 0.02
+	// 			}
+	// 		};
 
-		[[_src,_vPos],_code] call RYD_Spawn
-		}
-	else
-		{
-		if (isNil "RydxHQ_LFTerminating") then
-			{
-			RydxHQ_LFTerminating = true;
-			[] call BIS_fnc_liveFeedTerminate;
-			waitUntil {isNil "BIS_liveFeed"};
-			RydxHQ_LFTerminating = nil;
-			_dc = _src getVariable ["RydHQ_CamPoint",objNull];
+	// 	[[_src,_vPos],_code] call RYD_Spawn
+	// 	}
+	// else
+	// 	{
+	// 	if (isNil "RydxHQ_LFTerminating") then
+	// 		{
+	// 		RydxHQ_LFTerminating = true;
+	// 		[] call BIS_fnc_liveFeedTerminate;
+	// 		waitUntil {isNil "BIS_liveFeed"};
+	// 		RydxHQ_LFTerminating = nil;
+	// 		_dc = _src getVariable ["RydHQ_CamPoint",objNull];
 
-			deleteVehicle _dc;
+	// 		deleteVehicle _dc;
 
-			_src setVariable ["RydHQ_CamPoint",nil];
+	// 		_src setVariable ["RydHQ_CamPoint",nil];
 
-			RydHQ_LF = false;
-			}
-		}
-	};
+	// 		RydHQ_LF = false;
+	// 		}
+	// 	}
+	// };
 
-RYD_LF_EFF =
-	{
-	private ["_mode"];
+// RYD_LF_EFF =
+// 	{
+// 	private ["_mode"];
 
-	_mode = _this select 0;
+// 	_mode = _this select 0;
 
-	if not (isNil "BIS_liveFeed") then
-		{
-		[_mode] call BIS_fnc_liveFeedEffects;
-		}
-	};
+// 	if not (isNil "BIS_liveFeed") then
+// 		{
+// 		[_mode] call BIS_fnc_liveFeedEffects;
+// 		}
+// 	};
 
 RYD_LF_Loop =
 	{
@@ -2033,91 +2033,91 @@ RYD_ClusterC =
 	_clusters
 	};
 
-RYD_Spawn =
-	{
-	private ["_arguments","_script","_handle"];
+// RYD_Spawn =
+// 	{
+// 	private ["_arguments","_script","_handle"];
 
-	_arguments = _this select 0;
-	_script = _this select 1;
+// 	_arguments = _this select 0;
+// 	_script = _this select 1;
 
-	_handle = _arguments spawn _script;
+// 	_handle = _arguments spawn _script;
 
-	RydxHQ_Handles pushBack _handle;
+// 	RydxHQ_Handles pushBack _handle;
 
-		{
-		if (isNil {_x}) then
-			{
-			RydxHQ_Handles set [_foreachIndex,0]
-			}
-		else
-			{
-			if not (_x isEqualTo 0) then
-				{
-				if (scriptDone _x) then
-					{
-					RydxHQ_Handles set [_foreachIndex,0]
-					}
-				}
-			}
-		}
-	forEach RydxHQ_Handles;
+// 		{
+// 		if (isNil {_x}) then
+// 			{
+// 			RydxHQ_Handles set [_foreachIndex,0]
+// 			}
+// 		else
+// 			{
+// 			if not (_x isEqualTo 0) then
+// 				{
+// 				if (scriptDone _x) then
+// 					{
+// 					RydxHQ_Handles set [_foreachIndex,0]
+// 					}
+// 				}
+// 			}
+// 		}
+// 	forEach RydxHQ_Handles;
 
-	RydxHQ_Handles = RydxHQ_Handles - [0];
+// 	RydxHQ_Handles = RydxHQ_Handles - [0];
 
-	/*diag_log format ["New Handle - time: %1 count: (%2 - %3)",time,{not ((str _x) in ["<NULL-script>"])} count RydxHQ_Handles,{((str _x) in ["<NULL-script>"])} count RydxHQ_Handles];
+// 	/*diag_log format ["New Handle - time: %1 count: (%2 - %3)",time,{not ((str _x) in ["<NULL-script>"])} count RydxHQ_Handles,{((str _x) in ["<NULL-script>"])} count RydxHQ_Handles];
 
-	private ["_arr","_ix"];
+// 	private ["_arr","_ix"];
 
-	_arr = toArray (str _script);
-	_ix = _arr find 59;
-	_arr resize _ix;
+// 	_arr = toArray (str _script);
+// 	_ix = _arr find 59;
+// 	_arr resize _ix;
 
-	if not ((_arr select 1) in [83]) then
-		{
-		_arr resize 32
-		}
-	else
-		{
-		_arr = _arr - [34];
-		_arr = [_arr] call RYD_ReverseArr;
-		_arr resize ((_arr find 61) - 1);
-		_arr = [_arr] call RYD_ReverseArr;
-		};
+// 	if not ((_arr select 1) in [83]) then
+// 		{
+// 		_arr resize 32
+// 		}
+// 	else
+// 		{
+// 		_arr = _arr - [34];
+// 		_arr = [_arr] call RYD_ReverseArr;
+// 		_arr resize ((_arr find 61) - 1);
+// 		_arr = [_arr] call RYD_ReverseArr;
+// 		};
 
-	_string = toString _arr;
+// 	_string = toString _arr;
 
-	if (isNil "RYD_Array") then {RYD_Array = []};
+// 	if (isNil "RYD_Array") then {RYD_Array = []};
 
-	if ((count RYD_Array) < 1) then
-		{
-		RYD_Array = [[_string,1]]
-		}
-	else
-		{
-		_inside = false;
+// 	if ((count RYD_Array) < 1) then
+// 		{
+// 		RYD_Array = [[_string,1]]
+// 		}
+// 	else
+// 		{
+// 		_inside = false;
 
-			{
-			if (_string in _x) exitWith
-				{
-				_x set [1,(_x select 1) + 1];
-				_inside = true
-				}
-			}
-		foreach RYD_Array;
+// 			{
+// 			if (_string in _x) exitWith
+// 				{
+// 				_x set [1,(_x select 1) + 1];
+// 				_inside = true
+// 				}
+// 			}
+// 		foreach RYD_Array;
 
-		if not (_inside) then
-			{
-			RYD_Array pushBack [_string,1]
-			}
-		};
+// 		if not (_inside) then
+// 			{
+// 			RYD_Array pushBack [_string,1]
+// 			}
+// 		};
 
-	diag_log "--------------------------------------------------------------------------------";
+// 	diag_log "--------------------------------------------------------------------------------";
 
-		{
-		diag_log format ["%1",_x];
-		}
-	foreach RYD_Array*/
-	};
+// 		{
+// 		diag_log format ["%1",_x];
+// 		}
+// 	foreach RYD_Array*/
+// 	};
 
 RYD_ReverseArr =
 	{
