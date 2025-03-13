@@ -256,6 +256,7 @@ if (RydBB_Active) then
 				}
 			forEach _BBHQGrps;
 			[{[[_x,_BBHQGrps],Boss] call RYD_Spawn;}, 1] call CBA_fnc_waitAndExecute;
+			};
 		}
 	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};

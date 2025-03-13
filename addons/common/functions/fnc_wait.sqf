@@ -113,7 +113,9 @@ if (count _additionalData > 0) then {
 
             // Wait for vehicle assignment if necessary
             if (isNull _assignedVehicle) then {
-                [[{!isNull (assignedVehicle _unitLeader)},{} 0.5] call CBA_fnc_waitAndExecute] call CBA_fnc_waitUntilAndExecute;
+                [{
+                    [{!isNull (assignedVehicle _unitLeader)}, {}, 0.5] call CBA_fnc_waitAndExecute
+                }, {}] call CBA_fnc_waitUntilAndExecute;
 
                 _assignedVehicle = assignedVehicle _unitLeader;
                 _driverUnit = assignedDriver _assignedVehicle;

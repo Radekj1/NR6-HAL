@@ -45,7 +45,7 @@ if (_isDebugEnabled) then {
             while {!isNull _HQ && {!(_HQ getVariable ["RydHQ_KIA", false])}} do {
                 private _friendlyGroups = _HQ getVariable ["RydHQ_Friends", []];
 
-                {
+                [{{
                     // Skip invalid groups
                     if (isNull _x || {!alive (leader _x)}) then {
                         deleteMarker ("MarkDanger" + (str _x));
@@ -76,9 +76,7 @@ if (_isDebugEnabled) then {
 
                     _markerName setMarkerColorLocal _markerColor;
                     _markerName setMarkerText (str _dangerValue);
-                } forEach _friendlyGroups;
-
-                [5] call CBA_fnc_waitAndExecute;
+                } forEach _friendlyGroups;}, 5] call CBA_fnc_waitAndExecute;
             };
         };
     };

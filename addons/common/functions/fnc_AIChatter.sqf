@@ -50,7 +50,7 @@ if ((time - _lastTimestamp) < 5) then {[{}, 2] call CBA_fnc_waitAndExecute;};
 _lastTime = missionNamespace getVariable ["HAC_AIChatLT" + _varSuffix, [0, ""]];
 _lastKind = _lastTime select 1;
 _lastTimestamp = _lastTime select 0;
-if ((time - _lastTimestamp) < 5) then {{}, [2] call CBA_fnc_waitAndExecute;};
+if ((time - _lastTimestamp) < 5) then {[{}, 2] call CBA_fnc_waitAndExecute;};
 _lastTime = missionNamespace getVariable ["HAC_AIChatLT" + _varSuffix, [0, ""]];
 _lastKind = _lastTime select 1;
 _lastTimestamp = _lastTime select 0;
