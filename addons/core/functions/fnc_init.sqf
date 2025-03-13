@@ -11,12 +11,8 @@ if (isNil ("RydHQ_Wait")) then
     RydHQ_Wait = (_logic getVariable "RydHQ_Wait"); 
     if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
 };
-_condition = {missionNamespace getVariable ["Hal_FS", false] == true};                // condition - Needs to return bool
-_statement = {};                // Code to be executed once condition true
-_parameter = [];                // arguments to be passed on -> _this
-_timeout = RydHQ_Wait;                  // if condition isnt true within this time in S, _timecode will be executed.
-_timeoutCode = {};              // code to be executed if timeout
-[_condition, _statement, _parameter, _timeout, _timeoutCode] call CBA_fnc_waitUntilAndExecute;
+
+[{missionNamespace getVariable ["Hal_FS", false] == true;},{}, RydHQ_Wait, {}] call CBA_fnc_waitUntilAndExecute;
 
 
 RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",true];
@@ -259,10 +255,7 @@ if (RydBB_Active) then
 				_x setVariable ["BBProgress",0]
 				}
 			forEach _BBHQGrps;
-			[[_x,_BBHQGrps],Boss] call RYD_Spawn
-			};
-
-		[1] call CBA_fnc_waitAndExecute;
+			[{[[_x,_BBHQGrps],Boss] call RYD_Spawn;}, 1] call CBA_fnc_waitAndExecute;
 		}
 	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};

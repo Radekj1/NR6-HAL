@@ -21,10 +21,10 @@ private _timer = 0;
 private _alive = true;
 
 // Wait until unit reaches position or timeout
-waitUntil {
+
+    [{
     private _dst = 0;
-    if !(isNull _unit) then {_dst = _unit distance _pos};
-    [0.1] call CBA_fnc_waitAndExecute;
+    [{if !(isNull _unit) then {_dst = _unit distance _pos};}, 0.1] call CBA_fnc_waitAndExecute;
 
     private _dst2 = 0;
     if !(isNull _unit) then {_dst2 = _unit distance _pos};
@@ -44,7 +44,7 @@ waitUntil {
     if (_dst2 >= _dst) then {_timer = _timer + 1};
 
     ((unitReady _unit) || (_timer > 240) || !_alive)
-};
+   },{}] call CBA_fnc_waitUntilAndExecute;
 
 // Exit if unit died during movement
 if !(_alive) exitWith {};
@@ -139,8 +139,8 @@ _unit setDir _watchDir;
 _unit doWatch _watchPos;
 
 // Wait until the unit is no longer garrisoned or killed
-waitUntil {
-    [30] call CBA_fnc_waitAndExecute;
+    [{
+    [{}, 30] call CBA_fnc_waitAndExecute;
 
     // Check if unit is still valid
     switch (true) do {
@@ -157,9 +157,8 @@ waitUntil {
     private _isGarrisoned = (group _unit) getVariable ("Garrisoned" + (str (group _unit)));
     if (isNil "_isGarrisoned" || {!_isGarrisoned}) then {_alive = false};
 
-    !_alive
-};
-
+    !_alive;
+    },{}] call CBA_fnc_waitUntilAndExecute;
 // When exiting, free up the position in the taken array
 private _ix = _taken select 1;
 _taken = _taken select 0;

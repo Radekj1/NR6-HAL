@@ -77,14 +77,15 @@ if (count _additionalData > 0) then {
 };
 
 // Main wait loop
-waitUntil {
-    [_integerInterval] call CBA_fnc_waitAndExecute;;
-
+[{
+    [{
     // If player is involved, adjust behavior
     private _isPlayerInvolved = isPlayer (leader _group);
 
     // Check various conditions
     _alive = true;
+
+    }, _integerInterval] call CBA_fnc_waitAndExecute;
     switch (true) do {
         case (isNull _group): {_alive = false};
         case ({alive _x} count (units _group) < 1): {_alive = false};
@@ -112,7 +113,7 @@ waitUntil {
 
             // Wait for vehicle assignment if necessary
             if (isNull _assignedVehicle) then {
-                [[{!isNull (assignedVehicle _unitLeader)}, 0.5] call CBA_fnc_waitAndExecute] call CBA_fnc_waitUntilAndExecute;
+                [[{!isNull (assignedVehicle _unitLeader)},{} 0.5] call CBA_fnc_waitAndExecute] call CBA_fnc_waitUntilAndExecute;
 
                 _assignedVehicle = assignedVehicle _unitLeader;
                 _driverUnit = assignedDriver _assignedVehicle;
@@ -323,9 +324,8 @@ waitUntil {
      !_alive ||
      _isInside ||
      _isOutside ||
-     _busy)
-};
-
+     _busy);
+}, {}] call CBA_fnc_waitUntilAndExecute;
 // Clean up
 if (!isNull _assignedVehicle) then {
     _assignedVehicle setVariable ["WaitForCargo" + (str _assignedVehicle), false];

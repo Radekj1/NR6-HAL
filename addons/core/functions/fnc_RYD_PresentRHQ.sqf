@@ -251,14 +251,14 @@ RYD_PresentRHQ =
 					//waitUntil {
 //						sleep 0.0000001;
 						[{
-						[0.5] call CBA_fnc_waitAndExecute;
+						[{
 						_canFire = false;
 						_timeOut = false;
 
 						_minRange = (_minRange + 100);
 						_posCheck = [(_pos select 0) + _minRange, (_pos select 1),0];
 						_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
-
+						}, 0.5] call CBA_fnc_waitAndExecute;
 						if (_canFire) then {
 //							_minRange = (_minRange - 100);
 							_checkRange = _minRange;
@@ -280,7 +280,7 @@ RYD_PresentRHQ =
 
 						((_canFire) or (_timeOut))
 						
-					}] call CBA_fnc_waitUntilAndExecute;
+					},{}] call CBA_fnc_waitUntilAndExecute;
 //					_vehO setVariable ["RHQ_RangeMin",_minRange];
 					missionNamespace setVariable ["RHQ_ClassRangeMin" + str (_veh),_minRange];
 
@@ -294,15 +294,14 @@ RYD_PresentRHQ =
 					//waitUnil {
 //						sleep 0.0000001;
 					[{
-						[0.5] call CBA_fnc_waitAndExecute;
-
+						[{
 						_canFire = true;
 						_timeOut = false;
 
 						_maxRange = (_maxRange + 1000);
 						_posCheck = [(_pos select 0) + _maxRange, (_pos select 1),0];
 						_canFire = _posCheck inRangeOfArtillery [[_lPiece],_mainAmmoType];
-
+						}, 0.5] call CBA_fnc_waitAndExecute;
 						if not (_canFire) then {
 //							_maxRange = (_maxRange - 1000);
 							_checkRange = _maxRange;
@@ -324,7 +323,7 @@ RYD_PresentRHQ =
 
 
 						(not (_canFire) or (_timeOut))
-					}] call CBA_fnc_waitUntilAndExecute;
+					},{}] call CBA_fnc_waitUntilAndExecute;
 //					_vehO setVariable ["RHQ_RangeMax",_maxRange];
 //					_vehO setVariable ["RHQ_RangeDefined",true];
 					missionNamespace setVariable ["RHQ_ClassRangeMax" + str (_veh),_maxRange];

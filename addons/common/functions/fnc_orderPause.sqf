@@ -24,7 +24,7 @@ private _pauseDuration = 3 + (random 1.5);
 
 // Wait until enough time has passed since last order
 waitUntil {
-    [0.1] call CBA_fnc_waitAndExecute;
+    [{}, 0.1] call CBA_fnc_waitAndExecute;
 
     private _lastOrderTime = _HQ getVariable ["RydHQ_MyLastOrder", 0];
 

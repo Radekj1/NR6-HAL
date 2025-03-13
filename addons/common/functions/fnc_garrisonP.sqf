@@ -22,8 +22,7 @@ params ["_group", "_points", "_HQ"];
     _wp = [[_group],_x,"MOVE","AWARE","YELLOW","LIMITED",["true",""],false,0.01,[10,15,20],_formation] call RYD_WPadd;
 
     if ((count _posAll) > 0) then {
-        _wp waypointAttachVehicle _nHouse;
-        [0.5] call CBA_fnc_waitAndExecute;
+        [{_wp waypointAttachVehicle _nHouse;}, 0.5] call CBA_fnc_waitAndExecute;
         _wp setWaypointHousePosition (floor (random (count _posAll)))
     };
 } forEach _points;
@@ -39,8 +38,8 @@ private _fnc_code = {
 
     _alive = true;
 
-    waitUntil {
-        [20] call CBA_fnc_waitAndExecute;
+    [{
+        [{
         _distance = 10000;
 
         _alive = true;
@@ -57,14 +56,14 @@ private _fnc_code = {
 
             if (_alive) then {
                 _neareastEnemy = _leader findNearestEnemy (vehicle _leader);
-                if  !(isNull _neareastEnemy) then {_distance = _neareastEnemy distance (vehicle _leader)}
+                if !(isNull _neareastEnemy) then {_distance = _neareastEnemy distance (vehicle _leader)}
             };
         };
 
         (_distance < 500)
-    };
-
-    _group setVariable ["Garrisoned" + (str _group), false]
+        }, 20] call CBA_fnc_waitAndExecute;
+    }, {_group setVariable ["Garrisoned" + (str _group), false];}] call CBA_fnc_waitUntilAndExecute;
+    
 };
 
 [[_group, _HQ], _fnc_code] call RYD_Spawn

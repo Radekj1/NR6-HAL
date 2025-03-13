@@ -176,11 +176,11 @@ while {true} do
 
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then
 		{
-		waitUntil
-			{
-			[0.1] call CBA_fnc_waitAndExecute;
-			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
-			}
+			[{
+			[{
+			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))}, 
+			0.1] call CBA_fnc_waitAndExecute;
+			}, {}] call CBA_fnc_waitUntilAndExecute;
 		};
 
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
@@ -189,7 +189,7 @@ while {true} do
 
 	if (_cycleC > 1) then
 		{
-		if not (_lastHQ == (_HQ getVariable ["leaderHQ",objNull])) then {[{60 + (random 60)}] call CBA_fnc_waitAndExecute;};
+		if not (_lastHQ == (_HQ getVariable ["leaderHQ",objNull])) then {[{}, {60 + (random 60)}] call CBA_fnc_waitAndExecute;};
 		};
 
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};

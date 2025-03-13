@@ -46,11 +46,11 @@ private _lastKind = _lastTime select 1;
 private _lastTimestamp = _lastTime select 0;
 
 // Introduce delays to avoid message clusters
-if ((time - _lastTimestamp) < 5) then {[2] call CBA_fnc_waitAndExecute;};
+if ((time - _lastTimestamp) < 5) then {[{}, 2] call CBA_fnc_waitAndExecute;};
 _lastTime = missionNamespace getVariable ["HAC_AIChatLT" + _varSuffix, [0, ""]];
 _lastKind = _lastTime select 1;
 _lastTimestamp = _lastTime select 0;
-if ((time - _lastTimestamp) < 5) then {[2] call CBA_fnc_waitAndExecute;};
+if ((time - _lastTimestamp) < 5) then {{}, [2] call CBA_fnc_waitAndExecute;};
 _lastTime = missionNamespace getVariable ["HAC_AIChatLT" + _varSuffix, [0, ""]];
 _lastKind = _lastTime select 1;
 _lastTimestamp = _lastTime select 0;
@@ -130,13 +130,13 @@ if (missionNamespace getVariable ["RydHQ_ChatDebug", false]) then {
 
         private _alpha = 1;
 
-        [28] call CBA_fnc_waitAndExecute;
+        [{}, 28] call CBA_fnc_waitAndExecute;
 
         for "_i" from 1 to 20 do {
             _alpha = _alpha - 0.05;
             _marker setMarkerAlpha _alpha;
 
-            [0.1] call CBA_fnc_waitAndExecute;
+            [{}, 0.1] call CBA_fnc_waitAndExecute;
         };
 
         deleteMarker _marker;

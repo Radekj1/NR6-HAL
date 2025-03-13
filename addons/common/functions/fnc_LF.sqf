@@ -86,9 +86,8 @@ if  !(RydHQ_LF) then
             };
 
             _tgtF = _tgt modelToWorld _vPos;
-            if !(_isFoot) then {BIS_liveFeed setDir (getDir _tgt)};
-            [_tgtF] call BIS_fnc_liveFeedSetTarget;
-            [0.02] call CBA_fnc_waitAndExecute;
+            [{if !(_isFoot) then {BIS_liveFeed setDir (getDir _tgt)};
+            [_tgtF] call BIS_fnc_liveFeedSetTarget;}, 0.02] call CBA_fnc_waitAndExecute;
         };
     };
 

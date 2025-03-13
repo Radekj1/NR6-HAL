@@ -202,10 +202,8 @@ if (_patrol > 0 && {count _units > 1}) then {
 
                     _unit doMove _pos;
                     if (_New) then {_unit setPos _pos};
-                    waitUntil {[1] call CBA_fnc_waitAndExecute; unitReady _unit};
-
-                    [{[1] call CBA_fnc_waitAndExecute; unitReady _unit;}] call CBA_fnc_waitUntilAndExecute;
-
+                    [{
+                    [{unitReady _unit;}, 1] call CBA_fnc_waitAndExecute;
                     if (random 1 < _hold) then {
                         _unit disableAI "PATH";
                         doStop _unit;
@@ -218,9 +216,10 @@ if (_patrol > 0 && {count _units > 1}) then {
                     // This command causes AI to repeatedly attempt to crouch when engaged
                     // If ever fixed by BI then consider uncommenting
                     // _unit setUnitPos "UP";
-                };
+                    }, {}] call CBA_fnc_waitUntilAndExecute;
+               };
             };
-        };
+       };
     };
 } forEach _units;
 

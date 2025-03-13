@@ -8,7 +8,8 @@ params [];
             if (!(isPlayer _x) && (isNull objectParent _x)) then {
                 _x setPos [_testpos select 0,_testpos select 1,0];
                 _x allowDamage false;
-                [_x]spawn {[3] call CBA_fnc_waitAndExecute;(_this select 0) allowDamage true;};
+                [_x]spawn {[{}, 3] call CBA_fnc_waitAndExecute;
+                (_this select 0) allowDamage true;};
             };
         };
     };
