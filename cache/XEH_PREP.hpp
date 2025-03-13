@@ -1,0 +1,11 @@
+PREP(cache);
+PREP(closestUnit);
+PREP(deleteUnitsNotLeader);
+PREP(hide);
+PREP(hideObject);
+PREP(hideVehicle);
+PREP(removeDead);
+PREP(setPosFull);
+PREP(setPosLight);
+PREP(unCache);
+PREP(unCacheObject);

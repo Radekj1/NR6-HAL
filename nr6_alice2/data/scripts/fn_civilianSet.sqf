@@ -13,16 +13,16 @@ scriptName "\NR6_Alice2\data\scripts\fnc_civilianSet.sqf";
 */
 private ["_grp","_class","_pos","_unit","_movein","_twns","_houses","_pointPos","_pointMarker","_posList","_point","_color","_marker","_spawnpos","_topic","_path","_bikb","_fsm","_markerx","_logic","_debug","_twn","_house","_id","_moves","_allTopics","_globalInit","_localInit","_add"];
 _logic = bis_alice_mainscope;
-_debug = _logic getvariable "debug";
+_debug = _logic getVariable "debug";
 _movein = false;
 
 _unit = _this select 0;
-if (typename _unit == typename "") then {
-	_grp = if (count _this > 1) then {(_this select 1) getvariable "ALICE_group"};
+if (typeName _unit == typeName "") then {
+	_grp = if (count _this > 1) then {(_this select 1) getVariable "ALICE_group"};
 	if (isNull _grp) then {
-		createcenter civilian;
-		_grp = creategroup civilian;
-		(_this select 1) setvariable ["ALICE_group",_grp];
+		createCenter civilian;
+		_grp = createGroup civilian;
+		(_this select 1) setVariable ["ALICE_group",_grp];
 	};
 	_class = _unit;
 	_pos = 	if (count _this > 2) then {position (_this select 2)} else {
@@ -36,29 +36,29 @@ _twn = if (count _this > 1) then {_this select 1} else {
 	_twns = position _unit nearEntities ["LocationLogicCityCenter",100000]; //--- TODO GITA - NO NEED ARMA 3
 	if (count _twns > 0) then{
 		_twns select 0;
-	} else {debuglog format ["Log: [ALICE] Cannot add %1 - no towns available!",_unit];false};
+	} else {debugLog format ["Log: [ALICE] Cannot add %1 - no towns available!",_unit];false};
 };
-if (typename _twn == "BOOL") exitwith {};
+if (typeName _twn == "BOOL") exitWith {};
 _house = if (count _this > 2) then {_this select 2} else {
-	_houses = nearestobjects [position _twn,["bis_alice_emptydoor"],500];
+	_houses = nearestObjects [position _twn,["bis_alice_emptydoor"],500];
 	if (count _houses > 0) then {
 		selectRandom _houses;
 	} else {
-		_houses = nearestobjects [position _twn,["house"],500];
+		_houses = nearestObjects [position _twn,["house"],500];
 		if (count _houses > 0) then {
 			selectRandom _houses;
-		} else {debuglog format ["Log: [ALICE] Cannot add %1 - no houses available in %2!",_unit,_twn];false};
+		} else {debugLog format ["Log: [ALICE] Cannot add %1 - no houses available in %2!",_unit,_twn];false};
 	};
 };
-if (typename _house == "BOOL") exitwith {};
-_id = _logic getvariable "id";
+if (typeName _house == "BOOL") exitWith {};
+_id = _logic getVariable "id";
 [_logic,"id",1] call bis_fnc_variablespaceadd;
 
 sleep 0.01;
 
 //--- Set values
 if (_movein && _house isKindOf "house") then {
-	_unit setpos (selectRandom ([_house] call BIS_fnc_buildingPositions));
+	_unit setPos (selectRandom ([_house] call BIS_fnc_buildingPositions));
 };
 
 /*
@@ -95,21 +95,21 @@ if (_movein && _house isKindOf "house") then {
 };
 */
 
-[_unit] join (_twn getvariable "ALICE_group");
-_unit forcewalk true;
-_unit setbehaviour "safe";
-_unit setvariable ["ALICE_id",_id];
-_unit setvariable ["ALICE_twn",_twn];
-_unit setvariable ["ALICE_home",_house];
-_unit setvariable ["ALICE_randomValue",random 1];
-_unit setvariable ["ALICE_action",""];
-_unit setvariable ["ALICE_action_fsm",-1];
-_unit setvariable ["ALICE_type",getnumber(configfile >> "cfgvehicles" >> typeof _unit >> "characterID")];
-_moves = gettext(configfile >> "cfgvehicles" >> typeof _unit >> "moves");
-_unit setvariable ["ALICE_moves",_moves];
+[_unit] join (_twn getVariable "ALICE_group");
+_unit forceWalk true;
+_unit setBehaviour "safe";
+_unit setVariable ["ALICE_id",_id];
+_unit setVariable ["ALICE_twn",_twn];
+_unit setVariable ["ALICE_home",_house];
+_unit setVariable ["ALICE_randomValue",random 1];
+_unit setVariable ["ALICE_action",""];
+_unit setVariable ["ALICE_action_fsm",-1];
+_unit setVariable ["ALICE_type",getNumber(configFile >> "cfgvehicles" >> typeOf _unit >> "characterID")];
+_moves = getText(configFile >> "cfgvehicles" >> typeOf _unit >> "moves");
+_unit setVariable ["ALICE_moves",_moves];
 ["ADD",_unit,0.1] call BIS_fnc_respect;
-_fsm = _unit execfsm "\NR6_Alice2\data\fsms\alice2Formation.fsm";
-_unit setvariable ["ALICE_fsm",_fsm];
+_fsm = _unit execFSM "\NR6_Alice2\data\fsms\alice2Formation.fsm";
+_unit setVariable ["ALICE_fsm",_fsm];
 //if (_id == 33) then {diag_debugFSM _fsm};
 
 //--- Add conversation topics
@@ -123,14 +123,14 @@ _add = [_twn,"ALICE_population",[_unit]] call bis_fnc_variablespaceadd;
 //debuglog str ["Log::::::::::::",_unit,typeof _unit,count _add];
 
 //--- Event Handlers
-_unit addeventhandler ["hit",{_this call BIS_ALICE2_fnc_civilianHit}];
-_unit addeventhandler ["killed",{_this call BIS_ALICE2_fnc_civilianKilled}];
+_unit addEventHandler ["hit",{_this call BIS_ALICE2_fnc_civilianHit}];
+_unit addEventHandler ["killed",{_this call BIS_ALICE2_fnc_civilianKilled}];
 
 //--- Custom init
-_globalInit = _logic getvariable "ALICE_civilianinit";
-_localInit = _twn getvariable "ALICE_civilianinit";
-if !(isnil "_globalInit") then {{_unit call _x} foreach _globalInit};
-if !(isnil "_localInit") then {{_unit call _x} foreach _localInit};
+_globalInit = _logic getVariable "ALICE_civilianinit";
+_localInit = _twn getVariable "ALICE_civilianinit";
+if !(isNil "_globalInit") then {{_unit call _x} forEach _globalInit};
+if !(isNil "_localInit") then {{_unit call _x} forEach _localInit};
 
 
 
@@ -152,10 +152,10 @@ if !(isnil "_localInit") then {{_unit call _x} foreach _localInit};
 	6 - DCDeadBody - other dead soldier found
 	7 - DCScream - hit soldier screaming
 */
-[_unit,"BIS_dangerHandler",[{scriptname 'ALICE: dangerHandler';
+[_unit,"BIS_dangerHandler",[{scriptName 'ALICE: dangerHandler';
 	_unit = _this select 0;
 	_danger = _this select 1;
-	_twn = _unit getvariable "alice_twn";
+	_twn = _unit getVariable "alice_twn";
 	_dangerCoef = 0.03;
 
 //debuglog str ["Log:::::::::::::::::::DEAD",["DCEnemyDetected","DCFire","DCHit","DCEnemyNear","DCExplosion","DCDeadBodyGroup","DCDeadBody","DCScream"] select _danger];
@@ -168,7 +168,7 @@ if !(isnil "_localInit") then {{_unit call _x} foreach _localInit};
 	if (random 1 > 0.02) then {
 		if (_danger >= 1 ) then {
 //			_screams = bis_alice_mainscope getVariable "ALICE_screams";
-			[_unit] execfsm "\NR6_Alice2\data\actions\combat_hideOut.fsm";
+			[_unit] execFSM "\NR6_Alice2\data\actions\combat_hideOut.fsm";
 //			_ran = floor random count _screams;
 //			_selectId = _ran - (_ran % 2);
 //			_topic = "ALICE_" + (_screams select _selectId);
@@ -184,19 +184,19 @@ if !(isnil "_localInit") then {{_unit call _x} foreach _localInit};
 //--- Behold the mighty debug mode!
 _marker = "";
 if (_debug) then {
-	_marker = createmarker [format ["BIS_alice_civ_%1",_id],position _unit];
-	_marker setmarkertypelocal "dot";
-	_marker setmarkercolor "colorwhite";
-	_marker setmarkersizelocal [.6,.6];
-	_marker setmarkertextlocal str(_id);
-	_unit setvariable ["ALICE_marker",_marker];
+	_marker = createMarker [format ["BIS_alice_civ_%1",_id],position _unit];
+	_marker setMarkerTypeLocal "dot";
+	_marker setMarkerColor "colorwhite";
+	_marker setMarkerSizeLocal [.6,.6];
+	_marker setMarkerTextLocal str(_id);
+	_unit setVariable ["ALICE_marker",_marker];
 
-	_markerx = createmarker [format ["BIS_alice_civ_%1_w",_id],position _unit];
-	_markerx setmarkertypelocal "mil_destroy";
-	_markerx setmarkerdirlocal 45;
-	_markerx setmarkersizelocal [0.3,0.3];
-	_markerx setmarkertext (str _id);
-	_markerx setmarkercolor "colorwhite";
+	_markerx = createMarker [format ["BIS_alice_civ_%1_w",_id],position _unit];
+	_markerx setMarkerTypeLocal "mil_destroy";
+	_markerx setMarkerDirLocal 45;
+	_markerx setMarkerSizeLocal [0.3,0.3];
+	_markerx setMarkerText (str _id);
+	_markerx setMarkerColor "colorwhite";
 
 	[_unit,_marker,_markerx] spawn {
 		private ["_color","_twn","_threat","_ed","_unit","_marker","_markerx"];
@@ -204,21 +204,21 @@ if (_debug) then {
 		_marker = _this select 1;
 		_markerx = _this select 2;
 		while {alive _unit} do {
-			_twn = _unit getvariable "ALICE_twn";
-			_threat = _twn getvariable "ALICE_threat";
+			_twn = _unit getVariable "ALICE_twn";
+			_threat = _twn getVariable "ALICE_threat";
 			_color = "colorwhite";
-			if (_threat >= 0) then {_color = "color" + (_twn getvariable "ALICE_status")};
+			if (_threat >= 0) then {_color = "color" + (_twn getVariable "ALICE_status")};
 			if (_twn == _unit) then {_color = "coloryellow"};
-			_marker setmarkercolor _color;
-			_marker setmarkerpos position vehicle _unit;
-			_ed = (expecteddestination _unit) select 0;
-			_markerx setmarkerpos _ed;
+			_marker setMarkerColor _color;
+			_marker setMarkerPos position vehicle _unit;
+			_ed = (expectedDestination _unit) select 0;
+			_markerx setMarkerPos _ed;
 			sleep 0.1;
 		};
-		_marker setmarkertype "mil_dot";
-		_marker setmarkercolor "colorbrown";
-		if (isnull _unit) then {deletemarker _marker};
-		deletemarker _markerx;
+		_marker setMarkerType "mil_dot";
+		_marker setMarkerColor "colorbrown";
+		if (isNull _unit) then {deleteMarker _marker};
+		deleteMarker _markerx;
 	};
 };
 

@@ -38,7 +38,7 @@ if not ((count _KnEnemies) == 0) then
 		_Epos0 pushBack ((getPosATL _x) select 0);
 		_Epos1 pushBack ((getPosATL _x) select 1)
 		}
-	foreach _KnEnemies
+	forEach _KnEnemies
 	};
 
 _Epos0Max = _default select 0;
@@ -136,7 +136,7 @@ switch true do
 		_FlankAv set [_foreachIndex,grpNull]
 		}
 	}
-foreach _FlankAv;
+forEach _FlankAv;
 
 _FlankAv = _FlankAv - [grpNull];
 
@@ -156,7 +156,7 @@ switch true do
 				[[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ],HAL_GoFlank] call RYD_Spawn;
 				};
 			}
-		foreach _FlankAv;
+		forEach _FlankAv;
 		
 		};
 	case (_bothF) : 

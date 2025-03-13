@@ -10,8 +10,8 @@ _logic = _this select 0;
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Commanders pushback (call compile (_x getvariable "LeaderType"))};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
+} forEach (synchronizedObjects _logic);
 
 _side = call compile (_logic getVariable "_side");
 _StartForces = [];
@@ -27,11 +27,11 @@ if (_DontLand) then {_DontLand = "; (group _this) setVariable ['AirNoLand',true]
 if (isNil ("_TickTime")) then {_TickTime = 15};
 
 {
-    if ((_x isKindOf "Air") and ((crew _x) isequalto [])) then {_sideForces pushback _x};
-    if ((_x isKindOf "Air") and not ((crew _x) isequalto [])) then {_StartForces pushback _x};
+    if ((_x isKindOf "Air") and ((crew _x) isEqualTo [])) then {_sideForces pushBack _x};
+    if ((_x isKindOf "Air") and not ((crew _x) isEqualTo [])) then {_StartForces pushBack _x};
 } forEach (synchronizedObjects _coreObj);
 
-if (_StartForces isequalto []) then {_StartForces = [objNull]};
+if (_StartForces isEqualTo []) then {_StartForces = [objNull]};
 
 
 _LiveForces = _StartForces;
@@ -89,11 +89,11 @@ while {true} do
     _GoodsideForces = [];
 
     {
-        _crewUnits = (units (_x getvariable ["Air_ReinforcementsNR6_Crew",grpNull]));
+        _crewUnits = (units (_x getVariable ["Air_ReinforcementsNR6_Crew",grpNull]));
         _crewCount = count _crewUnits;
-        _crewSize = (_x getvariable ["Air_ReinforcementsNR6_CrewSize",0]);
+        _crewSize = (_x getVariable ["Air_ReinforcementsNR6_CrewSize",0]);
 
-        if ((alive _x) and not (({not (_x in _crewUnits)} count (crew _x)) > 0) and (_crewCount >= _crewSize) and ((damage _x) < 0.4) and not (_x getvariable ["Air_ReinforcementsNR6_Taken",false])) then {
+        if ((alive _x) and not (({not (_x in _crewUnits)} count (crew _x)) > 0) and (_crewCount >= _crewSize) and ((damage _x) < 0.4) and not (_x getVariable ["Air_ReinforcementsNR6_Taken",false])) then {
 
             _GoodsideForces pushBack _x;
             
@@ -115,7 +115,7 @@ while {true} do
 
     if ((_CurrentForces) < (_Threshold*_CStartForces)) then 
         {
-            if ( not (_GoodsideForces isequalto [])) then {
+            if ( not (_GoodsideForces isEqualTo [])) then {
 
                 private ["_selectedAircraft"];
 
@@ -123,15 +123,15 @@ while {true} do
 
                 sleep 1;
                 
-                _LiveForces pushback _selectedAircraft;
+                _LiveForces pushBack _selectedAircraft;
 
-               (leader (_selectedAircraft getvariable ["Air_ReinforcementsNR6_Crew",grpNull])) call compile ((_logic getVariable ["_ExtraArgs",""]) + _DontLand);
+               (leader (_selectedAircraft getVariable ["Air_ReinforcementsNR6_Crew",grpNull])) call compile ((_logic getVariable ["_ExtraArgs",""]) + _DontLand);
 
                     
             };  
         };
 
-    if (_GoodsideForces isequalto []) exitwith {};
+    if (_GoodsideForces isEqualTo []) exitWith {};
 
     sleep _TickTime;
     };

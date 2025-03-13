@@ -12,20 +12,20 @@ _PosObj1 = getPosATL _Trg;
 _unitvar = str (_unitG);
 
 _UL = leader _unitG;
-_PosLand = _unitG getvariable ("START" + _unitvar); 
-if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getvariable ("START" + _unitvar);};
+_PosLand = _unitG getVariable ("START" + _unitvar);
+if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getVariable ("START" + _unitvar);};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 
 _flight = [];
 
-{if ((vehicle _x) isKindOf "Air") then {_flight pushBackUnique (vehicle _x)}} foreach (units _unitG);
+{if ((vehicle _x) isKindOf "Air") then {_flight pushBackUnique (vehicle _x)}} forEach (units _unitG);
 
-{_x setVariable ["SortiePylons",(count (getPylonMagazines _x))]} foreach _flight;
+{_x setVariable ["SortiePylons",(count (getPylonMagazines _x))]} forEach _flight;
 
-if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or not (alive (assignedVehicle (leader _unitG))))) exitwith {
+if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or not (alive (assignedVehicle (leader _unitG))))) exitWith {
 
 	_attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 	_attAv pushBack _unitG;
@@ -67,10 +67,10 @@ if (_request) then {
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markAttack","ColorRed","ICON","waypoint","CAP " + (groupId _unitG) + " " + _signum," - CAS",[0.5,0.5]] call RYD_Mark
@@ -80,7 +80,7 @@ _task = [(leader _unitG),["Perform combat air patrol and intercept any hostile a
 
 _wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoint [(group this), 0]"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
-_lasT = ObjNull;
+_lasT = objNull;
 
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
@@ -88,7 +88,7 @@ _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
 
-if not (_alive) exitwith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	if not (isNull _lasT) then {deleteVehicle _lasT};
@@ -100,9 +100,9 @@ if (_timer > 120) then {deleteWaypoint _wp};
 
 if not (_task isEqualTo taskNull) then
 	{
-	
+
 	[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_Posland,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-	
+
 	};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
@@ -120,7 +120,7 @@ _mustRTB = false;
 {
 	if ((((_x getVariable ["SortiePylons",0])/2) > (count (getPylonMagazines _x))) or ((damage _x) > 0.5) or ((fuel _x) < 0.3)) then {_mustRTB = true;};
 
-} foreach _flight;
+} forEach _flight;
 
 
 if not (_mustRTB) then {
@@ -128,7 +128,7 @@ if not (_mustRTB) then {
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitwith 
+	if not (_alive) exitWith
 		{
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 		_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -144,7 +144,7 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 _attAv pushBack _unitG;
 _HQ setVariable ["RydHQ_AttackAv",_attAv];
- 
+
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};

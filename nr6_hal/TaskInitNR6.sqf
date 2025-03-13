@@ -12,7 +12,7 @@ Action1ct = {
 
 	{
 	[_x,'CANCELED',true] call BIS_fnc_taskSetState;
-	} foreach ((group (_this select 0)) getVariable ['HACAddedTasks',[]]);
+	} forEach ((group (_this select 0)) getVariable ['HACAddedTasks',[]]);
 
 	if ((group (_this select 0)) getVariable ["Busy" + str (group (_this select 0)),true]) then {(group (_this select 0)) setVariable ["Break",true]};
 
@@ -200,14 +200,14 @@ Action4ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting close air support at our position - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -231,11 +231,11 @@ Action4ct = {
 	{
 	if ((typeName _x) == "GROUP") then {
 	
-		if (not (_x getvariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getvariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
+		if (not (_x getVariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getVariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
 		};
 	} forEach (((_HQ getVariable ["RydHQ_BAirG",[]]) + (_HQ getVariable ["RydHQ_RCAS",[]])) - (_HQ getVariable ["RydHQ_Exhausted",[]]));
 
-	if (_chosen isEqualTo grpNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No air support units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_chosen isEqualTo grpNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No air support units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
@@ -312,14 +312,14 @@ Action5ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting infantry support at our position - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -348,11 +348,11 @@ Action5ct = {
 
 	if ((typeName _x) == "GROUP") then {
 	
-	if (not (_x getvariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getvariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
+	if (not (_x getVariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getVariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
 	};
 	} forEach (((_HQ getVariable ["RydHQ_NCrewInfG",[]]) - (_HQ getVariable ["RydHQ_SpecForG",[]])) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_ATInfG",[]]) + (_HQ getVariable ["RydHQ_AAInfG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]))));
 
-	if (_chosen isEqualTo grpNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No infantry squads are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_chosen isEqualTo grpNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No infantry squads are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	
 	_chosen setVariable ["Busy" + (str _chosen),true];
@@ -426,14 +426,14 @@ Action6ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting armored support at our position - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -462,11 +462,11 @@ Action6ct = {
 
 	if ((typeName _x) == "GROUP") then {
 	
-		if (not (_x getvariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getvariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
+		if (not (_x getVariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getVariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
 	};
 	} forEach ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorATG",[]]));
 
-	if (_chosen isEqualTo grpNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No armored units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_chosen isEqualTo grpNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No armored units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
@@ -540,22 +540,22 @@ Action7ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting airlift - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 	_unitG = (group (_this select 0));
 	_unitvar = str _unitG;
 
-	if not (_unitG getVariable [("CC" + _unitvar), true]) exitwith {sleep 5; [leader _HQ, (groupId _unitG) + ', negative. Transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
-	if (_unitG getVariable ["CargoCheckLoopActive", false]) exitwith {sleep 5; [leader _HQ, (groupId _unitG) + ', request pending. You are already on standby for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if not (_unitG getVariable [("CC" + _unitvar), true]) exitWith {sleep 5; [leader _HQ, (groupId _unitG) + ', negative. Transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_unitG getVariable ["CargoCheckLoopActive", false]) exitWith {sleep 5; [leader _HQ, (groupId _unitG) + ', request pending. You are already on standby for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_unitG setVariable ["CargoCheckLoopActive", true,true];
 
@@ -565,11 +565,11 @@ Action7ct = {
 	_TransportPriority pushBackUnique (group (_this select 0));
 	(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
 
-	[[_unitG,_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
+	[[_unitG,_HQ,getPos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
 
 	sleep 15;
 
-	if (_unitG getVariable ["CargoChosen", false]) exitwith {
+	if (_unitG getVariable ["CargoChosen", false]) exitWith {
 		[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
 		_TransportPriority = _TransportPriority - [(group (_this select 0))];
@@ -580,7 +580,7 @@ Action7ct = {
 
 	if (not (_unitG getVariable ["CargoChosen", false])) then {
 
-		[leader _HQ, (groupId _unitG) + ', copy. No air transport is available at this time. If transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+		[leader _HQ, (groupId _unitG) + ', copy. No air transport is available at this time. if transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 		_AbortAction = (_this select 0) addAction ["Cancel " + "Air" + " Transport Request",
 		{
@@ -600,7 +600,7 @@ Action7ct = {
 		waitUntil {
 			if not ((_unitG getVariable ["CargoCheckPending" + _unitvar,false]) and (_unitG getVariable [("CC" + _unitvar), false]) and not (_unitG getVariable ["CargoChosen", false])) then {
 				_unitG setVariable [("CC" + _unitvar), false, true];
-				[[_unitG,_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
+				[[_unitG,_HQ,getPos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
 				};
 
 			sleep 5;
@@ -620,10 +620,10 @@ Action7ct = {
 
 	_unitG setVariable ["CargoCheckLoopActive", false,true];
 
-	if (_unitG getVariable ["CargoCheckLoopAbort",false]) exitwith {_unitG setVariable ["CargoCheckLoopAbort",false,true]; [leader _HQ, (groupId _unitG) + ', copy. Air transport request canceled - Out'] remoteExecCall ["RYD_MP_Sidechat"];};	
+	if (_unitG getVariable ["CargoCheckLoopAbort",false]) exitWith {_unitG setVariable ["CargoCheckLoopAbort",false,true]; [leader _HQ, (groupId _unitG) + ', copy. Air transport request canceled - Out'] remoteExecCall ["RYD_MP_Sidechat"];};	
 
-	if (_unitG getVariable ["CargoChosen", false]) exitwith {[leader _HQ, (groupId _unitG) + ', update on your request. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
-	if (not (_unitG getVariable ["CargoChosen", false])) exitwith {[leader _HQ, (groupId _unitG) + ', update on your request. No air transport available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_unitG getVariable ["CargoChosen", false]) exitWith {[leader _HQ, (groupId _unitG) + ', update on your request. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
+	if (not (_unitG getVariable ["CargoChosen", false])) exitWith {[leader _HQ, (groupId _unitG) + ', update on your request. No air transport available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 };
 
@@ -691,14 +691,14 @@ Action8ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting ammunition drop - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -708,17 +708,17 @@ Action8ct = {
 
 	{
 		_unitvar = str _x;
-		if ( not (_x getVariable [("Busy" + _unitvar),false]) and not (_x == (group (_this select 0))) and not (_x getVariable ["Unable",false]) and not (_x isEqualTo grpNull) and (canMove (vehicle (leader _x))) and not ((vehicle (leader _x)) == (leader _x))) exitwith {_FlyBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
+		if ( not (_x getVariable [("Busy" + _unitvar),false]) and not (_x == (group (_this select 0))) and not (_x getVariable ["Unable",false]) and not (_x isEqualTo grpNull) and (canMove (vehicle (leader _x))) and not ((vehicle (leader _x)) == (leader _x))) exitWith {_FlyBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
 
-	if (_FlyBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No supply services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_FlyBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No supply services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	if not ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. Supplies have been depleted - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if not ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. Supplies have been depleted - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_ammoBox = (_HQ getVariable ["RydHQ_AmmoBoxes",[]]) select 0;
 	_HQ setVariable ["RydHQ_AmmoBoxes",(_HQ getVariable ["RydHQ_AmmoBoxes",[]]) - [_ammoBox]];
 
-	[[assignedvehicle (leader _FlyBoy),(vehicle (_this select 0)),[],[],true,_ammoBox,_HQ],HAL_GoAmmoSupp] call RYD_Spawn;
+	[[assignedVehicle (leader _FlyBoy),(vehicle (_this select 0)),[],[],true,_ammoBox,_HQ],HAL_GoAmmoSupp] call RYD_Spawn;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Supplies are on their way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -789,14 +789,14 @@ Action9ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting ammunition truck - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -808,10 +808,10 @@ Action9ct = {
 
 	{
 		_unitvar = str (group _x);
-		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedvehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitwith {_AmmoBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_Support",[]]);
+		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedVehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitWith {_AmmoBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
-	if (_AmmoBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No rearming services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_AmmoBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No rearming services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	[[_AmmoBoy,(vehicle (_this select 0)),[],[],false,objNull,_HQ,true],HAL_GoAmmoSupp] call RYD_Spawn;
 
@@ -880,14 +880,14 @@ Action10ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting fuel truck - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -899,14 +899,14 @@ Action10ct = {
 
 	{
 		_unitvar = str (group _x);
-		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedvehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitwith {_FuelBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_Support",[]]);
+		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedVehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitWith {_FuelBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
-	if (_FuelBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No refueling services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_FuelBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No refueling services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	[[_FuelBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoFuelSupp] call RYD_Spawn;
 
-	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Fuel truck is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
+	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. fuel truck is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 };
 
@@ -971,14 +971,14 @@ Action11ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting ambulance - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -990,10 +990,10 @@ Action11ct = {
 
 	{
 		_unitvar = str (group _x);
-		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedvehicle (leader (group _x))))) in _Pool) and not (_x in (_HQ getVariable ["RydHQ_AirG",[]])) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitwith {_MedBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_Support",[]]);
+		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedVehicle (leader (group _x))))) in _Pool) and not (_x in (_HQ getVariable ["RydHQ_AirG",[]])) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitWith {_MedBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
-	if (_MedBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No ambulances are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_MedBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No ambulances are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	[[_MedBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoMedSupp] call RYD_Spawn;
 
@@ -1062,14 +1062,14 @@ Action12ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting aerial medical support - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -1081,10 +1081,10 @@ Action12ct = {
 
 	{
 		_unitvar = str (group _x);
-		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedvehicle (leader (group _x))))) in _Pool) and (_x in (_HQ getVariable ["RydHQ_AirG",[]])) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitwith {_MedBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_Support",[]]);
+		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedVehicle (leader (group _x))))) in _Pool) and (_x in (_HQ getVariable ["RydHQ_AirG",[]])) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitWith {_MedBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
-	if (_MedBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No MEDEVAC helicopters are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_MedBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No MEDEVAC helicopters are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	[[_MedBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoMedSupp] call RYD_Spawn;
 
@@ -1154,14 +1154,14 @@ Action13ct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting repair support - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -1173,10 +1173,10 @@ Action13ct = {
 
 	{
 		_unitvar = str (group _x);
-		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedvehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitwith {_FixBoy = _x};
-	} foreach (_HQ getVariable ["RydHQ_Support",[]]);
+		if ( not ((group _x) getVariable [("Busy" + _unitvar),false]) and not ((group _x) == (group (_this select 0))) and not ((group _x) getVariable ["Unable",false]) and not ((group _x) isEqualTo grpNull) and (canMove _x) and ((toLower (typeOf (assignedVehicle (leader (group _x))))) in _Pool) and not ((group _x) in ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))))  exitWith {_FixBoy = _x};
+	} forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
-	if (_FixBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No repair trucks are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_FixBoy isEqualTo objNull) exitWith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No repair trucks are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	[[_FixBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoRepSupp] call RYD_Spawn;
 
@@ -1303,22 +1303,22 @@ ActionGTct = {
 
 	_HQ = grpNull;
 
-	if not (isnil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
-	if not (isnil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
-	if not (isnil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
-	if not (isnil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
-	if not (isnil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
-	if not (isnil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
-	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
-	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
+	if not (isNil "LeaderHQ") then {if ((group (_this select 0)) in ((group LeaderHQ) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQ)}};
+	if not (isNil "LeaderHQB") then {if ((group (_this select 0)) in ((group LeaderHQB) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQB)}};
+	if not (isNil "LeaderHQC") then {if ((group (_this select 0)) in ((group LeaderHQC) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQC)}};
+	if not (isNil "LeaderHQD") then {if ((group (_this select 0)) in ((group LeaderHQD) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQD)}};
+	if not (isNil "LeaderHQE") then {if ((group (_this select 0)) in ((group LeaderHQE) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQE)}};
+	if not (isNil "LeaderHQF") then {if ((group (_this select 0)) in ((group LeaderHQF) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQF)}};
+	if not (isNil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
+	if not (isNil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
 	[(_this select 0), 'Command, requesting ground transport - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 	_unitG = (group (_this select 0));
 	_unitvar = str _unitG;
 
-	if not (_unitG getVariable [("CC" + _unitvar), true]) exitwith {sleep 5; [leader _HQ, (groupId _unitG) + ', negative. Transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
-	if (_unitG getVariable ["CargoCheckLoopActive", false]) exitwith {sleep 5; [leader _HQ, (groupId _unitG) + ', request pending. You are already on standby for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if not (_unitG getVariable [("CC" + _unitvar), true]) exitWith {sleep 5; [leader _HQ, (groupId _unitG) + ', negative. Transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_unitG getVariable ["CargoCheckLoopActive", false]) exitWith {sleep 5; [leader _HQ, (groupId _unitG) + ', request pending. You are already on standby for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_unitG setVariable ["CargoCheckLoopActive", true,true];
 
@@ -1328,11 +1328,11 @@ ActionGTct = {
 	_TransportPriority pushBackUnique (group (_this select 0));
 	(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 
-	[[_unitG,_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
+	[[_unitG,_HQ,getPos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
 
 	sleep 15;
 
-	if (_unitG getVariable ["CargoChosen", false]) exitwith {
+	if (_unitG getVariable ["CargoChosen", false]) exitWith {
 		[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
 		_TransportPriority = _TransportPriority - [(group (_this select 0))];
@@ -1343,7 +1343,7 @@ ActionGTct = {
 
 	if (not (_unitG getVariable ["CargoChosen", false])) then {
 
-		[leader _HQ, (groupId _unitG) + ', copy. No ground transport is available at this time. If transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+		[leader _HQ, (groupId _unitG) + ', copy. No ground transport is available at this time. if transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 		_AbortAction = (_this select 0) addAction ["Cancel " + "Ground" + " Transport Request",
 		{
@@ -1363,7 +1363,7 @@ ActionGTct = {
 		waitUntil {
 			if not ((_unitG getVariable ["CargoCheckPending" + _unitvar,false]) and (_unitG getVariable [("CC" + _unitvar), false]) and not (_unitG getVariable ["CargoChosen", false])) then {
 				_unitG setVariable [("CC" + _unitvar), false, true];
-				[[_unitG,_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
+				[[_unitG,_HQ,getPos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
 				};
 
 			sleep 5;
@@ -1383,10 +1383,10 @@ ActionGTct = {
 
 	_unitG setVariable ["CargoCheckLoopActive", false,true];
 
-	if (_unitG getVariable ["CargoCheckLoopAbort",false]) exitwith {_unitG setVariable ["CargoCheckLoopAbort",false,true]; [leader _HQ, (groupId _unitG) + ', copy. Ground transport request canceled - Out'] remoteExecCall ["RYD_MP_Sidechat"];};	
+	if (_unitG getVariable ["CargoCheckLoopAbort",false]) exitWith {_unitG setVariable ["CargoCheckLoopAbort",false,true]; [leader _HQ, (groupId _unitG) + ', copy. Ground transport request canceled - Out'] remoteExecCall ["RYD_MP_Sidechat"];};	
 
-	if (_unitG getVariable ["CargoChosen", false]) exitwith {[leader _HQ, (groupId _unitG) + ', update on your request. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
-	if (not (_unitG getVariable ["CargoChosen", false])) exitwith {[leader _HQ, (groupId _unitG) + ', update on your request. No ground transport available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (_unitG getVariable ["CargoChosen", false]) exitWith {[leader _HQ, (groupId _unitG) + ', update on your request. ' + (groupId (group (_unitG getVariable ["AssignedCargo" + (str _unitG),objNull]))) + ' has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
+	if (not (_unitG getVariable ["CargoChosen", false])) exitWith {[leader _HQ, (groupId _unitG) + ', update on your request. No ground transport available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 };
 
@@ -1394,21 +1394,21 @@ ActionArtct = {
 
 	private ["_unitvar","_chosen","_HQ","_dist"];
 
-	if not (isnil {(_this select 0) getvariable "HALArtPos"}) exitwith {hint "Artillery Request Already In Progress";};
+	if not (isNil {(_this select 0) getVariable "HALArtPos"}) exitWith {hint "Artillery Request Already In Progress";};
 
 	_HQ = grpNull;
 	_Arts = [];
 	_ArtyFriends = [];
 	_Marks = false;
 
-	if (not (isnil "LeaderHQ") and not (isnil "ArtyFriendsA")) then {if ((group (_this select 0)) in (ArtyFriendsA)) then {_HQ = (group LeaderHQ); _Arts = ArtyArtGA;}};
-	if (not (isnil "LeaderHQB") and not (isnil "ArtyFriendsB")) then {if ((group (_this select 0)) in (ArtyFriendsB)) then {_HQ = (group LeaderHQB);_Arts = ArtyArtGB;}};
-	if (not (isnil "LeaderHQC") and not (isnil "ArtyFriendsC")) then {if ((group (_this select 0)) in (ArtyFriendsC)) then {_HQ = (group LeaderHQC);_Arts = ArtyArtGC;}};
-	if (not (isnil "LeaderHQD") and not (isnil "ArtyFriendsD")) then {if ((group (_this select 0)) in (ArtyFriendsD)) then {_HQ = (group LeaderHQD);_Arts = ArtyArtGD;}};
-	if (not (isnil "LeaderHQE") and not (isnil "ArtyFriendsE")) then {if ((group (_this select 0)) in (ArtyFriendsE)) then {_HQ = (group LeaderHQE);_Arts = ArtyArtGE;}};
-	if (not (isnil "LeaderHQF") and not (isnil "ArtyFriendsF")) then {if ((group (_this select 0)) in (ArtyFriendsF)) then {_HQ = (group LeaderHQF);_Arts = ArtyArtGF;}};
-	if (not (isnil "LeaderHQG") and not (isnil "ArtyFriendsG")) then {if ((group (_this select 0)) in (ArtyFriendsG)) then {_HQ = (group LeaderHQG);_Arts = ArtyArtGG;}};
-	if (not (isnil "LeaderHQH") and not (isnil "ArtyFriendsH")) then {if ((group (_this select 0)) in (ArtyFriendsH)) then {_HQ = (group LeaderHQH);_Arts = ArtyArtGH;}};
+	if (not (isNil "LeaderHQ") and not (isNil "ArtyFriendsA")) then {if ((group (_this select 0)) in (ArtyFriendsA)) then {_HQ = (group LeaderHQ); _Arts = ArtyArtGA;}};
+	if (not (isNil "LeaderHQB") and not (isNil "ArtyFriendsB")) then {if ((group (_this select 0)) in (ArtyFriendsB)) then {_HQ = (group LeaderHQB);_Arts = ArtyArtGB;}};
+	if (not (isNil "LeaderHQC") and not (isNil "ArtyFriendsC")) then {if ((group (_this select 0)) in (ArtyFriendsC)) then {_HQ = (group LeaderHQC);_Arts = ArtyArtGC;}};
+	if (not (isNil "LeaderHQD") and not (isNil "ArtyFriendsD")) then {if ((group (_this select 0)) in (ArtyFriendsD)) then {_HQ = (group LeaderHQD);_Arts = ArtyArtGD;}};
+	if (not (isNil "LeaderHQE") and not (isNil "ArtyFriendsE")) then {if ((group (_this select 0)) in (ArtyFriendsE)) then {_HQ = (group LeaderHQE);_Arts = ArtyArtGE;}};
+	if (not (isNil "LeaderHQF") and not (isNil "ArtyFriendsF")) then {if ((group (_this select 0)) in (ArtyFriendsF)) then {_HQ = (group LeaderHQF);_Arts = ArtyArtGF;}};
+	if (not (isNil "LeaderHQG") and not (isNil "ArtyFriendsG")) then {if ((group (_this select 0)) in (ArtyFriendsG)) then {_HQ = (group LeaderHQG);_Arts = ArtyArtGG;}};
+	if (not (isNil "LeaderHQH") and not (isNil "ArtyFriendsH")) then {if ((group (_this select 0)) in (ArtyFriendsH)) then {_HQ = (group LeaderHQH);_Arts = ArtyArtGH;}};
 
 	(_this select 0) onMapSingleClick "_this setvariable ['HALArtPos',_pos,true]; _this onMapSingleClick ''; hint 'Fire Mission Coordinates Selected'";
 
@@ -1420,8 +1420,8 @@ ActionArtct = {
 		_lPiece = (vehicle (leader _x));
 		_veh = toLower (typeOf _lPiece);
 		_pos = position _lPiece;
-		if ((vehicle (leader _x)) == (leader _x)) exitwith {};
-		_MrkTxt = (getText (configfile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")";
+		if ((vehicle (leader _x)) == (leader _x)) exitWith {};
+		_MrkTxt = (getText (configFile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")";
 		_minRange = missionNamespace getVariable ["RHQ_ClassRangeMin" + str (_veh),0];
 		_maxRange = missionNamespace getVariable ["RHQ_ClassRangeMax" + str (_veh),0];
 
@@ -1453,11 +1453,11 @@ ActionArtct = {
 
 	hintC "Select artillery strike coordinates. Closing the map will cancel the request.";
 
-	waitUntil {sleep 0.2; (not isnil {(_this select 0) getvariable "HALArtPos"} or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap))};
+	waitUntil {sleep 0.2; (not isNil {(_this select 0) getVariable "HALArtPos"} or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap))};
 
-	if (isnil {(_this select 0) getvariable "HALArtPos"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
+	if (isNil {(_this select 0) getVariable "HALArtPos"}) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} forEach _reqArtyMarks;};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
+	if (not (visibleMap)) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} forEach _reqArtyMarks;};
 
 	_ArtyMenu = [["Artillery Pieces",false]];
 	_ArtyOptions = [];
@@ -1466,28 +1466,28 @@ ActionArtct = {
 	{
 	
 	_ArtyOptions pushBack [(count _ArtyMenu),_x];
-	_ArtyMenu pushBack [ (getText (configfile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")" , [((count _ArtyMenu) + 1)] , "", -5, [["expression", "player setvariable ['HALArtPiece'," + (str (count _ArtyMenu)) +",true]"]], "1", "1"];
+	_ArtyMenu pushBack [ (getText (configFile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")" , [((count _ArtyMenu) + 1)] , "", -5, [["expression", "player setvariable ['HALArtPiece'," + (str (count _ArtyMenu)) +",true]"]], "1", "1"];
 
-	} foreach _Arts;
+	} forEach _Arts;
 
 	_ArtyMenu pushBack ["Cancel Fire Mission", [((count _ArtyMenu) + 1)] , "", -5, [["expression", "player setvariable ['HALArtPiece',0,true]"]], "1", "1"];
 
 	showCommandingMenu "#USER:_ArtyMenu";
 
-	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtPiece"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenu"))};
+	waitUntil {sleep 0.2; (not (isNil {(_this select 0) getVariable "HALArtPiece"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenu"))};
 
-	if (isnil {(_this select 0) getvariable "HALArtPiece"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
+	if (isNil {(_this select 0) getVariable "HALArtPiece"}) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} forEach _reqArtyMarks;};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
+	if (not (visibleMap)) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} forEach _reqArtyMarks;};
 
-	if (((_this select 0) getvariable "HALArtPiece") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} foreach _reqArtyMarks;};
+	if (((_this select 0) getVariable "HALArtPiece") isEqualTo 0) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true];{deleteMarkerLocal _x} forEach _reqArtyMarks;};
 
 	{
-		if ((_x select 0) isEqualTo ((_this select 0) getvariable "HALArtPiece")) exitwith {_selectedPiece = (_x select 1);(_this select 0) setvariable ["HALArtPiece",nil,true];};
+		if ((_x select 0) isEqualTo ((_this select 0) getVariable "HALArtPiece")) exitWith {_selectedPiece = (_x select 1);(_this select 0) setVariable ["HALArtPiece",nil,true];};
 
-	} foreach _ArtyOptions;
+	} forEach _ArtyOptions;
 
-	{deleteMarkerLocal _x} foreach _reqArtyMarks;
+	{deleteMarkerLocal _x} forEach _reqArtyMarks;
 
 	_ArtyMenuOrd = [["Ordnance Options",false]];
 	_OrdOptions = [];
@@ -1495,7 +1495,7 @@ ActionArtct = {
 
 
 	{
-		if ((typeOf (vehicle (leader _selectedPiece))) in (_x select 0)) exitwith {
+		if ((typeOf (vehicle (leader _selectedPiece))) in (_x select 0)) exitWith {
 
 			if not (((_x select 1) select 0) isEqualTo "") then {
 				_OrdOptions pushBack [(count _ArtyMenuOrd),"HE"];
@@ -1524,7 +1524,7 @@ ActionArtct = {
 
 		};
 
-	} foreach RydHQ_OtherArty;
+	} forEach RydHQ_OtherArty;
 
 	if ((count _ArtyMenuOrd) == 1) then {_OrdOptions = [[1,"HE"]];_ArtyMenuOrd pushBack ["High Explosive", [((count _ArtyMenuOrd) + 1)] , "", -5, [["expression", "player setvariable ['HALArtord',1,true]"]], "1", "1"];};
 
@@ -1532,18 +1532,18 @@ ActionArtct = {
 
 	showCommandingMenu "#USER:_ArtyMenuOrd";
 
-	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtord"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
+	waitUntil {sleep 0.2; (not (isNil {(_this select 0) getVariable "HALArtord"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
 
-	if (isnil {(_this select 0) getvariable "HALArtord"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
+	if (isNil {(_this select 0) getVariable "HALArtord"}) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPos",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true]};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (not (visibleMap)) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtord",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true]};
 
-	if (((_this select 0) getvariable "HALArtord") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (((_this select 0) getVariable "HALArtord") isEqualTo 0) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtord",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true]};
 
 	{
-		if ((_x select 0) isEqualTo ((_this select 0) getvariable "HALArtord")) exitwith {_selectedOrd = (_x select 1);(_this select 0) setvariable ["HALArtord",nil,true];};
+		if ((_x select 0) isEqualTo ((_this select 0) getVariable "HALArtord")) exitWith {_selectedOrd = (_x select 1);(_this select 0) setVariable ["HALArtord",nil,true];};
 
-	} foreach _OrdOptions;
+	} forEach _OrdOptions;
 	
 
 	_ArtyMenuAmnt = [["Ordnance Strength",false]];
@@ -1552,30 +1552,30 @@ ActionArtct = {
 
 	_ArtyMenuAmnt pushBack [(str _x), [((count _ArtyMenuAmnt) + 1)] , "", -5, [["expression", "player setvariable ['HALArtAmnt'," + (str _x) +",true]"]], "1", "1"];
 
-	} foreach [1,2,3,4,5,6,7,8,9];
+	} forEach [1,2,3,4,5,6,7,8,9];
 
 	_ArtyMenuAmnt pushBack ["Cancel Fire Mission", [((count _ArtyMenuAmnt) + 1)] , "", -5, [["expression", "player setvariable ['HALArtAmnt',0,true]"]], "1", "1"];
 
 	showCommandingMenu "#USER:_ArtyMenuAmnt";
 
-	waitUntil {sleep 0.2; (not (isnil {((_this select 0) getvariable "HALArtAmnt")}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
+	waitUntil {sleep 0.2; (not (isNil {((_this select 0) getVariable "HALArtAmnt")}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
 
-	if (isnil {(_this select 0) getvariable "HALArtAmnt"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
+	if (isNil {(_this select 0) getVariable "HALArtAmnt"}) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtPos",nil,true];(_this select 0) setVariable ["HALArtord",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true]};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtAmnt",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (not (visibleMap)) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtAmnt",nil,true];(_this select 0) setVariable ["HALArtord",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true]};
 
-	if (((_this select 0) getvariable "HALArtAmnt") == 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtAmnt",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
-
-
-
-	[(_this select 0), "Command, requesting fire support at GRID: " + (mapGridPosition ((_this select 0) getvariable ["HALArtPos",nil])) + " - Over"] remoteExecCall ["RYD_MP_Sidechat"];
-
-	[_HQ,(_this select 0),(_this select 0) getvariable ["HALArtPos",nil],_selectedPiece,_selectedOrd,(_this select 0) getvariable ["HALArtAmnt",nil]] remoteExec ["ActionArt2ct",2];
+	if (((_this select 0) getVariable "HALArtAmnt") == 0) exitWith {hint "Artillery Request Cancelled";(_this select 0) setVariable ["HALArtAmnt",nil,true];(_this select 0) setVariable ["HALArtord",nil,true];(_this select 0) setVariable ["HALArtPiece",nil,true];(_this select 0) setVariable ["HALArtPos",nil,true]};
 
 
-	(_this select 0) setvariable ["HALArtAmnt",nil,true];
-	(_this select 0) setvariable ["HALArtord",nil,true];
-	(_this select 0) setvariable ["HALArtPiece",nil,true];
+
+	[(_this select 0), "Command, requesting fire support at GRID: " + (mapGridPosition ((_this select 0) getVariable ["HALArtPos",nil])) + " - Over"] remoteExecCall ["RYD_MP_Sidechat"];
+
+	[_HQ,(_this select 0),(_this select 0) getVariable ["HALArtPos",nil],_selectedPiece,_selectedOrd,(_this select 0) getVariable ["HALArtAmnt",nil]] remoteExec ["ActionArt2ct",2];
+
+
+	(_this select 0) setVariable ["HALArtAmnt",nil,true];
+	(_this select 0) setVariable ["HALArtord",nil,true];
+	(_this select 0) setVariable ["HALArtPiece",nil,true];
 //	(_this select 0) setvariable ["HALArtPos",nil,true];
 
 };
@@ -1597,11 +1597,11 @@ ActionArt2ct = {
 		[_bArr select 1,_pos,_bArr select 2,_bArr select 3,_HQ getVariable ["RydHQ_Friends",[]],_HQ getVariable ["RydHQ_ArtyMarks",false],_selectedOrd,(_amnt) min (_bArr select 4),true] spawn RYD_CFF_FFE;
 		sleep 5;
 		[leader _HQ, "Affirmative. " + (groupId _selectedPiece) + " executing requested fire support - Out"] remoteExecCall ["RYD_MP_Sidechat"];
-		_FO setvariable ["HALArtPos",nil,true];
+		_FO setVariable ["HALArtPos",nil,true];
 	} else {
 		sleep 5;
 		[leader _HQ, "Negative. " + (groupId _selectedPiece) + " unable to execute requested fire support - Out"] remoteExecCall ["RYD_MP_Sidechat"];
-		_FO setvariable ["HALArtPos",nil,true];
+		_FO setVariable ["HALArtPos",nil,true];
 	};
 
 };

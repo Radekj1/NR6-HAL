@@ -28,19 +28,19 @@ _targets = [];
 			_pX = _pX + (_pos select 0);
 			_pY = _pY + (_pos select 1);
 			}
-		foreach _x;
+		forEach _x;
 
 		_pos = [_pX/_cnt,_pY/_cnt,0];
 		
 			{
 			_x setPosATL _pos
 			}
-		foreach _x;
+		forEach _x;
 		
 		_targets pushBack (_x select 0)
 		}
 	}
-foreach _clusters;
+forEach _clusters;
 
 _amnt = (count _targets);
 
@@ -109,11 +109,11 @@ _initialPositions = [];
 		
 		_settingPoints pushBack [_lWing,_x,_rWing];
 		}
-	foreach _echelons;
+	forEach _echelons;
 	
 	_initialPositions pushBack _settingPoints;
 	}
-foreach _targets;
+forEach _targets;
 
 _noCombat = (_HQ getVariable ["RydHQ_NCAirG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_AmmoSupportG",[]]) + (_HQ getVariable ["RydHQ_RepSupportG",[]]) + (_HQ getVariable ["RydHQ_MedSupportG",[]]) + (_HQ getVariable ["RydHQ_FuelSupportG",[]]);
 _airRecon = (_HQ getVariable ["RydHQ_RAirG",[]]);
@@ -135,10 +135,10 @@ _all = _ReconAv + _attackAv;
 			_kind set [_foreachIndex,0]
 			}
 		}
-	foreach _kind;
+	forEach _kind;
 	
 	_kind = _kind - [0]
 	}
-foreach [_airRecon,_armored,_mechanized,_static,_air,_onFoot];
+forEach [_airRecon,_armored,_mechanized,_static,_air,_onFoot];
 
 _enRoute = _ReconAv + _attackAv;

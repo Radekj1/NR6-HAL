@@ -176,7 +176,7 @@ if (_patrol > 0 && {count _units > 1}) then {
         [_x] orderGetIn true;
     } else {
         // Respect chance to patrol, or force if no building positions left
-        if !((_buildings isEqualto []) || { (random 1 < _patrol) }) then {
+        if !((_buildings isEqualTo []) || { (random 1 < _patrol) }) then {
             private _building = _buildings select {
                 if ((random 100) < 55) then {((typeOf _x) in _BclassesOP)} else {true}
             };
@@ -198,11 +198,11 @@ if (_patrol > 0 && {count _units > 1}) then {
                 // Wait until AI is in position then force them to stay
                 [_x, _pos, _hold,_New] spawn {
                     params ["_unit", "_pos", "_hold","_New"];
-                    if (surfaceIsWater _pos) exitwith {};
+                    if (surfaceIsWater _pos) exitWith {};
 
                     _unit doMove _pos;
                     if (_New) then {_unit setPos _pos};
-                    waituntil {sleep 1; unitReady _unit};
+                    waitUntil {sleep 1; unitReady _unit};
                     if (random 1 < _hold) then {
                         _unit disableAI "PATH";
                         doStop _unit;

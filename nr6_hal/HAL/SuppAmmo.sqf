@@ -15,7 +15,7 @@ _ammoSG = [];
 	{
 	if not (_x in _ammoS) then
 		{
-		if ((toLower (typeOf (assignedvehicle _x))) in _ammo) then 
+		if ((toLower (typeOf (assignedVehicle _x))) in _ammo) then 
 			{
 			_ammoS pushBack _x;
 
@@ -26,7 +26,7 @@ _ammoSG = [];
 			}
 		}
 	}
-foreach (_HQ getVariable ["RydHQ_Support",[]]);
+forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
 	{
 	if not (_x in _ammoSG) then
@@ -34,7 +34,7 @@ foreach (_HQ getVariable ["RydHQ_Support",[]]);
 		_ammoSG pushBack _x
 		}
 	}
-foreach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
+forEach (_HQ getVariable ["RydHQ_AmmoDrop",[]]);
 
 _HQ setVariable ["RydHQ_AmmoSupport",_ammoS];
 _HQ setVariable ["RydHQ_AmmoSupportG",_ammoSG];
@@ -52,10 +52,10 @@ _ZeroA = [];
 			{
 			_ammoN = _ammoN + (count (magazines _x))
 			}
-		foreach (units _x);
+		forEach (units _x);
 
 			{
-			_av = assignedvehicle _x;
+			_av = assignedVehicle _x;
 
 			if not (isNull _av) then
 				{
@@ -65,7 +65,7 @@ _ZeroA = [];
 						{
 						if not ((toLower (typeOf _av)) in ((_HQ getVariable ["RydHQ_NCVeh",[]]))) then
 							{
-							if (((getposATL _x) select 2) < 5) then 
+							if (((getPosATL _x) select 2) < 5) then 
 								{
 								_ZeroA pushBack _av
 								}
@@ -89,11 +89,11 @@ _ZeroA = [];
 					}
 				}
 			}
-		foreach (units _x)
+		forEach (units _x)
 		
 	};
 	}
-foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExReAmmo",[]]));
+forEach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExReAmmo",[]]));
 
 //_Hollow = _Hollow + _ZeroA;
 _HQ setVariable ["RydHQ_Hollow",_Hollow + _ZeroA];
@@ -110,11 +110,11 @@ _MTrucks = [];
 				{
 				_unitvar = str (_x);
 				_busy = false;
-				_busy = _x getvariable ("Busy" + _unitvar);
+				_busy = _x getVariable ("Busy" + _unitvar);
 				if (isNil ("_busy")) then {_busy = false};
 
 				_unable = false;
-				_unable = _x getvariable "Unable";
+				_unable = _x getVariable "Unable";
 				if (isNil ("_unable")) then {_unable = false};
 
 				if (not (_busy) and not (_unable)) then
@@ -128,7 +128,7 @@ _MTrucks = [];
 			}
 		}
 	}
-foreach _ammoSG;
+forEach _ammoSG;
 
 _MTrucks2 = [];
 _MTrucks3 = [];
@@ -143,7 +143,7 @@ _MTrucks3 = [];
 		_MTrucks2 pushBack _x
 		}
 	}
-foreach _MTrucks;
+forEach _MTrucks;
 
 _MTrucks2a = +_MTrucks2;
 _MTrucks3a = +_MTrucks3;
@@ -153,14 +153,14 @@ _a = 0;
 for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 	{
 		{
-		_MTruck = assignedvehicle (leader _x);
+		_MTruck = assignedVehicle (leader _x);
 
 		for [{_b = 0},{_b < (count _ZeroA)},{_b = _b + 1}] do 
 			{
 			_Zunit = _ZeroA select _b;		
 
 				{
-				if ((_Zunit distance (assignedvehicle (leader _x))) < 400) exitwith 
+				if ((_Zunit distance (assignedVehicle (leader _x))) < 400) exitWith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 						{
@@ -171,10 +171,10 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach _ammoSG;
+			forEach _ammoSG;
 			
 				{
-				if ((_Zunit distance _x) < 400) exitwith 
+				if ((_Zunit distance _x) < 400) exitWith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 						{
@@ -185,7 +185,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach (_HQ getVariable ["RydHQ_AmmoPoints",[]]);
+			forEach (_HQ getVariable ["RydHQ_AmmoPoints",[]]);
 			
 			_noenemy = true;
 
@@ -222,12 +222,12 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 					};
 				};
 			
-			if (((count _MTrucks2) == 0) or ((count _Zunits) == 0)) exitwith {};
+			if (((count _MTrucks2) == 0) or ((count _Zunits) == 0)) exitWith {};
 			};
 			
-		if (((count _MTrucks2) == 0) or ((count _Zunits) == 0)) exitwith {};
+		if (((count _MTrucks2) == 0) or ((count _Zunits) == 0)) exitWith {};
 		}
-	foreach _MTrucks2a;
+	forEach _MTrucks2a;
 	};
 
 if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
@@ -237,14 +237,14 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 	for [{_a = 500},{_a < 44000},{_a = _a + 500}] do
 		{
 			{
-			_MTruck = assignedvehicle (leader _x);
+			_MTruck = assignedVehicle (leader _x);
 			
 			for [{_b = 0},{_b < (count _Hollow)},{_b = _b + 1}] do 
 				{
 				_Hunit = _Hollow select _b;
 
 					{
-					if ((_Hunit distance (assignedvehicle (leader _x))) < 250) exitwith 
+					if ((_Hunit distance (assignedVehicle (leader _x))) < 250) exitWith 
 						{
 						if not ((group _Hunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 							{
@@ -255,10 +255,10 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 							}
 						};
 					}
-				foreach _ammoSG;
+				forEach _ammoSG;
 
 					{
-					if ((_Hunit distance _x) < 250) exitwith 
+					if ((_Hunit distance _x) < 250) exitWith 
 						{
 						if not ((group _Hunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 							{
@@ -269,7 +269,7 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 							}
 						};
 					}
-				foreach (_HQ getVariable ["RydHQ_AmmoPoints",[]]);
+				forEach (_HQ getVariable ["RydHQ_AmmoPoints",[]]);
 
 				_noenemy = true;
 				_halfway = [(((position _MTruck) select 0) + ((position _Hunit) select 0))/2,(((position _MTruck) select 1) + ((position _Hunit) select 1))/2];
@@ -308,11 +308,11 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 						_Hunits = _Hunits - [_Hunit]
 						};
 					};				
-				if (((count _MTrucks3) == 0) or ((count _Hunits) == 0)) exitwith {};
+				if (((count _MTrucks3) == 0) or ((count _Hunits) == 0)) exitWith {};
 				};
 				
-			if (((count _MTrucks3) == 0) or ((count _Hunits) == 0)) exitwith {};
+			if (((count _MTrucks3) == 0) or ((count _Hunits) == 0)) exitWith {};
 			}
-		foreach _MTrucks3a
+		forEach _MTrucks3a
 		}
 	};

@@ -10,8 +10,8 @@ _logic = _this select 0;
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Commanders pushback (call compile (_x getvariable "LeaderType"))};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
+} forEach (synchronizedObjects _logic);
 
 _side = call compile (_logic getVariable "_side");
 _SpawnPads =  [];
@@ -28,12 +28,12 @@ if (_DontLand) then {_DontLand = "; (group _this) setVariable ['AirNoLand',true]
 if (isNil ("_TickTime")) then {_TickTime = 15};
 
 {
-    if (_x isKindOf "HeliH") then {_SpawnPads pushback _x};
-    if ((_x isKindOf "Air") and ((crew _x) isequalto [])) then {_sideForces pushback _x};
-    if ((_x isKindOf "Air") and not ((crew _x) isequalto [])) then {_StartForces pushback _x};
+    if (_x isKindOf "HeliH") then {_SpawnPads pushBack _x};
+    if ((_x isKindOf "Air") and ((crew _x) isEqualTo [])) then {_sideForces pushBack _x};
+    if ((_x isKindOf "Air") and not ((crew _x) isEqualTo [])) then {_StartForces pushBack _x};
 } forEach (synchronizedObjects _coreObj);
 
-if (_StartForces isequalto []) then {_StartForces = [objNull]};
+if (_StartForces isEqualTo []) then {_StartForces = [objNull]};
 
 
 _LiveForces = _StartForces;
@@ -83,9 +83,9 @@ while {true} do
     _GoodsideForces = [];
 
     {
-        if ((alive _x) and ((damage _x) < 0.4) and not (_x getvariable ["Air_ReinforcementsNR6_Taken",false])) then {
+        if ((alive _x) and ((damage _x) < 0.4) and not (_x getVariable ["Air_ReinforcementsNR6_Taken",false])) then {
 
-            _GoodsideForces pushback _x;
+            _GoodsideForces pushBack _x;
             _x setVehicleLock "LOCKED";
             
         };
@@ -95,9 +95,9 @@ while {true} do
     _GoodPads = [];
 
     {
-        if ( not ([] isequalto ((getpos _x) findEmptyPosition [0,0,"B_Heli_Transport_01_F"])) and (alive _x)) then {
+        if ( not ([] isEqualTo ((getPos _x) findEmptyPosition [0,0,"B_Heli_Transport_01_F"])) and (alive _x)) then {
 
-            _GoodPads pushback _x;
+            _GoodPads pushBack _x;
             
         };
     
@@ -114,7 +114,7 @@ while {true} do
 
     if ((_CurrentForces) < (_Threshold*_CStartForces)) then 
         {
-            if ( not (_GoodsideForces isequalto []) and not (_GoodPads isequalto [])) then {
+            if ( not (_GoodsideForces isEqualTo []) and not (_GoodPads isEqualTo [])) then {
 
                 private ["_grp"];
 
@@ -122,7 +122,7 @@ while {true} do
 
                 sleep 1;
                 
-                _LiveForces pushback (vehicle (leader _grp));
+                _LiveForces pushBack (vehicle (leader _grp));
 
                 (leader _grp) call compile ((_logic getVariable ["_ExtraArgs",""]) + _DontLand);
 
@@ -130,7 +130,7 @@ while {true} do
             };  
         };
 
-    if (_GoodsideForces isequalto []) exitwith {};
+    if (_GoodsideForces isEqualTo []) exitWith {};
 
     sleep _TickTime;
     };

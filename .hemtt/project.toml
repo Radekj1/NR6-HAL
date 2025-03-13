@@ -1,0 +1,14 @@
+name = "HAL"
+prefix = "hal"
+author = "HAL-Team"
+mainprefix = "z"
+
+[files]
+include = [
+    "mod.cpp",
+    "README*.md",  # Translated READMEs get moved to root in a hook (virtual file system)
+    "LICENSE",
+]
+
+[version]
+git_hash = 0

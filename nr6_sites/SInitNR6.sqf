@@ -36,7 +36,7 @@ SpawnRGroupS = {
 
         if not ((typeName (_SelGroup select 0)) isEqualTo "ARRAY") then {
 
-            {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
+            {_SelGroup set [_foreachindex,[_x,[],[],[]]]} forEach _SelGroup;
 
         };
 
@@ -51,10 +51,10 @@ SpawnRGroupS = {
             } else {
                 _crewGear = _x select 1;
                 _vharr = [([_selectedPos,0,75,10] call BIS_fnc_findSafePos),0,_class,_grp] call BIS_fnc_spawnVehicle;
-                if not ((_x select 3) isEqualTo []) then {{_vharr setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_x select 3)};
-                {((_vharr select 1) select _foreachindex) setUnitLoadout _x} foreach _crewGear;
+                if not ((_x select 3) isEqualTo []) then {{_vharr setPylonLoadout [(_forEachIndex + 1),_x]} forEach (_x select 3)};
+                {((_vharr select 1) select _foreachindex) setUnitLoadout _x} forEach _crewGear;
             };
-        } foreach _SelGroup;
+        } forEach _SelGroup;
 
     } else {
 

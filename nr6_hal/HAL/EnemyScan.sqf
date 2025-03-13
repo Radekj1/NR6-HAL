@@ -1,6 +1,6 @@
 _SCRname = "EnemyScan";
 
-private ["_HQ","_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_frm","_code"];
+private ["_HQ","_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_formation","_code"];
 
 _HQ = _this select 0;
 
@@ -16,7 +16,7 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 		_i = [(position (vehicle (leader _x))),_x,"markDanger","ColorGreen","ICON","mil_dot",(str _dngr),""] call RYD_Mark;
 		_x setVariable ["RydHQ_MarkerES",true];
 		}
-	foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+	forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 	
 	if ((_HQ getVariable ["RydHQ_Cyclecount",1]) == 1) then
 		{
@@ -52,14 +52,14 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 						if (_dngr > 0.5) then {_cl = "ColorRed"};
 						
 						_mark setMarkerColor _cl;
-						_mark setmarkerText (str _dngr)
+						_mark setMarkerText (str _dngr)
 						}
 					else
 						{
 						deleteMarker ("MarkDanger" + (str _x))
 						}
 					}
-				foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+				forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 				sleep 5;
 				}
 			};
@@ -85,7 +85,7 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 		if ((isNull _aV) or (isNull _cV)) then {_dstC = 1000};
 		if ((_dstC < 500) and (_dstC > 0)) then {_fCount = _fCount + (({alive _x} count (units _x))/(_dstC/3))}
 		}
-	foreach (_LCU - [_x]);
+	forEach (_LCU - [_x]);
 
 		{
 		if not (isNull _x) then
@@ -98,14 +98,14 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 				}
 			}
 		}
-	foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
+	forEach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
 
 	if (_danger > 0.15) then
 		{
 		_UL = leader _x;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InDanger,"InDanger"] call RYD_AIChatter}};
 		};
 
-	_x setvariable ["NearE",_danger];
+	_x setVariable ["NearE",_danger];
 
 	if (_HQ getVariable ["RydHQ_DynForm",false]) then
 		{
@@ -117,11 +117,11 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 					{
 					if not (isPlayer (leader _x)) then 
 						{
-						_frm = _x getVariable "FormChanged";
+						_formation = _x getVariable "FormChanged";
 
 						if (_danger > 0.005) then
 							{
-							if (isNil "_frm") then {_x setVariable ["FormChanged",[formation _x,behaviour (leader _x),speedMode _x]]};
+							if (isNil "_formation") then {_x setVariable ["FormChanged",[formation _x,behaviour (leader _x),speedMode _x]]};
 							if ((behaviour (leader _x)) in ["CARELESS","SAFE"]) then
 								{
 								_x setBehaviour "AWARE"
@@ -139,21 +139,21 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 							}
 						else
 							{
-							if not (isNil "_frm") then
+							if not (isNil "_formation") then
 								{
-								if not ((_frm select 1) == (behaviour (leader _x))) then
+								if not ((_formation select 1) == (behaviour (leader _x))) then
 									{
-									_x setBehaviour (_frm select 1);
+									_x setBehaviour (_formation select 1);
 									};
 
-								if not ((_frm select 2) == (speedMode _x)) then
+								if not ((_formation select 2) == (speedMode _x)) then
 									{
-									_x setSpeedMode (_frm select 2);
+									_x setSpeedMode (_formation select 2);
 									};
 
-								if not ((_frm select 0) == (formation _x)) then
+								if not ((_formation select 0) == (formation _x)) then
 									{
-									_x setFormation (_frm select 0)
+									_x setFormation (_formation select 0)
 									};
 
 								_x setVariable ["FormChanged",nil]
@@ -165,6 +165,6 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 			}
 		}
 	}
-foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]));
+forEach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]));
 
 _HQ setVariable ["RydHQ_ES",true];

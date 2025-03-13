@@ -25,7 +25,7 @@ SpawnRGroup = {
     _grp = grpNull;
     if ((typeName (_SelGroup select 0)) isNotEqualTo "ARRAY") then {
 
-       {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
+       {_SelGroup set [_foreachindex,[_x,[],[],[]]]} forEach _SelGroup;
     
     };
     if ((typeName (_SelGroup select 0)) isEqualTo "ARRAY") then {
@@ -46,16 +46,16 @@ SpawnRGroup = {
                 _vharr = [([_selectedPos,0,75,10] call BIS_fnc_findSafePos),0,_class,_grp] call BIS_fnc_spawnVehicle;
                 private _vh = [];
                 _vh = _vharr select 0;
-                {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear); 
+                {((crew _vh) select _foreachindex) setUnitLoadout _x} forEach (_crewgear); 
                 if ((isClass (configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons"))) then 
                     {
                         private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
                         {_vh removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") };
                         {_vh setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
-                        {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear);                        
+                        {((crew _vh) select _foreachindex) setUnitLoadout _x} forEach (_crewgear);                        
                     };    
             };
-        } foreach _SelGroup;
+        } forEach _SelGroup;
     } else {
 
         _grp = [([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos),_side,_SelGroup] call BIS_fnc_spawnGroup;
@@ -75,14 +75,14 @@ SpawnRGroup = {
                 {
                 _sentence = (format ["%2 deployed at grid: %1",mapGridPosition _selectedPos,groupId _grp]);
             //    [_x,_sentence] remoteExecCall ["RYD_MP_Sidechat"];
-                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setvariable ["RydHQ_Included",RydHQ_Included];};
-                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setvariable ["RydHQ_Included",RydHQB_Included];};
-                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setvariable ["RydHQ_Included",RydHQC_Included];};
-                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setvariable ["RydHQ_Included",RydHQD_Included];};
-                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setvariable ["RydHQ_Included",RydHQE_Included];};
-                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setvariable ["RydHQ_Included",RydHQF_Included];};
-                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setvariable ["RydHQ_Included",RydHQG_Included];};
-                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setvariable ["RydHQ_Included",RydHQH_Included];};
+                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setVariable ["RydHQ_Included",RydHQ_Included];};
+                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setVariable ["RydHQ_Included",RydHQB_Included];};
+                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setVariable ["RydHQ_Included",RydHQC_Included];};
+                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setVariable ["RydHQ_Included",RydHQD_Included];};
+                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setVariable ["RydHQ_Included",RydHQE_Included];};
+                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setVariable ["RydHQ_Included",RydHQF_Included];};
+                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setVariable ["RydHQ_Included",RydHQG_Included];};
+                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setVariable ["RydHQ_Included",RydHQH_Included];};
                 }; 
             };
 
@@ -104,7 +104,7 @@ NR6_GetUnit = {
 	
 	_Objective = objNull;
 	_Reinf = objNull;
-	_objPos = getpos _logic;
+	_objPos = getPos _logic;
 	
 	if ((_logic getVariable ['NR6Supplies',0]) <= 0) exitWith {('Supplies Available At Camp: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; };
 
@@ -122,12 +122,12 @@ NR6_GetUnit = {
 	if ((count _nearReinfs) > 0) then {
 		_nearReinfs = [_nearReinfs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 		_Reinf = _nearReinfs select 0;
-		_rTick = _Reinf getvariable ["_sidetick",0];
+		_rTick = _Reinf getVariable ["_sidetick",0];
 		_logic setVariable ['NR6Supplies',((_rTick)*(10))];	
 	};
 
 
-	if not (isNull _leader) then {if not (_Objective in ((group _leader) getvariable ["RydHQ_Taken",[]])) exitwith {('Objective Not Secured') remoteExecCall ['hint',(_this select 1)]; }};
+	if not (isNull _leader) then {if not (_Objective in ((group _leader) getVariable ["RydHQ_Taken",[]])) exitWith {('Objective not Secured') remoteExecCall ['hint',(_this select 1)]; }};
 
 	if ((_logic getVariable ['NR6Supplies',0]) <= 0) exitWith {('Supplies Available At Camp: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; };
 
@@ -146,8 +146,8 @@ NR6_GetUnit = {
 		if not (_emptyS) then {
 			_crewGear = _selType select 1; 
 			_vharr = [([getPosATL (_this select 1),0,100,10] call BIS_fnc_findSafePos),0,_class,createGroup (side (_this select 1))] call BIS_fnc_spawnVehicle; 
-			if not ((_selType select 3) isEqualTo []) then {{_vharr setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_selType select 3)}; 
-			{((_vharr select 1) select _foreachindex) setUnitLoadout _x} foreach _crewGear; 
+			if not ((_selType select 3) isEqualTo []) then {{_vharr setPylonLoadout [(_forEachIndex + 1),_x]} forEach (_selType select 3)}; 
+			{((_vharr select 1) select _foreachindex) setUnitLoadout _x} forEach _crewGear; 
 			_vharr join (group (_this select 1));
 			(_logic setVariable ['NR6Supplies',(_logic getVariable ['NR6Supplies',0]) - (_cost)]);	
 			('Supplies Available At Objective: ' + str (_logic getVariable ['NR6Supplies',0])) remoteExecCall ['hint',(_this select 1)]; 
@@ -159,21 +159,21 @@ NR6_GetUnit = {
 		
 	};
 
-	if not (isNull _Reinf) then {_Reinf setvariable ["_sidetick",((_logic getVariable ['NR6Supplies',0])*(0.1))]};
+	if not (isNull _Reinf) then {_Reinf setVariable ["_sidetick",((_logic getVariable ['NR6Supplies',0])*(0.1))]};
 	
 };
 
 NR6_CheckSupplies = {
 	_Objective = objNull;
 	_Reinf = objNull;
-	_objPos = getpos (_this select 2);
+	_objPos = getPos (_this select 2);
 	_nearReinfs = _objPos nearEntities ["NR6_Reiforcements_Module", 300];
 
 
 	if ((count _nearReinfs) > 0) then {
 		_nearReinfs = [_nearReinfs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 		_Reinf = _nearReinfs select 0;
-		_rTick = _Reinf getvariable ["_sidetick",0];
+		_rTick = _Reinf getVariable ["_sidetick",0];
 		(_this select 2) setVariable ['NR6Supplies',((_rTick)*(10))];	
 	};
 	
@@ -184,7 +184,7 @@ NR6_CheckSupplies = {
 NR6_DimsmissAllAI = {
 	_sUnits = units (group (_this select 1));
 	
-	if not (({not (isPlayer _x)} count _sUnits) > 0) exitwith {};
+	if not (({not (isPlayer _x)} count _sUnits) > 0) exitWith {};
 
 	_nGroup = createGroup (side (_this select 1));
 
@@ -193,7 +193,7 @@ NR6_DimsmissAllAI = {
 			[_x] join _nGroup;
 		};
 
-	} foreach _sUnits;
+	} forEach _sUnits;
 	
 };
 

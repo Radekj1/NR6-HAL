@@ -15,28 +15,28 @@ _Commanders = [];
 _Leaders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Leaders pushback (call compile (_x getvariable "LeaderType"))};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Leaders pushBack (call compile (_x getVariable "LeaderType"))};
+} forEach (synchronizedObjects _logic);
 
-_side = call compile (_logic getvariable "_side");
-_rStrgt = _logic getvariable "_rStrgt";
-_SpawnPos =  [getpos _logic];
-_SpawnRadius = _logic getvariable "_SpawnRadius";
-_sidetick = _logic getvariable "_sidetick";
-_faction = _logic getvariable "_faction";
-_Threshold = _logic getvariable "_Threshold";
-_HalReinf = _logic getvariable "_HalReinf";
-_playerFriend = _logic getvariable "_PlayerFriend";
+_side = call compile (_logic getVariable "_side");
+_rStrgt = _logic getVariable "_rStrgt";
+_SpawnPos =  [getPos _logic];
+_SpawnRadius = _logic getVariable "_SpawnRadius";
+_sidetick = _logic getVariable "_sidetick";
+_faction = _logic getVariable "_faction";
+_Threshold = _logic getVariable "_Threshold";
+_HalReinf = _logic getVariable "_HalReinf";
+_playerFriend = _logic getVariable "_PlayerFriend";
 //_Leaders = _Commanders;
 _ObjSource = _logic;
-_objPos = getpos _logic;
-_RejoinPoint = call compile (_logic getvariable "_RejoinPoint");
+_objPos = getPos _logic;
+_RejoinPoint = call compile (_logic getVariable "_RejoinPoint");
 if (isNil "_RejoinPoint") then {_RejoinPoint = []};
 if (_RejoinPoint isEqualTo []) then  {_RejoinPoint = nil};
-_playerRange = _logic getvariable "_playerRange";
+_playerRange = _logic getVariable "_playerRange";
 _SpawnMode = false;
 if ((typeOf _logic) == "NR6_Spawn_Module") then {_SpawnMode = true};
-_ThresholdDecay = _logic getvariable "_TDecay";
+_ThresholdDecay = _logic getVariable "_TDecay";
 if (isNil "_ThresholdDecay") then {_ThresholdDecay = -1};
 if ((_ThresholdDecay == -1) and not (_SpawnMode)) then  {_ThresholdDecay = (1/_sidetick)};
 
@@ -72,16 +72,16 @@ _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fn
 	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") then {
 		_Objective = _x;
         _ObjSource = _Objective;
-		_campName = _Objective getvariable ["_ObjName",""];
-		_objPos = getpos _Objective;
+		_campName = _Objective getVariable ["_ObjName",""];
+		_objPos = getPos _Objective;
 //		_Commanders = [];
 		
 		{
-			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
-		} foreach (synchronizedObjects _Objective);
+			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushBack _x};
+		} forEach (synchronizedObjects _Objective);
 
 		{
-			_Leader = (_x getvariable "LeaderType");
+			_Leader = (_x getVariable "LeaderType");
 
 			waitUntil {sleep 0.5; (not (isNil _Leader))};
 			
@@ -94,10 +94,10 @@ _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fn
 				case east: {_OpforHQs pushBack _Leader};
 				case resistance: {_IndepHQs pushBack _Leader};
 			};
-		} foreach _Commanders;
+		} forEach _Commanders;
 		_Leaders = _Leaders + _BluforHQs + _OpforHQs + _IndepHQs;
 	};
-} foreach _nearObjs;
+} forEach _nearObjs;
 
 _Commanders = _Leaders;
 
@@ -129,7 +129,7 @@ if (_faction == "I") then {
 
 if (_faction == "custom") then {
 
-    _Pool = call compile (_logic getvariable "_Pool");
+    _Pool = call compile (_logic getVariable "_Pool");
 };
 
 //BLUFOR POOL
@@ -138,15 +138,15 @@ if (_faction == "BLU_F") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfSquad",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam_AT",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam_AA",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Armored" >> "BUS_TankSection",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Mechanized" >> "BUS_MechInf_Support",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Mechanized" >> "BUS_MechInfSquad",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_GMGTeam",
-        configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_MGTeam"
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfSquad",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam_AT",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> "BUS_InfTeam_AA",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Armored" >> "BUS_TankSection",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Mechanized" >> "BUS_MechInf_Support",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Mechanized" >> "BUS_MechInfSquad",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_GMGTeam",
+        configFile >> "CfgGroups" >> "West" >> "BLU_F" >> "Motorized" >> "BUS_MotInf_MGTeam"
         ]
 };
 
@@ -154,16 +154,16 @@ if (_faction == "BLU_T_F") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfSquad",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam_AA",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam_AT",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Mechanized" >> "B_T_MechInf_Support",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Mechanized" >> "B_T_MechInfSquad",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_GMGTeam",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_MGTeam",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Armored" >> "B_T_TankPlatoon_AA",
-        configfile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Armored" >> "B_T_TankPlatoon"
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfSquad",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam_AA",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Infantry" >> "B_T_InfTeam_AT",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Mechanized" >> "B_T_MechInf_Support",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Mechanized" >> "B_T_MechInfSquad",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_GMGTeam",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Motorized" >> "B_T_MotInf_MGTeam",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Armored" >> "B_T_TankPlatoon_AA",
+        configFile >> "CfgGroups" >> "West" >> "BLU_T_F" >> "Armored" >> "B_T_TankPlatoon"
         ]
 };
 
@@ -171,10 +171,10 @@ if (_faction == "rhs_faction_usarmy_d") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_squad",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team_AA",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team_AT",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_weaponsquad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_squad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team_AA",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_team_AT",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_d" >> "rhs_group_nato_usarmy_d_infantry" >> "rhs_group_nato_usarmy_d_infantry_weaponsquad",
         ["rhsusf_army_ocp_teamleader","rhsusf_army_ocp_rifleman","rhsusf_army_ocp_autorifleman","rhsusf_army_ocp_autorifleman","rhsusf_army_ocp_autorifleman","rhsusf_army_ocp_riflemanat","rhsusf_army_ocp_autorifleman","rhsusf_M1220_M2_usarmy_d"],
         ["rhsusf_army_ocp_teamleader","rhsusf_army_ocp_riflemanat","rhsusf_army_ocp_rifleman","rhsusf_m1025_d_mk19"],
         ["rhsusf_army_ocp_teamleader","rhsusf_army_ocp_riflemanat","rhsusf_army_ocp_rifleman","rhsusf_m1025_d_m2"],
@@ -189,10 +189,10 @@ if (_faction == "rhs_faction_usarmy_wd") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_squad",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team_AA",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team_AT",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_weaponsquad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_squad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team_AA",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_team_AT",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usarmy_wd" >> "rhs_group_nato_usarmy_wd_infantry" >> "rhs_group_nato_usarmy_wd_infantry_weaponsquad",
         ["rhsusf_army_ucp_teamleader","rhsusf_army_ucp_rifleman","rhsusf_army_ucp_autorifleman","rhsusf_army_ucp_autorifleman","rhsusf_army_ucp_autorifleman","rhsusf_army_ucp_riflemanat","rhsusf_army_ucp_autorifleman","rhsusf_M1220_M2_usarmy_wd"],
         ["rhsusf_army_ucp_teamleader","rhsusf_army_ucp_riflemanat","rhsusf_army_ucp_rifleman","rhsusf_m1025_w_mk19"],
         ["rhsusf_army_ucp_teamleader","rhsusf_army_ucp_riflemanat","rhsusf_army_ucp_rifleman","rhsusf_m1025_w_m2"],
@@ -207,10 +207,10 @@ if (_faction == "rhs_faction_usmc_d") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_squad",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_team_heavy_AT",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_team_AA",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_weaponsquad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_squad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_team_heavy_AT",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_team_AA",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry" >> "rhs_group_nato_usmc_d_infantry_weaponsquad",
         ["rhsusf_m1043_d_s_mk19"],
         ["rhsusf_m1043_d_s_m2"],
         ["rhsusf_m1a1fep_od"],
@@ -223,10 +223,10 @@ if (_faction == "rhs_faction_usmc_wd") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_squad",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_team_heavy_AT",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_team_AA",
-        configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_weaponsquad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_squad",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_team_heavy_AT",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_team_AA",
+        configFile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_wd" >> "rhs_group_nato_usmc_wd_infantry" >> "rhs_group_nato_usmc_wd_infantry_weaponsquad",
         ["rhsusf_m1043_w_s_mk19"],
         ["rhsusf_m1043_w_s_m2"],
         ["rhsusf_m1a1fep_od"],
@@ -252,16 +252,16 @@ if (_faction == "CUP_B_US_Army") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_RifleSquad",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_Team",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_TeamAT",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_HeavyATTeam",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Mechanized" >> "CUP_B_US_Army_MechanizedInfantrySquadICVM2",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Mechanized" >> "CUP_B_US_Army_MechanizedInfantrySquadICVMK19",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Motorized" >> "CUP_B_US_Army_MotorizedSection",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Motorized" >> "CUP_B_US_Army_MotorizedSectionAT",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Armored" >> "CUP_B_US_Army_M1A2Section",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Armored" >> "CUP_B_US_Army_MGSPlatoon"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_RifleSquad",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_Team",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_TeamAT",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Infantry" >> "CUP_B_US_Army_HeavyATTeam",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Mechanized" >> "CUP_B_US_Army_MechanizedInfantrySquadICVM2",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Mechanized" >> "CUP_B_US_Army_MechanizedInfantrySquadICVMK19",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Motorized" >> "CUP_B_US_Army_MotorizedSection",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Motorized" >> "CUP_B_US_Army_MotorizedSectionAT",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Armored" >> "CUP_B_US_Army_M1A2Section",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_US_Army" >> "Armored" >> "CUP_B_US_Army_MGSPlatoon"
         ]
 };
 
@@ -269,17 +269,17 @@ if (_faction == "CUP_B_USMC") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_InfSquad",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_HeavyATTeam",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam_MG",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam_AT",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Mechanized" >> "CUP_B_USMC_MechReconSection",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Mechanized" >> "CUP_B_USMC_MechInfSquad",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSection",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSection_AT",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSquad",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Armored" >> "CUP_B_USMC_TankPlatoon"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_InfSquad",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_HeavyATTeam",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam_MG",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam_AT",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry" >> "CUP_B_USMC_FireTeam",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Mechanized" >> "CUP_B_USMC_MechReconSection",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Mechanized" >> "CUP_B_USMC_MechInfSquad",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSection",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSection_AT",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Motorized" >> "CUP_B_USMC_MotInfSquad",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Armored" >> "CUP_B_USMC_TankPlatoon"
         ]
 };
 
@@ -287,14 +287,14 @@ if (_faction == "CUP_B_CDF") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSquad_FST",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_AT_FST",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_AA_FST",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_MG_FST",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Armored" >> "CUP_B_CDFTankPlatoon",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Mechanized" >> "CUP_B_CDFMechATSection",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Motorized" >> "CUP_B_CDFMotInfSquad",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Motorized" >> "CUP_B_CDFMotInfSection"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSquad_FST",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_AT_FST",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_AA_FST",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Infantry_FST" >> "CUP_B_CDFInfSection_MG_FST",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Armored" >> "CUP_B_CDFTankPlatoon",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Mechanized" >> "CUP_B_CDFMechATSection",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Motorized" >> "CUP_B_CDFMotInfSquad",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CDF" >> "Motorized" >> "CUP_B_CDFMotInfSection"
         ]
 };
 
@@ -302,8 +302,8 @@ if (_faction == "CUP_B_CZ") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CZ" >> "Infantry" >> "CUP_B_CZInfantryTeam_WDL",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_CZ" >> "Motorized" >> "CUP_B_CZMotorizedPatrol"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CZ" >> "Infantry" >> "CUP_B_CZInfantryTeam_WDL",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_CZ" >> "Motorized" >> "CUP_B_CZMotorizedPatrol"
         ]
 };
 
@@ -311,17 +311,17 @@ if (_faction == "CUP_B_GB") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_Section_MTP",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_Fireteam_MTP",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_HAT_MTP",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_AT_MTP",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_MG_MTP",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Mechanized" >> "CUP_B_GB_MechAT_W",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Mechanized" >> "CUP_B_GB_MechSec_W",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MSection_W_Mastiff",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MSection_W_Ridgback",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MTeam_W",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Armored" >> "CUP_B_GB_WPlatoon_W"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_Section_MTP",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_Fireteam_MTP",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_HAT_MTP",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_AT_MTP",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Infantry" >> "CUP_B_GB_MG_MTP",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Mechanized" >> "CUP_B_GB_MechAT_W",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Mechanized" >> "CUP_B_GB_MechSec_W",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MSection_W_Mastiff",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MSection_W_Ridgback",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Motorized_MTP" >> "CUP_B_GB_MTeam_W",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GB" >> "Armored" >> "CUP_B_GB_WPlatoon_W"
         ]
 };
 
@@ -329,11 +329,11 @@ if (_faction == "CUP_B_GER") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_AssaultTeam",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_Team",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_ATTeam",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Motorized" >> "CUP_B_GER_SF_MotInf_KSK_WDL",
-        configfile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Motorized" >> "CUP_B_GER_SF_MotInf_ReconPatrol_KSK_WDL"
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_AssaultTeam",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_Team",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Infantry_WDL" >> "CUP_B_GER_Fleck_KSK_ATTeam",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Motorized" >> "CUP_B_GER_SF_MotInf_KSK_WDL",
+        configFile >> "CfgGroups" >> "West" >> "CUP_B_GER" >> "Motorized" >> "CUP_B_GER_SF_MotInf_ReconPatrol_KSK_WDL"
         ]
 };
 
@@ -341,13 +341,13 @@ if (_faction == "LOP_AA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Rifle_squad",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Fireteam",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_AT_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Support_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Mechanized" >> "LOP_AA_Mech_squad_BMP2",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Mechanized" >> "LOP_AA_Motor_Offroad_M2",
-        configfile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Armored" >> "LOP_AA_ZSU234_Platoon"
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Rifle_squad",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Fireteam",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_AT_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Infantry" >> "LOP_AA_Support_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Mechanized" >> "LOP_AA_Mech_squad_BMP2",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Mechanized" >> "LOP_AA_Motor_Offroad_M2",
+        configFile >> "CfgGroups" >> "West" >> "LOP_AA" >> "Armored" >> "LOP_AA_ZSU234_Platoon"
         ]
 };
 
@@ -372,11 +372,11 @@ if (_faction == "LOP_IA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_Rifle_squad",
-        configfile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_Support_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_AT_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Mechanized" >> "LOP_IA_Mech_squad_BMP2",
-        configfile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Armored" >> "LOP_IA_ZSU234_Platoon"
+        configFile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_Rifle_squad",
+        configFile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_Support_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Infantry" >> "LOP_IA_AT_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Mechanized" >> "LOP_IA_Mech_squad_BMP2",
+        configFile >> "CfgGroups" >> "West" >> "LOP_IA" >> "Armored" >> "LOP_IA_ZSU234_Platoon"
         ]
 };
 
@@ -384,12 +384,12 @@ if (_faction == "LOP_PESH") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Rifle_squad",
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Fireteam",
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_AT_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Support_section",
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Motorized" >> "LOP_PESH_Motor_squad_LR",
-        configfile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Motorized" >> "LOP_PESH_Motor_squad_HMMWV"
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Rifle_squad",
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Fireteam",
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_AT_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Infantry" >> "LOP_PESH_Support_section",
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Motorized" >> "LOP_PESH_Motor_squad_LR",
+        configFile >> "CfgGroups" >> "West" >> "LOP_PESH" >> "Motorized" >> "LOP_PESH_Motor_squad_HMMWV"
         ]
 };
 
@@ -397,9 +397,9 @@ if (_faction == "OPTRE_UNSC") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL", 
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL",
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL",
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL", 
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL",
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_WDL" >> "OPTRE_Groups_UNSC_Squad_Army_WDL",
         ["OPTRE_M808B_UNSC"],
         ["OPTRE_M12_LRV"],
         ["OPTRE_M12G1_LRV"],
@@ -412,9 +412,9 @@ if (_faction == "OPTRE_UNSC_DES") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
-        configfile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
+        configFile >> "CfgGroups" >> "West" >> "OPTRE_UNSC" >> "Infantry_Army_DES" >> "OPTRE_Groups_UNSC_Squad_Army_DES",
         ["OPTRE_M808B_UNSC"],
         ["OPTRE_M12_LRV"],
         ["OPTRE_M12G1_LRV"],
@@ -438,18 +438,18 @@ if (_faction == "OPF_F") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Armored" >> "OIA_TankSection",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam_AT",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "O_InfTeam_AT_Heavy",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam_AA",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInfSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInf_Support",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized_MTP" >> "OIA_MotInf_GMGTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized_MTP" >> "OIA_MotInf_MGTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon_AA"
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Armored" >> "OIA_TankSection",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam_AT",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "O_InfTeam_AT_Heavy",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Infantry" >> "OIA_InfTeam_AA",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInfSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Mechanized" >> "OIA_MechInf_Support",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized_MTP" >> "OIA_MotInf_GMGTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_F" >> "Motorized_MTP" >> "OIA_MotInf_MGTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon_AA"
 
         ]
 };
@@ -458,16 +458,16 @@ if (_faction == "OPF_T_F") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam_AA",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam_AT",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Mechanized" >> "O_T_MechInfSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Mechanized" >> "O_T_MechInf_Support",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_MGTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_GMGTeam",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon",
-        configfile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon_AA"
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam_AA",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Infantry" >> "O_T_InfTeam_AT",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Mechanized" >> "O_T_MechInfSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Mechanized" >> "O_T_MechInf_Support",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_MGTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Motorized_MTP" >> "O_T_MotInf_GMGTeam",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon",
+        configFile >> "CfgGroups" >> "East" >> "OPF_T_F" >> "Armored" >> "O_T_TankPlatoon_AA"
         ]
 };
 
@@ -481,8 +481,8 @@ if (_faction == "LOP_BH") then {
         ["LOP_BH_Offroad_M2"],
         ["LOP_BH_Landrover_SPG9"], 
         ["LOP_BH_Landrover_M2"],
-        configfile >> "CfgGroups" >> "East" >> "LOP_BH" >> "Motorized" >> "LOP_BH_LRPatrol",
-        configfile >> "CfgGroups" >> "East" >> "LOP_BH" >> "Motorized" >> "LOP_BH_TruckPatrol"
+        configFile >> "CfgGroups" >> "East" >> "LOP_BH" >> "Motorized" >> "LOP_BH_LRPatrol",
+        configFile >> "CfgGroups" >> "East" >> "LOP_BH" >> "Motorized" >> "LOP_BH_TruckPatrol"
         ]
 };
 
@@ -507,11 +507,11 @@ if (_faction == "LOP_TKA") then {
 
         _Pool = 
             [
-            configfile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
-            configfile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Support_section",
-            configfile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_AT_section",
-            configfile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
-            configfile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
+            configFile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
+            configFile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Support_section",
+            configFile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_AT_section",
+            configFile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
+            configFile >> "CfgGroups" >> "East" >> "LOP_TKA" >> "Infantry" >> "LOP_TKA_Rifle_squad",
             ["LOP_TKA_BMP1"],
             ["LOP_TKA_UAZ_DshKM"],
             ["LOP_TKA_T72BB"],
@@ -525,19 +525,19 @@ if (_faction == "rhs_faction_ru") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
-        configfile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_squad",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AA",
+        configFile >> "CfgGroups" >> "East" >> "rhs_faction_msv" >> "rhs_group_rus_msv_infantry_emr" >> "rhs_group_rus_msv_infantry_emr_section_AT",
         ["rhs_msv_sergeant","rhs_msv_junior_sergeant","rhs_msv_grenadier","rhs_msv_machinegunner","rhs_tigr_sts_vv"],
         ["rhs_msv_sergeant","rhs_msv_junior_sergeant","rhs_msv_grenadier","rhs_msv_machinegunner","rhs_tigr_m_3camo_vv"],
         ["rhs_msv_sergeant","rhs_msv_junior_sergeant","rhs_msv_grenadier","rhs_msv_machinegunner","rhs_tigr_sts_3camo_vv"],
@@ -561,13 +561,13 @@ if (_faction == "CUP_O_ChDKZ") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSection_AT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSection_AA",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Armored" >> "CUP_O_ChDKZ_TankSection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Mechanized" >> "CUP_O_ChDKZ_MechInfSection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Motorized" >> "CUP_O_ChDKZ_MotInfSquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Motorized" >> "CUP_O_ChDKZ_MotInfSection"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSection_AT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry" >> "CUP_O_ChDKZ_InfSection_AA",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Armored" >> "CUP_O_ChDKZ_TankSection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Mechanized" >> "CUP_O_ChDKZ_MechInfSection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Motorized" >> "CUP_O_ChDKZ_MotInfSquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Motorized" >> "CUP_O_ChDKZ_MotInfSection"
         ]
 };
 
@@ -575,14 +575,14 @@ if (_faction == "CUP_O_RU") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSquad_VDV",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_EMR",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_MG_VDV",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_AA",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_AT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Motorized" >> "CUP_O_RU_MotInfSquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Armored" >> "CUP_O_RU_TankPlatoon",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Mechanized" >> "CUP_O_RU_MechInfSquad_2"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSquad_VDV",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_EMR",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_MG_VDV",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_AA",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Infantry" >> "CUP_O_RU_InfSection_AT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Motorized" >> "CUP_O_RU_MotInfSquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Armored" >> "CUP_O_RU_TankPlatoon",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_RU" >> "Mechanized" >> "CUP_O_RU_MechInfSquad_2"
         ]
 };
 
@@ -590,15 +590,15 @@ if (_faction == "CUP_O_SLA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionMG",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAA",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Armored" >> "CUP_O_SLA_TankPlatoon",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection_AT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Mechanized" >> "CUP_O_SLA_MechInfSquad"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionMG",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAA",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Armored" >> "CUP_O_SLA_TankPlatoon",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection_AT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Mechanized" >> "CUP_O_SLA_MechInfSquad"
         ]
 };
 
@@ -606,15 +606,15 @@ if (_faction == "CUP_O_SLA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionMG",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAA",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Armored" >> "CUP_O_SLA_TankPlatoon",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection_AT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Mechanized" >> "CUP_O_SLA_MechInfSquad"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionMG",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySectionAA",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Infantry" >> "CUP_O_SLA_InfantrySection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Armored" >> "CUP_O_SLA_TankPlatoon",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection_AT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Motorized" >> "CUP_O_SLA_MotInfSection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_SLA" >> "Mechanized" >> "CUP_O_SLA_MechInfSquad"
         ]
 };
 
@@ -622,16 +622,16 @@ if (_faction == "CUP_O_TK") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionMG",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionAT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionAA",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Mechanized" >> "CUP_O_TK_MechanizedReconSectionAT",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Mechanized" >> "CUP_O_TK_MechanizedInfantrySquadBMP2",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Motorized" >> "CUP_O_TK_MotorizedReconSection",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Motorized" >> "CUP_O_TK_MotorizedPatrol",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Armored" >> "CUP_O_TK_T72Platoon"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionMG",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionAT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Infantry" >> "CUP_O_TK_InfantrySectionAA",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Mechanized" >> "CUP_O_TK_MechanizedReconSectionAT",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Mechanized" >> "CUP_O_TK_MechanizedInfantrySquadBMP2",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Motorized" >> "CUP_O_TK_MotorizedReconSection",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Motorized" >> "CUP_O_TK_MotorizedPatrol",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK" >> "Armored" >> "CUP_O_TK_T72Platoon"
         ]
 };
 
@@ -639,14 +639,14 @@ if (_faction == "CUP_O_TK_MILITIA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_AATeam",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_ATTeam",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Demosquad",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Group",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Patrol",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_MotorizedGroup",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_MotorizedPatrolBTR40",
-        configfile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_Technicals"
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_AATeam",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_ATTeam",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Demosquad",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Group",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Infantry" >> "CUP_O_TK_MILITIA_Patrol",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_MotorizedGroup",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_MotorizedPatrolBTR40",
+        configFile >> "CfgGroups" >> "East" >> "CUP_O_TK_MILITIA" >> "Motorized" >> "CUP_O_TK_MILITIA_Technicals"
         ]
 };
 
@@ -654,11 +654,11 @@ if (_faction == "LOP_AFR_OPF") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_AT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_Rifle_squad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_Support_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Motorized" >> "LOP_AFR_OPF_Motor_squad_LR",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Armored" >> "LOP_AFR_OPF_T72_Platoon"
+        configFile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_AT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_Rifle_squad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Infantry" >> "LOP_AFR_OPF_Support_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Motorized" >> "LOP_AFR_OPF_Motor_squad_LR",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AFR_OPF" >> "Armored" >> "LOP_AFR_OPF_T72_Platoon"
         ]
 };
 
@@ -666,12 +666,12 @@ if (_faction == "LOP_AM_OPF") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_AT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Rifle_squad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Fireteam",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Support_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Motorized" >> "LOP_AM_OPF_Motor_squad_UAZ",
-        configfile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Motorized" >> "LOP_AM_OPF_Motor_squad_LR",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_AT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Rifle_squad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Fireteam",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Infantry" >> "LOP_AM_OPF_Support_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Motorized" >> "LOP_AM_OPF_Motor_squad_UAZ",
+        configFile >> "CfgGroups" >> "East" >> "LOP_AM_OPF" >> "Motorized" >> "LOP_AM_OPF_Motor_squad_LR",
         ["LOP_AM_OPF_BTR60"],
         ["LOP_AM_OPF_Landrover_M2"],
         ["LOP_AM_OPF_Nissan_PKM"],
@@ -684,14 +684,14 @@ if (_faction == "LOP_ChDKZ") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_Rifle_squad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_AT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_Support_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Mechanized" >> "LOP_ChDKZ_Mech_squad_BMP2",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Motorized" >> "LOP_ChDKZ_Moto_Squad_btr70",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Motorized" >> "LOP_ChDKZ_Moto_Squad_uazopen",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Armored" >> "LOP_ChDKZ_T72BB_Platoon",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Armored" >> "LOP_ChDKZ_BTR_Combined_Platoon"
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_Rifle_squad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_AT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Infantry" >> "LOP_ChDKZ_Support_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Mechanized" >> "LOP_ChDKZ_Mech_squad_BMP2",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Motorized" >> "LOP_ChDKZ_Moto_Squad_btr70",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Motorized" >> "LOP_ChDKZ_Moto_Squad_uazopen",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Armored" >> "LOP_ChDKZ_T72BB_Platoon",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ChDKZ" >> "Armored" >> "LOP_ChDKZ_BTR_Combined_Platoon"
         ]
 };
 
@@ -699,12 +699,12 @@ if (_faction == "LOP_IRA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_RifleSquad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_Fireteam",
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_ATTeam",
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_ArmedLRGroup",
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_ArmedOffroadGroup",
-        configfile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_LRPatrol"
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_RifleSquad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_Fireteam",
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Infantry" >> "LOP_IRA_ATTeam",
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_ArmedLRGroup",
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_ArmedOffroadGroup",
+        configFile >> "CfgGroups" >> "East" >> "LOP_IRA" >> "Motorized" >> "LOP_IRA_LRPatrol"
         ]
 };
 
@@ -712,9 +712,9 @@ if (_faction == "LOP_ISTS_OPF") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_WEAP_SQ",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_WEAP_SEC",
-        configfile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_Weapon_ft",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_WEAP_SQ",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_WEAP_SEC",
+        configFile >> "CfgGroups" >> "East" >> "LOP_ISTS_OPF" >> "Infantry" >> "PO_ISTS_OPF_inf_Weapon_ft",
         ["LOP_ISTS_OPF_BMP2"],
         ["LOP_ISTS_OPF_Landrover_M2"],
         ["LOP_ISTS_OPF_T55"]
@@ -725,14 +725,14 @@ if (_faction == "LOP_SLA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_Rifle_squad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_AA_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_AT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_Support_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Mechanized" >> "LOP_SLA_Mech_squad_BMP2",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Mechanized" >> "LOP_SLA_Mech_squad_BMP1",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Armored" >> "LOP_SLA_T72BB_Platoon",
-        configfile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Armored" >> "LOP_SLA_BTR_Combined_Platoon"
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_Rifle_squad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_AA_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_AT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Infantry" >> "LOP_SLA_Support_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Mechanized" >> "LOP_SLA_Mech_squad_BMP2",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Mechanized" >> "LOP_SLA_Mech_squad_BMP1",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Armored" >> "LOP_SLA_T72BB_Platoon",
+        configFile >> "CfgGroups" >> "East" >> "LOP_SLA" >> "Armored" >> "LOP_SLA_BTR_Combined_Platoon"
         ]
 };
 
@@ -740,17 +740,17 @@ if (_faction == "LOP_SLA") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_Rifle_squad",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_Support_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_FT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_AT_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_AA_section",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Mechanized" >> "LOP_US_Mech_squad_BMP1",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Mechanized" >> "LOP_US_Mech_squad_BMP2",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team_BTR70",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team_BTR60",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team",
-        configfile >> "CfgGroups" >> "East" >> "LOP_US" >> "Armored" >> "LOP_US_T72_Platoon"
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_Rifle_squad",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_Support_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_FT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_AT_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Infantry" >> "LOP_US_AA_section",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Mechanized" >> "LOP_US_Mech_squad_BMP1",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Mechanized" >> "LOP_US_Mech_squad_BMP2",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team_BTR70",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team_BTR60",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Motorized" >> "LOP_US_MotInf_Team",
+        configFile >> "CfgGroups" >> "East" >> "LOP_US" >> "Armored" >> "LOP_US_T72_Platoon"
         ]
 };
 
@@ -758,11 +758,11 @@ if (_faction == "OPTRE_Ins") then {
 
     _Pool = 
         [
-        configfile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_ER" >> "OPTRE_Ins_ER_Inf_MSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_ER" >> "OPTRE_Ins_ER_Inf_Group",
-        configfile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_AntiTank",
-        configfile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_RifleSquad",
-        configfile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_AntiAir"
+        configFile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_ER" >> "OPTRE_Ins_ER_Inf_MSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_ER" >> "OPTRE_Ins_ER_Inf_Group",
+        configFile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_AntiTank",
+        configFile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_RifleSquad",
+        configFile >> "CfgGroups" >> "East" >> "OPTRE_Ins" >> "Infantry_URF" >> "OPTRE_Ins_URF_Inf_AntiAir"
         ]
 };
 
@@ -816,11 +816,11 @@ if (_sideEn2 == civilian) then {
 //};
 
 
-if (_SpawnMode) exitwith {
+if (_SpawnMode) exitWith {
     for "_i" from 1 to _rStrgt do
         {
 
-        waitUntil {sleep 1; not ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0)};
+        waitUntil {sleep 1; not ({_x distance (_SpawnPos select 0) < _playerRange} count allPlayers > 0)};
         
         [_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,nil,(_logic getVariable ["_ExtraArgs",""])] call SpawnRGroup;
 
@@ -841,15 +841,15 @@ if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
     {
         if ((side _x) == _side) then {
             _CrrFr = [];
-            waitUntil {sleep 5; ((count ((group _x) getvariable ["RydHQ_Friends",[]])) > 0)};
-            private _StrtForces = (group _x) getvariable ["RydHQ_Friends",[]];
+            waitUntil {sleep 5; ((count ((group _x) getVariable ["RydHQ_Friends",[]])) > 0)};
+            private _StrtForces = (group _x) getVariable ["RydHQ_Friends",[]];
             {
-                {_CrrFr pushBackUnique _x} foreach (units _x);
-            } foreach _StrtForces;
+                {_CrrFr pushBackUnique _x} forEach (units _x);
+            } forEach _StrtForces;
             _StartForces = (count _CrrFr);
         };
                     
-    } foreach _Commanders;
+    } forEach _Commanders;
 } else {
     while {_StartForces < _counter} do 
     {
@@ -863,35 +863,35 @@ while {true} do
 
     {
 
-    _sidetick = _logic getvariable ["_sidetick",0];
+    _sidetick = _logic getVariable ["_sidetick",0];
     
     _CanSpawn = true;
 
     _CurrentForces = (_side countSide allUnits);
 
     if not (isNil "_ObjSource") then {
-        if (_ObjSource getvariable ["CanSpawn",true]) then {
+        if (_ObjSource getVariable ["CanSpawn",true]) then {
             _CanSpawn = true;
             if not (_Objsource == _logic) then {
                 {
                     if ((side _x) == _side) then {
                         _CrrFr = [];
-                        _CurrentForces = (((group _x) getvariable ["RydHQ_Friends",[]]) + ((group _x) getvariable ["RydHQ_Included",[]]));
+                        _CurrentForces = (((group _x) getVariable ["RydHQ_Friends",[]]) + ((group _x) getVariable ["RydHQ_Included",[]]));
                         {
-                            {if (alive _x) then {_CrrFr pushBackUnique _x}} foreach (units _x);
-                        } foreach _CurrentForces;
+                            {if (alive _x) then {_CrrFr pushBackUnique _x}} forEach (units _x);
+                        } forEach _CurrentForces;
                         _CurrentForces = (count _CrrFr);
-                        if ((_Objsource in ((group _x) getvariable ["RydHQ_Taken",[]])) and not ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0))) then {_CanSpawn = true} else {_CanSpawn = false};
+                        if ((_Objsource in ((group _x) getVariable ["RydHQ_Taken",[]])) and not ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0))) then {_CanSpawn = true} else {_CanSpawn = false};
                     };
                     
-                } foreach _Commanders;
+                } forEach _Commanders;
             };
         } else {
             _CanSpawn = false;
         };
     };
 
-    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allPlayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         _sidetick = 0;
     };
@@ -915,7 +915,7 @@ while {true} do
 
 //    _CurrentForces = (_side countSide allUnits);
 
-    if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allplayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
+    if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allPlayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
         {
         for "_i" from 1 to _rStrgt do
             {
@@ -927,7 +927,7 @@ while {true} do
                     [_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,_RejoinPoint,(_logic getVariable ["_ExtraArgs",""])] call SpawnRGroup;
                 };
                 _sidetick = (_sidetick - 1);
-                _logic setvariable ["_sidetick",_sidetick];
+                _logic setVariable ["_sidetick",_sidetick];
                 
             };
 
@@ -936,6 +936,6 @@ while {true} do
             sleep 3;
             };
         };
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitWith {};
     sleep (random [5,7,15]);
     };

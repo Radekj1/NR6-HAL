@@ -14,20 +14,20 @@ _unitvar = str (_unitG);
 
 _UL = leader _unitG;
 
-_PosLand = _unitG getvariable ("START" + _unitvar); 
-if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getvariable ("START" + _unitvar);};
+_PosLand = _unitG getVariable ("START" + _unitvar);
+if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle _UL))];_PosLand = _unitG getVariable ("START" + _unitvar);};
 
-[_unitG] call RYD_WPdel;
+[_unitG] call CBA_fnc_clearWaypoints;
 
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 
 _flight = [];
 
-{if ((vehicle _x) isKindOf "Air") then {_flight pushBackUnique (vehicle _x)}} foreach (units _unitG);
+{if ((vehicle _x) isKindOf "Air") then {_flight pushBackUnique (vehicle _x)}} forEach (units _unitG);
 
-{_x setVariable ["SortiePylons",(count (getPylonMagazines _x))]} foreach _flight;
+{_x setVariable ["SortiePylons",(count (getPylonMagazines _x))]} forEach _flight;
 
-if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or not (alive (assignedVehicle (leader _unitG))))) exitwith {
+if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or not (alive (assignedVehicle (leader _unitG))))) exitWith {
 
 	_attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 	_attAv pushBack _unitG;
@@ -39,7 +39,7 @@ if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or no
 	[[_unitG,_HQ],HAL_GoRest] call RYD_Spawn;
 
 };
- 
+
 //_unitG setVariable [("Busy" + (str _unitG)),true];};
 
 _nothing = true;
@@ -76,10 +76,10 @@ if (_request) then {
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
- 
+
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-if (_HQ getVariable ["RydHQ_Debug",false]) then 
+if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markAttack","ColorRed","ICON","waypoint","CAS " + (groupId _unitG) + " " + _signum," - CAS",[0.5,0.5]] call RYD_Mark
@@ -89,15 +89,15 @@ _task = [(leader _unitG),["Provide close air support and neutralize hostile targ
 
 _wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoint [(group this), 0]"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
-_lasT = ObjNull;
+_lasT = objNull;
 
 
-if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _unitG))) then 
+if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _unitG))) then
 	{
 	_eSide = side _unitG;
 
 	_unitG setVariable ["CurrCASLazeOff",false];
-	
+
 	_tgt = "LaserTargetW";
 	if (_eSide == east) then {_tgt = "LaserTargetE"};
 	if (_eSide == resistance) then {_tgt = "LaserTargetC"};
@@ -116,13 +116,13 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 
 		_wp waypointAttachVehicle _lasT;
 
-		_eSide reportRemoteTarget [_lasT, 600]; 
+		_eSide reportRemoteTarget [_lasT, 600];
 		_lasT confirmSensorTarget [_eSide, true];
 
 		_unitG setVariable ["CurrCASLaze",_lasT];
 		_unitG setVariable ["CurrCASObjSetByLead",_Trg];
 	} else {_lasT = objNull; _Trg = objNull;};
-	
+
 	_code =
 		{
 		_Trg = _this select 0;
@@ -142,7 +142,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 		_range = 3000;
 
 
-		waituntil
+		waitUntil
 			{
 			sleep 5;
 
@@ -153,12 +153,12 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 			if ((isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) and not (isNull _Trg)) then {
 				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man") and (((vehicle _x) distance _casPos) < 750)}] call BIS_fnc_sortBy;
 				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{(((vehicle (leader _x)) distance _casPos) < 750)}] call BIS_fnc_sortBy;
-				if (((vehicle _Trg) distance _casPos) > 750) then {{{if (_Trg == (vehicle _x) or _Trg == (_x)) exitwith {_Trg = objNull;}} foreach (units _x)} foreach _nearEnInfHALG};
+				if (((vehicle _Trg) distance _casPos) > 750) then {{{if (_Trg == (vehicle _x) or _Trg == (_x)) exitWith {_Trg = objNull;}} forEach (units _x)} forEach _nearEnInfHALG};
 				if (not (_Trg in _nearEnVeh) and ((count _nearEnVeh) > 0)) then {_Trg = objNull;};
 			};
 
 			_friends = [];
-			{{_friends pushBackUnique (vehicle _x)} foreach (units _x)} foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+			{{_friends pushBackUnique (vehicle _x)} forEach (units _x)} forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 
 			if (not (alive _Trg) or (isNull _Trg)) then {
 
@@ -167,42 +167,42 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 
 				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man")}] call BIS_fnc_sortBy;
 				_nearEnInf = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{((vehicle _x) isKindOf "Man") and (3 < (count (units (group _x))))}] call BIS_fnc_sortBy;
-				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{((vehicle (leader _x)) isKindOf "Man") and (3 < (count (units _x)))}] call BIS_fnc_sortBy; 
-				
+				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{((vehicle (leader _x)) isKindOf "Man") and (3 < (count (units _x)))}] call BIS_fnc_sortBy;
+
 
 				{
 					_range = _x;
 					{
 						_tUnit = (vehicle _x);
 						_distOK = true;
-						{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
-						if ((((vehicle _x) distance _casPos) < _range) and (_distOK) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = _tUnit;}
-					} foreach _nearEnVeh;
+						{if ((_tUnit distance (vehicle _x)) < 75) exitWith {_distOK = false} } forEach _friends;
+						if ((((vehicle _x) distance _casPos) < _range) and (_distOK) and (((getPos (vehicle _x)) select 2) < 10)) exitWith {_newTrg = _tUnit;}
+					} forEach _nearEnVeh;
 
-						
+
 					if (isNull (_newTrg)) then {
 						{
 							_tUnit = (vehicle _x);
 							_distOK = true;
-							{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
-							if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK)) exitwith {_newTrg = (vehicle _x);}
-						} foreach _nearEnInf;
-					};	
+							{if ((_tUnit distance (vehicle _x)) < 75) exitWith {_distOK = false} } forEach _friends;
+							if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK)) exitWith {_newTrg = (vehicle _x);}
+						} forEach _nearEnInf;
+					};
 
 					if ((isNull (_newTrg)) and (_range < 2000)) then {
 						{
 							{
 								_tUnit = (vehicle _x);
 								_distOK = true;
-								{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
-								if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK) and (((side _unitG) knowsAbout (vehicle _x)) > 0)) exitwith {_newTrg = (vehicle _x);}
-							} foreach (units _x);
-							if not (isNull (_newTrg)) exitwith {};
-						} foreach _nearEnInfHALG;
-					};	
-					if (isNull (_newTrg)) exitwith {};			
-				} foreach [750,1500,3000,6000];
-				
+								{if ((_tUnit distance (vehicle _x)) < 75) exitWith {_distOK = false} } forEach _friends;
+								if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK) and (((side _unitG) knowsAbout (vehicle _x)) > 0)) exitWith {_newTrg = (vehicle _x);}
+							} forEach (units _x);
+							if not (isNull (_newTrg)) exitWith {};
+						} forEach _nearEnInfHALG;
+					};
+					if (isNull (_newTrg)) exitWith {};
+				} forEach [750,1500,3000,6000];
+
 
 				if not (isNull (_newTrg)) then {
 					_Trg = _newTrg;
@@ -210,33 +210,33 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 					_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
 					_lasT attachTo [_Trg];
 
-					_eSide reportRemoteTarget [_lasT, 1500]; 
+					_eSide reportRemoteTarget [_lasT, 1500];
 					_lasT confirmSensorTarget [_eSide, true];
 					_VL doTarget _lasT;
 					_reqTgtSet = true;
-					_unitG setVariable ["CurrCASObjSetByLead",objNull];							
-							
+					_unitG setVariable ["CurrCASObjSetByLead",objNull];
+
 				};
 			};
 
 			_hideNow = false;
 
-			if not (isNull (_lasT)) then {{if (75 >= (_lasT distance2D _x)) exitwith {_hideNow = true;}} foreach (_friends)};
+			if not (isNull (_lasT)) then {{if (75 >= (_lasT distance2D _x)) exitWith {_hideNow = true;}} forEach (_friends)};
 			if (isNull (_Trg)) then {_hideNow = true};
 
 			if (_hideNow) then {if not (isNull (_lasT)) then {_lasT hideObjectGlobal true; deleteVehicle _lasT;};_Trg = objNull;} else {if not (isNull (_lasT)) then {_lasT hideObjectGlobal false};};
 
-				
-			if (((getpos (vehicle _Trg)) select 2) > 10) then {_Trg = objNull; deleteVehicle _lasT;};
+
+			if (((getPos (vehicle _Trg)) select 2) > 10) then {_Trg = objNull; deleteVehicle _lasT;};
 			if ((isNull _Trg) or not (alive _Trg) or not (((side _unitG) knowsAbout _Trg) > 0)) then {_Trg = objNull; deleteVehicle _lasT;};
 			if (not (alive _VL)) then {_endThis = true};
 			if (({alive _x} count (units _unitG)) < 1) then {_endThis = true};
 			if (_ct >= 1200) then {_endThis = true};
 			_isBusy = _unitG getVariable [("Busy" + (str _unitG)),false];
 			if not (_isBusy) then {_endThis = true};
-			if ((((_VL getVariable ["SortiePylons",0])/4) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true; if not (_unitG getVariable ["CurrCASLazeOff",false]) then {deletewaypoint [(_unitG), 0]}};
+			if ((((_VL getVariable ["SortiePylons",0])/4) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true; if not (_unitG getVariable ["CurrCASLazeOff",false]) then {deleteWaypoint [(_unitG), 0]}};
 
-				
+
 			_ct = _ct + 5;
 
 			_unitG setVariable ["CurrCASTgt",_Trg];
@@ -251,7 +251,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 		if (not (isNull _lasT)) then {deleteVehicle _lasT};
 		_unitG setVariable ["RydHQ_WaitingTarget",nil];
 		};
-		
+
 	[[_Trg,_lasT,_unitG,_HQ,[_posX,_posY],_reqTgtSet,_wp,_tgt,_eSide],_code] call RYD_Spawn
 };
 
@@ -264,7 +264,7 @@ _alive = _cause select 1;
 _unitG setVariable ["CurrCASLazeOff",true];
 _unitG setVariable ["CurrCASObjSetByLead",objNull];
 
-if not (_alive) exitwith 
+if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	if not (isNull _lasT) then {deleteVehicle _lasT};
@@ -276,9 +276,9 @@ if (_timer > 120) then {deleteWaypoint _wp};
 
 if not (_task isEqualTo taskNull) then
 	{
-	
+
 	[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_Posland,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
-	
+
 	};
 
 if (_HQ getVariable ["RydHQ_Debug",false]) then {_i setMarkerColor "ColorBlue"};
@@ -296,7 +296,7 @@ _mustRTB = false;
 {
 	if ((((_x getVariable ["SortiePylons",0])/2) > (count (getPylonMagazines _x))) or ((damage _x) > 0.5) or ((fuel _x) < 0.3)) then {_mustRTB = true;};
 
-} foreach _flight;
+} forEach _flight;
 
 
 if (_mustRTB) then {
@@ -304,7 +304,7 @@ if (_mustRTB) then {
 	_timer = _cause select 0;
 	_alive = _cause select 1;
 
-	if not (_alive) exitwith 
+	if not (_alive) exitWith
 		{
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 		_unitG setVariable [("Busy" + (str _unitG)),false];
@@ -322,7 +322,7 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 _attAv pushBack _unitG;
 _HQ setVariable ["RydHQ_AttackAv",_attAv];
- 
+
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};

@@ -27,7 +27,7 @@ _goodSpots = [];
 	if (isNil "_inDef") then {_inDef = false};
 	if not (_inDef) exitWith {_allInDef = false}
 	}
-foreach ((_LMCU + _airDef + _recDef) - ([_HQ] + (_HQ getVariable ["RydHQ_Garrison",[]])));
+forEach ((_LMCU + _airDef + _recDef) - ([_HQ] + (_HQ getVariable ["RydHQ_Garrison",[]])));
 
 if (_allInDef) exitWith {};
 
@@ -68,7 +68,7 @@ if not ((count (_HQ getVariable ["RydHQ_KnEnPos",[]])) == 0) then
 		_Epos0 pushBack (_x select 0);
 		_Epos1 pushBack (_x select 1)
 		}
-	foreach (_HQ getVariable ["RydHQ_KnEnPos",[]])
+	forEach (_HQ getVariable ["RydHQ_KnEnPos",[]])
 	}
 else
 	{
@@ -123,7 +123,7 @@ if ((_HQ getVariable ["RydHQ_CRDefRes",0]) == 0) then {
 			_defRes pushBack _x
 			};
 		}
-	foreach _LMCU;
+	forEach _LMCU;
 
 	} else {
 
@@ -133,7 +133,7 @@ if ((_HQ getVariable ["RydHQ_CRDefRes",0]) == 0) then {
 			_defRes pushBack _x
 			};
 		}
-	foreach _LMCU;
+	forEach _LMCU;
 
 	};
 
@@ -145,7 +145,7 @@ _defPointsOBJ = [];
 
 {
 deleteVehicle _x;
-} foreach (_HQ getVariable ["DeldefPointsOBJ",[]]);
+} forEach (_HQ getVariable ["DeldefPointsOBJ",[]]);
 
 //waitUntil {if (_HQ getVariable ["BBDEF",false]) then  {_HQ getVariable ["BBDEFSPts",false]} else {true} };
 
@@ -159,7 +159,7 @@ if (_HQ getVariable ["BBDEF",false]) then {
 		_obj setPosATL _x;
 		_defPoints pushBack _obj;
 		_defPointsOBJ pushBack _obj;
-	} foreach _defPointsBB;
+	} forEach _defPointsBB;
 };
 
 _defPoints = _defPoints + [(leader _HQ)];
@@ -191,7 +191,7 @@ while {(_ct < 3)} do
 		_x setVariable ["ClosestFor",0];
 		_x setVariable ["ClosestForRec",0];
 		}
-	foreach _defPoints;
+	forEach _defPoints;
 
 		{
 		_closest = _defPoints select 0;
@@ -202,7 +202,7 @@ while {(_ct < 3)} do
 			_dstAct = _x distance _friend;
 			if (_dstAct < _dstM) then {_dstM = _dstAct;_closest = _x};
 			} 
-		foreach _defPoints;
+		forEach _defPoints;
 
 		_cl = _closest getVariable "ClosestFor";
 		_clr = _closest getVariable "ClosestForRec";
@@ -210,7 +210,7 @@ while {(_ct < 3)} do
 		_closest setVariable ["ClosestFor",_cl + 1];
 		if (_x in ((_HQ getVariable ["RydHQ_reconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_snipersG",[]]))) then {_closest setVariable ["ClosestForRec",_clr + 1]}
 		}
-	foreach _LMCU;
+	forEach _LMCU;
 
 	/*if (_ct == 1) then
 		{
@@ -237,8 +237,8 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			if (_HQ getVariable ["RydHQ_Orderfirst",true]) then {_x setVariable [("Nominal" + _unitvar),(count (units _x))]};
 			_busy = false;
 			_Unable = false;
-			_busy = _x getvariable ("Busy" + _unitvar);
-			_Unable = _x getvariable "Unable";
+			_busy = _x getVariable ("Busy" + _unitvar);
+			_Unable = _x getVariable "Unable";
 			if (isNil ("_Unable")) then {_Unable = false};
 			if (isNil ("_busy")) then {_busy = false};
 			_vehready = true;
@@ -261,7 +261,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 					if (((count (magazines _x)) == 0) and (((vehicle _x) == _x) or ((vehicle _x) in (_HQ getVariable ["RydHQ_NCVeh",[]])))) exitWith {_ammo = false};
 					if (((damage _x) > 0.5) or not (canStand _x)) exitWith {_effective = false};
 					}
-				foreach (units _x)
+				forEach (units _x)
 				};
 				
 			_nominal = _x getVariable ("Nominal" + (str _x));if (isNil "_nominal") then {_x setVariable ["Nominal" + _unitvar,(count (units _x))];_nominal = _x getVariable ("Nominal" + (str _x))};
@@ -271,10 +271,10 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			_ammo = 0;
 
 				{
-				_veh = assignedvehicle _x;
-				if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCAirG",[]])) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitwith {_vehready = false};
+				_veh = assignedVehicle _x;
+				if (not (isNull _veh) and (not (canMove _veh) or ((fuel _veh) <= 0.1) or ((damage _veh) > 0.5) or (((group _x) in (((_HQ getVariable ["RydHQ_AirG",[]]) - (_HQ getVariable ["RydHQ_NCAirG",[]])) + ((_HQ getVariable ["RydHQ_HArmorG",[]]) + (_HQ getVariable ["RydHQ_LArmorG",[]]) + ((_HQ getVariable ["RydHQ_CarsG",[]]) - ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]])))))) and ((count (magazines _veh)) == 0)))) exitWith {_vehready = false};
 				}
-			foreach (units _x);
+			forEach (units _x);
 			
 			if (not (_x in _exhausted) and not (_IsAPlayer) and (not (_vehready) or not (_solready))) then  
 				{
@@ -288,9 +288,9 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 				if (not (_x in _exhausted) and (((random (2 + (_HQ getVariable ["RydHQ_Recklessness",0.5]))) max 0.5) < (_inD * (_HQ getVariable ["RydHQ_Withdraw",1])))) then 
 					{
 					_recvar = str _x;
-					_resting = _x getvariable ("Resting" + _recvar);
+					_resting = _x getVariable ("Resting" + _recvar);
 					if (isNil ("_resting")) then {_resting = false};
-					_Unable = _x getvariable "Unable";
+					_Unable = _x getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 					
 					if (not (_resting) and not (_Unable) and not (_IsAPlayer)) then
@@ -303,7 +303,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 			}
 		}
 	}
-foreach (_LMCU + _airDef + _recDef);
+forEach (_LMCU + _airDef + _recDef);
 _HQ setVariable ["RydHQ_Exhausted",_exhausted];
 
 _HQ setVariable ["debugdef",_defPoints];
@@ -539,7 +539,7 @@ _Angle = 0;
 
 	_defArray pushBack [_defPoint,_goodSpotsRec,_goodSpots,_DN,[_dXb,_dYb],_angleV];
 	}
-foreach _defPoints;
+forEach _defPoints;
 
 _Spot = [];
 _GS = [];
@@ -552,7 +552,7 @@ _recDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 			{
 			_isDef = _x getVariable "Defending";
 			if (isNil "_isDef") then {_isDef = false};
-			_Unable = _x getvariable "Unable";
+			_Unable = _x getVariable "Unable";
 			if (isNil ("_Unable")) then {_Unable = false};
 
 			if (not (_isDef) and not (_Unable)) then
@@ -574,12 +574,12 @@ _recDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 								_dstAct = _arrP distance _friend;
 								if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 								}
-							foreach _defArray;
+							forEach _defArray;
 
 							_goodSpots = _closestArr select 1;
 							_angleV = _closestArr select 5;	
 
-							if ((count _goodSpots) == 0) exitwith {};
+							if ((count _goodSpots) == 0) exitWith {};
 							if not (_x in _recDefSpot) then 
 								{
 								_aa = 0;
@@ -605,11 +605,11 @@ _recDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 				}
 			};
 			
-		if ((count _goodSpots) == 0) exitwith {};
+		if ((count _goodSpots) == 0) exitWith {};
 		};
-	if ((count _goodSpots) == 0) exitwith {}
+	if ((count _goodSpots) == 0) exitWith {}
 	}
-foreach (_recDef - (_HQ getVariable ["RydHQ_Exhausted",[]]));
+forEach (_recDef - (_HQ getVariable ["RydHQ_Exhausted",[]]));
 
 _defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 			
@@ -624,7 +624,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					{
 					_isDef = _x getVariable "Defending";
 					if (isNil "_isDef") then {_isDef = false};
-					_Unable = _x getvariable "Unable";
+					_Unable = _x getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 
 					if (not (_isDef) and not (_Unable)) then
@@ -646,12 +646,12 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 										_dstAct = _arrP distance _friend;
 										if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 										}
-									foreach _defArray;
+									forEach _defArray;
 
 									_goodSpots = _closestArr select 2;_angleV = _closestArr select 5;_dXb = (_closestArr select 4) select 0;_dYb = (_closestArr select 4) select 1;	
 									_DN = _closestArr select 3;
 
-									if ((count _goodSpots) == 0) exitwith {};
+									if ((count _goodSpots) == 0) exitWith {};
 									if not (_x in _defSpot) then 
 										{
 										_bb = 0;
@@ -677,12 +677,12 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 						};
 					};
 
-				if ((count _goodSpots) == 0) exitwith {}
+				if ((count _goodSpots) == 0) exitWith {}
 				};
 
-			if ((count _goodSpots) == 0) exitwith {}
+			if ((count _goodSpots) == 0) exitWith {}
 			}
-		foreach ((_LMCU - ((_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]]))) - (_HQ getVariable ["RydHQ_NoDef",[]]));
+		forEach ((_LMCU - ((_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]]))) - (_HQ getVariable ["RydHQ_NoDef",[]]));
 
 		for "_k" from 1 to ((count _airDef) - 1) do
 			{
@@ -695,7 +695,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					{
 					_isDef = _ad getVariable "Defending";
 					if (isNil "_isDef") then {_isDef = false};
-					_Unable = _ad getvariable "Unable";
+					_Unable = _ad getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 
 					if (not (_isDef) and not (_Unable)) then
@@ -715,10 +715,10 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 									_dstAct = _arrP distance _friend;
 									if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 									}
-								foreach _defArray;
+								forEach _defArray;
 
 								//_Spot = _closestArr select 0;
-								_Spot = (selectrandom _defArray) select 0;
+								_Spot = (selectRandom _defArray) select 0;
 
 								_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
 								_AirInDef pushBack _ad;
@@ -742,7 +742,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					{
 					_isDef = _x getVariable "Defending";
 					if (isNil "_isDef") then {_isDef = false};
-					_Unable = _x getvariable "Unable";
+					_Unable = _x getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 
 					if (not (_isDef) and not (_Unable)) then
@@ -766,7 +766,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 											_dstAct = _arrP distance _friend;
 											if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 											}
-										foreach _defArray;
+										forEach _defArray;
 
 										_SpotB = _closestArr select 0;
 										_angleV = _closestArr select 5;
@@ -809,7 +809,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 													_Rpoint = _NR select (floor (random (count _NR)));
 													_posX = ((position _Rpoint) select 0) + (((random 100) - 50) * _defRange);
 													_posY = ((position _Rpoint) select 1) + (((random 100) - 50) * _defRange);
-													if (not (isOnRoad [_posX,_posY]) and (([_posX,_posY] distance _Rpoint) > 10) or (_cnt > 10)) exitwith {if (_cnt <= 10) then {_Spot = [_posX,_posY]}};
+													if (not (isOnRoad [_posX,_posY]) and (([_posX,_posY] distance _Rpoint) > 10) or (_cnt > 10)) exitWith {if (_cnt <= 10) then {_Spot = [_posX,_posY]}};
 													}
 												};
 											};
@@ -824,7 +824,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					}
 				}
 			}
-		foreach ((_LMCU - ((_HQ getVariable ["RydHQ_DefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]])) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) - (_HQ getVariable ["RydHQ_NoDef",[]]));
+		forEach ((_LMCU - ((_HQ getVariable ["RydHQ_DefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]])) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) - (_HQ getVariable ["RydHQ_NoDef",[]]));
 		};
 		
 	case false : 
@@ -836,7 +836,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					{
 					_isDef = _x getVariable "Defending";
 					if (isNil "_isDef") then {_isDef = false};
-					_Unable = _x getvariable "Unable";
+					_Unable = _x getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 
 					if (not (_isDef) and not (_Unable)) then
@@ -860,7 +860,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 											_dstAct = _arrP distance _friend;
 											if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 											}
-										foreach _defArray;
+										forEach _defArray;
 
 										_SpotB = _closestArr select 0;_angleV = _closestArr select 5;
 										_ct = _SpotB getVariable "ClosestFor";
@@ -898,7 +898,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 													_Rpoint = _NR select (floor (random (count _NR)));
 													_posX = ((position _Rpoint) select 0) + (((random 100) - 50) * _defRange);
 													_posY = ((position _Rpoint) select 1) + (((random 100) - 50) * _defRange);
-													if (not (isOnRoad [_posX,_posY]) and (([_posX,_posY] distance _Rpoint) > 10) or (_cnt > 10)) exitwith {if (_cnt <= 10) then {_Spot = [_posX,_posY]}};
+													if (not (isOnRoad [_posX,_posY]) and (([_posX,_posY] distance _Rpoint) > 10) or (_cnt > 10)) exitWith {if (_cnt <= 10) then {_Spot = [_posX,_posY]}};
 													}
 												};
 											};
@@ -913,7 +913,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					}
 				}
 			}
-		foreach ((_LMCU - ((_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]])) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) - (_HQ getVariable ["RydHQ_NoDef",[]]));
+		forEach ((_LMCU - ((_HQ getVariable ["RydHQ_RecDefSpot",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_DefRes",[]])) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) - (_HQ getVariable ["RydHQ_NoDef",[]]));
 
 		for "_k" from 0 to ((count _airDef) - 1) do
 			{
@@ -924,7 +924,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 					{
 					_isDef = _ad getVariable "Defending";
 					if (isNil "_isDef") then {_isDef = false};
-					_Unable = _ad getvariable "Unable";
+					_Unable = _ad getVariable "Unable";
 					if (isNil ("_Unable")) then {_Unable = false};
 
 					if (not (_isDef) and not (_Unable)) then
@@ -946,10 +946,10 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 									_dstAct = _arrP distance _friend;
 									if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 									}
-								foreach _defArray;
+								forEach _defArray;
 
 								//_Spot = _closestArr select 0;
-								_Spot = (selectrandom _defArray) select 0;
+								_Spot = (selectRandom _defArray) select 0;
 
 
 								_AirInDef = _HQ getVariable ["RydHQ_AirInDef",[]];
@@ -975,7 +975,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 			{
 			_isDef = _x getVariable "Defending";
 			if (isNil "_isDef") then {_isDef = false};
-			_Unable = _x getvariable "Unable";
+			_Unable = _x getVariable "Unable";
 			if (isNil ("_Unable")) then {_Unable = false};
 
 			if (not (_isDef) and not (_Unable)) then
@@ -995,7 +995,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 								//_posY = ((position ((selectrandom _defArray) select 0)) select 1) + (random 200) - 50;
 								//_Spot = [_posX,_posY];
 
-								_Spot = (selectrandom _defArray) select 0;
+								_Spot = (selectRandom _defArray) select 0;
 
 								//[_x,_Spot,_HQ] spawn HAL_GoDefRes;
 								[[_x,_Spot,_HQ],HAL_GoDefRes] call RYD_Spawn;
@@ -1008,7 +1008,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 			}
 		}
 	}
-foreach ((_HQ getVariable ["RydHQ_DefRes",[]]) - (_HQ getVariable ["RydHQ_NoDef",[]]) - (_HQ getVariable ["RydHQ_Exhausted",[]]));
+forEach ((_HQ getVariable ["RydHQ_DefRes",[]]) - (_HQ getVariable ["RydHQ_NoDef",[]]) - (_HQ getVariable ["RydHQ_Exhausted",[]]));
 
 	{
 	_recvar = str _x;
@@ -1018,10 +1018,10 @@ foreach ((_HQ getVariable ["RydHQ_DefRes",[]]) - (_HQ getVariable ["RydHQ_NoDef"
 	_capturing = false;
 	_capturing = _x getVariable ("Capt" + _recvar);
 	if (isNil ("_capturing")) then {_capturing = false};
-	_deployed = _x getvariable ("Deployed" + _recvar);
+	_deployed = _x getVariable ("Deployed" + _recvar);
 	_isDef = _x getVariable "Defending";
-	_busy = _x getvariable ("Busy" + _recvar);
-	_Unable = _x getvariable "Unable";
+	_busy = _x getVariable ("Busy" + _recvar);
+	_Unable = _x getVariable "Unable";
 	if (isNil ("_Unable")) then {_Unable = false};
 	if (isNil ("_isDef")) then {_isDef = false};
 	if (isNil ("_busy")) then {_busy = false};
@@ -1030,9 +1030,9 @@ foreach ((_HQ getVariable ["RydHQ_DefRes",[]]) - (_HQ getVariable ["RydHQ_NoDef"
 		{
 		deleteWaypoint ((waypoints _x) select 0);
 		//[_x,_HQ] spawn HAL_GoIdle
-			[[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ],HAL_GoDefNav] call RYD_Spawn;
+			[[_x,selectRandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ],HAL_GoDefNav] call RYD_Spawn;
 		};
 	}
-foreach (_HQ getVariable ["RydHQ_NavalG",[]]);
+forEach (_HQ getVariable ["RydHQ_NavalG",[]]);
 
 _HQ setVariable ["DeldefPointsOBJ",_defPointsOBJ];

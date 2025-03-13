@@ -11,9 +11,9 @@ _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 _Edistance = false;
 
 	{
-	if ((_x distance (_HQ getVariable ["leaderHQ",leader _HQ])) < 2000) exitwith {_Edistance = true};
+	if ((_x distance (_HQ getVariable ["leaderHQ",leader _HQ])) < 2000) exitWith {_Edistance = true};
 	}
-foreach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
+forEach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
 _HQ setVariable ["RydHQ_ReconDone",false];
 _HQ setVariable ["RydHQ_ReconStage",1];
 
@@ -24,7 +24,7 @@ if (_Edistance) then
 		_LEvar = str _LE;
 		_LE setVariable [("Checked" + _LEvar), false]
 		}
-	foreach ((_HQ getVariable ["RydHQ_Enemies",[]]) - (_HQ getVariable ["RydHQ_KnEnemiesG",[]]))
+	forEach ((_HQ getVariable ["RydHQ_Enemies",[]]) - (_HQ getVariable ["RydHQ_KnEnemiesG",[]]))
 	};
 
 _HQ setVariable ["RydHQ_DefDone",false];
@@ -65,31 +65,31 @@ if ((_HQ getVariable ["leaderHQ",(leader _HQ)]) in (RydBBa_HQs + RydBBb_HQs)) th
 
 _lastObj = _HQ getVariable ["RydHQ_NObj",1];
 
-_lost = ObjNull;
+_lost = objNull;
 _taken = _HQ getVariable ["RydHQ_Taken",[]];
 _Navaltaken = _HQ getVariable ["RydHQ_TakenNaval",[]];
 
 {
 	if not (_x in _objectives) then {_taken = _taken - [_x]}
-} foreach _taken;
+} forEach _taken;
 
 {
 	if not (_x in _Navalobjectives) then {_Navaltaken = _Navaltaken - [_x]}
-} foreach _Navaltaken;
+} forEach _Navaltaken;
 
 {
 	if (_x getVariable ["PatrolPoint",false]) then {
 		_objectives = _objectives - [_x];
 		if not (_x in _taken) then {_taken pushBack _x};
 		};
-} foreach _objectives;
+} forEach _objectives;
 
 {
 	if (_x getVariable ["PatrolPoint",false]) then {
 		_Navalobjectives = _Navalobjectives - [_x];
 		if not (_x in _Navaltaken) then {_Navaltaken pushBack _x};
 		};
-} foreach _Navalobjectives;
+} forEach _Navalobjectives;
 
 _oTaken = +_taken;
 _cTaken = count _taken;
@@ -99,7 +99,7 @@ _SideEnemies = [];
 
 {
 	if (((side _HQ) getFriend _x) >= 0.6) then {_SideAllies pushBack _x} else {_SideEnemies pushBack _x};
-} foreach [west,east,resistance];
+} forEach [west,east,resistance];
 
 
 	{
@@ -114,7 +114,7 @@ _SideEnemies = [];
 		{
 		_AllV2 = _AllV2 + (crew _x)
 		}
-	foreach _AllV20;
+	forEach _AllV20;
 
 	_Civs20 = _trg nearEntities [["Civilian"],(_HQ getVariable ["RydHQ_ObjRadius2",500])];
 
@@ -123,7 +123,7 @@ _SideEnemies = [];
 		{
 		_Civs2 = _Civs2 + (crew _x)
 		}
-	foreach _Civs20;
+	forEach _Civs20;
 
 	_AllV2 = _AllV2 - _Civs2;
 
@@ -135,7 +135,7 @@ _SideEnemies = [];
 			if ((count (crew _x)) == 0) then {_AllV2 = _AllV2 - [_x]}
 			}
 		}
-	foreach _AllV20;
+	forEach _AllV20;
 
 //	_NearEnemies = (_HQ getVariable ["leaderHQ",(leader _HQ)]) countenemy _AllV2;
 	_NearEnemies = ({(side _x) in _SideEnemies} count _AllV2);
@@ -147,14 +147,14 @@ _SideEnemies = [];
 		{
 		_AllV = _AllV + (crew _x)
 		}
-	foreach _AllV0;
+	forEach _AllV0;
 
 	_Civs = [];
 
 		{
 		_Civs = _Civs + (crew _x)
 		}
-	foreach _Civs0;
+	forEach _Civs0;
 
 	_AllV = _AllV - _Civs;
 	_AllV0 = +_AllV;
@@ -165,7 +165,7 @@ _SideEnemies = [];
 			if ((count (crew _x)) == 0) then {_AllV = _AllV - [_x]}
 			}
 		}
-	foreach _AllV0;
+	forEach _AllV0;
 
 //	_NearAllies = (_HQ getVariable ["leaderHQ",(leader _HQ)]) countfriendly _AllV;
 	_NearAllies = ({(side _x) in _SideAllies} count _AllV);
@@ -184,7 +184,7 @@ _SideEnemies = [];
 					}
 				}
 			}
-		foreach (_HQ getVariable ["RydHQ_Friends",[]]);
+		forEach (_HQ getVariable ["RydHQ_Friends",[]]);
 
 		_captDiff = _captLimit - _enRoute;
 
@@ -203,7 +203,7 @@ _SideEnemies = [];
 		_taken pushBackUnique _x;
 	};
 
-	if ((_NearEnemies > _NearAllies) and not (_AAO)) exitwith {_lost = _x};
+	if ((_NearEnemies > _NearAllies) and not (_AAO)) exitWith {_lost = _x};
 	if (_NearEnemies > _NearAllies) then {
 		_taken = _taken - [_x];
 		if ((str (leader _HQ)) == "LeaderHQ") then {_x setVariable ["SetTakenA",false]};
@@ -233,8 +233,8 @@ _SideEnemies = [];
 
 		
 	{
-		if ((_trg distance (leader _x)) < (_HQ getVariable ["RydHQ_ObjRadius2",500])) exitwith {_noGarrAround = false};
-	} foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
+		if ((_trg distance (leader _x)) < (_HQ getVariable ["RydHQ_ObjRadius2",500])) exitWith {_noGarrAround = false};
+	} forEach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 	if ((_noGarrAround) and not (RydBB_Active) and (_x in _taken) and not (_setTaken)) then
 		{
@@ -243,8 +243,8 @@ _SideEnemies = [];
 		_fG = (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]) + (_HQ getVariable ["RydHQ_Garrison",[]]));
 
 		{
-			if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
-		} foreach _fG;
+			if (((_x getVariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
+		} forEach _fG;
 
 		_fG = _fG - (_UnableArr);
 
@@ -264,14 +264,14 @@ _SideEnemies = [];
 					_chosen = _actG
 					}
 				}
-			foreach _fG;
+			forEach _fG;
 					
 			_code =
 				{
 				_unitG = _this select 0;
 				_HQ = _this select 1;
 		
-				_busy = _unitG getvariable [("Busy" + (str _unitG)),false];
+				_busy = _unitG getVariable [("Busy" + (str _unitG)),false];
 
 				_alive = true;
 
@@ -312,7 +312,7 @@ _SideEnemies = [];
 		};
 
 	}
-foreach _objectives;
+forEach _objectives;
 
 	{
 
@@ -326,7 +326,7 @@ foreach _objectives;
 		{
 		_AllV2 = _AllV2 + (crew _x)
 		}
-	foreach _AllV20;
+	forEach _AllV20;
 
 	_Civs20 = _trg nearEntities [["Civilian"],(_HQ getVariable ["RydHQ_ObjRadius2",500])];
 
@@ -335,7 +335,7 @@ foreach _objectives;
 		{
 		_Civs2 = _Civs2 + (crew _x)
 		}
-	foreach _Civs20;
+	forEach _Civs20;
 
 	_AllV2 = _AllV2 - _Civs2;
 
@@ -347,7 +347,7 @@ foreach _objectives;
 			if ((count (crew _x)) == 0) then {_AllV2 = _AllV2 - [_x]}
 			}
 		}
-	foreach _AllV20;
+	forEach _AllV20;
 
 //	_NearEnemies = (_HQ getVariable ["leaderHQ",(leader _HQ)]) countenemy _AllV2;
 	_NearEnemies = ({(side _x) in _SideEnemies} count _AllV2);
@@ -359,14 +359,14 @@ foreach _objectives;
 		{
 		_AllV = _AllV + (crew _x)
 		}
-	foreach _AllV0;
+	forEach _AllV0;
 
 	_Civs = [];
 
 		{
 		_Civs = _Civs + (crew _x)
 		}
-	foreach _Civs0;
+	forEach _Civs0;
 
 	_AllV = _AllV - _Civs;
 	_AllV0 = +_AllV;
@@ -377,7 +377,7 @@ foreach _objectives;
 			if ((count (crew _x)) == 0) then {_AllV = _AllV - [_x]}
 			}
 		}
-	foreach _AllV0;
+	forEach _AllV0;
 
 //	_NearAllies = (_HQ getVariable ["leaderHQ",(leader _HQ)]) countfriendly _AllV;
 	_NearAllies = ({(side _x) in _SideAllies} count _AllV);
@@ -396,7 +396,7 @@ foreach _objectives;
 					}
 				}
 			}
-		foreach (_HQ getVariable ["RydHQ_NavalG",[]]);
+		forEach (_HQ getVariable ["RydHQ_NavalG",[]]);
 
 		_captDiff = _captLimit - _enRoute;
 
@@ -415,7 +415,7 @@ foreach _objectives;
 		_Navaltaken pushBackUnique _x;
 	};
 
-	if ((_NearEnemies > _NearAllies) and not (_AAO)) exitwith {_lost = _x};
+	if ((_NearEnemies > _NearAllies) and not (_AAO)) exitWith {_lost = _x};
 	if (_NearEnemies > _NearAllies) then {
 		_Navaltaken = _Navaltaken - [_x];
 		if ((str (leader _HQ)) == "LeaderHQ") then {_x setVariable ["SetTakenA",false]};
@@ -430,7 +430,7 @@ foreach _objectives;
 
 
 	}
-foreach _Navalobjectives;
+forEach _Navalobjectives;
 
 if not ((RydBB_Active) and ((leader _HQ) in (RydBBa_HQs + RydBBb_HQs))) then
 	{
@@ -440,10 +440,10 @@ if not ((RydBB_Active) and ((leader _HQ) in (RydBBa_HQs + RydBBb_HQs))) then
 	if not (_AAO) then
 		{
 		if (isNull _lost)	then {_HQ setVariable ["RydHQ_NObj",_lastObj]} else {
-			if (_lost == (_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])) then {_HQ setVariable ["RydHQ_NObj",1];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}foreach ([(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
-				if ((_lost == (_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) > 2)) then {_HQ setVariable ["RydHQ_NObj",2];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}foreach ([(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
-					if ((_lost == (_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) > 3)) then {_HQ setVariable ["RydHQ_NObj",3];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}foreach ([(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
-						if ((_lost == (_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) >= 4)) then {_HQ setVariable ["RydHQ_NObj",4];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}foreach ([(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])}}}}};
+			if (_lost == (_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])) then {_HQ setVariable ["RydHQ_NObj",1];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}forEach ([(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
+				if ((_lost == (_HQ getVariable ["RydHQ_Obj2",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) > 2)) then {_HQ setVariable ["RydHQ_NObj",2];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}forEach ([(_HQ getVariable ["RydHQ_Obj2",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
+					if ((_lost == (_HQ getVariable ["RydHQ_Obj3",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) > 3)) then {_HQ setVariable ["RydHQ_NObj",3];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}forEach ([(_HQ getVariable ["RydHQ_Obj3",(leader _HQ)]),(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])} else {
+						if ((_lost == (_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])) and ((_HQ getVariable ["RydHQ_NObj",1]) >= 4)) then {_HQ setVariable ["RydHQ_NObj",4];{_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]}forEach ([(_HQ getVariable ["RydHQ_Obj4",(leader _HQ)])])}}}}};
 		
 		if ((_HQ getVariable ["RydHQ_NObj",1]) < 1) then {_HQ setVariable ["RydHQ_NObj",1]};
 		if ((_HQ getVariable ["RydHQ_NObj",1]) > 5) then {_HQ setVariable ["RydHQ_NObj",5]};
@@ -462,7 +462,7 @@ if not ((RydBB_Active) and ((leader _HQ) in (RydBBa_HQs + RydBBb_HQs))) then
 				_x setVariable [("Capturing" + (str _x) + (str _HQ)),[0,0]]
 				}
 			}
-		foreach (_objectives - _taken);
+		forEach (_objectives - _taken);
 		
 		if (_nTaken < _cTaken) then
 			{
@@ -476,12 +476,12 @@ _reserve = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_Ar
 	{
 	_x setVariable [("Deployed" + (str _x)),false];
 	}
-foreach _reserve;
+forEach _reserve;
 
 	{
 	if ((random 100) > 95) then {_x setVariable [("Garrisoned" + (str _x)),false]};
 	}
-foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
+forEach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 if ((_HQ getVariable ["RydHQ_Combining",false])) then 
 	{
@@ -517,7 +517,7 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 						//diag_log _nominalA;
 						if (((_nominalA/(_currentA + 0.1)) > 2) and (isNull (assignedVehicle (leader _Aex))) and (((vehicle (leader _x)) distance (vehicle (leader _Aex))) < 200)) then 
 							{
-							(units _x) joinsilent _Aex;
+							(units _x) joinSilent _Aex;
 							sleep 0.05;
 							_Aex setVariable [("Nominal" + (str _Aex)),(count (units _Aex)),true];
 							}
@@ -530,6 +530,6 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			_exhausted = _exhausted - [_x]
 			};
 		}
-	foreach (_HQ getVariable ["RydHQ_Exhausted",[]]);
+	forEach (_HQ getVariable ["RydHQ_Exhausted",[]]);
 	_HQ setVariable ["RydHQ_Exhausted",_exhausted];
 	};

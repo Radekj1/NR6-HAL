@@ -10,8 +10,8 @@ _logic = _this select 0;
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Commanders pushback (call compile (_x getvariable "LeaderType"))};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
+} forEach (synchronizedObjects _logic);
 
 _side = call compile (_logic getVariable "_side");
 _SpawnPads =  [_logic];
@@ -20,13 +20,13 @@ _coreObj = _logic;
 _sidetick = _logic getVariable "_sidetick";
 _faction = _logic getVariable "_faction";
 _Threshold = _logic getVariable "_Threshold";
-_HalReinf = _logic getvariable "_HalReinf";
+_HalReinf = _logic getVariable "_HalReinf";
 _Leaders = _Commanders;
 _TickTime = _logic getVariable "_TickTime";
 _flight = call compile (_logic getVariable "_flight");
 _DontLand = _logic getVariable "_DontLand";
 _SpawnPos = [getPos _logic];
-_playerRange = _logic getvariable "_playerRange";
+_playerRange = _logic getVariable "_playerRange";
 
 
 if (_DontLand) then {_DontLand = "; (group _this) setVariable ['AirNoLand',true];"} else {_DontLand = ""};
@@ -34,12 +34,12 @@ if (_DontLand) then {_DontLand = "; (group _this) setVariable ['AirNoLand',true]
 if (isNil ("_TickTime")) then {_TickTime = 15};
 
 {
-    if (_x isKindOf "HeliH") then {_SpawnPads pushback _x};
-    if ((_x isKindOf "Air") and not ((crew _x) isequalto [])) then {_StartForces pushback _x};
+    if (_x isKindOf "HeliH") then {_SpawnPads pushBack _x};
+    if ((_x isKindOf "Air") and not ((crew _x) isEqualTo [])) then {_StartForces pushBack _x};
 } forEach (synchronizedObjects _coreObj);
 
-if (_StartForces isequalto []) then {_StartForces = [objNull]};
-if (_SpawnPads isequalto []) then {_SpawnPads = [_coreObj]};
+if (_StartForces isEqualTo []) then {_StartForces = [objNull]};
+if (_SpawnPads isEqualTo []) then {_SpawnPads = [_coreObj]};
 
 
 _LiveForces = _StartForces;
@@ -103,7 +103,7 @@ if (_faction == "I") then {
 
 if (_faction == "custom") then {
 
-    _Pool = call compile (_logic getvariable "_Pool");
+    _Pool = call compile (_logic getVariable "_Pool");
 };
 
 
@@ -178,7 +178,7 @@ while {true} do
     {
         if ((alive _x) or (_x getVariable ["HOT",false])) then {
 
-            _GoodPads pushback _x;
+            _GoodPads pushBack _x;
             
         };
     
@@ -186,7 +186,7 @@ while {true} do
 
     _CLiveForces = _LiveForces;
 
-    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allPlayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         _sidetick = 0;
     };
@@ -219,7 +219,7 @@ while {true} do
         {
             _chosenFlight = (selectRandom _flight);
 
-            if ((_sidetick > 0) and not ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and not (_GoodPads isequalto [])) then {
+            if ((_sidetick > 0) and not ({_x distance (_SpawnPos select 0) < _playerRange} count allPlayers > 0) and not (_GoodPads isEqualTo [])) then {
 
                 private ["_grp"];
 
@@ -228,8 +228,8 @@ while {true} do
                 sleep 1;
                 
                 _sidetick = (_sidetick - _chosenFlight);
-                _logic setvariable ["_sidetick",_sidetick];
-                {if not ((vehicle _x) in _LiveForces) then {_LiveForces pushback (vehicle _x)}} foreach (units _grp);
+                _logic setVariable ["_sidetick",_sidetick];
+                {if not ((vehicle _x) in _LiveForces) then {_LiveForces pushBack (vehicle _x)}} forEach (units _grp);
 
                 (leader _grp) call compile ((_logic getVariable ["_ExtraArgs",""]) + _DontLand);
 
@@ -237,7 +237,7 @@ while {true} do
             };  
         };
 
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitWith {};
 
     sleep _TickTime;
     };

@@ -17,7 +17,7 @@ _distAllyS = 0;
 	_dist = (vehicle (leader _x)) distance _leader;
 	_distAllyS = _distAllyS + _dist;
 	}
-foreach _ally;
+forEach _ally;
 
 _cAlly = count _ally;
 _midD = 20000;
@@ -32,7 +32,7 @@ _nearE = false;
 	_distEnemyS = _distEnemyS + _distE;
 	if (_distE < 600) then {_nearE = true};
 	}
-foreach _enemy;
+forEach _enemy;
 
 _cEnemy = count _enemy;
 _midDE = 20000;

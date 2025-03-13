@@ -19,7 +19,7 @@ SpawnARGroupA = {
 
     if not ((typeName (_Pool select 0)) isEqualTo "ARRAY") then {
 
-         {_Pool set [_foreachindex,[_x,[],[],[]]]} foreach _Pool;
+         {_Pool set [_foreachindex,[_x,[],[],[]]]} forEach _Pool;
 
     };
 
@@ -44,8 +44,8 @@ SpawnARGroupA = {
 
     _selectedPad = selectRandom _GoodPads;
 
-    _selectedPos = [(getpos _selectedPad) select 0, (getpos _selectedPad) select 1, (((getpos _selectedPad) select 2) + (random [500,700,1500]))];
-    _selectedDir = (getdir _selectedPad);
+    _selectedPos = [(getPos _selectedPad) select 0, (getPos _selectedPad) select 1, (((getPos _selectedPad) select 2) + (random [500,700,1500]))];
+    _selectedDir = (getDir _selectedPad);
 
 
 
@@ -57,7 +57,7 @@ SpawnARGroupA = {
 
     {
         _VC pushBackUnique (vehicle _x);
-    } foreach (units _grp);
+    } forEach (units _grp);
     
     {
         _bird = _x;
@@ -65,8 +65,8 @@ SpawnARGroupA = {
         private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> typeOf _bird >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
         { _bird removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") } forEach getPylonMagazines _bird;
         { _bird setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
-        {((crew _bird) select _forEachIndex) setUnitLoadout _x} foreach (_settings select 0);
-    } foreach _VC;
+        {((crew _bird) select _forEachIndex) setUnitLoadout _x} forEach (_settings select 0);
+    } forEach _VC;
     /*
     if (_VC isKindof "Plane") then {
         _VC FlyInHeight (random [100,1000,3500]);
@@ -98,14 +98,14 @@ SpawnARGroupA = {
             if (isNull _x) then {} else 
                 {
             //    _x sideChat (format ["Air asset %2 deployed at grid: %1",mapGridPosition _selectedPos,groupId _grp]);
-                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setvariable ["RydHQ_Included",RydHQ_Included];};
-                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setvariable ["RydHQ_Included",RydHQB_Included];};
-                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setvariable ["RydHQ_Included",RydHQC_Included];};
-                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setvariable ["RydHQ_Included",RydHQD_Included];};
-                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setvariable ["RydHQ_Included",RydHQE_Included];};
-                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setvariable ["RydHQ_Included",RydHQF_Included];};
-                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setvariable ["RydHQ_Included",RydHQG_Included];};
-                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setvariable ["RydHQ_Included",RydHQH_Included];};
+                if (_x==LeaderHQ) then {RydHQ_Included pushBack _grp; (group LeaderHQ) setVariable ["RydHQ_Included",RydHQ_Included];};
+                if (_x==LeaderHQB) then {RydHQB_Included pushBack _grp; (group LeaderHQB) setVariable ["RydHQ_Included",RydHQB_Included];};
+                if (_x==LeaderHQC) then {RydHQC_Included pushBack _grp; (group LeaderHQC) setVariable ["RydHQ_Included",RydHQC_Included];};
+                if (_x==LeaderHQD) then {RydHQD_Included pushBack _grp; (group LeaderHQD) setVariable ["RydHQ_Included",RydHQD_Included];};
+                if (_x==LeaderHQE) then {RydHQE_Included pushBack _grp; (group LeaderHQE) setVariable ["RydHQ_Included",RydHQE_Included];};
+                if (_x==LeaderHQF) then {RydHQF_Included pushBack _grp; (group LeaderHQF) setVariable ["RydHQ_Included",RydHQF_Included];};
+                if (_x==LeaderHQG) then {RydHQG_Included pushBack _grp; (group LeaderHQG) setVariable ["RydHQ_Included",RydHQG_Included];};
+                if (_x==LeaderHQH) then {RydHQH_Included pushBack _grp; (group LeaderHQH) setVariable ["RydHQ_Included",RydHQH_Included];};
                 }; 
             };
 

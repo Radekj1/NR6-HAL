@@ -8,7 +8,7 @@ _csN = +RydHQ_CallSignsN;
 	_nouns = [_x] call RYD_RandomOrdB;
 	_csN set [_foreachIndex,_nouns]
 	}
-foreach _csN;
+forEach _csN;
 
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
@@ -177,7 +177,7 @@ while {true} do
 	
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then 
 		{
-		waituntil 
+		waitUntil 
 			{
 			sleep 0.1;
 			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
@@ -656,7 +656,7 @@ while {true} do
 			_midX = _midX + (_pos select 0);
 			_midY = _midY + (_pos select 1);
 			}
-		foreach _notTaken;
+		forEach _notTaken;
 			
 		_HQ setVariable ["RydHQ_EyeOfBattle",[_midX/_nTc,_midY/_nTc,0]];
 		};

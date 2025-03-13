@@ -24,10 +24,10 @@ if (_AAO) then
 		if not (isNull _x) then
 			{
 			_LU = leader _x;
-			_lastpos = _x getvariable ("START" + (str _x));
+			_lastpos = _x getVariable ("START" + (str _x));
 			if (isNil ("_lastpos")) then 
 				{
-				_lastPos = getPosATL (assignedvehicle _LU);
+				_lastPos = getPosATL (assignedVehicle _LU);
 				_x setVariable [("START" + (str _x)),_lastPos]
 				};
 
@@ -53,4 +53,4 @@ if (_AAO) then
 			}
 		}
 	}   
-foreach (_HQ getVariable ["RydHQ_NCCargoG",[]]);
+forEach (_HQ getVariable ["RydHQ_NCCargoG",[]]);

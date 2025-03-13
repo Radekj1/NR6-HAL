@@ -12,10 +12,10 @@ _logic = _this select 0;
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getvariable "LeaderType")))}; _Commanders pushback (call compile (_x getvariable "LeaderType"))};
-} foreach (synchronizedObjects _logic);
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
+} forEach (synchronizedObjects _logic);
 
-_SpawnPos = getpos _logic;
+_SpawnPos = getPos _logic;
 _Side = (_logic getVariable "_side");
 _campside = (_logic getVariable "_campside");
 _type = (_logic getVariable "_type");
@@ -26,10 +26,10 @@ _usecup = (_logic getVariable "_usecup");
 _CampSpawnRadius = (_logic getVariable "_CampSpawnRadius");
 _CampNumber = (_logic getVariable "_CampNumber");
 
-_GrpQuantity = _logic getvariable "_GrpQuantity";
-_PatrolPercent = _logic getvariable "_PatrolPercent";
-_MinBuilding = _logic getvariable "_MinBuilding";
-_Pool = call compile (_logic getvariable "_Pool");
+_GrpQuantity = _logic getVariable "_GrpQuantity";
+_PatrolPercent = _logic getVariable "_PatrolPercent";
+_MinBuilding = _logic getVariable "_MinBuilding";
+_Pool = call compile (_logic getVariable "_Pool");
 _Leaders = _Commanders;
 
 

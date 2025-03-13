@@ -14,7 +14,7 @@ _repSG = [];
 	{
 	if not (_x in _repS) then
 		{
-		if ((toLower (typeOf (assignedvehicle _x))) in _rep) then 
+		if ((toLower (typeOf (assignedVehicle _x))) in _rep) then 
 			{
 			_repS pushBack _x;
 			if not ((group _x) in (_repSG + (_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]))) then 
@@ -24,7 +24,7 @@ _repSG = [];
 			}
 		}
 	}
-foreach (_HQ getVariable ["RydHQ_Support",[]]);
+forEach (_HQ getVariable ["RydHQ_Support",[]]);
 
 _HQ setVariable ["RydHQ_RepSupport",_repS];
 _HQ setVariable ["RydHQ_RepSupportG",_repSG];
@@ -36,14 +36,14 @@ _Ldamaged = [];
 	{
 	if not (isPlayer (leader _x)) then {
 		{
-		_av = assignedvehicle _x;
+		_av = assignedVehicle _x;
 		if not (isNull _av) then
 			{
 			if ((damage _av) > 0.1) then
 				{
 				if ((damage _av) < 0.9) then
 					{
-					if (((getposATL _x) select 2) < 5) then 
+					if (((getPosATL _x) select 2) < 5) then 
 						{
 						_damaged pushBack _av;
 						if (((damage _av) > 0.5) or not (canMove _av)) then
@@ -55,10 +55,10 @@ _Ldamaged = [];
 				}
 			}
 		}
-	foreach (units _x)
+	forEach (units _x)
 	};
 	}
-foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExRepair",[]]));
+forEach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_ExRepair",[]]));
 
 _Ldamaged = _damaged - _Sdamaged;
 _HQ setVariable ["RydHQ_damaged",_damaged];
@@ -75,11 +75,11 @@ _rtrs = [];
 				{
 				_unitvar = str (_x);
 				_busy = false;
-				_busy = _x getvariable ("Busy" + _unitvar);
+				_busy = _x getVariable ("Busy" + _unitvar);
 				if (isNil ("_busy")) then {_busy = false};
 
 				_unable = false;
-				_unable = _x getvariable "Unable";
+				_unable = _x getVariable "Unable";
 				if (isNil ("_unable")) then {_unable = false};
 
 				if (not (_busy) and not (_unable)) then
@@ -93,7 +93,7 @@ _rtrs = [];
 			}
 		}
 	}
-foreach _repSG;
+forEach _repSG;
 
 _rtrs2 = +_rtrs;
 _SDunits = +_Sdamaged;
@@ -101,14 +101,14 @@ _a = 0;
 for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 	{
 		{
-		_rtr = assignedvehicle (leader _x);
+		_rtr = assignedVehicle (leader _x);
 
 		for [{_b = 0},{_b < (count _Sdamaged)},{_b = _b + 1}] do 
 			{
 			_SDunit = _Sdamaged select _b;
 
 				{
-				if ((_SDunit distance (assignedvehicle (leader _x))) < 300) exitwith 
+				if ((_SDunit distance (assignedVehicle (leader _x))) < 300) exitWith 
 					{
 					if not ((group _SDunit) in (_HQ getVariable ["RydHQ_RSupportedG",[]])) then 
 						{
@@ -119,10 +119,10 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach _repSG;
+			forEach _repSG;
 
 				{
-				if ((_SDunit distance _x) < 300) exitwith 
+				if ((_SDunit distance _x) < 300) exitWith 
 					{
 					if not ((group _SDunit) in (_HQ getVariable ["RydHQ_RSupportedG",[]])) then 
 						{
@@ -133,7 +133,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach (_HQ getVariable ["RydHQ_RepPoints",[]]);
+			forEach (_HQ getVariable ["RydHQ_RepPoints",[]]);
 
 			_noenemy = true;
 			_halfway = [(((position _rtr) select 0) + ((position _SDunit) select 0))/2,(((position _rtr) select 1) + ((position _SDunit) select 1))/2];
@@ -171,12 +171,12 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 					};
 				};
 			
-			if (((count _rtrs) == 0) or ((count _SDunits) == 0)) exitwith {};
+			if (((count _rtrs) == 0) or ((count _SDunits) == 0)) exitWith {};
 			};
 			
-		if (((count _rtrs) == 0) or ((count _SDunits) == 0)) exitwith {};
+		if (((count _rtrs) == 0) or ((count _SDunits) == 0)) exitWith {};
 		}
-	foreach _rtrs2;
+	forEach _rtrs2;
 	};
 
 _Dunits = +_damaged;
@@ -184,13 +184,13 @@ _Dunits = +_damaged;
 for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 	{
 		{
-		_rtr = assignedvehicle (leader _x);
+		_rtr = assignedVehicle (leader _x);
 		for [{_b = 0},{_b < (count _damaged)},{_b = _b + 1}] do 
 			{
 			_Dunit = _damaged select _b;
 
 				{
-				if ((_Dunit distance (assignedvehicle (leader _x))) < 400) exitwith 
+				if ((_Dunit distance (assignedVehicle (leader _x))) < 400) exitWith 
 					{
 					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_RSupportedG",[]])) then 
 						{
@@ -201,10 +201,10 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach _repSG;
+			forEach _repSG;
 
 				{
-				if ((_Dunit distance _x) < 400) exitwith 
+				if ((_Dunit distance _x) < 400) exitWith 
 					{
 					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_RSupportedG",[]])) then 
 						{
@@ -215,7 +215,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 						}
 					};
 				}
-			foreach (_HQ getVariable ["RydHQ_RepPoints",[]]);
+			forEach (_HQ getVariable ["RydHQ_RepPoints",[]]);
 
 			_noenemy = true;
 			_halfway = [(((position _rtr) select 0) + ((position _Dunit) select 0))/2,(((position _rtr) select 1) + ((position _Dunit) select 1))/2];
@@ -253,10 +253,10 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 					};
 				};
 			
-			if (((count _rtrs) == 0) or ((count _Dunits) == 0)) exitwith {};
+			if (((count _rtrs) == 0) or ((count _Dunits) == 0)) exitWith {};
 			};
 			
-		if (((count _rtrs) == 0) or ((count _Dunits) == 0)) exitwith {};
+		if (((count _rtrs) == 0) or ((count _Dunits) == 0)) exitWith {};
 		}
-	foreach _rtrs2;
+	forEach _rtrs2;
 	};
