@@ -69,7 +69,7 @@ _nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
 _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") exitwith {
+	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") then {
 		_Objective = _x;
         _ObjSource = _Objective;
 		_campName = _Objective getvariable ["_ObjName",""];
@@ -780,18 +780,18 @@ if (isNil "_sideEn2") then
         _sideEn2 = civilian;
     };
 
-if ((_HalReinf isEqualTo "KillSwitch") or (_HalReinf isEqualTo "ReCapture")) then 
-{
+//if ((_HalReinf isEqualTo "KillSwitch") or (_HalReinf isEqualTo "ReCapture")) then 
+//{
 if (_sideEn == civilian) then {
-    if ((_sideEn == civilian) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn == civilian) and ([west, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn = west;
     }; 
-    if ((_sideEn == civilian) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn == civilian) and ([east, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn = east;
     }; 
-    if ((_sideEn == civilian) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn == civilian) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn = resistance;
     }; 
@@ -799,21 +799,21 @@ if (_sideEn == civilian) then {
 };
 
 if (_sideEn2 == civilian) then {
-    if ((_sideEn2 == civilian) and not (_sideEn == west) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn2 == civilian) and not (_sideEn == west) and ([west, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn2 = west;
     }; 
-    if ((_sideEn2 == civilian) and not (_sideEn == east) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn2 == civilian) and not (_sideEn == east) and ([east, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn2 = east;
     }; 
-    if ((_sideEn2 == civilian) and not (_sideEn == resistance) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    if ((_sideEn2 == civilian) and not (_sideEn == resistance) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) then 
     {
         _sideEn2 = resistance;
     }; 
-    if (_sideEn2 == civilian) then {_sideEn2 = sideEnemy};
+    if (_sideEn2 == civilian) then {_sideEn2 = _sideEn};
 };
-};
+//};
 
 
 if (_SpawnMode) exitwith {
@@ -836,15 +836,16 @@ sleep 20;
 private _counter = _side countSide allUnits;
 
 if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
+    sleep 20;
     _Leaders = _Commanders;
     {
-        if ((side _x) == _side) exitwith {
+        if ((side _x) == _side) then {
             _CrrFr = [];
             waitUntil {sleep 5; ((count ((group _x) getvariable ["RydHQ_Friends",[]])) > 0)};
-            _StartForces = (group _x) getvariable ["RydHQ_Friends",[]];
+            private _StrtForces = (group _x) getvariable ["RydHQ_Friends",[]];
             {
                 {_CrrFr pushBackUnique _x} foreach (units _x);
-            } foreach _StartForces;
+            } foreach _StrtForces;
             _StartForces = (count _CrrFr);
         };
                     
@@ -869,15 +870,15 @@ while {true} do
     _CurrentForces = (_side countSide allUnits);
 
     if not (isNil "_ObjSource") then {
-        if ((alive _ObjSource) and (_ObjSource getvariable ["CanSpawn",true])) then {
+        if (_ObjSource getvariable ["CanSpawn",true]) then {
             _CanSpawn = true;
-            if not (_Objsource == _logic) then {              
+            if not (_Objsource == _logic) then {
                 {
                     if ((side _x) == _side) then {
                         _CrrFr = [];
-                        _CurrentForces = (group _x) getvariable ["RydHQ_Friends",[]];
+                        _CurrentForces = (((group _x) getvariable ["RydHQ_Friends",[]]) + ((group _x) getvariable ["RydHQ_Included",[]]));
                         {
-                            {_CrrFr pushBackUnique _x} foreach (units _x);
+                            {if (alive _x) then {_CrrFr pushBackUnique _x}} foreach (units _x);
                         } foreach _CurrentForces;
                         _CurrentForces = (count _CrrFr);
                         if ((_Objsource in ((group _x) getvariable ["RydHQ_Taken",[]])) and not ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0))) then {_CanSpawn = true} else {_CanSpawn = false};
@@ -912,7 +913,7 @@ while {true} do
         _sidetickHold = 0; 
     };
 
-    _CurrentForces = (_side countSide allUnits);
+//    _CurrentForces = (_side countSide allUnits);
 
     if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allplayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
         {
@@ -936,5 +937,5 @@ while {true} do
             };
         };
     if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
-    sleep 5;
+    sleep (random [5,7,15]);
     };

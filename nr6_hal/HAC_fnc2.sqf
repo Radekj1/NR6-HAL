@@ -1149,14 +1149,18 @@ RYD_StatusQuo =
 				_objStr = (str _x);
 				_objStr = (_prefix + (_objStr splitString " " joinstring ""));
 				if (_x in _taken) then {
-					if ((getMarkerColor _objStr) == "") then {
-						_Rmrk = createMarker [_objStr,[_x, 1, 75, 2, 0, 20, 0] call BIS_fnc_findSafePos];
-						if not ((_x getvariable ["ObjName",""]) isEqualTo "") then {_Rmrk setMarkerText (_x getvariable ["ObjName",""])};
+					
+					if ((_x getVariable [_objStr,[]]) isEqualTo []) then {
+						private _respPoint = [];
+						if not ((_x getvariable ["ObjName",""]) isEqualTo "") then {_respPoint = [(side _HQ), getPosATL _x,(_x getvariable ["ObjName",""])] call BIS_fnc_addRespawnPosition} else {_respPoint = [(side _HQ), getPosATL _x] call BIS_fnc_addRespawnPosition};
+						_x setVariable [_objStr,_respPoint];
 					};
 
 				} else {
-					if not ((getMarkerColor _objStr) == "") then {
-						deleteMarker _objStr;
+					if not ((_x getVariable [_objStr,[]]) isEqualTo []) then {
+						private _respPoint = (_x getVariable [_objStr,[]]);	
+						_respPoint call BIS_fnc_removeRespawnPosition;
+						_x setVariable [_objStr,[]];
 					};
 				}
 
