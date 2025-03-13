@@ -574,7 +574,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_GarrRange",RydHQH_GarrRange];
 	
 	if (isNil "RydHQH_NoCapt") then {RydHQH_NoCapt = []};
-	_HQ setVariable ["RydHQ_NoCapt",RydHQ_NoCapt];
+	_HQ setVariable ["RydHQ_NoCapt",RydHQH_NoCapt];
 	
 	if (isNil "RydHQH_AttInfDistance") then {RydHQH_AttInfDistance = 1};
 	_HQ setVariable ["RydHQ_AttInfDistance",RydHQH_AttInfDistance];

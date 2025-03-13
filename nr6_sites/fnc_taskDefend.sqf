@@ -202,7 +202,10 @@ if (_patrol > 0 && {count _units > 1}) then {
 
                     _unit doMove _pos;
                     if (_New) then {_unit setPos _pos};
-                    waitUntil {sleep 1; unitReady _unit};
+                    waitUntil {[1] call CBA_fnc_waitAndExecute; unitReady _unit};
+
+                    [{[1] call CBA_fnc_waitAndExecute; unitReady _unit;}] call CBA_fnc_waitUntilAndExecute;
+
                     if (random 1 < _hold) then {
                         _unit disableAI "PATH";
                         doStop _unit;

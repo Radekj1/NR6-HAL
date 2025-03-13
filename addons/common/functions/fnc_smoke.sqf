@@ -93,17 +93,17 @@ private _smokeCount = 0;
 
                         // Aim at target
                         _unit doWatch _decoy;
-                        sleep 0.1;
-
+                        [0.1] call CBA_fnc_waitAndExecute;
+                        
                         _unit doTarget _decoy;
-                        sleep 3;
+                        [3] call CBA_fnc_waitAndExecute;
 
                         // Select and fire smoke
                         _unit selectWeapon _muzzleName;
-                        sleep 1;
+                        [1] call CBA_fnc_waitAndExecute;
 
                         _unit fire [_muzzleName, _muzzleName, _magazineName];
-                        sleep 1;
+                        [1] call CBA_fnc_waitAndExecute;
 
                         // Clean up
                         deleteVehicle _decoy;
@@ -122,12 +122,12 @@ private _smokeCount = 0;
 
                         // Aim and throw smoke
                         _unit doWatch _decoy;
-                        sleep 1;
+                        [1] call CBA_fnc_waitAndExecute;
 
                         _unit selectWeapon _muzzleName;
                         _unit fire [_muzzleName, _muzzleName, _magazineName];
 
-                        sleep 0.1;
+                        [0.1] call CBA_fnc_waitAndExecute;
 
                         // Clean up
                         _unit doWatch objNull;

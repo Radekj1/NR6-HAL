@@ -12,7 +12,7 @@ _logic = _this select 0;
 _Commanders = [];
 
 {
-	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil {sleep 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
+	if ((typeOf _x) == "NR6_HAL_Leader_Module") then {waitUntil { 0.5; (not (isNil (_x getVariable "LeaderType")))}; _Commanders pushBack (call compile (_x getVariable "LeaderType"))};
 } forEach (synchronizedObjects _logic);
 
 _SpawnPos = getPos _logic;

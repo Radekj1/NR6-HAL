@@ -78,7 +78,7 @@ if (count _additionalData > 0) then {
 
 // Main wait loop
 waitUntil {
-    sleep _integerInterval;
+    [_integerInterval] call CBA_fnc_waitAndExecute;;
 
     // If player is involved, adjust behavior
     private _isPlayerInvolved = isPlayer (leader _group);
@@ -112,7 +112,7 @@ waitUntil {
 
             // Wait for vehicle assignment if necessary
             if (isNull _assignedVehicle) then {
-                waitUntil {sleep 0.5; !isNull (assignedVehicle _unitLeader)};
+                [[{!isNull (assignedVehicle _unitLeader)}, 0.5] call CBA_fnc_waitAndExecute] call CBA_fnc_waitUntilAndExecute;
 
                 _assignedVehicle = assignedVehicle _unitLeader;
                 _driverUnit = assignedDriver _assignedVehicle;

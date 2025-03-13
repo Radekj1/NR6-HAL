@@ -5,7 +5,18 @@ params ["_logic", "_units", "_activated"];
 
 if !(isServer) exitWith {};
 
-RydHQ_Wait = _logic getVariable ["RydHQ_Wait", 15];
+// Hal Start delay - configurable
+if (isNil ("RydHQ_Wait")) then 
+{
+    RydHQ_Wait = (_logic getVariable "RydHQ_Wait"); 
+    if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
+};
+_condition = {missionNamespace getVariable ["Hal_FS", false] == true};                // condition - Needs to return bool
+_statement = {};                // Code to be executed once condition true
+_parameter = [];                // arguments to be passed on -> _this
+_timeout = RydHQ_Wait;                  // if condition isnt true within this time in S, _timecode will be executed.
+_timeoutCode = {};              // code to be executed if timeout
+[_condition, _statement, _parameter, _timeout, _timeoutCode] call CBA_fnc_waitUntilAndExecute;
 
 
 RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",true];
@@ -97,7 +108,7 @@ RYD_Path = "\NR6_HAL\";
 
 // call compile preprocessFile (RYD_Path + "HAC_fnc.sqf");
 // call compile preprocessFile (RYD_Path + "HAC_fnc2.sqf");
-// call compile preprocessFile (RYD_Path + "VarInit.sqf");
+call FUNC(VarInit);
 // call compile preprocessFile (RYD_Path + "TaskMenu.sqf");
 // call compile preprocessFile (RYD_Path + "TaskInitNR6.sqf");
 
@@ -106,7 +117,7 @@ HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scr
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
 
 //used to "compile" list of units types usable by AI
-if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
+if (RydHQ_RHQCheck) then {[] call FUNC(RYD_RHQCheck)};
 
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
@@ -219,7 +230,7 @@ if !(isNull leaderHQH) then
 		}
 	};
 
-[] call compile preprocessFile (RYD_Path + "Front.sqf");
+call FUNC(Front);
 
 if (RydHQ_TimeM) then
 	{
@@ -251,27 +262,26 @@ if (RydBB_Active) then
 			[[_x,_BBHQGrps],Boss] call RYD_Spawn
 			};
 
-		sleep 1;
+		[1] call CBA_fnc_waitAndExecute;
 		}
 	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};
 
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
 
-if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if !(isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+[{if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{
 	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
 	};
-
 if (RydxHQ_Actions) then {
-nul = [] execVM  (RYD_Path + "SquadTaskingNR6.sqf");
+nul = [] call FUNC(SquadTaskingNR6)
 };

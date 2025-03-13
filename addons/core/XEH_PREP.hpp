@@ -1,4 +1,10 @@
+PREP(VarInit);
+PREP(init);
 PREP(enemyScan);
 PREP(HQSitRep);
-PREP(init);
 PREP(personality);
+PREP(front);
+PREP(SquadTaskingNR6);
+PREP(RYD_RHQCheck);
+PREP(RHQLibrary);
+PREP(BOSS);

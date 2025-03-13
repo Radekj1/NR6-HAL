@@ -5422,7 +5422,7 @@ RYD_RoofOver =
 
 	_roofed
 	};
-
+/*
 RYD_RHQCheck =
 	{
 	private ["_type","_noInTotal","_noInAdditional","_noInBasic","_civF","_total","_basicrhq","_Additionalrhq","_Inf","_Art","_HArmor","_LArmor","_Cars","_Air","_Naval","_Static","_Other","_specFor",
@@ -5542,7 +5542,7 @@ RYD_RHQCheck =
 
 	"RHQ CHECK" hintC format ["Forgotten classes: %1\nClasses not present in basic categories: %2\n(see RPT file for detailed forgotten classes list)",count _noInTotal,count _noInBasic];
 	};
-
+*/
 RYD_LOSCheck =
 	{
 	private ["_pos1","_pos2","_isLOS","_cam","_target","_pX1","_pY1","_pX2","_pY2","_pos1ATL","_pos2ATL","_level1","_level2"];

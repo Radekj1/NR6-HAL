@@ -23,7 +23,7 @@ params ["_group", "_points", "_HQ"];
 
     if ((count _posAll) > 0) then {
         _wp waypointAttachVehicle _nHouse;
-        sleep 0.05;
+        [0.5] call CBA_fnc_waitAndExecute;
         _wp setWaypointHousePosition (floor (random (count _posAll)))
     };
 } forEach _points;
@@ -40,7 +40,7 @@ private _fnc_code = {
     _alive = true;
 
     waitUntil {
-        sleep 20;
+        [20] call CBA_fnc_waitAndExecute;
         _distance = 10000;
 
         _alive = true;

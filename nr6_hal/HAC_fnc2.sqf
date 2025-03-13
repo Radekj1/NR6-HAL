@@ -2205,7 +2205,7 @@ RYD_GroupMarkerLoop =
 		forEach allGroups
 		}
 	};
-
+/*
 RYD_PresentRHQ =
 	{
 	private ["_allVehs","_allUnits","_vehClass","_wpClass","_magClass","_ammoClass","_addedU","_addedV","_veh","_vehClass2","_weapons","_hasLaserD","_wpClass2","_type","_mags",
@@ -2870,7 +2870,7 @@ RYD_PresentRHQ =
 
 	true
 	};
-
+*/
 HAL_FBFTLOOP =
 
 	{

@@ -23,7 +23,7 @@ private _isDefending = true;
 // Main loop - runs until the group is no longer defending
 while {_isDefending} do {
     // Wait random time between flare deployments
-    sleep (60 + (random 60));
+    [60 + (random 60)] call CBA_fnc_waitAndExecute;
 
     // If flares are enabled, check if it's night time
     if (_flareEnabled) then {
@@ -126,16 +126,16 @@ while {_isDefending} do {
 
                                                 // Aim and fire
                                                 _unit doWatch _decoy;
-                                                sleep 0.1;
+                                                [0.1] call CBA_fnc_waitAndExecute;
 
                                                 _unit doTarget _decoy;
-                                                sleep 5;
+                                                [5] call CBA_fnc_waitAndExecute;
 
                                                 _unit selectWeapon _muzzleName;
-                                                sleep 1;
+                                                [1] call CBA_fnc_waitAndExecute;
 
                                                 _unit fire [_muzzleName, _muzzleName, _magazineName];
-                                                sleep 0.1;
+                                                [0.1] call CBA_fnc_waitAndExecute;
 
                                                 // Clean up
                                                 _unit doWatch objNull;

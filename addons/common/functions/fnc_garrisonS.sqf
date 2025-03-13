@@ -24,7 +24,7 @@ private _alive = true;
 waitUntil {
     private _dst = 0;
     if !(isNull _unit) then {_dst = _unit distance _pos};
-    sleep 0.1;
+    [0.1] call CBA_fnc_waitAndExecute;
 
     private _dst2 = 0;
     if !(isNull _unit) then {_dst2 = _unit distance _pos};
@@ -140,7 +140,7 @@ _unit doWatch _watchPos;
 
 // Wait until the unit is no longer garrisoned or killed
 waitUntil {
-    sleep 30;
+    [30] call CBA_fnc_waitAndExecute;
 
     // Check if unit is still valid
     switch (true) do {

@@ -78,7 +78,7 @@ if (_isDebugEnabled) then {
                     _markerName setMarkerText (str _dangerValue);
                 } forEach _friendlyGroups;
 
-                sleep 5;
+                [5] call CBA_fnc_waitAndExecute;
             };
         };
     };
