@@ -232,7 +232,7 @@ if !(isNull leaderHQH) then
 		}
 	};
 
-call FUNC(Front);
+call FUNC(Front_Main);
 
 if (RydHQ_TimeM) then
 	{

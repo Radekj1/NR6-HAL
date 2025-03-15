@@ -1,4 +1,4 @@
-_SCRname = "Front";
+_SCRname = "Front_Main";
 //Set up for "area of Operation / frontline" where units should fight.
 private ["_front","_pos","_att","_XAxis","_YAxis","_dir","_isRec","_code","_code2"];
 
