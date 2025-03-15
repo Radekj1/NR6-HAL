@@ -1,5 +1,6 @@
 #include "..\script_component.hpp"
 // Originally from HAC_fnc.sqf 
+// Should check all the units, detect "unclassed / unknown and specialised" units and report them in rpt file.
 RYD_RHQCheck =
 	{
 	private ["_type","_noInTotal","_noInAdditional","_noInBasic","_civF","_total","_basicrhq","_Additionalrhq","_Inf","_Art","_HArmor","_LArmor","_Cars","_Air","_Naval","_Static","_Other","_specFor",

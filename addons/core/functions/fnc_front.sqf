@@ -1,5 +1,5 @@
 _SCRname = "Front";
-
+//Set up for "area of Operation / frontline" where units should fight.
 private ["_front","_pos","_att","_XAxis","_YAxis","_dir","_isRec","_code","_code2"];
 
 _code = 
@@ -8,14 +8,13 @@ _code =
 	_front = _this select 1;
 	_ia = _this select 2;
 						
-	while {not (isNull _HQ)} do
+	while (!isNull _HQ) do
 		{
-		sleep 5;
-		
+		[{
 		_ia setMarkerPosLocal (position _front);
 		_ia setMarkerDirLocal (direction _front);
 		_ia setMarkerSize (size _front);
-		
+		},{}, 5] call cba_waitAndExecute;
 		if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {}
 		};
 		
@@ -35,10 +34,7 @@ _code2 =
 	
 	_alive = true;
 	
-	waitUntil
-		{
-		sleep 5;
-		
+		[{[{
 		_alive = true;
 		
 		switch (true) do
@@ -50,10 +46,12 @@ _code2 =
 
 		_debug = _HQ getVariable "RydHQ_Debug";
 		
-		(not (isNil "_debug") or not (_alive))
-		};
+		(not (isNil "_debug") or not (_alive));
+
+		},{}, 5] call cba_waitAndExecute;
+		},{}] call cba_waitUntilAndExecute;
 		
-	if not (_alive) exitWith {};	
+	if (!_alive) exitWith {};	
 
 	if (_HQ getVariable ["RydHQ_Debug",false]) then
 		{
@@ -76,7 +74,7 @@ _code2 =
 
 	{
 	_front = _x getVariable ["RydHQ_Front",objNull];
-	if not (isNull _front) then
+	if !(isNull _front) then
 		{
 		_pos = position _front;
 		_att = triggerArea _front;

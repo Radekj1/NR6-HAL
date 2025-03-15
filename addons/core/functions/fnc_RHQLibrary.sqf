@@ -1,4 +1,5 @@
 //Predefined units get automatically sorted to predefined classes/roles [Like AT / Tank / APC...]
+#include "..\script_component.hpp"
 RYD_WS_specFor_class =
 	[
 	];
@@ -2484,9 +2485,10 @@ RHQ_Crew_PMC =
 	"soldier_crew_pmc",
 	"soldier_pilot_pmc"
 	];
-	
+
 if (RydxHQ_RHQAutoFill) then
 	{
-	[] call RYD_PresentRHQ;
+	[] call FUNC(RYD_PresentRHQ);
+//	[] call (RYD_PresentRHQ);
 //	[] spawn RYD_PresentRHQLoop;
 	};

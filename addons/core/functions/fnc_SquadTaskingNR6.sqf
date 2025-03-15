@@ -1,5 +1,6 @@
 #include "..\script_component.hpp"
-//Moved from main directory
+//Moved from main directory 
+//Adds Hal Interaction menu? for squad leaders. Might move the "deprecated" code to a different file later.
 while {true} do {
 
 	private ["_HalFriends"];

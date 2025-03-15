@@ -12,3 +12,10 @@ include = [
 
 [version]
 git_hash = 0
+
+
+[lints.sqf.var_all_caps]
+options.ignore = [
+"HAL_FBFTLOOP", "RHQ_FO", "HAL_RECOMPILES", "HAL_LHQ", "HET_FH", "RHQ_FO_PMC", "HET_FG", "HET_FH", "HET_FA", "HET_FB", "HET_FC", "HET_FD", "HET_FE",
+ "HET_FF", "RHQ_FO_A2", "RHQ_FO_OA", "RHQ_FO_ACR", "RHQ_FO_BAF"
+]

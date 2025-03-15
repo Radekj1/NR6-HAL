@@ -1,3 +1,4 @@
+#include "..\script_component.hpp"
 RYD_PresentRHQ =
 	{
 	private ["_allVehs","_allUnits","_vehClass","_wpClass","_magClass","_ammoClass","_addedU","_addedV","_veh","_vehClass2","_weapons","_hasLaserD","_wpClass2","_type","_mags",
@@ -659,5 +660,5 @@ RYD_PresentRHQ =
 	RHQ_Inf = RHQ_Inf - ["b_uav_ai","i_uav_ai","o_uav_ai"];
 	RHQ_Crew = RHQ_Crew - ["b_uav_ai","i_uav_ai","o_uav_ai"];
 
-	true
+//	true
 	};

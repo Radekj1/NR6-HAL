@@ -8,3 +8,4 @@ PREP(SquadTaskingNR6);
 PREP(RYD_RHQCheck);
 PREP(RHQLibrary);
 PREP(BOSS);
+PREP(Ryd_PresentRHQ);

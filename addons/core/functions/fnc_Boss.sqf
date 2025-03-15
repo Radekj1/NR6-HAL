@@ -1,4 +1,4 @@
-//2K MONSTROSITY. Bigg Boss is a "commander of commanders" 
+//2K MONSTROSITY. Bigg Boss is a "A2 / early A3 script commander of all commanders" 
 _SCRname = "Boss";
 
 private 
@@ -27,11 +27,9 @@ _BBHQGrps = _this select 1;
 
 if ((_BBSide == "B") and ((count RydBBa_HQs) > 0)) then 
 	{
-	waitUntil
-		{
-		sleep 5;
-		(RydBBa_Init)
-		}
+	[{
+		[{(RydBBa_Init)}, {}, 5] call CBA_fnc_waitAndExecute;
+		}, {}] call CBA_fnc_waitUntilAndExecute;
 	};
 
 if (RydBB_Debug) then
@@ -41,12 +39,11 @@ if (RydBB_Debug) then
 	};
 
 	{
-	waitUntil
-		{
-		sleep 0.1;
+	[{[{
 		_ready = _x getVariable ["RydHQ_readyForBB",false];
 		(_ready)
-		};
+		}, {}, 0.1] call CBA_fnc_waitAndExecute;
+		}, {}] call CBA_fnc_waitUntilAndExecute;
 	}
 forEach _BBHQGrps;
 
@@ -397,7 +394,7 @@ while {(RydBB_Active)} do
 
 	if (_bbCycle == 1) then
 		{
-		_code =
+		_code = 
 			{
 			_SCRName = "BossC1";
 			
@@ -409,7 +406,8 @@ while {(RydBB_Active)} do
 			_HQg0 = +_HQg;
 
 			while {(RydBB_Active)} do
-				{
+				{[{
+				
 					{
 					if (isNull (group _x)) then
 						{
@@ -433,8 +431,8 @@ while {(RydBB_Active)} do
 						diag_log format ["Big Boss %1 has no army!",_side]
 						};
 					};
-
-				sleep 10;
+				
+				}, {if ((count _HQg) == 0) exitWith {};}] call CBA_fnc_waitUntilAndExecute;
 				};
 			};
 			
@@ -1829,13 +1827,12 @@ while {(RydBB_Active)} do
 
 						[[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide,_AAOPts],RYD_ExecutePath] call RYD_Spawn;
 
-						waitUntil
-							{
-							sleep 0.01;
+						[{[{
 							_initD = _x getVariable "ObjInit";
 							if (isNil "_initD") then {_initD = false};
 							(_initD)
-							};
+						  }, {}, 0.01] call CBA_fnc_waitAndExecute;
+						},{}] call CBA_fnc_waitUntilAndExecute
 						}
 					}
 				}
@@ -1901,13 +1898,14 @@ while {(RydBB_Active)} do
 
 			[[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide],RYD_ReserveExecuting] call RYD_Spawn;
 
-			waitUntil
-				{
-				sleep 0.01;
+				[{[{
 				_initD = _x getVariable "ObjInit";
 				if (isNil "_initD") then {_initD = false};
 				(_initD)
-				};
+				}, {}, 0.01] call CBA_fnc_waitAndExecute;
+				},{}] call CBA_fnc_waitUntilAndExecute
+
+
 			}
 		}
 	forEach _goingReserve;
@@ -1943,10 +1941,7 @@ while {(RydBB_Active)} do
 		diag_log format ["Big Boss %1 will now take a moment to ash his cigar.",_BBSide];
 		};
 
-	waitUntil
-		{
-		sleep 60;
-
+		[{[{  
 		if (_BBSide == "A") then 
 			{
 			if (RydBBa_Urgent) then 
@@ -1965,8 +1960,13 @@ while {(RydBB_Active)} do
 		if not (RydBB_Active) then {_ctVal = 0};
 
 		((time - _ctWait) >= (_ctVal * 60))
-		};
 		
+		}, [], 60] call CBA_fnc_waitAndExecute;
+		}, {}] call CBA_fnc_waitUntilAndExecute;
+
+
+
+
 	if not (RydBB_Active) exitWith {};
 		
 	_urgent = RydBBa_Urgent;

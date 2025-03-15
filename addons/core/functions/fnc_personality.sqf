@@ -15,6 +15,7 @@ private _reflex = _HQ getVariable ["RydHQ_Reflex", 0.5];
 private _circumspection = _HQ getVariable ["RydHQ_Circumspection", 0.5];
 private _fineness = _HQ getVariable ["RydHQ_Fineness", 0.5];
 
+//Set values per personality
 switch (_personality) do {
 	case ("GENIUS") : {
 		_recklessness = 0.5;
@@ -80,7 +81,6 @@ switch (_personality) do {
 	};
 
 	case ("CHAOTIC") : {
-		_personality = "CHAOTIC";
 		_recklessness = 0.5;
 		_consistency = 0;
 		_activity = 1;
@@ -99,6 +99,7 @@ switch (_personality) do {
 	};
 };
 
+//assign personality settings
 _HQ setVariable ["RydHQ_Recklessness", _recklessness];
 _HQ setVariable ["RydHQ_Consistency", _consistency];
 _HQ setVariable ["RydHQ_Activity", _activity];

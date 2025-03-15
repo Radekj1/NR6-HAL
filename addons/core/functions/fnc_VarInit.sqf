@@ -1088,7 +1088,8 @@ if (RydHQ_PMCLib) then
 
 // COMPILERS 
 
-Boss = call FUNC(Boss);
+//Boss = call FUNC(Boss);
+//BOSS = compile preprocessFile (FUNC(Boss));
 Desperado = compile preprocessFile (RYD_Path + "Desperation.sqf");
 
 HAL_EnemyScan = compile preprocessFile (RYD_Path + "HAL\EnemyScan.sqf");
