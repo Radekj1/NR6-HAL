@@ -5,7 +5,7 @@ _HQ setVariable ["leaderHQ",(leader _HQ)];
 _csN = +RydHQ_CallSignsN;
 
 {
-	_nouns = [_x] call RYD_RandomOrdB;
+	_nouns = [_x] call FUNC(RandomOrderB);
 	_csN set [_foreachIndex,_nouns]
 } forEach _csN;
 
@@ -33,7 +33,7 @@ _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
 
 [_HQ] call FUNC(personality);
 
-[[_HQ],HAL_LHQ] call RYD_Spawn;
+[[_HQ],HAL_LHQ] call FUNC(spawn);
 
 if (isNil ("RydHQ_Boxed")) then {RydHQ_Boxed = []};
 _HQ setVariable ["RydHQ_Boxed",RydHQ_Boxed];
@@ -42,7 +42,7 @@ if (isNil ("RydHQ_AmmoBoxes")) then
 	{
 	RydHQ_AmmoBoxes = [];
 
-	if not (isNil "RydHQ_AmmoDepot") then
+	if !(isNil "RydHQ_AmmoDepot") then
 		{
 		_radius = (triggerArea RydHQ_AmmoDepot) select 0;
 		RydHQ_AmmoBoxes = (getPosATL RydHQ_AmmoDepot) nearObjects ["ReammoBox_F",_radius]
@@ -110,7 +110,7 @@ while {true} do
 
 	if (RydxHQ_RHQAutoFill) then
 	{
-	[] call RYD_PresentRHQ
+	[] call FUNC(Ryd_PresentRHQ);
 	};
 
 	_specFor_class = RHQ_SpecFor + RYD_WS_specFor_class - RHQs_SpecFor;
@@ -174,12 +174,11 @@ while {true} do
 	if (({alive _x} count (units _HQ)) == 0) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (_HQ getVariable ["RydHQ_Surrender",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 
-	if not (_HQ getVariable ["RydHQ_Fast",false]) then
+	if !(_HQ getVariable ["RydHQ_Fast",false]) then
 		{
-			[{
-			[{
-			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))}, 
-			0.1] call CBA_fnc_waitAndExecute;
+			[{[{
+			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
+			}, 0.1] call CBA_fnc_waitAndExecute;
 			}, {}] call CBA_fnc_waitUntilAndExecute;
 		};
 
@@ -189,7 +188,7 @@ while {true} do
 
 	if (_cycleC > 1) then
 		{
-		if not (_lastHQ == (_HQ getVariable ["leaderHQ",objNull])) then {[{}, {60 + (random 60)}] call CBA_fnc_waitAndExecute;};
+		if (_lastHQ != (_HQ getVariable ["leaderHQ",objNull])) then {[{}, {60 + (random 60)}] call CBA_fnc_waitAndExecute;};
 		};
 
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
@@ -683,5 +682,5 @@ while {true} do
 		default {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj4]};
 		};
 
-	call RYD_StatusQuo;
+	call FUNC(RYD_StatusQuo);
 	};

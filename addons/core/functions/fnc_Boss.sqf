@@ -1,5 +1,6 @@
 //2K MONSTROSITY. Bigg Boss is a "A2 / early A3 script commander of all commanders" 
-_SCRname = "Boss";
+//_SCRname = "Boss";
+#include "..\script_component.hpp"
 
 private 
 	[
@@ -1825,7 +1826,7 @@ while {(RydBB_Active)} do
 
 						//[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide] spawn RYD_ExecutePath;
 
-						[[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide,_AAOPts],RYD_ExecutePath] call RYD_Spawn;
+						[[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide,_AAOPts],RYD_ExecutePath] call FUNC(spawn);
 
 						[{[{
 							_initD = _x getVariable "ObjInit";
@@ -1896,7 +1897,7 @@ while {(RydBB_Active)} do
 
 			//[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide] spawn RYD_ReserveExecuting;
 
-			[[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide],RYD_ReserveExecuting] call RYD_Spawn;
+			[[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide],RYD_ReserveExecuting] call FUNC(spawn);
 
 				[{[{
 				_initD = _x getVariable "ObjInit";
@@ -1920,7 +1921,7 @@ while {(RydBB_Active)} do
 	if (_BBCycle == 1) then 
 		{
 		//[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps] spawn RYD_ObjectivesMon
-		[[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps],RYD_ObjectivesMon] call RYD_Spawn;
+		[[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps],RYD_ObjectivesMon] call FUNC(spawn);
 		};
 
 	if ((_BBSide == "A") and (_BBCycle == 1)) then {RydBBa_Init = true};

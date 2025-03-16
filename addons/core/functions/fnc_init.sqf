@@ -124,10 +124,16 @@ if (RydHQ_RHQCheck) then {[] call FUNC(RYD_RHQCheck)};
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
 
-private _clB = [Map_BLUFOR_R,Map_BLUFOR_G,Map_BLUFOR_B,Map_BLUFOR_A];
-private _clO = [Map_OPFOR_R,Map_OPFOR_G,Map_OPFOR_B,Map_OPFOR_A];
-private _clI = [Map_Independent_R,Map_Independent_G,Map_Independent_B,Map_Independent_A];
-private _clU = [Map_Unknown_R,Map_Unknown_G,Map_Unknown_B,Map_Unknown_A];
+// Original code:
+//_clB = [(profilenamespace getvariable ['Map_BLUFOR_R',0]),(profilenamespace getvariable ['Map_BLUFOR_G',1]),(profilenamespace getvariable ['Map_BLUFOR_B',1]),(profilenamespace getvariable ['Map_BLUFOR_A',0.8])];
+//_clO = [(profilenamespace getvariable ['Map_OPFOR_R',0]),(profilenamespace getvariable ['Map_OPFOR_G',1]),(profilenamespace getvariable ['Map_OPFOR_B',1]),(profilenamespace getvariable ['Map_OPFOR_A',0.8])];
+//_clI = [(profilenamespace getvariable ['Map_Independent_R',0]),(profilenamespace getvariable ['Map_Independent_G',1]),(profilenamespace getvariable ['Map_Independent_B',1]),(profilenamespace getvariable ['Map_Independent_A',0.8])];
+//_clU = [(profilenamespace getvariable ['Map_Unknown_R',0]),(profilenamespace getvariable ['Map_Unknown_G',1]),(profilenamespace getvariable ['Map_Unknown_B',1]),(profilenamespace getvariable ['Map_Unknown_A',0.8])];
+
+private _clB = ["Map_BLUFOR_R","Map_BLUFOR_G","Map_BLUFOR_B","Map_BLUFOR_A"];
+private _clO = ["Map_OPFOR_R","Map_OPFOR_G","Map_OPFOR_B","Map_OPFOR_A"];
+private _clI = ["Map_Independent_R","Map_Independent_G","Map_Independent_B","Map_Independent_A"];
+private _clU = ["Map_Unknown_R","Map_Unknown_G","Map_Unknown_B","Map_Unknown_A"];
 
 
 if !(isNull leaderHQ) then {
@@ -261,7 +267,7 @@ if (RydBB_Active) then
 				_x setVariable ["BBProgress",0]
 				}
 			forEach _BBHQGrps;
-			[{[[_x,_BBHQGrps],Boss] call RYD_Spawn;}, 1] call CBA_fnc_waitAndExecute;
+			[{[[_x,_BBHQGrps],Boss] call FUNC(spawn);}, 1] call CBA_fnc_waitAndExecute;
 			};
 		}
 	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
@@ -269,14 +275,14 @@ if (RydBB_Active) then
 
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
 
-[{if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
-[{if !(isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn;}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call FUNC(spawn); [[(group leaderHQ)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQ)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call FUNC(spawn); [[(group leaderHQB)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQB)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call FUNC(spawn); [[(group leaderHQC)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQC)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call FUNC(spawn); [[(group leaderHQD)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQD)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call FUNC(spawn); [[(group leaderHQE)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQE)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call FUNC(spawn); [[(group leaderHQF)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQF)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call FUNC(spawn); [[(group leaderHQG)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQG)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
+[{if !(isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call FUNC(spawn); [[(group leaderHQH)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQH)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{

@@ -1090,8 +1090,8 @@ if (RydHQ_PMCLib) then
 
 //Boss = call FUNC(Boss);
 //BOSS = compile preprocessFile (FUNC(Boss));
+/*
 Desperado = compile preprocessFile (RYD_Path + "Desperation.sqf");
-
 HAL_EnemyScan = compile preprocessFile (RYD_Path + "HAL\EnemyScan.sqf");
 HAL_Flanking = compile preprocessFile (RYD_Path + "HAL\Flanking.sqf");
 HAL_Garrison = compile preprocessFile (RYD_Path + "HAL\Garrison.sqf");
@@ -1135,8 +1135,10 @@ HAL_SuppMed = compile preprocessFile (RYD_Path + "HAL\SuppMed.sqf");
 HAL_SuppRep = compile preprocessFile (RYD_Path + "HAL\SuppRep.sqf");
 
 A_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRep.sqf");
+*/
 
-if not (isNil ("leaderHQ")) then 
+//Assign premade mission objectives to leaders
+if !(isNil ("leaderHQ")) then 
 	{
 	if (isNil ("RydHQ_Obj1")) then {RydHQ_Obj1 = vehicle leaderHQ};
 	if (isNil ("RydHQ_Obj2")) then {RydHQ_Obj2 = RydHQ_Obj1};
@@ -1144,63 +1146,63 @@ if not (isNil ("leaderHQ")) then
 	if (isNil ("RydHQ_Obj4")) then {RydHQ_Obj4 = RydHQ_Obj3};
 	};
 
-if not (isNil ("leaderHQB")) then 
+if !(isNil ("leaderHQB")) then 
 	{
-	B_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepB.sqf");	
+	//B_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepB.sqf");	
 	if (isNil ("RydHQB_Obj1")) then {RydHQB_Obj1 = vehicle leaderHQB};
 	if (isNil ("RydHQB_Obj2")) then {RydHQB_Obj2 = RydHQB_Obj1};
 	if (isNil ("RydHQB_Obj3")) then {RydHQB_Obj3 = RydHQB_Obj2};
 	if (isNil ("RydHQB_Obj4")) then {RydHQB_Obj4 = RydHQB_Obj3};
 	};
 
-if not (isNil ("leaderHQC")) then 
+if !(isNil ("leaderHQC")) then 
 	{
-	C_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepC.sqf");
+	//C_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepC.sqf");
 	if (isNil ("RydHQC_Obj1")) then {RydHQC_Obj1 = vehicle leaderHQC};
 	if (isNil ("RydHQC_Obj2")) then {RydHQC_Obj2 = RydHQC_Obj1};
 	if (isNil ("RydHQC_Obj3")) then {RydHQC_Obj3 = RydHQC_Obj2};
 	if (isNil ("RydHQC_Obj4")) then {RydHQC_Obj4 = RydHQC_Obj3};
 	};
 
-if not (isNil ("leaderHQD")) then 
+if !(isNil ("leaderHQD")) then 
 	{
-	D_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepD.sqf");
+	//D_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepD.sqf");
 	if (isNil ("RydHQD_Obj1")) then {RydHQD_Obj1 = vehicle leaderHQD};
 	if (isNil ("RydHQD_Obj2")) then {RydHQD_Obj2 = RydHQD_Obj1};
 	if (isNil ("RydHQD_Obj3")) then {RydHQD_Obj3 = RydHQD_Obj2};
 	if (isNil ("RydHQD_Obj4")) then {RydHQD_Obj4 = RydHQD_Obj3};
 	};
 
-if not (isNil ("leaderHQE")) then 
+if !(isNil ("leaderHQE")) then 
 	{
-	E_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepE.sqf");
+	//E_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepE.sqf");
 	if (isNil ("RydHQE_Obj1")) then {RydHQE_Obj1 = vehicle leaderHQE};
 	if (isNil ("RydHQE_Obj2")) then {RydHQE_Obj2 = RydHQE_Obj1};
 	if (isNil ("RydHQE_Obj3")) then {RydHQE_Obj3 = RydHQE_Obj2};
 	if (isNil ("RydHQE_Obj4")) then {RydHQE_Obj4 = RydHQE_Obj3};
 	};
 
-if not (isNil ("leaderHQF")) then 
+if !(isNil ("leaderHQF")) then 
 	{
-	F_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepF.sqf");
+	//F_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepF.sqf");
 	if (isNil ("RydHQF_Obj1")) then {RydHQF_Obj1 = vehicle leaderHQF};
 	if (isNil ("RydHQF_Obj2")) then {RydHQF_Obj2 = RydHQF_Obj1};
 	if (isNil ("RydHQF_Obj3")) then {RydHQF_Obj3 = RydHQF_Obj2};
 	if (isNil ("RydHQF_Obj4")) then {RydHQF_Obj4 = RydHQF_Obj3};
 	};
 
-if not (isNil ("leaderHQG")) then 
+if !(isNil ("leaderHQG")) then 
 	{
-	G_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepG.sqf");
+	//G_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepG.sqf");
 	if (isNil ("RydHQG_Obj1")) then {RydHQG_Obj1 = vehicle leaderHQG};
 	if (isNil ("RydHQG_Obj2")) then {RydHQG_Obj2 = RydHQG_Obj1};
 	if (isNil ("RydHQG_Obj3")) then {RydHQG_Obj3 = RydHQG_Obj2};
 	if (isNil ("RydHQG_Obj4")) then {RydHQG_Obj4 = RydHQG_Obj3};
 	};
 
-if not (isNil ("leaderHQH")) then 
+if !(isNil ("leaderHQH")) then 
 	{
-	H_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepH.sqf");
+	//H_HQSitRep = compile preprocessFile (RYD_Path + "HAL\HQSitRepH.sqf");
 	if (isNil ("RydHQH_Obj1")) then {RydHQH_Obj1 = vehicle leaderHQH};
 	if (isNil ("RydHQH_Obj2")) then {RydHQH_Obj2 = RydHQH_Obj1};
 	if (isNil ("RydHQH_Obj3")) then {RydHQH_Obj3 = RydHQH_Obj2};

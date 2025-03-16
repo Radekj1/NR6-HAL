@@ -28,3 +28,4 @@ PREP(smoke);
 PREP(spawn);
 PREP(terraCognita);
 PREP(wait);
+PREP(RandomOrderB);

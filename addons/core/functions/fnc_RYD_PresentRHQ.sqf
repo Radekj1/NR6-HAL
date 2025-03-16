@@ -660,5 +660,5 @@ RYD_PresentRHQ =
 	RHQ_Inf = RHQ_Inf - ["b_uav_ai","i_uav_ai","o_uav_ai"];
 	RHQ_Crew = RHQ_Crew - ["b_uav_ai","i_uav_ai","o_uav_ai"];
 
-//	true
+	true
 	};

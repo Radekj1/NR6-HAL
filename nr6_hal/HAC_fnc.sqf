@@ -4708,7 +4708,7 @@ RYD_HQChatter =
 	}
 	else
 	{
-//		[[_comm,_sentence],"RYD_MP_Sidechat",true,false,true] call BIS_fnc_MP;
+//		[[_comm,_sentence],"RYD_MP_Sidechat",true,false,true] call BIS _fnc_MP;
 		[_comm,_sentence] remoteExecCall ["sideChat"];
 	};
 	};
@@ -4835,7 +4835,7 @@ RYD_AIChatter =
 	_sentence = selectRandom _sentences;
 
 
-//	[[_unit,_sentence],"RYD_MP_SideRadio",true,false,true] call BIS_fnc_MP;
+//	[[_unit,_sentence],"RYD_MP_SideRadio",true,false,true] call BIS _fnc_MP;
 	[_unit,_sentence] remoteExecCall ["sideRadio"];
 
 
@@ -5221,7 +5221,7 @@ RYD_RandomOrd =
 
 	_final
 	};
-
+/*
 RYD_RandomOrdB =
 	{
 	private ["_array","_final","_random","_select"];
@@ -5242,7 +5242,7 @@ RYD_RandomOrdB =
 
 	_final
 	};
-
+*/
 RYD_NearestRoad =
 	{
 	private ["_pos","_radius","_roads","_chosen","_dist","_distC"];

@@ -1,10 +1,10 @@
 #include "..\script_component.hpp"
 // Originally from HAC_fnc2.sqf (RYD_Spawn)
+params ["_arguments","_script"];
+private ["_handle"];
 
-private ["_arguments","_script","_handle"];
-
-_arguments = _this select 0;
-_script = _this select 1;
+//_arguments = _this select 0;
+//_script = _this select 1;
 
 _handle = _arguments spawn _script;
 
@@ -17,7 +17,7 @@ RydxHQ_Handles pushBack _handle;
         }
     else
         {
-        if not (_x isEqualTo 0) then
+        if (_x isNotEqualTo 0) then
             {
             if (scriptDone _x) then
                 {
