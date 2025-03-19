@@ -2119,92 +2119,92 @@ RYD_ClusterC =
 // 	foreach RYD_Array*/
 // 	};
 
-RYD_ReverseArr =
-	{
-	private ["_arr","_final","_amnt"];
+// RYD_ReverseArr =
+// 	{
+// 	private ["_arr","_final","_amnt"];
 
-	_arr = _this select 0;
-	_amnt = count _arr;
+// 	_arr = _this select 0;
+// 	_amnt = count _arr;
 
-	_final = [];
+// 	_final = [];
 
-		{
-		_amnt = _amnt - 1;
-		_final set [_amnt,_x]
-		}
-	forEach _arr;
+// 		{
+// 		_amnt = _amnt - 1;
+// 		_final set [_amnt,_x]
+// 		}
+// 	forEach _arr;
 
-	_final
-	};
+// 	_final
+// 	};
 
-RYD_GroupMarkerLoop =
-	{
-	while {true} do
-		{
-		sleep 5;
+// RYD_GroupMarkerLoop =
+// 	{
+// 	while {true} do
+// 		{
+// 		sleep 5;
 
-			{
-			_myMark = _x getVariable ["RYD_ItsMyMark",""];
-			if (({alive _x} count (units _x)) > 0) then
-				{
-				_side = side _x;
-				if (_side in _this) then
-					{
-					_ldr = leader _x;
-					_pos = getPosATL (vehicle _ldr);
+// 			{
+// 			_myMark = _x getVariable ["RYD_ItsMyMark",""];
+// 			if (({alive _x} count (units _x)) > 0) then
+// 				{
+// 				_side = side _x;
+// 				if (_side in _this) then
+// 					{
+// 					_ldr = leader _x;
+// 					_pos = getPosATL (vehicle _ldr);
 
-					_color = switch (_side) do
-						{
-						case (west) : {"ColorWEST"};
-						case (east) : {"ColorEAST"};
-						case (resistance) : {"ColorGUER"};
-						default {"ColorCIV"};
-						};
+// 					_color = switch (_side) do
+// 						{
+// 						case (west) : {"ColorWEST"};
+// 						case (east) : {"ColorEAST"};
+// 						case (resistance) : {"ColorGUER"};
+// 						default {"ColorCIV"};
+// 						};
 
-					if (_myMark isEqualTo "") then
-						{
-						_myMark = "ItsMyMark_" + (str _x) + (str (random 100));
-						_myMark = createMarker [_myMark,_pos];
-						_myMark setMarkerColor _color;
-						_myMark setMarkerShape "ICON";
-						_myMark setMarkerType "mil_dot";
-						_myMark setMarkerSize [0.75,0.75];
+// 					if (_myMark isEqualTo "") then
+// 						{
+// 						_myMark = "ItsMyMark_" + (str _x) + (str (random 100));
+// 						_myMark = createMarker [_myMark,_pos];
+// 						_myMark setMarkerColor _color;
+// 						_myMark setMarkerShape "ICON";
+// 						_myMark setMarkerType "mil_dot";
+// 						_myMark setMarkerSize [0.75,0.75];
 
-						_x setVariable ["RYD_ItsMyMark",_myMark]
-						}
-					else
-						{
-						_myMark setMarkerPos _pos;
+// 						_x setVariable ["RYD_ItsMyMark",_myMark]
+// 						}
+// 					else
+// 						{
+// 						_myMark setMarkerPos _pos;
 
-						if (0 in _this) then
-							{
-							_myMark setMarkerText (_x getVariable ["RydHQ_MyCrypto",toUpper (getText (configFile >> "CfgVehicles" >> (typeOf (vehicle _ldr)) >> "displayName"))])
-							};
+// 						if (0 in _this) then
+// 							{
+// 							_myMark setMarkerText (_x getVariable ["RydHQ_MyCrypto",toUpper (getText (configFile >> "CfgVehicles" >> (typeOf (vehicle _ldr)) >> "displayName"))])
+// 							};
 
-						_nE = _ldr findNearestEnemy _ldr;
+// 						_nE = _ldr findNearestEnemy _ldr;
 
-						if (isNull _nE) then
-							{
-							_myMark setMarkerType "mil_dot"
-							}
-						else
-							{
-							_myMark setMarkerType "mil_triangle"
-							}
-						}
-					}
-				}
-			else
-				{
-				if not (isNil "_myMark") then
-					{
-					deleteMarker _myMark
-					}
-				}
-			}
-		forEach allGroups
-		}
-	};
+// 						if (isNull _nE) then
+// 							{
+// 							_myMark setMarkerType "mil_dot"
+// 							}
+// 						else
+// 							{
+// 							_myMark setMarkerType "mil_triangle"
+// 							}
+// 						}
+// 					}
+// 				}
+// 			else
+// 				{
+// 				if not (isNil "_myMark") then
+// 					{
+// 					deleteMarker _myMark
+// 					}
+// 				}
+// 			}
+// 		forEach allGroups
+// 		}
+// 	};
 
 RYD_PresentRHQ =
 	{
