@@ -7,7 +7,6 @@ PREP(Front_Main);
 PREP(SquadTaskingNR6);
 PREP(Ryd_RHQCheck);
 PREP(RHQLibrary);
-PREP(BOSS);
 PREP(Ryd_PresentRHQ);
 PREP(Dep_TaskActions);
 PREP(Dep_SupportActions);

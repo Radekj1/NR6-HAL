@@ -470,8 +470,8 @@ while {(RydBB_Active)} do
 
 	_ForcesRep = [_BBHQGrps] call RYD_ForceAnalyze;
 
-	_ownGroups = (_ForcesRep select 0) select ((count (_ForcesRep select 0)) - 1);
-	_hostileGroups = (_ForcesRep select 1) select ((count (_ForcesRep select 1)) - 1);
+	_ownGroups = (_ForcesRep select 0) select -1;
+	_hostileGroups = (_ForcesRep select 1) select -1;
 
 	if (_BBCycle == 1) then
 		{

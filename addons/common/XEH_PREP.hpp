@@ -29,3 +29,5 @@ PREP(spawn);
 PREP(terraCognita);
 PREP(wait);
 PREP(RandomOrderB);
+PREP(reverseArr);
+PREP(groupMarkerLoop);

@@ -1,7 +1,5 @@
 //Originally from HAC_fnc2
 #include "..\script_component.hpp"
-RYD_StatusQuo =
-	{
 	//_SCRname = "SQ";
 	_orderFirst = _HQ getVariable "RydHQ_Orderfirst";
 
@@ -127,7 +125,7 @@ RYD_StatusQuo =
 				{
 				if not ((side _x) getFriend (side _HQ) < 0.6) then
 					{
-					if (not (_x in _friends) and {not (((leader _x) in (_HQ getVariable ["RydHQ_Excluded",[]])) or {(_isCiv)})}) then
+					if (not (_x in _friends) and {not (((leader _x) in (_HQ getVariable ["RydHQ_Excluded",[]])) or (_isCiv))}) then
 						{
 						_friends pushBack _x
 						}
@@ -478,7 +476,7 @@ RYD_StatusQuo =
 				if (((_grp == _grpD) and {(_Tvh in _NCrewInf_class)}) or {(_tp in _NCrewInf_class)}) then {_NCrewInfcheck = true;_Othercheck = false};
 				if (((_grp == _grpD) and {(_Tvh in _Support_class)}) or {(_tp in _Support_class)}) then {_Supportcheck = true;_NCrewInfcheck = false;_Othercheck = false};
 
-				if ((_Tvh in _NCCargo_class) and {(_x == (assignedDriver _asV)) and {((count (units (group _x))) == 1) and {not ((_ATinfcheck) or {(_AAinfcheck) or {(_reconcheck) or {(_FOcheck) or {(_sniperscheck)}}}})}}}) then {_NCrewInfcheck = false;_Othercheck = false};
+				if ((_Tvh in _NCCargo_class) and {(_x == (assignedDriver _asV)) and {((count (units (group _x))) == 1) and {not ((_ATinfcheck) or {(_AAinfcheck) or {(_reconcheck) or {(_FOcheck) or (_sniperscheck)}}})}}}) then {_NCrewInfcheck = false;_Othercheck = false};
 
 				_vh = vehicle _x;
 
@@ -747,7 +745,7 @@ RYD_StatusQuo =
 				if (((_grp == _grpD) and {(_Tvh in _NCrewInf_class)}) or {(_tp in _NCrewInf_class)}) then {_NCrewInfcheck = true;_Othercheck = false};
 				if (((_grp == _grpD) and {(_Tvh in _Support_class)}) or {(_tp in _Support_class)}) then {_Supportcheck = true;_NCrewInfcheck = false;_Othercheck = false};
 
-				if ((_Tvh in _NCCargo_class) and {(_x == (assignedDriver _asV)) and {((count (units (group _x))) == 1) and {not ((_ATinfcheck) or {(_AAinfcheck) or {(_reconcheck) or {(_FOcheck) or {(_sniperscheck)}}}})}}}) then {_NCrewInfcheck = false;_Othercheck = false};
+				if ((_Tvh in _NCCargo_class) and {(_x == (assignedDriver _asV)) and {((count (units (group _x))) == 1) and {not ((_ATinfcheck) or {(_AAinfcheck) or {(_reconcheck) or {(_FOcheck) or (_sniperscheck)}}})}}}) then {_NCrewInfcheck = false;_Othercheck = false};
 
 				_vh = vehicle _x;
 
@@ -1383,7 +1381,7 @@ RYD_StatusQuo =
 									};
 
 
-								((_getback) or {(_onPlace)})
+								((_getback) or (_onPlace))
 								};
 
 							if not (_onPlace) then
@@ -1573,4 +1571,3 @@ RYD_StatusQuo =
 			}
 		forEach _friends
 		};
-	};

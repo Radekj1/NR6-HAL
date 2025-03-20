@@ -2,21 +2,38 @@
 // Originally from HAC_fnc2.sqf (RYD_LF)
 
 
-private ["_src","_dc","_leader","_posS"];
+private ["_dc","_posS"];
+params ["_src","_leader"];
 
-_src = _this select 0;
-_leader = _this select 1;
+if (RydHQ_LF) then
+{
+    if (isNil "RydxHQ_LFTerminating") then {
+        RydxHQ_LFTerminating = true;
+        [] call BIS_fnc_liveFeedTerminate;
 
-if  !(RydHQ_LF) then
-    {
+        [{isNil "BIS_liveFeed";}, {RydxHQ_LFTerminating = nil;
+        _dc = _src getVariable ["RydHQ_CamPoint",objNull];
+        deleteVehicle _dc;
+        _src setVariable ["RydHQ_CamPoint",nil];
+        RydHQ_LF = false;}] call CBA_fnc_waitUntilAndExecute;
+
+        [{isNil "BIS_liveFeed";},
+        {RydxHQ_LFTerminating = nil;
+        _dc = _src getVariable ["RydHQ_CamPoint",objNull];
+        deleteVehicle _dc;
+        _src setVariable ["RydHQ_CamPoint",nil];
+        RydHQ_LF = false;
+        }] call CBA_fnc_waitUntilAndExecute;
+
+} else {
     _dc = "EmptyDetector" createVehicle (getPosATL _src);
 
     RydHQ_LF = true;
     [_src, _src, _leader, 0] call BIS_fnc_liveFeed;
 
-    waitUntil { !(isNil "BIS_liveFeed")};
-    waitUntil {camCommitted BIS_liveFeed};
-
+    [{!(isNil "BIS_liveFeed");},{
+    [{camCommitted BIS_liveFeed;},
+    {
     if ([] call FUNC(isNight)) then {
         [1] call FUNC(LF_EFF);
     };
@@ -48,7 +65,7 @@ if  !(RydHQ_LF) then
         _inside = true;
 
         while {_inside} do {
-            _inside = [_vh,[_pX,_pY,_pZ],6,[[1],[1]]] call RYD_isInside;
+            _inside = [_vh,[_pX,_pY,_pZ],6,[[1],[1]]] call FUNC(isInside);
             _pZ = _pZ + (0.01 * _sign);
         };
 
@@ -73,7 +90,7 @@ if  !(RydHQ_LF) then
                 if (isNil "RydxHQ_LFTerminating") then {
                     RydxHQ_LFTerminating = true;
                     [] call BIS_fnc_liveFeedTerminate;
-                    waitUntil {isNil "BIS_liveFeed"};
+                    [{isNil "BIS_liveFeed";},{
                     RydxHQ_LFTerminating = nil;
                     _dc = _tgt getVariable ["RydHQ_CamPoint",objNull];
 
@@ -82,6 +99,7 @@ if  !(RydHQ_LF) then
                     _tgt setVariable ["RydHQ_CamPoint",nil];
 
                     RydHQ_LF = false;
+                    }] call CBA_fnc_waitUntilAndExecute;
                 };
             };
 
@@ -91,19 +109,8 @@ if  !(RydHQ_LF) then
         };
     };
 
-    [[_src,_vPos], _fnc_code] call RYD_Spawn
-} else {
-    if (isNil "RydxHQ_LFTerminating") then {
-        RydxHQ_LFTerminating = true;
-        [] call BIS_fnc_liveFeedTerminate;
-        waitUntil {isNil "BIS_liveFeed"};
-        RydxHQ_LFTerminating = nil;
-        _dc = _src getVariable ["RydHQ_CamPoint",objNull];
-
-        deleteVehicle _dc;
-
-        _src setVariable ["RydHQ_CamPoint",nil];
-
-        RydHQ_LF = false;
+    [[_src,_vPos], _fnc_code] call FUNC(spawn);
+    }] call CBA_fnc_waitUntilAndExecute;
+    }] call CBA_fnc_waitUntilAndExecute;
     };
 };

@@ -2120,7 +2120,7 @@ RYD_ClusterC =
 // 		}
 // 	foreach RYD_Array*/
 // 	};
-
+/*
 RYD_ReverseArr =
 	{
 	private ["_arr","_final","_amnt"];
@@ -2138,7 +2138,7 @@ RYD_ReverseArr =
 
 	_final
 	};
-
+*//*
 RYD_GroupMarkerLoop =
 	{
 	while {true} do
@@ -2207,7 +2207,7 @@ RYD_GroupMarkerLoop =
 		forEach allGroups
 		}
 	};
-/*
+*//*
 RYD_PresentRHQ =
 	{
 	private ["_allVehs","_allUnits","_vehClass","_wpClass","_magClass","_ammoClass","_addedU","_addedV","_veh","_vehClass2","_weapons","_hasLaserD","_wpClass2","_type","_mags",

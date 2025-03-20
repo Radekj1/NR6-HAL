@@ -1,6 +1,4 @@
 #include "..\script_component.hpp"
-RYD_PresentRHQ =
-	{
 	private ["_allVehs","_allUnits","_vehClass","_wpClass","_magClass","_ammoClass","_addedU","_addedV","_veh","_vehClass2","_weapons","_hasLaserD","_wpClass2","_type","_mags",
 	"_isDriver","_turrets","_mainT","_isArmed","_isAA","_isAT","_weaps","_trt","_wps","_wp","_muzzles","_ammo","_ammoC","_dam","_isCargo"];
 
@@ -146,7 +144,7 @@ RYD_PresentRHQ =
 							}
 						};
 
-					if ((_isAT) or {(_isAA)}) exitWith {}
+					if ((_isAT) or (_isAA)) exitWith {}
 					}
 				forEach _wps
 				}
@@ -539,7 +537,7 @@ RYD_PresentRHQ =
 								}
 							};
 
-						if ((_isAA) or {(_isAT)}) exitWith {}
+						if ((_isAA) or (_isAT)) exitWith {}
 						}
 					forEach _mags
 					}
@@ -567,7 +565,7 @@ RYD_PresentRHQ =
 						if (_isAA) then {RHQ_StaticAA pushBackUnique _veh};
 						if (_isAT) then {RHQ_StaticAT pushBackUnique _veh};
 
-						if ((_isAA) or {(_isAT)}) exitWith {}
+						if ((_isAA) or (_isAT)) exitWith {}
 						}
 					forEach _mags
 					}
@@ -661,4 +659,3 @@ RYD_PresentRHQ =
 	RHQ_Crew = RHQ_Crew - ["b_uav_ai","i_uav_ai","o_uav_ai"];
 
 	true
-	};

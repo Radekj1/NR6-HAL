@@ -2,24 +2,24 @@
 // Originally from RydHQInit.sqf
 
 params ["_logic", "_units", "_activated"];
-
+private _hal_start = false;
 if !(isServer) exitWith {};
 
 // Hal Start delay - configurable
+
 if (isNil ("RydHQ_Wait")) then 
 {
     RydHQ_Wait = (_logic getVariable "RydHQ_Wait"); 
     if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15;};
 };
-_condition = {missionNamespace getVariable ["Hal_FS", false] == true;};                // condition - Needs to return bool
-_statement = {};                // Code to be executed once condition true
-_parameter = [];                // arguments to be passed on -> _this
-_timeout = RydHQ_Wait;                  // if condition isnt true within this time in S, _timecode will be executed.
-_timeoutCode = {};              // code to be executed if timeout
-[_condition, _statement, _parameter, _timeout,_timeoutCode] call CBA_fnc_waitUntilAndExecute;
+[{missionNamespace getVariable ["Hal_FS", false] == true;}, {missionNamespace setVariable ["_hal_start", true];}, [], RydHQ_Wait, {missionNamespace setVariable ["_hal_start", true];}] call CBA_fnc_waitUntilAndExecute;
+[{missionNamespace getVariable ["_hal_start", false]},{
 
-//[{missionNamespace getVariable ["Hal_FS", false] == true;},{}, "RydHQ_Wait", {}] call CBA_fnc_waitUntilAndExecute;
+_hi = "HAL_NR6_v5_PREALPHA" + " Initialized";
 
+if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you? - Blame these night owls"};
+
+_hi remoteExecCall ["systemChat"];
 
 RydxHQ_ReconCargo = missionNamespace getVariable ["RydxHQ_ReconCargo",true];
 publicVariable "RydxHQ_ReconCargo";
@@ -104,7 +104,10 @@ publicVariable "RydxHQ_ReconCargo";
 RYD_WS_ArtyMarks = missionNamespace getVariable ["RYD_WS_ArtyMarks",false];
 publicVariable "RYD_WS_ArtyMarks";
 
-RYD_Path = "\NR6_HAL\";
+
+//RYD_Path = "\NR6_HAL\";
+
+
 
 //move this to functions folder
 
@@ -267,13 +270,13 @@ if (RydBB_Active) then
 				_x setVariable ["BBProgress",0]
 				}
 			forEach _BBHQGrps;
-			[{[[_x,_BBHQGrps],Boss] call FUNC(spawn);}, 1] call CBA_fnc_waitAndExecute;
+			[{[[_x,_BBHQGrps],FUNC(Boss)] call FUNC(spawn);}, 1] call CBA_fnc_waitAndExecute;
 			};
 		}
 	forEach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};
 
-if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
+if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call FUNC(spawn)};
 
 [{if !(isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call FUNC(spawn); [[(group leaderHQ)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQ)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
 [{if !(isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call FUNC(spawn); [[(group leaderHQB)],HAL_FBFTLOOP] call FUNC(spawn); [[(group leaderHQB)],HAL_SecTasks] call FUNC(spawn);}}, 5] call CBA_fnc_waitAndExecute;
@@ -286,8 +289,9 @@ if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (Ryd
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{
-	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
+	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call FUNC(spawn);
 	};
 if (RydxHQ_Actions) then {
 nul = [] call FUNC(SquadTaskingNR6)
-};
+};	
+}] call CBA_fnc_waitUntilAndExecute;

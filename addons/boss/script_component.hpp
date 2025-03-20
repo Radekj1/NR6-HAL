@@ -1,10 +1,10 @@
-#define COMPONENT common
-#define COMPONENT_BEAUTIFIED HAL - Common
+#define COMPONENT boss
+#define COMPONENT_BEAUTIFIED HAL - Boss
 #include "\z\hal\addons\main\script_mod.hpp"
 
-//#define DEBUG_MODE_FULL
+#define DEBUG_MODE_FULL
 #define DISABLE_COMPILE_CACHE
-//#define ENABLE_PERFORMANCE_COUNTERS
+#define ENABLE_PERFORMANCE_COUNTERS
 
 #ifdef DEBUG_ENABLED_HAL
     #define DEBUG_MODE_FULL
