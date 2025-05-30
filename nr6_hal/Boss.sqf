@@ -264,8 +264,10 @@ if (_BBSide == "B") then {_BBSAL = RydBBb_SAL};
 	{
 	_vTkn = (_x getVariable ["AreaTakenA",false]);
 	if (_BBSide == "B") then {_vTkn = (_x getVariable ["AreaTakenB",false])};
-
-	_BBStr pushBack [(position _x),_x getVariable "AreaValue",_vTkn];
+	if (!isNil {_x getVariable "AreaValue"}) then 
+		{
+			_BBStr pushBack [(position _x),_x getVariable "AreaValue",_vTkn];
+		};
 	}
 foreach (synchronizedObjects _BBSAL);
 
@@ -1540,7 +1542,7 @@ while {(RydBB_Active)} do
 					}
 				foreach [_tObj1,_tObj2,_tObj3,_tObj4];
 
-				//[_front,_HQPos,_perDirPos,1500] call RYD_LocLineTransform;
+				[_front,_HQPos,_perDirPos,1500] call RYD_LocLineTransform;
 				}
 			}
 		foreach (_goingLeft + _goingRight + _goingAhead)
@@ -1782,7 +1784,7 @@ while {(RydBB_Active)} do
 							case (_x in _goingAhead) : {_areas = _frontNotTaken;_sctrs = _frontSectors};
 							};
 
-						//_goingOverall = (_goingLeft + _goingAhead + _goingRight);
+						_goingOverall = (_goingLeft + _goingAhead + _goingRight);
 
 						if ((count _areas) == 0) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
 
@@ -1792,7 +1794,7 @@ while {(RydBB_Active)} do
 
 						_acT = _acT select 0;
 
-						//if ((count _goingOverall) == 1) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
+						if ((count _goingOverall) == 1) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
 
 						_HQpos = getPosATL (vehicle (leader _x));
 
@@ -1822,7 +1824,7 @@ while {(RydBB_Active)} do
 							}
 						foreach [_HQpos,_acT];
 					
-						//[_front,+_points,1200] call RYD_LocMultiTransform;
+						[_front,+_points,1200] call RYD_LocMultiTransform;
 
 						//[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide] spawn RYD_ExecutePath;
 
@@ -1894,7 +1896,7 @@ while {(RydBB_Active)} do
 				}
 			foreach _points;
 	*/
-			//[_front,+_points,1000] call RYD_LocMultiTransform;
+			[_front,+_points,1000] call RYD_LocMultiTransform;
 
 			//[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide] spawn RYD_ReserveExecuting;
 
