@@ -1784,7 +1784,7 @@ while {(RydBB_Active)} do
 							case (_x in _goingAhead) : {_areas = _frontNotTaken;_sctrs = _frontSectors};
 							};
 
-						//_goingOverall = (_goingLeft + _goingAhead + _goingRight);
+						_goingOverall = (_goingLeft + _goingAhead + _goingRight);
 
 						if ((count _areas) == 0) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
 
@@ -1794,7 +1794,7 @@ while {(RydBB_Active)} do
 
 						_acT = _acT select 0;
 
-						//if ((count _goingOverall) == 1) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
+						if ((count _goingOverall) == 1) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
 
 						_HQpos = getPosATL (vehicle (leader _x));
 
