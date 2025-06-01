@@ -1,3 +1,43 @@
+RydHQ_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQ_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQ_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQ_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQB_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQB_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQB_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQB_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQC_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQC_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQC_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQC_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQD_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQD_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQD_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQD_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQE_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQE_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQE_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQE_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQF_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQF_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQF_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQF_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQG_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQG_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQG_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQG_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
+RydHQH_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQH_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQH_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
+RydHQH_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+
 if (isNil ("RHQ_SPMortars")) then {RHQ_SPMortars = []};
 if (isNil ("RHQ_Mortars")) then {RHQ_Mortars = []};
 if (isNil ("RHQ_RocketArty")) then {RHQ_RocketArty = []};
