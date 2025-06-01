@@ -39,29 +39,41 @@ SpawnRGroupS = {
             {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
 
         };
-
+        
         _grp = createGroup _side;
         _selectedPos = ([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos);
+
         {
             _class = _x select 0;
-            if (_class isKindOf "Man") then {
+            if (_class isKindOf "Man") then 
+            {
                _unit = _grp createUnit [_class, ([_selectedPos,0,30,1] call BIS_fnc_findSafePos), [], 0, "NONE"];
-               if not ((_x select 1) isEqualTo []) then {_unit setUnitLoadout (_x select 1)};
-
-            } else {
+			   [_unit] joinSilent _grp;
+               if ((_x select 1) isNotEqualTo []) then {_unit setUnitLoadout (_x select 1)};
+            } else 
+            {
                 _crewGear = _x select 1;
+                _pylons = _x select 3;
                 _vharr = [([_selectedPos,0,75,10] call BIS_fnc_findSafePos),0,_class,_grp] call BIS_fnc_spawnVehicle;
-                if not ((_x select 3) isEqualTo []) then {{_vharr setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_x select 3)};
-                {((_vharr select 1) select _foreachindex) setUnitLoadout _x} foreach _crewGear;
+                private _vh = [];
+                _vh = _vharr select 0;
+                {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear); 
+                if ((isClass (configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons"))) then 
+                    {
+                        private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
+                        {_vh removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") };
+                        {_vh setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
+                        {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear);
+						[(crew _vh)] joinSilent _grp;                        
+                    };    
             };
         } foreach _SelGroup;
-
     } else {
 
         _grp = [([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos),_side,_SelGroup] call BIS_fnc_spawnGroup;
-
+		//[_grp] joinSilent _side; 
     }; 
-    
+
     _grp deleteGroupWhenEmpty true;
 //    _grp setVariable ["zbe_cacheDisabled",true];
     _grp setVariable ["Unable",true];
