@@ -38,6 +38,7 @@ SpawnRGroup = {
             if (_class isKindOf "Man") then 
             {
                _unit = _grp createUnit [_class, ([_selectedPos,0,30,1] call BIS_fnc_findSafePos), [], 0, "NONE"];
+			   [_unit] joinSilent _grp;
                if ((_x select 1) isNotEqualTo []) then {_unit setUnitLoadout (_x select 1)};
             } else 
             {
@@ -52,14 +53,15 @@ SpawnRGroup = {
                         private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
                         {_vh removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") };
                         {_vh setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
-                        {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear);                        
+                        {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear);
+						[(crew _vh)] joinSilent _grp;                        
                     };    
             };
         } foreach _SelGroup;
     } else {
 
         _grp = [([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos),_side,_SelGroup] call BIS_fnc_spawnGroup;
-
+		//[_grp] joinSilent _side; 
     }; 
         
     _grp deleteGroupWhenEmpty true;
