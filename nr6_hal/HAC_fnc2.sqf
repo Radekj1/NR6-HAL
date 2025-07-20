@@ -2448,7 +2448,17 @@ RYD_PresentRHQ =
 					_minRange = 0;
 					_maxRange = 0;
 
-					_mainAmmoType = (((magazinesAmmo _lPiece) select 0) select 0);
+/*					_mainAmmoType = (((magazinesAmmo _lPiece) select 0) select 0);
+
+					_checkLoop = false;
+					_posCheck = position _lPiece;
+					_checkRange = 0;
+					_timeOut = false;
+					_canFire = false;					*/
+
+					private _magsAmmo = magazinesAmmo _lPiece;
+					if (count _magsAmmo > 0) then {
+					    _mainAmmoType = (_magsAmmo select 0) select 0;
 
 					_checkLoop = false;
 					_posCheck = position _lPiece;
@@ -2537,7 +2547,13 @@ RYD_PresentRHQ =
 //					_vehO setVariable ["RHQ_RangeDefined",true];
 					missionNamespace setVariable ["RHQ_ClassRangeMax" + str (_veh),_maxRange];
 					missionNamespace setVariable ["RHQ_ClassRangeDefined" + str (_veh),true];
+					} else {
+					    // if arty piece has no ammo
 
+					    missionNamespace setVariable ["RHQ_ClassRangeMin" + str (_veh), 0];
+					    missionNamespace setVariable ["RHQ_ClassRangeMax" + str (_veh), 0];
+					    missionNamespace setVariable ["RHQ_ClassRangeDefined" + str (_veh), true];
+					};
 				};
 				
 				_prim = "";
