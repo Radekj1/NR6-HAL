@@ -27,6 +27,7 @@ _Commanders = [];
 	_logic call compile (_prefix + "UnlimitedCapt" + " = " + str (_logic getvariable "RydHQ_UnlimitedCapt"));
 	_logic call compile (_prefix + "CaptLimit" + " = " + str (_logic getvariable "RydHQ_CaptLimit"));
 	_logic call compile (_prefix + "GarrR" + " = " + str (_logic getvariable "RydHQ_GarrR"));
+	_logic call compile (_prefix + "GarrLim" + " = " + str (_logic getvariable "RydHQ_GarrLim"));
 	_logic call compile (_prefix + "ObjHoldTime" + " = " + str (_logic getvariable "RydHQ_ObjHoldTime"));
 	_logic call compile (_prefix + "ObjRadius2" + " = " + str (_logic getvariable "RydHQ_ObjRadius1"));
 	_logic call compile (_prefix + "ObjRadius1" + " = " + str (_logic getvariable "RydHQ_ObjRadius2"));
