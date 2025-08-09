@@ -511,9 +511,8 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 				for [{private _a = 0}, {(_a < (count _ex))}, {_a = _a + 1}] do
 					{
 					_Aex = _ex select _a;
-					_unitvarA = str _Aex;
-					
-					if not (_Aex getVariable [("isCaptive" + _unitvarA),false]) then
+
+					if (!isNull _Aex) then 
 						{
 						_nominalA = _Aex getVariable ("Nominal" + _unitvarA);
 						if (isNil ("_nominalA")) then {
@@ -538,5 +537,6 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			};
 		}
 	foreach (_HQ getVariable ["RydHQ_Exhausted",[]]);
+	_exhausted = _exhausted select {!isNull _x};
 	_HQ setVariable ["RydHQ_Exhausted",_exhausted];
 	};
