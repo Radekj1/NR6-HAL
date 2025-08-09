@@ -243,12 +243,14 @@ _SideEnemies = [];
 		_fG = (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]) + (_HQ getVariable ["RydHQ_Garrison",[]]));
 
 		{
-			if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
+//			if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
+			if ((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) then {_UnableArr pushBack _x};
+
 		} foreach _fG;
 
 		_fG = _fG - (_UnableArr);
 
-		if ((((count _fG)/5) >= 1) and (_noGarrAround)) then
+		if (((count _fG) >= (_HQ getVariable ["RydHQ_GarrLim",5])) and (_noGarrAround)) then
 			{
 			_chosen = _fG select 0;
 
@@ -275,7 +277,7 @@ _SideEnemies = [];
 
 				_alive = true;
 
-				if (_busy) then 
+				/*if (_busy) then 
 					{
 					_unitG setVariable ["RydHQ_MIA",true];
 					_ct = time;
@@ -299,7 +301,12 @@ _SideEnemies = [];
 									
 						(not (_alive) or (_MIApass))	
 						}
-					};
+					};*/
+
+				if (_unitG getVariable ["Busy" + (str _unitG),false]) then {
+					_unitG setVariable ["Break",true];
+					waitUntil {sleep 1; not (_unitG getVariable ["Busy" + (str _unitG),false])};
+				};
 							
 				_unitG setVariable ["Busy" + (str _unitG),true];
 				_garrison = _HQ getVariable ["RydHQ_Garrison",[]];
@@ -485,7 +492,7 @@ foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 if ((_HQ getVariable ["RydHQ_Combining",false])) then 
 	{
-	_exhausted = +(_HQ getVariable ["RydHQ_Exhausted",[]]);
+	_exhausted = (_HQ getVariable ["RydHQ_Exhausted",[]]);
 	
 		{
 		if (not (isNull _x) and (({alive _x} count (units _x)) >= 1) and not (_x getVariable [("isCaptive" + (str _x)),false])) then 
@@ -507,23 +514,19 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 
 					if (!isNull _Aex) then 
 						{
-						_unitvarA = str _Aex;
-						if not (_Aex getVariable [("isCaptive" + _unitvarA),false]) then
-							{
-							_nominalA = _Aex getVariable ("Nominal" + (str _Aex));
-							if (isNil ("_nominalA")) then {
-								_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
-								_nominalA = _Aex getVariable ("Nominal" + (str _Aex))
-								};
-							_currentA = count (units _Aex);
-							//diag_log _nominalA;
-							if (((_nominalA/(_currentA + 0.1)) > 2) and (isNull (assignedVehicle (leader _Aex))) and (((vehicle (leader _x)) distance (vehicle (leader _Aex))) < 200)) then 
-								{
-								(units _x) joinsilent _Aex;
-								sleep 0.05;
-								_Aex setVariable [("Nominal" + (str _Aex)),(count (units _Aex)),true];
-								};
+						_nominalA = _Aex getVariable ("Nominal" + _unitvarA);
+						if (isNil ("_nominalA")) then {
+							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
+							_nominalA = _Aex getVariable ("Nominal" + _unitvarA)
 							};
+						_currentA = count (units _Aex);
+						//diag_log _nominalA;
+						if (((_nominalA/(_currentA + 0.1)) > 2) and (isNull (assignedVehicle (leader _Aex))) and (((vehicle (leader _x)) distance (vehicle (leader _Aex))) < 200)) then 
+							{
+							(units _x) joinsilent _Aex;
+							sleep 0.05;
+							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
+							}
 						};
 					};
 				};
