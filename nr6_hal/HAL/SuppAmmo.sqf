@@ -160,7 +160,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 			_Zunit = _ZeroA select _b;		
 
 				{
-				if ((_Zunit distance (assignedvehicle (leader _x))) < 400) exitwith 
+				if ((_Zunit distance (assignedvehicle (leader _x))) < 25) exitwith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 						{
@@ -174,7 +174,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 			foreach _ammoSG;
 			
 				{
-				if ((_Zunit distance _x) < 400) exitwith 
+				if ((_Zunit distance _x) < 25) exitwith 
 					{
 					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then 
 						{
