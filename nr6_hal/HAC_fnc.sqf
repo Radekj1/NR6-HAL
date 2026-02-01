@@ -3016,7 +3016,16 @@ RYD_ArtyMission =
 								}
 							};
 							
-						_inRange = _pos inRangeOfArtillery [[_vh],_ammo];
+						if (isNil "_ammo") then 
+							{
+							    _ammo = "";
+							    _inRange = false;
+							} 
+							else 
+							{
+							    _inRange = _pos inRangeOfArtillery [[_vh], _ammo];
+							};
+//						diag_log format ["ArtyDebug: Vehicle: %1, Type: %2, Ammo: %3", _vh, _tp, _ammo];
 						
 						if (_inRange) then
 							{

@@ -28,10 +28,8 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 	_Unable = _unitG getvariable "Unable";
 	if (isNil ("_Unable")) then {_Unable = false};
 
-	_busy = _unitG getVariable ("Busy" + (str _unitG));
-	if (isNil "_busy") then {_busy = false};
-	
-	if (not (_garrisoned) and not (_NOgarrisoned) and not (RydxHQ_GarrisonV2) and not (_Unable) and not (_busy)) then
+
+	if (not (_garrisoned) and not (_NOgarrisoned) and not (RydxHQ_GarrisonV2) and not (_Unable)) then
 		{
 		[_unitG] call RYD_WPdel;
 
@@ -252,14 +250,18 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			}
 		};
 
-	if (not (_garrisoned) and not (_NOgarrisoned) and (RydxHQ_GarrisonV2) and not (_Unable) and not (_busy)) then
+	if (not (_garrisoned) and not (_NOgarrisoned) and (RydxHQ_GarrisonV2) and not (_Unable)) then
 		{
 
 		_unitG setVariable ["Garrisoned" + (str _unitG),true];
 
+		_objs = [(_HQ getVariable ["RydHQ_Taken",[]]),getPosATL (vehicle (leader _unitG)),500] call RYD_DistOrdC;
+
 		_UL = leader _unitG;
 		_AV = assignedVehicle _UL;
 		_pos = getPosATL (vehicle (leader _unitG));
+		
+		if ((count _objs) > 0) then {_pos = getPosATL (_objs select 0)};
 
 		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
