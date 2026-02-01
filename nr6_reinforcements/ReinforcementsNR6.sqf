@@ -68,13 +68,13 @@ _nearObjs = [];
 _nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
 _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 
-{
-	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") then {
-		_Objective = _x;
+if ((count _nearObjs) > 0) then {
+	if ((typeOf (_nearObjs select 0)) == "NR6_HAL_Leader_SimpleObjective_Module") then {
+		_Objective = (_nearObjs select 0);
         _ObjSource = _Objective;
 		_campName = _Objective getvariable ["_ObjName",""];
 		_objPos = getpos _Objective;
-//		_Commanders = [];
+ //		_Commanders = [];
 		
 		{
 			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
@@ -97,7 +97,7 @@ _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fn
 		} foreach _Commanders;
 		_Leaders = _Leaders + _BluforHQs + _OpforHQs + _IndepHQs;
 	};
-} foreach _nearObjs;
+};
 
 _Commanders = _Leaders;
 

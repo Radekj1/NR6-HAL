@@ -47,12 +47,25 @@ SpawnARGroupA = {
     _selectedPos = [(getpos _selectedPad) select 0, (getpos _selectedPad) select 1, (((getpos _selectedPad) select 2) + (random [500,700,1500]))];
     _selectedDir = (getdir _selectedPad);
 
+    _grp = grpNull;
 
+    if not (_Airborne) then {
+        _grp = createGroup _side;
+        {
+            _selectedPos = ([(getpos _selectedPad),0,75,10] call BIS_fnc_findSafePos);
+//           _vharr = [_selectedPos,0,_x,_grp] call BIS_fnc_spawnVehicle;
+            _vharr = _x createVehicle _selectedPos;
+            createVehicleCrew _vharr;
+            units (group _vharr) joinSilent _grp;
+            _grp addVehicle _vharr;
+        } foreach _birds;
 
-    _grp = [_selectedPos,_side,_birds,_relpos] call BIS_fnc_spawnGroup; 
-    _grp setBehaviour "SAFE";
-    _grp setCombatMode "GREEN";
+        } else {
+        _grp = [_selectedPos,_side,_birds,_relpos] call BIS_fnc_spawnGroup; 
+        _grp setBehaviour "SAFE";
+        _grp setCombatMode "GREEN";
 
+        };
     _VC = [];
 
     {

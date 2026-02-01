@@ -370,6 +370,8 @@ while {true} do
 	_HQ setVariable ["RydHQ_Flee",RydHQF_Flee];
 	if (isNil ("RydHQF_GarrR")) then {RydHQF_GarrR = 500};
 	_HQ setVariable ["RydHQ_GarrR",RydHQF_GarrR];
+	if (isNil ("RydHQF_GarrLim")) then {RydHQF_GarrLim = 5};
+	_HQ setVariable ["RydHQ_GarrLim",RydHQF_GarrLim];
 	if (isNil ("RydHQF_Rush")) then {RydHQF_Rush = false};
 	_HQ setVariable ["RydHQ_Rush",RydHQF_Rush];
 	if (isNil ("RydHQF_GarrVehAb")) then {RydHQF_GarrVehAb = false};

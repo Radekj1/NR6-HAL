@@ -1,55 +1,55 @@
-_logic = _this select 0;
- 
+params ["_logic"];
+
 sleep 5; 
- 
-_FPool = call compile (_logic getvariable "_Pool");
-_reqObject = objNull;
- 
+
+private _FPool = call compile (_logic getvariable "_Pool");
+private _reqObject = objNull;
+
 if (isServer) then {
 
 {
 	if not ((typeOf _x) == "NR6_AssetCompiler_Module") exitwith {_reqObject = _x};
 } foreach (synchronizedObjects _logic);
 
-_Pool = []; 
+private _Pool = []; 
 {
 	{
 	_Pool = _Pool + [_x]; 
 	} foreach _x; 
-	
+
 } foreach _FPool; 
 
-_side = call compile (_logic getvariable "_side");
+private _side = call compile (_logic getvariable "_side");
 
-_objPos = getpos _logic;
-_nearObjs = [];
-_Commanders = [];
-_leader = objNull;
+private _objPos = getpos _logic;
+private _nearObjs = [];
+private _Commanders = [];
+private _leader = objNull;
 
 _nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
 _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 
 {
 	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") exitwith {
-		_Objective = _x;		
+		private _Objective = _x;		
 		{
 			if ((typeOf _x) == "NR6_HAL_Leader_Module") then {_Commanders pushback _x};
 		} foreach (synchronizedObjects _Objective);
 
 		{
 			_leader = (_x getvariable "LeaderType");
-			
+
 			_leader = call compile _leader;
-			
+
 			if ((side _leader) isEqualTo _side) exitwith {};
 		} foreach _Commanders;
 	};
 } foreach _nearObjs;
 
- 
-//_logic setVariable ["NR6Supplies",200,true];
 
-_cond = "((side _this) isEqualTo west)";
+private _cond = "((side _this) isEqualTo west)";
+
+
 
 if not (isNull _leader) then {
 	_cond = "((side _this) isEqualTo west)";
@@ -63,9 +63,9 @@ if not (isNull _leader) then {
 
 
 {
-	_class = (_x select 0);
-	_cost = (_logic getvariable ["NR6OtherCost",50]);
-	_emptyS = (_logic getvariable ["NR6EmptySpawn",true]);
+	private _class = (_x select 0);
+	private _cost = (_logic getvariable ["NR6OtherCost",50]);
+	private _emptyS = (_logic getvariable ["NR6EmptySpawn",true]);
 
 	if (_class isKindOf "Man") then {_cost = (_logic getvariable ["NR6ManCost",5])};
 	if ((_class isKindOf "Car") or (_class isKindOf "Truck")) then {_cost = (_logic getvariable ["NR6CarCost",5])};
@@ -83,11 +83,7 @@ _reqObject addAction ["Check Supplies Level","
 
 _reqObject addAction ["Dsimiss All AI From Squad"," 
 [(_this select 0),(_this select 1),(_this select 3)] remoteExecCall ['NR6_DimsmissAllAI',2]; 
-",_reqObject,1,true,false,"","true", 5];
+",_reqObject,1,true,false,"",_cond, 5];
 
 
 }; 
- 
- 
-
- 
