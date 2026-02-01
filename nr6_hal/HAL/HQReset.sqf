@@ -243,14 +243,12 @@ _SideEnemies = [];
 		_fG = (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]) + (_HQ getVariable ["RydHQ_Garrison",[]]));
 
 		{
-//			if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
-			if ((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) then {_UnableArr pushBack _x};
-
+			if (((_x getvariable ["Unable",false]) or (isPlayer (leader _x))) or (_x getVariable ["Busy" + (str _x),false])) then {_UnableArr pushBack _x};
 		} foreach _fG;
 
 		_fG = _fG - (_UnableArr);
 
-		if (((count _fG) >= (_HQ getVariable ["RydHQ_GarrLim",5])) and (_noGarrAround)) then
+		if ((((count _fG)/5) >= 1) and (_noGarrAround)) then
 			{
 			_chosen = _fG select 0;
 
@@ -277,7 +275,7 @@ _SideEnemies = [];
 
 				_alive = true;
 
-				/*if (_busy) then 
+				if (_busy) then 
 					{
 					_unitG setVariable ["RydHQ_MIA",true];
 					_ct = time;
@@ -301,12 +299,7 @@ _SideEnemies = [];
 									
 						(not (_alive) or (_MIApass))	
 						}
-					};*/
-
-				if (_unitG getVariable ["Busy" + (str _unitG),false]) then {
-					_unitG setVariable ["Break",true];
-					waitUntil {sleep 1; not (_unitG getVariable ["Busy" + (str _unitG),false])};
-				};
+					};
 							
 				_unitG setVariable ["Busy" + (str _unitG),true];
 				_garrison = _HQ getVariable ["RydHQ_Garrison",[]];
@@ -492,7 +485,7 @@ foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 if ((_HQ getVariable ["RydHQ_Combining",false])) then 
 	{
-	_exhausted = (_HQ getVariable ["RydHQ_Exhausted",[]]);
+	_exhausted = +(_HQ getVariable ["RydHQ_Exhausted",[]]);
 	
 		{
 		if (not (isNull _x) and (({alive _x} count (units _x)) >= 1) and not (_x getVariable [("isCaptive" + (str _x)),false])) then 
@@ -511,13 +504,14 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 				for [{private _a = 0}, {(_a < (count _ex))}, {_a = _a + 1}] do
 					{
 					_Aex = _ex select _a;
-
-					if (!isNull _Aex) then 
+					_unitvarA = str _Aex;
+					
+					if not (_Aex getVariable [("isCaptive" + _unitvarA),false]) then
 						{
-						_nominalA = _Aex getVariable ("Nominal" + _unitvarA);
+						_nominalA = _Aex getVariable ("Nominal" + (str _Aex));
 						if (isNil ("_nominalA")) then {
 							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
-							_nominalA = _Aex getVariable ("Nominal" + _unitvarA)
+							_nominalA = _Aex getVariable ("Nominal" + (str _Aex))
 							};
 						_currentA = count (units _Aex);
 						//diag_log _nominalA;
@@ -525,7 +519,7 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 							{
 							(units _x) joinsilent _Aex;
 							sleep 0.05;
-							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
+							_Aex setVariable [("Nominal" + (str _Aex)),(count (units _Aex)),true];
 							}
 						};
 					};
@@ -537,6 +531,5 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			};
 		}
 	foreach (_HQ getVariable ["RydHQ_Exhausted",[]]);
-	_exhausted = _exhausted select {!isNull _x};
 	_HQ setVariable ["RydHQ_Exhausted",_exhausted];
 	};

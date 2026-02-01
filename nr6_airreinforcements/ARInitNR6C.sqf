@@ -10,11 +10,11 @@ if (isNil ("RydHQH_Included")) then {RydHQH_Included = []};
 
 SpawnARVicC = {
 
-    private ["_grp","_selectedPos","_GoodPads","_side","_GoodsideForces","_Leaders","_VC","_selectedDir","_selectedAircraft"];
-
-	_side = _this select 0;
-	_selectedAircraft = _this select 1;
-	_Leaders = _this select 2;
+    private ["_grp","_selectedPos","_GoodPads","_GoodsideForces","_VC","_selectedDir"];
+    params ["_side","_selectedAircraft","_Leaders"];
+	//_side = _this select 0;
+	//_selectedAircraft = _this select 1;
+	//_Leaders = _this select 2;
 
 
     _grp = createGroup _side;
@@ -62,11 +62,11 @@ SpawnARVicC = {
 
 SpawnARGroupC = {
 
-    private ["_grp","_selectedPos","_GoodPads","_side","_GoodsideForces","_Leaders","_VC","_selectedDir","_selectedAircraft"];
-
-	_side = _this select 0;
-	_GoodsideForces = _this select 1;
-	_Leaders = _this select 2;
+    private ["_grp","_selectedPos","_GoodPads","_VC","_selectedDir","_selectedAircraft"];
+    params ["_side","_GoodsideForces","_Leaders"];
+	//_side = _this select 0;
+	//_GoodsideForces = _this select 1;
+	//_Leaders = _this select 2;
 
     _selectedAircraft = selectRandom _GoodsideForces;
 

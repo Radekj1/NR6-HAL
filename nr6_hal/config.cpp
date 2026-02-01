@@ -738,7 +738,7 @@ class CfgVehicles
 				typeName="NUMBER";
 				defaultValue = "1";
 			};
-			class RydHQ_GarrR
+			class RydHQ_GarrRange
 			{
 				displayName="Garrison Radius Mult";
 				description="Multiplier for how far garrisonned squads will look around for buildings and static weapons from their garrison point.";
@@ -1099,13 +1099,6 @@ class CfgVehicles
 				description="How far can attack orders be isued for a garrisoned squad.";
 				typeName="NUMBER";
 				defaultValue = "500";
-			};
-			class RydHQ_GarrLim
-			{
-				displayName="Min Available Groups For Garrison";
-				description="Minimum number of infantry groups to be available before commander considers assigning a group to an objective garrison.";
-				typeName="NUMBER";
-				defaultValue = "5";
 			};
 			class RydHQ_ObjHoldTime
 			{

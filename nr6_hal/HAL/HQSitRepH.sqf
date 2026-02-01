@@ -368,12 +368,8 @@ while {true} do
 	_HQ setVariable ["RydHQ_LRelocating",RydHQH_LRelocating];
 	if (isNil ("RydHQH_Flee")) then {RydHQH_Flee = true};
 	_HQ setVariable ["RydHQ_Flee",RydHQH_Flee];
-
 	if (isNil ("RydHQH_GarrR")) then {RydHQH_GarrR = 500};
 	_HQ setVariable ["RydHQ_GarrR",RydHQH_GarrR];
-	if (isNil ("RydHQH_GarrLim")) then {RydHQH_GarrLim = 5};
-	_HQ setVariable ["RydHQ_GarrLim",RydHQH_GarrLim];
-
 	if (isNil ("RydHQH_Rush")) then {RydHQH_Rush = false};
 	_HQ setVariable ["RydHQ_Rush",RydHQH_Rush];
 	if (isNil ("RydHQH_GarrVehAb")) then {RydHQH_GarrVehAb = false};

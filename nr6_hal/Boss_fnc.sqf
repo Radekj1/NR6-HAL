@@ -2121,12 +2121,8 @@ RYD_BBSimpleD =
 
 				_frCenters pushBack _frCenter;
 
-				_colorArr = switch (side _HQ) do
-					{
-					case (west) : {"colorBLUFOR"};
-					case (east) : {"colorOPFOR"};
-					default {"colorIndependent"};
-					};
+				_colorArr = "ColorBlue";
+				if (_BBSide == "B") then {_colorArr = "ColorRed"};
 
 				if not (isNil "_lPos") then
 					{
@@ -2228,12 +2224,8 @@ RYD_BBSimpleD =
 					}
 				foreach _battles;
 
-				_colorBatt = switch (side _HQ) do
-					{
-					case (west) : {"colorBLUFOR"};
-					case (east) : {"colorOPFOR"};
-					default {"colorIndependent"};
-					};
+				_colorBatt = "ColorBlue";
+				if (_BBSide == "B") then {_colorBatt = "ColorRed"};
 				_sizeBatt = (_amounts select _foreachIndex)/6;
 				if (_sizeBatt > 5) then {_sizeBatt = 5};
 

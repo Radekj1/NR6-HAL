@@ -6,10 +6,10 @@
 
 private 
     [
-    "_side","_logic","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_Leader","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2","_BluforHQs","_OpforHQs","_IndepHQs","_AllTaken","_nearObjs","_Objective"
+    "_side","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_Leader","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2","_BluforHQs","_OpforHQs","_IndepHQs","_AllTaken","_nearObjs","_Objective","_Respawn_Handle"
     ];
-
-_logic = _this select 0;
+params ["_logic"];
+//_logic = _this select 0;
 
 _Commanders = [];
 _Leaders = [];
@@ -68,9 +68,9 @@ _nearObjs = [];
 _nearObjs = _objPos nearEntities ["NR6_HAL_Leader_SimpleObjective_Module", 300];
 _nearObjs = [_nearObjs, [], {_objPos distance _x }, "ASCEND",{true}] call BIS_fnc_sortBy;
 
-if ((count _nearObjs) > 0) then {
-	if ((typeOf (_nearObjs select 0)) == "NR6_HAL_Leader_SimpleObjective_Module") then {
-		_Objective = (_nearObjs select 0);
+{
+	if ((typeOf _x) == "NR6_HAL_Leader_SimpleObjective_Module") then {
+		_Objective = _x;
         _ObjSource = _Objective;
 		_campName = _Objective getvariable ["_ObjName",""];
 		_objPos = getpos _Objective;
@@ -97,7 +97,7 @@ if ((count _nearObjs) > 0) then {
 		} foreach _Commanders;
 		_Leaders = _Leaders + _BluforHQs + _OpforHQs + _IndepHQs;
 	};
-};
+} foreach _nearObjs;
 
 _Commanders = _Leaders;
 
@@ -859,12 +859,14 @@ if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
     };
 };
 
-while {true} do 
 
-    {
+//Code to check if reinforcements point is valid  
+//_handle = [{
 
+while {true} do {
+//   [{
     _sidetick = _logic getvariable ["_sidetick",0];
-    
+
     _CanSpawn = true;
 
     _CurrentForces = (_side countSide allUnits);
@@ -890,7 +892,7 @@ while {true} do
             _CanSpawn = false;
         };
     };
-
+    // Check if enemy is nearby the reinforcements points [by type of setting on mission]
     if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         _sidetick = 0;
@@ -912,13 +914,14 @@ while {true} do
         };
         _sidetickHold = 0; 
     };
-
-//    _CurrentForces = (_side countSide allUnits);
+    // Spawning units code
+ //    _CurrentForces = (_side countSide allUnits);
 
     if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allplayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
         {
+        //[{    
         for "_i" from 1 to _rStrgt do
-            {
+             {
             if (_sidetick > 0) then {
 
                 if (isNil "_RejoinPoint") then {
@@ -934,8 +937,18 @@ while {true} do
             _Threshold = (_Threshold - _ThresholdDecay);
             
             sleep 3;
-            };
+            }; 
+        //}, {}, 3] call CBA_fnc_waitAndExecute;
         };
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
+ 
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) 
+    exitWith {};
+    // then {_handle call CBA_fnc_removePerFrameHandler};
     sleep (random [5,7,15]);
-    };
+    //}, {}, 10] call CBA_fnc_waitAndExecute;
+};
+
+//},10,[]] call CBA_fnc_addPerFrameHandler
+
+// For unscheduled execution by CBA, every 10 seconds
+//}, 10, [{_ReinforcementCode},{},{},{}]] call CBA_fnc_addPerFrameHandler;

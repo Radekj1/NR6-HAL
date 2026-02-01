@@ -4,10 +4,10 @@
 
 private 
     [
-    "_grp","_logic","_Commanders","_SpawnPos","_SpawnRadius","_Pool","_GrpQuantity","_Leaders","_i","_Side","_SpawnRGroup","_PatrolPercent","_MinBuilding"
+    "_grp","_Commanders","_SpawnPos","_SpawnRadius","_Pool","_GrpQuantity","_Leaders","_i","_Side","_SpawnRGroup","_PatrolPercent","_MinBuilding"
     ];
-
-_logic = _this select 0;
+params ["_logic"];
+//_logic = _this select 0;
 
 _Commanders = [];
 

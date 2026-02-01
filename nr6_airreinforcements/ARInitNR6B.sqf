@@ -10,12 +10,12 @@ if (isNil ("RydHQH_Included")) then {RydHQH_Included = []};
 
 SpawnARGroupB = {
 
-    private ["_grp","_selectedPos","_GoodPads","_side","_GoodsideForces","_Leaders","_VC","_selectedDir","_selectedAircraft"];
-
-	_GoodPads = _this select 0;
-	_side = _this select 1;
-	_GoodsideForces = _this select 2;
-	_Leaders = _this select 3;
+    private ["_grp","_selectedPos","_VC","_selectedDir","_selectedAircraft"];
+    params ["_GoodPads","_side","_GoodsideForces","_Leaders"];
+	//_GoodPads = _this select 0;
+	//_side = _this select 1;
+	//_GoodsideForces = _this select 2;
+	//_Leaders = _this select 3;
 
     _selectedPad = selectRandom _GoodPads;
     _selectedAircraft = selectRandom _GoodsideForces;

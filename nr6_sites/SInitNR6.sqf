@@ -18,28 +18,29 @@ if (isNil ("RydHQH_NoDef")) then {RydHQH_NoDef = []};
 
 SpawnRGroupS = {
 
-    private ["_grp","_SelGroup","_class","_vharr","_selectedPos","_crewGear","_SpawnRadius","_Side","_Pool","_SpawnRadius","_MinBuilding","_PatrolPercent","_Leaders"];
-
-    _selectedPos = _this select 0;
-    _SpawnRadius = _this select 1;
-    _Side = _this select 2;
-    _Pool = _this select 3;
-    _SpawnRadius = _this select 4;
-    _MinBuilding = _this select 5;
-    _PatrolPercent = _this select 6;
-    _Leaders = _this select 7; 
+    private ["_grp","_SelGroup","_class","_vharr","_crewGear","_pylons"];
+    params ["_selectedPos","_SpawnRadius","_Side","_Pool","_SpawnRadius","_MinBuilding","_PatrolPercent","_Leaders"];
+    //_selectedPos = _this select 0;
+    //_SpawnRadius = _this select 1;
+    //_Side = _this select 2;
+    //_Pool = _this select 3;
+    //_SpawnRadius = _this select 4;
+    //_MinBuilding = _this select 5;
+    //_PatrolPercent = _this select 6;
+    //_Leaders = _this select 7; - IN PARAMS 
     _SelGroup = selectRandom _Pool;
 
     _grp = grpNull;
 
+    if ((typeName (_SelGroup select 0)) isNotEqualTo "ARRAY") then {
+
+        {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
+
+    };
+        
     if ((typeName _SelGroup) isEqualTo "ARRAY") then {
 
-        if not ((typeName (_SelGroup select 0)) isEqualTo "ARRAY") then {
 
-            {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
-
-        };
-        
         _grp = createGroup _side;
         _selectedPos = ([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos);
 

@@ -46,7 +46,7 @@ class CfgVehicles
 	class NR6_AirReinfA_Module: Module_F
 	{
 		scope=2;
-		displayName="Air/Land Reinforcements Mode A";
+		displayName="Air Reinforcements Mode A";
 		author="NinjaRider600";
 		vehicleClass="Modules";
 		category="NR6_AirReinforcements_MODULES";
@@ -97,7 +97,7 @@ class CfgVehicles
 				{
 					class vanilla
 					{
-						name="Disable temporarily - players only - [Nearby Objective Detection]";
+						name="Disable only temporarily when players in range - players only";
 						value="vanilla";
 						default=1;	
 					};
@@ -112,14 +112,6 @@ class CfgVehicles
 						value="ReCapture";
 					};
 				};
-			};
-
-			class _PlayerFriend
-			{
-				displayName="Allow Spawn If Friendly Player";
-				description="Allows reinforcements to spawn at point if a friendly player is within the 'player or enemy disable range' but not if an enemy one is within that range.";
-				typeName="BOOL";
-				defaultValue = "true";
 			};
 
 			class _sidetick
@@ -148,10 +140,10 @@ class CfgVehicles
 
 			class _playerRange
 			{
-				displayName="Player or Enemy Disable Range";
-				description="Range in meters within which the script pauses itself if a player or enemy unit is present (to prevent immersion breaking).";
+				displayName="Player Disable Range";
+				description="Range in meters within which the script pauses itself if a player is present (to prevent immersion breaking).";
 				typeName="NUMBER";
-				defaultValue = "500";
+				defaultValue = "1000";
 			};
 
 			class _TickTime
@@ -178,8 +170,8 @@ class CfgVehicles
 			};
 			class _flight
 			{
-				displayName="Flight/Convoy Sizes";
-				description="Pool of number of vehicles per group to be spawned. Add here all the options you want to be used in terms of groups";
+				displayName="Flight Sizes";
+				description="Pool of number of aircraft per group to be spawned. Add here all the options you want to be used in terms of groups";
 				typeName="Array";
 				defaultValue = "[1,2]";
 			};
@@ -187,13 +179,6 @@ class CfgVehicles
 			{
 				displayName="No Land RTB";
 				description="Aircraft will not land on RTB from HAL missions if this is set to true.";
-				typeName="BOOL";
-				defaultValue = "False";
-			};
-			class _Airborne
-			{
-				displayName="Spawn Airborne";
-				description="Aircraft will spawn airborne.";
 				typeName="BOOL";
 				defaultValue = "False";
 			};
