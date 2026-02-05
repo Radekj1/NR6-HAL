@@ -95,7 +95,7 @@ SpawnRGroup = {
 NR6_GetUnit = {
 	
 	private ['_selType','_unit'];
-	_this select 2 params ["_selType","_leader","_logic","_side","_cost","_emptyS"];
+	(_this select 2) params ["_selType","_leader","_logic","_side","_cost","_emptyS"];
 	params ["_class"];
 	/*
 	_selType = ((_this select 2) select 0);

@@ -18,8 +18,10 @@ do
 	sleep 1;
 	hint str _sc;
 };
-
-
+HQInit1 = false;
+HQInit2 = false;
+//calling cba to execute global variables in unsheduled mode.
+[{
 
 RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",true];
 publicVariable "RydxHQ_ReconCargo";
@@ -113,13 +115,18 @@ _hi = HAL_Ver + " Initialized";
 if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you? - Blame these night owls"};
 
 _hi remoteExecCall ["systemChat"];
-
+HQInit1 = true;
+}] call CBA_fnc_waitAndExecute;
+waitUntil {sleep 1; HQInit1};
 
 call compile preprocessfile (RYD_Path + "HAC_fnc.sqf");
 call compile preprocessfile (RYD_Path + "HAC_fnc2.sqf");
-call compile preprocessfile (RYD_Path + "VarInit.sqf");
+call compile preprocessfile (RYD_Path + "VarInit.sqf"); 
 call compile preprocessfile (RYD_Path + "TaskMenu.sqf");
 call compile preprocessfile (RYD_Path + "TaskInitNR6.sqf");
+
+//Running below publicvariables in unsheduled mode.
+[{
 HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getType.sqf";
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
 
@@ -223,8 +230,9 @@ publicVariable "ACEAction13fncR";
 publicVariable "ActionGTct";
 publicVariable "ActionArtct";
 publicVariable "ActionArt2ct";
-
-
+HQInit2 = true;
+}] call CBA_fnc_waitAndExecute;
+waitUntil {HQInit2};
 if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
 
 RydxHQ_AllLeaders = [];

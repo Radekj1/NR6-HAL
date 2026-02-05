@@ -4769,7 +4769,6 @@ RYD_HQChatter =
 	}
 	else
 	{	
-//		[[_comm,_sentence],"RYD_MP_Sidechat",true,false,true] call BIS_fnc_MP;
 		[_comm,_sentence] remoteExecCall ["sideChat"];
 	};
 	};
@@ -4896,7 +4895,6 @@ RYD_AIChatter =
 	_sentence = selectRandom _sentences;
 
 
-//	[[_unit,_sentence],"RYD_MP_SideRadio",true,false,true] call BIS_fnc_MP;
 	[_unit,_sentence] remoteExecCall ["sideRadio"];
 	
 

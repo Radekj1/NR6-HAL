@@ -6,7 +6,7 @@
 
 private 
     [
-    "_side","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_Leader","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2","_BluforHQs","_OpforHQs","_IndepHQs","_AllTaken","_nearObjs","_Objective","_Respawn_Handle"
+    "_side","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_Leader","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2","_BluforHQs","_OpforHQs","_IndepHQs","_AllTaken","_nearObjs","_Objective","_RespawnHandle"
     ];
 params ["_logic"];
 //_logic = _this select 0;
@@ -27,12 +27,13 @@ _faction = _logic getvariable "_faction";
 _Threshold = _logic getvariable "_Threshold";
 _HalReinf = _logic getvariable "_HalReinf";
 _playerFriend = _logic getvariable "_PlayerFriend";
+_CrrFr = [];
 //_Leaders = _Commanders;
 _ObjSource = _logic;
 _objPos = getpos _logic;
 _RejoinPoint = call compile (_logic getvariable "_RejoinPoint");
-if (isNil "_RejoinPoint") then {_RejoinPoint = []};
-if (_RejoinPoint isEqualTo []) then  {_RejoinPoint = nil};
+if (isNil "_RejoinPoint") then {_RejoinPoint = false};
+if (_RejoinPoint isEqualTo []) then {_RejoinPoint = false};
 _playerRange = _logic getvariable "_playerRange";
 _SpawnMode = false;
 if ((typeOf _logic) == "NR6_Spawn_Module") then {_SpawnMode = true};
@@ -828,19 +829,22 @@ if (_SpawnMode) exitwith {
         
     };
 
-sleep 20;
-
 _StartForces = (_side countSide allUnits);
 sleep 20;
 
 private _counter = _side countSide allUnits;
+while {_StartForces < _counter} do 
+    {
+        _StartForces = (_side countSide allUnits);
+        sleep 10;
+        _counter = _side countSide allUnits;
+    };
 
 if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
     sleep 20;
     _Leaders = _Commanders;
     {
         if ((side _x) == _side) then {
-            _CrrFr = [];
             waitUntil {sleep 5; ((count ((group _x) getvariable ["RydHQ_Friends",[]])) > 0)};
             private _StrtForces = (group _x) getvariable ["RydHQ_Friends",[]];
             {
@@ -850,26 +854,25 @@ if ((not (_Objsource == _logic)) or (1 == (count _Commanders))) then {
         };
                     
     } foreach _Commanders;
-} else {
-    while {_StartForces < _counter} do 
-    {
-        _StartForces = (_side countSide allUnits);
-        sleep 20;
-        _counter = _side countSide allUnits;
-    };
 };
-
-
-//Code to check if reinforcements point is valid  
-//_handle = [{
-
-while {true} do {
-//   [{
-    _sidetick = _logic getvariable ["_sidetick",0];
-
-    _CanSpawn = true;
-
-    _CurrentForces = (_side countSide allUnits);
+if ((isNil "_CrrFr") or {(_CrrFr isEqualType []) and (count _CrrFr == 0)}) then {_CrrFr = false};
+_ExtraArgs = (_logic getVariable ["_ExtraArgs",false]);
+//Looks like Handles variables / args can't handle undefined variables inside...
+//Frame Handler that executes every 5 seconds below.
+_RespawnHandle = [ {  
+    params ["_args", "_RespawnHandle"];
+    _args params ["_logic","_ThresholdDecay","_HalReinf","_SpawnPos","_SpawnRadius","_side","_Pool","_Leaders","_RejoinPoint","_ExtraArgs","_StartForces","_playerRange","_playerFriend","_sideEn","_sideEn2","_Commanders","_Objsource","_CrrFr","_rStrgt"];
+    private _sidetick = _logic getvariable ["_sidetick",0];
+    private _sidetickHold = _logic getvariable ["_sidetickHold",0];
+    private _Threshold = _logic getvariable ["_Threshold",0];
+    private _CanSpawn = true;
+    private _CurrentForces = (_side countSide allUnits);
+    private _CrrFr2 = _CrrFr;
+    private _RejoinPoint2 = _RejoinPoint;
+    private _ExtraArgs2 = _ExtraArgs;
+    if (_RejoinPoint isEqualTo false) then {_RejoinPoint2 = nil;};
+    if (_ExtraArgs isEqualTo false) then {_ExtraArgs2 = "";};
+    if (_CrrFr isEqualto false) then {_CrrFr2 = [];};
 
     if not (isNil "_ObjSource") then {
         if (_ObjSource getvariable ["CanSpawn",true]) then {
@@ -877,12 +880,11 @@ while {true} do {
             if not (_Objsource == _logic) then {
                 {
                     if ((side _x) == _side) then {
-                        _CrrFr = [];
                         _CurrentForces = (((group _x) getvariable ["RydHQ_Friends",[]]) + ((group _x) getvariable ["RydHQ_Included",[]]));
                         {
-                            {if (alive _x) then {_CrrFr pushBackUnique _x}} foreach (units _x);
+                            {if (alive _x) then {_CrrFr2 pushBackUnique _x}} foreach (units _x);
                         } foreach _CurrentForces;
-                        _CurrentForces = (count _CrrFr);
+                        _CurrentForces = (count _CrrFr2);
                         if ((_Objsource in ((group _x) getvariable ["RydHQ_Taken",[]])) and not ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0))) then {_CanSpawn = true} else {_CanSpawn = false};
                     };
                     
@@ -897,7 +899,6 @@ while {true} do {
     {
         _sidetick = 0;
     };
-
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetick != 0) and ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         if (_sidetick > 0) then 
@@ -905,6 +906,7 @@ while {true} do {
             _sidetickHold = _sidetick;
         };
         _sidetick = 0;
+        _logic setVariable ["_sidetickHold", _sidetickHold]; 
     };
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetickHold != 0) and (_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) then 
     {
@@ -912,43 +914,28 @@ while {true} do {
         {
             _sidetick = _sidetickHold;
         };
-        _sidetickHold = 0; 
+        _sidetickHold = 0;
+        _logic setVariable ["_sidetickHold", _sidetickHold]; 
     };
     // Spawning units code
- //    _CurrentForces = (_side countSide allUnits);
+    //_CurrentForces = (_side countSide allUnits);
 
     if (((_CurrentForces) < (_Threshold*_StartForces)) and (not ({(_x distance (_SpawnPos select 0) < _playerRange)} count allplayers > 0) or (_playerFriend)) and (_CanSpawn)) then 
         {
-        //[{    
         for "_i" from 1 to _rStrgt do
              {
             if (_sidetick > 0) then {
-
-                if (isNil "_RejoinPoint") then {
-                    [_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,nil,(_logic getVariable ["_ExtraArgs",""])] call SpawnRGroup;
-                } else {
-                    [_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,_RejoinPoint,(_logic getVariable ["_ExtraArgs",""])] call SpawnRGroup;
-                };
+                // Calling unit spawner
+                [_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,_RejoinPoint2,_ExtraArgs2] call SpawnRGroup;
                 _sidetick = (_sidetick - 1);
                 _logic setvariable ["_sidetick",_sidetick];
-                
             };
 
             _Threshold = (_Threshold - _ThresholdDecay);
-            
-            sleep 3;
+            _logic setVariable ["_Threshold", _Threshold];
             }; 
-        //}, {}, 3] call CBA_fnc_waitAndExecute;
         };
- 
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) 
-    exitWith {};
-    // then {_handle call CBA_fnc_removePerFrameHandler};
-    sleep (random [5,7,15]);
-    //}, {}, 10] call CBA_fnc_waitAndExecute;
-};
-
-//},10,[]] call CBA_fnc_addPerFrameHandler
-
-// For unscheduled execution by CBA, every 10 seconds
-//}, 10, [{_ReinforcementCode},{},{},{}]] call CBA_fnc_addPerFrameHandler;
+    //Permanently remove Frame Handler when not needed anymore
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitWith {(_RespawnHandle) call CBA_fnc_removePerFrameHandler;};
+}, 5, [_logic,_ThresholdDecay,_HalReinf,_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,_RejoinPoint,_ExtraArgs,_StartForces,
+_playerRange,_playerFriend,_sideEn,_sideEn2,_Commanders,_Objsource,_CrrFr,_rStrgt]] call CBA_fnc_addPerFrameHandler;
