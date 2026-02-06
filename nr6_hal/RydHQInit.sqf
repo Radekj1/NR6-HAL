@@ -1,5 +1,5 @@
 if not (isServer) exitWith {};
-
+RYD_Path = "\NR6_HAL\";
 if (isNil ("RydHQ_Wait")) then 
 {
     RydHQ_Wait = ((_this select 0) getvariable "RydHQ_Wait"); 
@@ -106,7 +106,6 @@ publicVariable "RydxHQ_ReconCargo";
 RYD_WS_ArtyMarks = missionNamespace getvariable ["RYD_WS_ArtyMarks",false];
 publicVariable "RYD_WS_ArtyMarks";
 
-RYD_Path = "\NR6_HAL\";
 
 call compile preprocessfile (RYD_Path + "HAL_Version.sqf");
 

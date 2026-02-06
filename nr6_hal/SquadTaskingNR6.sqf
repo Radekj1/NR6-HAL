@@ -1,7 +1,5 @@
-while {true} do {
-
-	private ["_HalFriends"];
-
+_SquadTaskingHandle = [ 
+	{  
 	if (isNil ("LeaderHQ")) then {LeaderHQ = objNull};
 	if (isNil ("LeaderHQB")) then {LeaderHQB = objNull};
 	if (isNil ("LeaderHQC")) then {LeaderHQC = objNull};
@@ -10,21 +8,23 @@ while {true} do {
 	if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
 	if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
 	if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
+		private _HalFriends = [];
+		{
+			private _hq = missionNamespace getVariable [_x, objNull];
+			if (!isNull _hq) then {
+				_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
+			};
+		} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
-
-	_HalFriends = (group LeaderHQ getVariable ["RydHQ_Friends",[]]) + (group LeaderHQB getVariable ["RydHQ_Friends",[]]) + (group LeaderHQC getVariable ["RydHQ_Friends",[]]) + (group LeaderHQD getVariable ["RydHQ_Friends",[]]) + (group LeaderHQE getVariable ["RydHQ_Friends",[]]) + (group LeaderHQF getVariable ["RydHQ_Friends",[]]) + (group LeaderHQG getVariable ["RydHQ_Friends",[]]) + (group LeaderHQH getVariable ["RydHQ_Friends",[]]);
-
-
+	private ["_IsHal"];
 	{
-		private ["_IsHal"];
-
-		if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",false])) then {
-			_IsHal = true;
-		} else {
-			_IsHal = false;
-		};
-
-		if (RydxHQ_ActionsMenu) then {
+	if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",false])) then {
+		_IsHal = true;
+	} else {
+		_IsHal = false;
+	};
+		if (RydxHQ_ActionsMenu) then 
+		{
 
 			if ((_x == leader _x) and (not (_x getVariable ["HAL_TaskMenuAdded",false]) or not (_x == (_x getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then {
 
@@ -58,12 +58,36 @@ while {true} do {
 					_x setVariable ["HAL_TaskMenuAdded",false];
 
 				};
-			};
-
+		};
+	} foreach allplayers;
+}, 15, []] call CBA_fnc_addPerFrameHandler;
 		// BELOW IS DEPRECATED
+			//Tasking
+_SquadTaskingDeprecatedHandle = [ 
+	{  
+	if (isNil ("LeaderHQ")) then {LeaderHQ = objNull};
+	if (isNil ("LeaderHQB")) then {LeaderHQB = objNull};
+	if (isNil ("LeaderHQC")) then {LeaderHQC = objNull};
+	if (isNil ("LeaderHQD")) then {LeaderHQD = objNull};
+	if (isNil ("LeaderHQE")) then {LeaderHQE = objNull};
+	if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
+	if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
+	if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
+		private _HalFriends = [];
+		{
+			private _hq = missionNamespace getVariable [_x, objNull];
+			if (!isNull _hq) then {
+				_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
+			};
+		} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
-		//Tasking
-
+	private ["_IsHal"];
+	{
+	if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",false])) then {
+		_IsHal = true;
+	} else {
+		_IsHal = false;
+	};
 		if (RydxHQ_TaskActions) then {
 		
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task1Added",false]) and (_IsHal)) then {
@@ -164,9 +188,34 @@ while {true} do {
 			};
 		
 		};
-
+	} foreach allplayers;
+}, 15, []] call CBA_fnc_addPerFrameHandler;
 		//Supports
+_SquadTaskingSupportHandle = [ 
+	{  
+	if (isNil ("LeaderHQ")) then {LeaderHQ = objNull};
+	if (isNil ("LeaderHQB")) then {LeaderHQB = objNull};
+	if (isNil ("LeaderHQC")) then {LeaderHQC = objNull};
+	if (isNil ("LeaderHQD")) then {LeaderHQD = objNull};
+	if (isNil ("LeaderHQE")) then {LeaderHQE = objNull};
+	if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
+	if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
+	if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
+		private _HalFriends = [];
+		{
+			private _hq = missionNamespace getVariable [_x, objNull];
+			if (!isNull _hq) then {
+				_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
+			};
+		} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
+	private ["_IsHal"];
+	{
+	if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",false])) then {
+		_IsHal = true;
+	} else {
+		_IsHal = false;
+	};
 		if (RydxHQ_SupportActions) then {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task4Added",false]) and (_IsHal)) then {
@@ -300,10 +349,37 @@ while {true} do {
 				_x setVariable ["HAL_Task7Added",false];
 
 			};
+		}
+	} foreach allplayers;
+}, 15, []] call CBA_fnc_addPerFrameHandler;
 
 			//LOGISTICS
+_SquadTaskingLogisticsHandle = [ 
+	{  
+	if (isNil ("LeaderHQ")) then {LeaderHQ = objNull};
+	if (isNil ("LeaderHQB")) then {LeaderHQB = objNull};
+	if (isNil ("LeaderHQC")) then {LeaderHQC = objNull};
+	if (isNil ("LeaderHQD")) then {LeaderHQD = objNull};
+	if (isNil ("LeaderHQE")) then {LeaderHQE = objNull};
+	if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
+	if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
+	if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
+		private _HalFriends = [];
+		{
+			private _hq = missionNamespace getVariable [_x, objNull];
+			if (!isNull _hq) then {
+				_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
+			};
+		} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
-			if ((_x == leader _x) and not (_x getVariable ["HAL_Task8Added",false]) and (_IsHal)) then {
+	private ["_IsHal"];
+	{
+	if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",false])) then {
+		_IsHal = true;
+	} else {
+		_IsHal = false;
+	};
+		if ((_x == leader _x) and not (_x getVariable ["HAL_Task8Added",false]) and (_IsHal)) then {
 
 				if not (RydxHQ_ActionsAceOnly) then {
 
@@ -500,9 +576,5 @@ while {true} do {
 				_x setVariable ["HAL_Task13Added",false];
 
 			};
-		};
-		
-	} forEach allplayers;
-
-	sleep 15;
-};
+		} forEach allplayers;
+}, 15, []] call CBA_fnc_addPerFrameHandler;
