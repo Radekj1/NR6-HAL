@@ -199,7 +199,7 @@ if (isNil ("RydHQ_ACRLib")) then {RydHQ_ACRLib = false};
 if (isNil ("RydHQ_BAFLib")) then {RydHQ_BAFLib = false};
 if (isNil ("RydHQ_PMCLib")) then {RydHQ_PMCLib = false};
 call compile preprocessfile (RYD_Path + "RHQLibrary.sqf")
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 //Call signs and MA ratio + Markers, Handles, LF [active and normal]
 [{
 if (isNil "RydxHQ_MARatio") then {RydxHQ_MARatio = [-1,-1,-1,-1,-1]};
@@ -278,7 +278,7 @@ RydxHQ_Markers = [];
 RydxHQ_Handles = [];
 RydxHQ_LFActive = false; 
 RydHQ_LF = false;
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 //Lines 
 [{
 RydxHQ_AIC_OrdConf = 
@@ -613,7 +613,7 @@ RydxHQ_AIC_ArtFire =
 	"HAC_ArtFire5"
 	];
 
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 //40K IMPERIUM OF MAN LINES
 [{
 RydxHQ_AIC_40KImp_OrdConf = 
@@ -797,7 +797,7 @@ RydxHQ_AIC_40KImp_ArtFire =
 	"HAC_40KImp_ArtFire4",
 	"HAC_40KImp_ArtFire5"
 	];
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 //SILENT LINES
 [{
 RydxHQ_AIC_SILENTM_OrdConf = 
@@ -981,7 +981,7 @@ RydxHQ_AIC_SILENTM_ArtFire =
 	"HAC_SILENTM_ArtFire4",
 	"HAC_SILENTM_ArtFire5"
 	];
-}] call CBA_fnc_waitAndExecute;	
+}] call CBA_fnc_directCall;	
 //mods RHQ library
 [{
 if (RydHQ_A2Lib) then
@@ -1128,7 +1128,7 @@ if (RydHQ_PMCLib) then
 	RHQ_NCCargo = RHQ_NCCargo + RHQ_NCCargo_PMC;
 	RHQ_Crew = RHQ_Crew + RHQ_Crew_PMC;
 	};
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 
 Boss = compile preprocessfile (RYD_Path + "Boss.sqf");
 Desperado = compile preprocessfile (RYD_Path + "Desperation.sqf");

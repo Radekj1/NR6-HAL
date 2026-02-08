@@ -115,7 +115,7 @@ if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoo
 
 _hi remoteExecCall ["systemChat"];
 HQInit1 = true;
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 waitUntil {sleep 1; HQInit1};
 
 call compile preprocessfile (RYD_Path + "HAC_fnc.sqf");
@@ -230,7 +230,7 @@ publicVariable "ActionGTct";
 publicVariable "ActionArtct";
 publicVariable "ActionArt2ct";
 HQInit2 = true;
-}] call CBA_fnc_waitAndExecute;
+}] call CBA_fnc_directCall;
 waitUntil {HQInit2};
 if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
 
@@ -406,7 +406,8 @@ if ((count RydHQ_GroupMarks) > 0) then
 	{	
 	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
 	};
-
+{
 if (RydxHQ_Actions) then {
-nul = [] execVM  (RYD_Path + "SquadTaskingNR6.sqf");
+nul = [] call compile (RYD_Path + "SquadTaskingNR6Init.sqf");
 };
+} call CBA_fnc_directCall;

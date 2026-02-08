@@ -2035,11 +2035,11 @@ RYD_ClusterC =
 	
 RYD_Spawn = 
 	{
-	private ["_arguments","_script","_handle"];
-	
-	_arguments = _this select 0;
-	_script = _this select 1;
-	
+	params ["_arguments","_script"];
+	_arguments call _script;
+	};
+	/*
+	private ["_handle"];
 	_handle = _arguments spawn _script;
 	
 	RydxHQ_Handles pushBack _handle;
@@ -2064,61 +2064,8 @@ RYD_Spawn =
 		
 	RydxHQ_Handles = RydxHQ_Handles - [0];
 	
-	/*diag_log format ["New Handle - time: %1 count: (%2 - %3)",time,{not ((str _x) in ["<NULL-script>"])} count RydxHQ_Handles,{((str _x) in ["<NULL-script>"])} count RydxHQ_Handles];
-	
-	private ["_arr","_ix"];
-	
-	_arr = toArray (str _script);
-	_ix = _arr find 59;
-	_arr resize _ix;
-	
-	if not ((_arr select 1) in [83]) then
-		{
-		_arr resize 32
-		}
-	else
-		{
-		_arr = _arr - [34];
-		_arr = [_arr] call RYD_ReverseArr;
-		_arr resize ((_arr find 61) - 1);
-		_arr = [_arr] call RYD_ReverseArr;
-		};
-		
-	_string = toString _arr;
-	
-	if (isNil "RYD_Array") then {RYD_Array = []};
-	
-	if ((count RYD_Array) < 1) then
-		{
-		RYD_Array = [[_string,1]]
-		}
-	else
-		{
-		_inside = false;
-		
-			{
-			if (_string in _x) exitWith 
-				{
-				_x set [1,(_x select 1) + 1];
-				_inside = true
-				}
-			}
-		foreach RYD_Array;
-		
-		if not (_inside) then
-			{
-			RYD_Array pushBack [_string,1]
-			}
-		};
-	
-	diag_log "--------------------------------------------------------------------------------";
-	
-		{
-		diag_log format ["%1",_x];
-		}
-	foreach RYD_Array*/
 	};
-	
+	*/
 RYD_ReverseArr = 
 	{
 	private ["_arr","_final","_amnt"];
@@ -2468,7 +2415,7 @@ RYD_PresentRHQ =
 						_timeOut = false;
 						_canFire = false;
 
-											[{	
+					[{	
 						params ["_minRange","_posCheck","_lPiece","_mainAmmoType","_pos","_veh"];	
 						private _canFire = false;
 						private _timeOut = false;
