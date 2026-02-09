@@ -2055,15 +2055,21 @@ RYD_CreateDecoy =
 	_object
 	};
 
-RYD_Smoke = 
-	{
-	private ["_lastV","_Scount","_unit","_muzzles","_mags","_sMuzzle","_mag"];	
+RYD_Smoke = {
+	private ["_i2"];
 	params ["_gp","_nE"];
+	_i2 = 40; ///higher value to keep it from overloading the script
 
+	private _RYD_SMOKE2 = {
+
+	{
+	private ["_lastV","_Scount","_unit","_muzzles","_mags","_sMuzzle","_mag","_RYD_SMOKE_CODE","_i","_i2"];	
+	params ["_gp","_nE"];
 
 	_lastV = objNull;
 	_Scount = 0;
-	
+	_i = 0;
+	_gp setVariable ["_Scount",0];
 		{
 		_unit = _x;
 		if (((vehicle _unit) == _unit) and not (isPlayer _unit)) then 
@@ -2076,17 +2082,20 @@ RYD_Smoke =
 			_magsR = magazinesAmmoFull _unit;
 			
 				{
-				_mags pushBack (_x select 0)
+				_mags pushBack (params ["_x"]);
 				}
 			foreach _magsR;
-			
-				{
+			 
+			private _RYD_SMOKE_CODE = {
+				params ["_x","_unit","_mags","_magsR","_muzzles","_nE","_Scount","_gp"];
+				private ["_sMuzzle","_mag","_dst","_dst2D","_hgt","_posF","_posT","_dc"];
+				_Scount = _gp getVariable ["_Scount",0];
 				_sMuzzle = "";
 				_mag = "";
 				
-				if ((_x select 0) in _muzzles) then
+				if ((params ["_x"]) in _muzzles) then
 					{
-					_sMuzzle = _x select 0;
+					_sMuzzle = params ["_x"];
 					};
 					
 				if not (_sMuzzle isEqualTo "") then
@@ -2117,91 +2126,90 @@ RYD_Smoke =
 					
 					if (_sMuzzle in ["EGLM","GL_3GL_F"]) then
 						{
-						[_unit,_posT,_dc,_dst2D,_sMuzzle,_mag] spawn 
+						[_unit,_posT,_dc,_dst2D,_sMuzzle,_mag] call 
 							{
-							_unit = _this select 0;
-							_posT = _this select 1;
-							_dc = _this select 2;
-							_dst2D = _this select 3;
-							_sMuzzle = _this select 4;
-							_mag = _this select 5;
+							params ["_unit","_posT","_dc","_dst2D","_sMuzzle","_mag"];
 							
 							_posT = [(_posT select 0) - ((wind select 0) * (sqrt _dst2D) * 0.25),(_posT select 1) - ((wind select 1) * (sqrt _dst2D) * 0.25),_posT select 2];
 								
 							_dc setPosATL _posT;
 												
 							_unit doWatch _dc;
-							sleep 0.1;
-							
+
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							_unit doTarget _dc;
-							sleep 3;
 							
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							_unit selectWeapon _sMuzzle;
-							sleep 1;
 							
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							_unit fire [_sMuzzle,_sMuzzle,_mag];
-							sleep 1;
 							
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							deleteVehicle _dc;
 							_unit doWatch objNull;
-							}
+							}, [_unit,_dc,_sMuzzle,_mag], 1] call CBA_fnc_waitAndExecute;
+							}, [_unit,_dc,_sMuzzle,_mag], 1] call CBA_fnc_waitAndExecute;
+							}, [_unit,_dc,_sMuzzle,_mag], 3] call CBA_fnc_waitAndExecute;
+							}, [_unit,_dc,_sMuzzle,_mag], 0.1] call CBA_fnc_waitAndExecute;
+							};
 
 						}
 					else
 						{
-						[_unit,_posT,_dc,_dst2D,_sMuzzle,_mag] spawn 
+						[_unit,_posT,_dc,_dst2D,_sMuzzle,_mag] call  
 							{
-							_unit = _this select 0;
-							_posT = _this select 1;
-							_dc = _this select 2;
-							_dst2D = _this select 3;
-							_sMuzzle = _this select 4;
-							_mag = _this select 5;	
+							params ["_unit","_posT","_dc","_dst2D","_sMuzzle","_mag"];
 												
 							_posT = [(_posT select 0) - ((wind select 0) * _dst2D * 0.25),(_posT select 1) - ((wind select 1) * _dst2D * 0.25),_posT select 2];
 								
 							_dc setPosATL _posT;
 							
 							_unit doWatch _dc;
-							sleep 1;
-							
+
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							_unit selectWeapon _sMuzzle;
 							_unit fire [_sMuzzle,_sMuzzle,_mag];
 							
-							sleep 0.1;
-						
+
+							call [{params ["_unit","_dc","_sMuzzle","_mag"];
 							_unit doWatch objNull;
 							deleteVehicle _dc;
-							}
+							}, [_unit,_dc,_sMuzzle,_mag], 0.1] call CBA_fnc_waitAndExecute;
+							}, [_unit,_dc,_sMuzzle,_mag], 1] call CBA_fnc_waitAndExecute;
+							};
 						};
 						
 					_Scount = _Scount + 1
+					_gp setVariable ["_Scount",_Scount];
 					}
-				}
-			foreach RydxHQ_SmokeMuzzles;
-			};
+				};
 			
+			{
+			[{
+			_i = _this select 7;
+			[_x,_unit,_mags,_magsR,_muzzles,_nE,_Scount,_gp] call _RYD_SMOKE_CODE;
+			},[_unit,_mags,_magsR,_muzzles,_nE,_Scount,_gp,_i+1],_i] call CBA_fnc_execAfterNFrames;} forEach RydxHQ_SmokeMuzzles;
+			};
+
+		_Scount = _gp getVariable ["_Scount",0];
 		if not (((vehicle _x) == _x) and not (_lastV == (vehicle _x))) then {_lastV = vehicle _x;_lastV selectWeapon "SmokeLauncher";_lastV fire "SmokeLauncher";_Scount = _Scount + 1};
 		if (_Scount > 2) exitwith {};
 		}
-	foreach (units _gp)	
+	};
+	};
+	{
+	[{
+	_i2 = _this select 3;
+	[_gp,_nE] call _RYD_SMOKE2;
+	},[_gp,_nE,_i2+1],_i2] call CBA_fnc_execAfterNFrames;} foreach (units _gp);
 	};
 
 RYD_isNight = 
-	{//math by CarlGustaffa
-	//private ["_lat","_day","_hour","_sunangle","_isNight"];
+	{
 	private ["_isNight"];
 	
 	_isNight = not ((sunOrMoon - ((overcast/2)^(2 - overcast))) > 0.15); 
-
-	/*_isNight = false;
-
-	_lat = -1 * getNumber(configFile >> "CfgWorlds" >> worldName >> "latitude"); 
-	_day = 360 * (dateToNumber date); 
-	_hour = (daytime / 24) * 360; 
-	_sunangle = ((12 * (cos _day) - 78) * (cos _lat) * (cos _hour)) - (24 * (sin _lat) * (cos _day)); 
-
-	if (_sunangle < -10) then {_isNight = true};*/
 
 	_isNight
 	};
@@ -2210,22 +2218,15 @@ RYD_Flares =
 	{
 	_SCRname = "Flares";
 	
-	private ["_gp","_UL","_nE","_inDef","_Scount","_lat","_day","_hour","_sunangle","_arty","_flare","_shells","_pos","_CFF","_ldr"];
-
-	_gp = _this select 0;
-	_arty = _this select 2;
-	_shells = _this select 3;
-	_ldr = _this select 4;
+	private ["_UL","_nE","_inDef","_Scount","_lat","_day","_hour","_sunangle","_flare","_pos","_CFF"];
+	params ["_gp","_flare","_arty","_shells","_ldr"];
 
 	_UL = leader _gp;
-
 	_inDef = true;
 
 	while {_inDef} do
 		{
 		sleep (60 + (random 60));
-
-		_flare = _this select 1;
 
 		if (_flare) then
 			{
