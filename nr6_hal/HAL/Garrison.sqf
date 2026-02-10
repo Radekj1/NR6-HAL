@@ -1,7 +1,6 @@
 _SCRname = "Garrison";
+params ["_HQ","_recArr"];
 
-_HQ = _this select 0;
-_recArr = _this select 1;
 _Garrison = _HQ getVariable ["RydHQ_Garrison",[]];
 _garrRange = _HQ getVariable ["RydHQ_GarrRange",1];
 
@@ -154,8 +153,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 					{
 					_ix = floor (random (count _posAll));
 					_posS = _posAll select _ix;
-					_bld = _posS select 1;
-					_posS = _posS select 0;
+					_posS params ["_posS","_bld"];
 					_ct = 0;
 
 					_posTaken = missionnamespace getVariable ["PosTaken",[]];
@@ -190,8 +188,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 								_posTaken pushBack _posS;
 								_posTaken = _posTaken - [0];
 								missionnamespace setVariable ["PosTaken",_posTaken];
-								//[_x,_posS,_bld,[_posTaken,_ix],_HQ] spawn RYD_GarrS;
-								[[_x,_posS,_bld,[_posTaken,_ix],_HQ],RYD_GarrS] call RYD_Spawn;
+								[_x,_posS,_bld,[_posTaken,_ix],_HQ] call RYD_GarrS;
 								_units = _units - [_x]
 								}
 							}
@@ -238,8 +235,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			
 			if ((count _patrolPos) > 1) then 
 				{
-				//[_unitG,_patrolPos,_HQ] spawn RYD_GarrP
-				[[_unitG,_patrolPos,_HQ],RYD_GarrP] call RYD_Spawn;
+				[_unitG,_patrolPos,_HQ] call RYD_GarrP
 				}
 			else
 				{
@@ -284,3 +280,4 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 	
 		}
 	};
+
