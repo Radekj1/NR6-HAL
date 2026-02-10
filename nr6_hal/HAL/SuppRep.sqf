@@ -2,8 +2,7 @@ _SCRname = "SuppRep";
 
 private ["_HQ","_rep","_noenemy","_repS","_repSG","_damaged","_Sdamaged","_Ldamaged","_av","_rtrs","_rt","_unitvar","_busy","_unable","_rtrs2","_SDunits","_a","_rtr","_SDunit","_halfway","_distT","_eClose1",
 	"_eClose2","_UL","_Dunits","_Dunit","_supported"];
-	
-_HQ = _this select 0;
+params ["_HQ"];
 
 _rep = RHQ_Rep + RYD_WS_rep - RHQs_Rep;
 _noenemy = true;
@@ -159,8 +158,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				_HQ setVariable ["RydHQ_RSupportedG",_supported];
 				
 				//_HQ setVariable ["RydHQ_RSupportedG",(_HQ getVariable ["RydHQ_RSupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_RSupportedG",[]])),(group _SDunit)]];
-				//[_rtr,_SDunit,_damaged,_HQ] spawn HAL_GoRepSupp; 
-				[[_rtr,_SDunit,_damaged,_HQ],HAL_GoRepSupp] call RYD_Spawn;
+				[_rtr,_SDunit,_damaged,_HQ] call HAL_GoRepSupp;
 				}
 			else
 				{
@@ -241,8 +239,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 				_HQ setVariable ["RydHQ_RSupportedG",_supported];
 				
 				//_HQ setVariable ["RydHQ_RSupportedG",(_HQ getVariable ["RydHQ_RSupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_RSupportedG",[]])),(group _Dunit)]];
-				//[_rtr,_Dunit,_damaged,_HQ] spawn HAL_GoRepSupp; 
-				[[_rtr,_Dunit,_damaged,_HQ],HAL_GoRepSupp] call RYD_Spawn;
+				[_rtr,_Dunit,_damaged,_HQ] call HAL_GoRepSupp; 
 				}
 			else
 				{
@@ -260,3 +257,4 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 		}
 	foreach _rtrs2;
 	};
+
