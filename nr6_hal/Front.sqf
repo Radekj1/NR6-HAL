@@ -4,9 +4,7 @@ private ["_front","_pos","_att","_XAxis","_YAxis","_dir","_isRec","_code","_code
 
 _code = 
 	{
-	_HQ = _this select 0;
-	_front = _this select 1;
-	_ia = _this select 2;
+	params ["_HQ","_front","_ia"];
 						
 	while {not (isNull _HQ)} do
 		{
@@ -24,14 +22,7 @@ _code =
 	
 _code2 =
 	{
-	_HQ = _this select 0;
-	_front = _this select 1;
-	_isRec = _this select 2;
-	_pos = _this select 3;
-	_XAxis = _this select 4;
-	_YAxis = _this select 5;
-	_dir = _this select 6;
-	_code = _this select 7;
+	params ["_HQ","_front","_isRec","_pos","_XAxis","_YAxis","_dir","_code"];
 	
 	_alive = true;
 	
@@ -69,7 +60,7 @@ _code2 =
 		_ia setMarkerBrush "Border";
 		_ia setMarkerColor "ColorKhaki";
 		_SCRname = "Front2";				
-		[[_HQ,_front,_ia],_code] call RYD_Spawn
+		[_HQ,_front,_ia] call_code;
 		}
 	};
 			
@@ -80,10 +71,7 @@ _code2 =
 		{
 		_pos = position _front;
 		_att = triggerArea _front;
-		_XAxis = _att select 0;
-		_YAxis = _att select 1;
-		_dir = _att select 2;
-		_isRec = _att select 3;
+		_att params ["_XAxis","_YAxis","_dir","_isRec"];
 
 		_front = createLocation ["Name", _pos, _XAxis, _YAxis];
 		_front setDirection _dir;
@@ -91,7 +79,8 @@ _code2 =
 		
 		_x setVariable ["RydHQ_Front",_front];
 
-		[[_x,_front,_isRec,_pos,_XAxis,_YAxis,_dir,_code],_code2] call RYD_Spawn		
+		[_x,_front,_isRec,_pos,_XAxis,_YAxis,_dir,_code] call _code2;		
 		}
 	}
+
 foreach RydxHQ_AllHQ;
