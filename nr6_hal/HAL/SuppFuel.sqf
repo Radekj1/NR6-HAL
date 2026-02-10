@@ -2,8 +2,7 @@ _SCRname = "SuppFuel";
 
 private ["_HQ","_fuel","_noenemy","_fuelS","_fuelSG","_dried","_ZeroF","_av","_cisterns","_cis","_unitvar","_busy","_unable","_cisterns2","_Zunits","_a","_cistern","_Zunit","_noenemy","_halfway","_distT",
 	"_eClose1","_eClose2","_UL","_Dunits","_Dunit","_supported"];
-
-_HQ = _this select 0;
+params ["_HQ"];
 
 _fuel = RHQ_Fuel + RYD_WS_fuel - RHQs_Fuel;
 _noenemy = true;
@@ -168,8 +167,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				_HQ setVariable ["RydHQ_FSupportedG",_supported];
 				
 				//_HQ setVariable ["RydHQ_FSupportedG",(_HQ getVariable ["RydHQ_FSupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_FSupportedG",[]])),(group _Zunit)]];
-				//[_cistern,_Zunit,_dried,_HQ] spawn HAL_GoFuelSupp;
-				[[_cistern,_Zunit,_dried,_HQ],HAL_GoFuelSupp] call RYD_Spawn;
+				[_cistern,_Zunit,_dried,_HQ] call HAL_GoFuelSupp;
 				}
 			else
 				{
@@ -250,8 +248,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 				_HQ setVariable ["RydHQ_FSupportedG",_supported];
 				
 				//_HQ setVariable ["RydHQ_FSupportedG",(_HQ getVariable ["RydHQ_FSupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_FSupportedG",[]])),(group _Dunit)]];
-				//[_cistern,_Dunit,_dried,_HQ] spawn HAL_GoFuelSupp; 
-				[[_cistern,_Dunit,_dried,_HQ],HAL_GoFuelSupp] call RYD_Spawn;
+				[_cistern,_Dunit,_dried,_HQ] call HAL_GoFuelSupp; 
 				}
 			else
 				{
@@ -269,3 +266,4 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 		}
 	foreach _cisterns2;
 	};
+
