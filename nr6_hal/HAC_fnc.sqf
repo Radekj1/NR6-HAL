@@ -2058,7 +2058,7 @@ RYD_CreateDecoy =
 RYD_Smoke = {
 	private ["_i2"];
 	params ["_gp","_nE"];
-	_i2 = 40; ///higher value to keep it from overloading the script
+	_i2 = 0;
 
 	private _RYD_SMOKE2 = {
 
@@ -2087,12 +2087,12 @@ RYD_Smoke = {
 			foreach _magsR;
 			 
 			private _RYD_SMOKE_CODE = {
-				params ["_x","_unit","_mags","_magsR","_muzzles","_nE","_Scount","_gp"];
+				params ["_SmokeNade","_unit","_mags","_magsR","_muzzles","_nE","_Scount","_gp"];
 				private ["_sMuzzle","_mag","_dst","_dst2D","_hgt","_posF","_posT","_dc"];
 				_Scount = _gp getVariable ["_Scount",0];
 				_sMuzzle = "";
 				_mag = "";
-				
+				_x = _SmokeNade;
 				if ((params ["_x"]) in _muzzles) then
 					{
 					_sMuzzle = params ["_x"];
@@ -2188,7 +2188,8 @@ RYD_Smoke = {
 			{
 			[{
 			_i = _this select 7;
-			[_x,_unit,_mags,_magsR,_muzzles,_nE,_Scount,_gp] call _RYD_SMOKE_CODE;
+			private _SmokeNade = _x;
+			[_SmokeNade,_unit,_mags,_magsR,_muzzles,_nE,_Scount,_gp] call _RYD_SMOKE_CODE;
 			},[_unit,_mags,_magsR,_muzzles,_nE,_Scount,_gp,_i+1],_i] call CBA_fnc_execAfterNFrames;} forEach RydxHQ_SmokeMuzzles;
 			};
 
@@ -2200,9 +2201,9 @@ RYD_Smoke = {
 	};
 	{
 	[{
-	_i2 = _this select 3;
+	_i2 = _this select 2;
 	[_gp,_nE] call _RYD_SMOKE2;
-	},[_gp,_nE,_i2+1],_i2] call CBA_fnc_execAfterNFrames;} foreach (units _gp);
+	},[_gp,_nE,_i2+40],_i2] call CBA_fnc_execAfterNFrames;} foreach (units _gp);
 	};
 
 RYD_isNight = 
@@ -2215,7 +2216,7 @@ RYD_isNight =
 	};
 
 RYD_Flares = 
-	{
+	{//TO DO AT HOME
 	_SCRname = "Flares";
 	
 	private ["_UL","_nE","_inDef","_Scount","_lat","_day","_hour","_sunangle","_flare","_pos","_CFF"];
@@ -2356,16 +2357,18 @@ RYD_Flares =
 
 RYD_ArtyPrep = 
 	{
-	private ["_arty","_amount","_vh","_handled","_magTypes","_mags","_tp","_cnt"];	
-
-	_arty = _this select 0;
-	_amount = _this select 1;
-	
+	private ["_vh","_handled","_magTypes","_mags","_tp","_cnt","_i2"];	
+	params ["_arty","_amount"];
+	_i2 = 0; 
 	_amount = ceil _amount;
 	//if (_amount < 2) exitWith {};
 
-		{		
-			{
+		private _Arty_Prep2 = {
+		private _i = 0;
+		private _Arty_Prep1 = {
+			params ["_thisunit","_amount"];
+			_x = _thisunit;
+			private ["_vh","_handled","_magTypes","_mags","_tp","_cnt"];
 			_vh = vehicle _x;
 			_handled = _vh getVariable ["RydHQArtyAmmoHandled",false];
 			
@@ -2390,24 +2393,32 @@ RYD_ArtyPrep =
 				foreach _magTypes
 				}
 			}
-		foreach (units _x)
+		{[{
+		private _thisunit = _x;
+		_i = _this select 1;
+		["_thisunit","_amount"] call _Arty_Prep1;
+		},[_amount,_i+1],_i] call CBA_fnc_execAfterNFrames;} foreach (units _x);
 		}
-	foreach _arty;
+	{[{
+	private _thisarty = _x;
+	_i2 = _this select 1;
+	["_thisarty","_amount"] call _Arty_Prep2;
+	},[_amount,_i2+10],_i2] call CBA_fnc_execAfterNFrames;} foreach _arty;
 	};
 
-RYD_CFF_TGT = 
+RYD_CFF_TGT = //WIP finish at home
 	{//_tgt = [RydHQ_KnEnemies] call RYD_CFF_TGT;
-	private ["_enemies","_targets","_target","_nothing","_potential","_potL","_taken","_candidate","_CL","_vehFactor","_artFactor","_crowdFactor","_veh","_nearImp","_ValMax","_trgValS",
-	"_temptation","_vh","_HQfactor","_nearCiv"];
-
-	_enemies = _this select 0;
+	private ["_targets","_target","_nothing","_potential","_potL","_taken","_candidate","_CL","_vehFactor","_artFactor","_crowdFactor","_veh","_nearImp","_ValMax","_trgValS",
+	"_temptation","_vh","_HQfactor","_nearCiv","_i"];
+	params ["_enemies"];
 
 	_targets = [];
 	_target = objNull;
 	_temptation = 0;
 	_nothing = 0;
-
-		{
+	_i = 0
+	private _enemyCode = {
+		params ["_enemyTargets"];
 		_potential = vehicle _x;
 		
 		if not (isNil "_potential") then
@@ -2450,10 +2461,19 @@ RYD_CFF_TGT =
 					}
 				}
 			}
-		}
-	foreach _enemies;
+		};
+	{[{
+	private _thisEnemy = _x;
+	_i = _this select 1;
+	["_enemyTargets"] call _enemyCode;
+	},[_enemyTargets,_i+1],_i] call CBA_fnc_execAfterNFrames;} foreach _enemies;
+	
+// need to synchronise bottom code with upper one for non-scheduled execution
 
-		{
+	private _temptingCode = {
+		params ["_thistarget"];
+		private ["_candidate","_CL","_temptation","_vehFactor","_artFactor","_HQFactor","_veh"];
+		_x = _thistarget;
 		_candidate = _x;
 		_CL = leader _candidate;
 
@@ -2474,7 +2494,9 @@ RYD_CFF_TGT =
 		_nearImp = (getPosATL _CL) nearEntities [["CAManBase","AllVehicles","Strategic","WarfareBBaseStructure","Fortress"],100];
 		_nearCiv = false;
 
-			{
+		private _PossVictim = {
+			params ["_Witness","_crowdFactor"];
+			_x = _Witness;
 			if (_x isKindOf "civilian") exitWith {_nearCiv = true};
 			if (((side _x) getFriend (side _CL)) >= 0.6) then 
 				{
@@ -2485,18 +2507,22 @@ RYD_CFF_TGT =
 					_crowdFactor = _crowdFactor + 0.2;
 					if ((toLower (typeOf _vh)) in RydHQ_AllArty) then 
 						{
-						_crowdFactor = _crowdFactor + 0.2
+						_crowdFactor = _crowdFactor + 0.2;
 						}
 					}
 				};
 			}
-		foreach _nearImp;
+		{[{
+		private _EntintyNearTarget = _x;
+		_i = _this select 1;
+		["_EntintyNearTarget","_crowdFactor"] call _PossVictim;
+		},[_Witness,_crowdFactor_i+1],_i] call CBA_fnc_execAfterNFrames;} foreach _nearImp;
 
 		if (_CL in RydxHQ_AllLeaders) then {_HQFactor = 20};
 
 		if (_nearCiv) then 
 			{
-			_targets deleteAt _foreachIndex
+			_targets deleteAt _foreachIndex;
 			}
 		else
 			{
@@ -2510,7 +2536,11 @@ RYD_CFF_TGT =
 			_candidate setVariable ["CFF_Temptation",_temptation]
 			}
 		}
-	foreach _targets;
+	{[{
+	private _thistarget = _x;
+	_i = _this select 1;
+	["_thistarget"] call _temptingCode;
+	},[_thistarget,_i+10],_i] call CBA_fnc_execAfterNFrames;} foreach _targets;
 	
 	_ValMax = 0;
 
@@ -2531,6 +2561,7 @@ RYD_CFF_TGT =
 			_nothing = 1
 			}
 		};
+	// need to synchronise bottom code with upper one for non-scheduled execution
 
 	_target
 	};
@@ -2539,12 +2570,8 @@ RYD_CFF_Fire =
 	{
 	_SCRname = "CFF_Fire";
 	
-	private ["_battery","_pos","_ammo","_amount","_guns","_vh","_mags","_amount0","_eta","_alive","_available","_perGun","_rest","_aGuns","_perGun1","_shots","_toFire","_rest0","_bad","_ammoC","_ws","_code"];
-	
-	_battery = _this select 0;
-	_pos = _this select 1;
-	_ammo = _this select 2;
-	_amount = _this select 3;
+	private ["_guns","_vh","_mags","_amount0","_eta","_alive","_available","_perGun","_rest","_aGuns","_perGun1","_shots","_toFire","_rest0","_bad","_ammoC","_ws","_code"];
+	params ["_battery","_pos","_ammo","_amount"];
 	
 	_eta = -1;
 	
@@ -2588,7 +2615,7 @@ RYD_CFF_Fire =
 	
 	_perGun = floor (_amount/_aGuns);
 	_rest = _amount - (_perGun * _aGuns);
-			
+	// SKIP FRAME FOR CODE BELOW VIA CBA_NEXTFRAME	
 		{
 		_shots = _x getVariable ["RydHQ_MyShots",0];
 		if not (_shots > _perGun) then
@@ -2605,9 +2632,9 @@ RYD_CFF_Fire =
 			};
 		}
 	foreach _guns;
-	
+	// ADD CBA_FNC_WAITUNITLANDEXECUTE,
 	_bad = false;
-		
+	// REPLACE WHILE WITH PERFRAMEHANDLER / WORKAROUND
 	while {(_rest > 0)} do
 		{
 		_rest0 = _rest;
@@ -2627,7 +2654,7 @@ RYD_CFF_Fire =
 				}		
 			}
 		foreach _guns;
-		
+		//SYNC BELOW WITH PERFRAMEHANDLER RESULT
 		if (not (_rest0 > _rest) and (_rest > 0)) exitWith {_bad = true}
 		};
 		
@@ -2636,11 +2663,8 @@ RYD_CFF_Fire =
 	_code =
 		{
 		_SCRname = "ArtyFiring";
-		
-		_vh = _this select 0;
-		_pos = _this select 1;
-		_ammo = _this select 2;
-		
+		params ["_vh","_pos","_ammo"];
+
 		if (_pos inRangeOfArtillery [[_vh],_ammo]) then
 			{
 			if (_ammo in (getArtilleryAmmo [_vh])) then
@@ -2652,7 +2676,7 @@ RYD_CFF_Fire =
 					_vh loadMagazine [[0],currentWeapon _vh,_ammo]; 
 					
 					_ct = time;
-					
+			// Overhaul code below waituntils and sleeps...
 					waitUntil
 						{
 						sleep 0.1;
@@ -2698,12 +2722,12 @@ RYD_CFF_Fire =
 			case not (alive _x) : {_guns set [_foreachIndex,objNull]};
 			}
 		}
-	foreach _guns;
+	foreach _guns; //SMALL LOOP, can ignore, perhaps start a next frame here.
 	
 	_guns = _guns - [objNull];
 	
 	if ((count _guns) < 1) exitwith {-1};
-		
+		//LOOP Calling _code. _code need to be called in separate frame, Guns Loop can be called like every 3-8 frames
 		{
 		if not (isNull _x) then
 			{
@@ -2736,24 +2760,13 @@ RYD_CFF_Fire =
 						_eta = _newEta
 						};
 
-					[[_vh,_pos,_ammoC],_code] call RYD_Spawn
+					[_vh,_pos,_ammoC] call _code; //[] call CBA_fnc_nextFrame;
 					}
 				}
 			}
 		}
 	foreach _guns;
-		
-		/*{
-		if not (isNull _x) then
-			{
-				{
-				(vehicle _x) setVariable ["RydHQ_GunFree",true]
-				}
-			foreach (units _x)
-			}			
-		}
-	foreach _battery;*/
-		
+	
 	_eta
 	};
 
@@ -2761,13 +2774,8 @@ RYD_ArtyMission =
 	{//_bArr = [_tgtPos,RydHQ_ArtG,"SADARM",6,leaderHQ] call RYD_ArtyMission;
 	_SCRname = "ArtyMission";
 	
-	private ["_pos","_arty","_ammoG","_amount","_FO","_ammo","_possible","_battery","_agp","_artyAv","_vehs","_gp","_hasAmmo","_checked","_vh","_tp","_inRange","_pX","_pY","_pZ","_ammoArr","_code","_allAmmo"];
-
-	_pos = _this select 0;
-	_arty = _this select 1;
-	_ammoG = _this select 2;
-	_amount = _this select 3;
-	_FO = _this select 4;
+	private ["_ammo","_possible","_battery","_agp","_artyAv","_vehs","_gp","_hasAmmo","_checked","_vh","_tp","_inRange","_pX","_pY","_pZ","_ammoArr","_code","_allAmmo"];
+	params [["_pos","_arty","_ammoG","_amount","_FO"];
 
 	_ammo = "";
 	_ammoArr = [];
@@ -2780,7 +2788,7 @@ RYD_ArtyMission =
 	_artyAv = [];
 	_vehs = 0;
 	_allAmmo = 0;
-
+		//LOOP FIRST START - TO BE SPLIT
 		{
 		_gp = _x; 
 		if not (isNull _gp) then
@@ -2789,7 +2797,7 @@ RYD_ArtyMission =
 				{
 				_hasAmmo = 0;
 				_checked = [];
-				
+					//LOOP SECOND START - TO BE SPLIT
 					{
 					_vh = vehicle _x;
 					if not (_vh in _checked) then
@@ -2919,6 +2927,7 @@ RYD_ArtyMission =
 					if not (_vehs < _amount) exitWith {}
 					}
 				foreach (units _gp);
+				//LOOP SECOND END - TO BE SPLIT
 
 				if (_hasAmmo > 0) then
 					{
@@ -2932,7 +2941,9 @@ RYD_ArtyMission =
 		if not (_allAmmo < _amount) exitWith {}
 		}
 	foreach _arty;
-	
+	//LOOP FIRST END - TO BE SPLIT
+	//DELAY CODE BELOW, UNTILL _arty loop finishes
+
 	if not ((count _artyAv) == 0) then
 		{
 		_battery = _artyAv;
@@ -2948,40 +2959,35 @@ RYD_ArtyMission =
 					}
 				}
 			foreach _battery;
-
-			_pX = _pos select 0;
-			_pY = _pos select 1;
-			_pZ = _pos select 2;
+			_pos params ["_pX","_pY","_pZ"];
 
 			_pX = _pX + (random 100) - 50;
 			_pY = _pY + (random 100) - 50;
 			_pZ = _pZ + (random 20) - 10;
 
 			_pos = [_pX,_pY,_pZ];
-//_i = [_pos,(random 1000),"markArty","ColorRed","ICON","mil_dot",_ammoG,"",[0.75,0.75]] call RYD_Mark;
+
 			_code =
 				{
-				_battery = _this select 0;
-				_pos = _this select 1;
-				_ammo = _this select 2;
+				params ["_battery","_pos","_ammo"];
 				_FO = getPosASL (_this select 3);
 				_amount = _this select 4;
 				_ammoG = _this select 5;
 
 				if (_ammoG == "ILLUM") then 
 					{
-					[_battery,_pos,_ammo,_amount] call RYD_CFF_Fire;
+					[_battery,_pos,_ammo,_amount] call RYD_CFF_Fire; // CALL CBA_FNC_NEXTFRAME;
 					}
 				else
 					{
-					_angle = [_FO,_pos,10] call RYD_AngTowards;
-					_pos2 = [_pos,_angle + 110,200 + (random 100) - 50] call RYD_PosTowards2D;
-					_pos3 = [_pos,_angle - 110,200 + (random 100) - 50] call RYD_PosTowards2D;
-					//_i2 = [_pos2,(random 1000),"markArty","ColorRed","ICON","mil_dot",_ammoG,"",[0.75,0.75]] call RYD_Mark;
-					//_i3 = [_pos3,(random 1000),"markArty","ColorRed","ICON","mil_dot",_ammoG,"",[0.75,0.75]] call RYD_Mark;
+					_angle = [_FO,_pos,10] call RYD_AngTowards;										// CALL CBA_FNC_NEXTFRAME;
+					_pos2 = [_pos,_angle + 110,200 + (random 100) - 50] call RYD_PosTowards2D;		// CALL CBA_FNC_NEXTFRAME;
+					_pos3 = [_pos,_angle - 110,200 + (random 100) - 50] call RYD_PosTowards2D;		// CALL CBA_FNC_NEXTFRAME;
+					//_i2 = [_pos2,(random 1000),"markArty","ColorRed","ICON","mil_dot",_ammoG,"",[0.75,0.75]] call RYD_Mark;	// CALL CBA_FNC_NEXTFRAME;
+					//_i3 = [_pos3,(random 1000),"markArty","ColorRed","ICON","mil_dot",_ammoG,"",[0.75,0.75]] call RYD_Mark;	// CALL CBA_FNC_NEXTFRAME;
 
 						{
-						[_battery,_x,_ammo,ceil (_amount/3)] call RYD_CFF_Fire;
+						[_battery,_x,_ammo,ceil (_amount/3)] call RYD_CFF_Fire; // CALL CBA_FNC_NEXTFRAME;
 								
 						_ct = 0;
 						waitUntil 
