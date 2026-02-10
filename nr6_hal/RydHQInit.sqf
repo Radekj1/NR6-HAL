@@ -383,7 +383,7 @@ if (RydBB_Active) then
 				_x setVariable ["BBProgress",0]
 				}
 			foreach _BBHQGrps;
-			[[_x,_BBHQGrps],Boss] call RYD_Spawn
+			[_x,_BBHQGrps] call Boss;
 			};
 
 		sleep 1;
@@ -391,23 +391,24 @@ if (RydBB_Active) then
 	foreach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
 	};
 
-if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
+if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[] call RYD_DbgMon};
 
-if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [(group leaderHQ)] call A_HQSitRep; [(group leaderHQ)] call HAL_FBFTLOOP; [(group leaderHQ)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] call B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] call B_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] call B_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] call B_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] call B_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] call B_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] call B_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] call HAL_SecTasks; sleep 5};
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{	
-	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
+	[RydHQ_GroupMarks] call RYD_GroupMarkerLoop;
 	};
 {
 if (RydxHQ_Actions) then {
 nul = [] call compile (RYD_Path + "SquadTaskingNR6Init.sqf");
 };
+
 } call CBA_fnc_directCall;
