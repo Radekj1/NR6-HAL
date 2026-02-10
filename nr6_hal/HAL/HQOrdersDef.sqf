@@ -6,8 +6,7 @@ private ["_HQ","_defRange","_LMCU","_airDef","_recDef","_allInDef","_goodSpots",
 	"_defFront","_goodmark","_spotsN","_goodSpotsRec","_angleV","_Spot","_GS","_recDefSpot","_isDef","_closestArr","_friend","_dstM","_arrP","_AAO","_ad",
 	"_dstAct","_aa","_Spot","_defSpot","_def","_bb","_SpotB","_radius","_position","_precision","_sourcesCount","_expression","_NR","_cnt","_Rpoint","_ammo",
 	"_dL","_d1","_d2","_d3","_d4","_Unable","_defPointsBB","_defPointsOBJ","_exhausted","_unitvar","_busy","_vehready","_solready","_effective","_Gdamage","_nominal","_current","_veh","_inD","_recvar"];
-
-_HQ = _this select 0;
+params ["HQ"];
 
 _defRange = _HQ getVariable ["RydHQ_DefRange",1];
 
@@ -295,7 +294,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 					
 					if (not (_resting) and not (_Unable) and not (_IsAPlayer)) then
 						{
-						[[_x,_HQ,true],HAL_GoRest] call RYD_Spawn;
+						[_x,_HQ,true] call HAL_GoRest;
 						//_exhausted pushBack _x
 						}
 					}; 
@@ -594,8 +593,7 @@ _recDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 								_goodSpots set [_aa,0]; 
 								_goodSpots = _goodSpots - [0];
 								_closestArr set [1,_goodSpots];
-								//[_x,_Spot,_angleV,_HQ] spawn HAL_GoDefRecon;
-								[[_x,_Spot,_angleV,_HQ],HAL_GoDefRecon] call RYD_Spawn;
+								[_x,_Spot,_angleV,_HQ] call HAL_GoDefRecon;
 								_recDefSpot pushBack _x;
 								_HQ setVariable ["RydHQ_RecDefSpot",_recDefSpot];
 								}
@@ -665,8 +663,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 										_goodSpots set [_bb,0]; 
 										_goodSpots = _goodSpots - [0];
 										_closestArr set [2,_goodSpots];
-										//[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] spawn HAL_GoDef;
-										[[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ],HAL_GoDef] call RYD_Spawn;
+										[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] call HAL_GoDef;
 										_defSpot = _HQ getVariable ["RydHQ_DefSpot",[]];
 										_defSpot pushBack _x;
 										_HQ setVariable ["RydHQ_DefSpot",_defSpot];
@@ -725,8 +722,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 								_HQ setVariable ["RydHQ_AirInDef",_AirInDef];	
 
 								_ad setVariable [("Busy" + (str _ad)), false];
-								//[_ad,_Spot,_HQ] spawn HAL_GoDefAir;
-								[[_ad,_Spot,_HQ],HAL_GoDefAir] call RYD_Spawn;
+								[_ad,_Spot,_HQ] call HAL_GoDefAir;
 								}
 							}
 						}
@@ -814,8 +810,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 												};
 											};
 
-										//[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] spawn HAL_GoDef;
-										[[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ],HAL_GoDef] call RYD_Spawn;
+										[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] call HAL_GoDef;
 										};
 									};
 								};
@@ -903,8 +898,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 												};
 											};
 										
-										//[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] spawn HAL_GoDef;
-										[[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ],HAL_GoDef] call RYD_Spawn;
+										[_x,_Spot,_dXb,_dYb,_DN,_angleV,_HQ] call HAL_GoDef;
 										}
 									}
 								}
@@ -937,12 +931,12 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 							{
 							if (not (_ad getVariable ["Busy" + (str _ad),false]) and not (_ad in (_HQ getVariable ["RydHQ_AirInDef",[]]))) then
 								{
-								_closestArr = _defArray select 0;
+								_defArray params ["_closestArr"];
 								_friend =  vehicle (leader _ad);
 								_dstM = _friend distance (_closestArr select 0);
 									
 									{
-									_arrP = _x select 0;
+									_x params ["_arrP"];
 									_dstAct = _arrP distance _friend;
 									if (_dstAct < _dstM) then {_dstM = _dstAct;_closestArr = _x}
 									}
@@ -957,8 +951,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 								_HQ setVariable ["RydHQ_AirInDef",_AirInDef];
 								
 								_ad setVariable [("Busy" + (str _ad)), false];
-								//[_ad,_Spot,_HQ] spawn HAL_GoDefAir
-								[[_ad,_Spot,_HQ],HAL_GoDefAir] call RYD_Spawn;
+								[_ad,_Spot,_HQ] call HAL_GoDefAir
 								}
 							}
 						}
@@ -997,8 +990,7 @@ switch ((random 100) >= (50/(0.5 + (_HQ getVariable ["RydHQ_Fineness",0.5])))) d
 
 								_Spot = (selectrandom _defArray) select 0;
 
-								//[_x,_Spot,_HQ] spawn HAL_GoDefRes;
-								[[_x,_Spot,_HQ],HAL_GoDefRes] call RYD_Spawn;
+								[_x,_Spot,_HQ] call HAL_GoDefRes;
 								
 								}
 							}
@@ -1030,9 +1022,10 @@ foreach ((_HQ getVariable ["RydHQ_DefRes",[]]) - (_HQ getVariable ["RydHQ_NoDef"
 		{
 		deleteWaypoint ((waypoints _x) select 0);
 		//[_x,_HQ] spawn HAL_GoIdle
-			[[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ],HAL_GoDefNav] call RYD_Spawn;
+			[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ] call HAL_GoDefNav;
 		};
 	}
 foreach (_HQ getVariable ["RydHQ_NavalG",[]]);
 
 _HQ setVariable ["DeldefPointsOBJ",_defPointsOBJ];
+
