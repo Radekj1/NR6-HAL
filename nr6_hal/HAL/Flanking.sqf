@@ -1,10 +1,9 @@
 _SCRname = "Flanking";
 
-private ["_HQ","_ldr","_Fineness","_obj","_KnEnemies","_FlankAv","_Epos0","_Epos1","_default","_Epos0Max","_Epos0Min","_sel0Max","_sel0Min","_Epos1Max","_Epos1Min","_sel1Max","_sel1Min",
+private ["_ldr","_Fineness","_obj","_KnEnemies","_FlankAv","_Epos0","_Epos1","_default","_Epos0Max","_Epos0Min","_sel0Max","_sel0Min","_Epos1Max","_Epos1Min","_sel1Max","_sel1Min",
 	"_EposA","_EposB","_max0Enemy","_min0Enemy","_max1Enemy","_min1Enemy","_PosMid0","_PosMid1","_dX","_dY","_angle0","_BEnemyPosA","_BEnemyPosB","_BEnemyPos","_rnd1","_rnd2","_minF",
 	"_maxF","_bothF","_FlankU","_AAO"];
-
-_HQ = _this select 0;
+params ["_HQ"];
 
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 
@@ -147,13 +146,11 @@ switch true do
 			{
 			if (_minF) then 
 				{
-				//[_x,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ] spawn HAL_GoFlank
-				[[_x,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ],HAL_GoFlank] call RYD_Spawn;
+				[_x,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ] call HAL_GoFlank;
 				} 
 			else 
 				{
-				//[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] spawn HAL_GoFlank
-				[[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ],HAL_GoFlank] call RYD_Spawn;
+				[[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] call HAL_GoFlank;
 				};
 			}
 		foreach _FlankAv;
@@ -167,17 +164,16 @@ switch true do
 			_FlankU = _FlankAv select _b;
 			if ((_b/2 - floor (_b/2)) == 0) then 
 				{
-				//[_FlankU,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ] spawn HAL_GoFlank;
-				[[_FlankU,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ],HAL_GoFlank] call RYD_Spawn;
+				[_FlankU,_BEnemyPosA,_PosMid0,_PosMid1,_angle0,true,_HQ] call HAL_GoFlank;
 				} 
 			else 
 				{
-				//[_FlankU,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] spawn HAL_GoFlank 
-				[[_FlankU,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ],HAL_GoFlank] call RYD_Spawn;
+				[_FlankU,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] call HAL_GoFlank; 
 				}
 			}		
 		}
 	};
 
 _HQ setVariable ["RydHQ_FlankingDone",true];
+
 _HQ setVariable ["RydHQ_FlankAv",[]];
