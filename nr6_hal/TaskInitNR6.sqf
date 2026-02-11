@@ -238,10 +238,8 @@ Action4ct = {
 	if (_chosen isEqualTo grpNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No air support units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 	_chosen setVariable ["Busy" + (str _chosen),true];
-	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
-								
-	[[_chosen,_trg,_HQ,_request],(["AIR"] call RYD_GoLaunch)] call RYD_Spawn;
-
+	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];								
+	[_chosen,_trg,_HQ,_request] call (["AIR"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched for CAS - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 
@@ -358,8 +356,7 @@ Action5ct = {
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
 								
-	[[_chosen,_trg,_HQ,_request],(["INF"] call RYD_GoLaunch)] call RYD_Spawn;
-
+	[_chosen,_trg,_HQ,_request] call (["INF"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 
@@ -471,8 +468,7 @@ Action6ct = {
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
 								
-	[[_chosen,_trg,_HQ,_request],(["ARM"] call RYD_GoLaunch)] call RYD_Spawn;
-
+	[_chosen,_trg,_HQ,_request] call (["ARM"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 
@@ -565,7 +561,7 @@ Action7ct = {
 	_TransportPriority pushBackUnique (group (_this select 0));
 	(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
 
-	[[_unitG,_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
+	[_unitG,_HQ,getpos (_this select 0),false,true] call HAL_SCargo;
 
 	sleep 15;
 
@@ -600,7 +596,7 @@ Action7ct = {
 		waitUntil {
 			if not ((_unitG getVariable ["CargoCheckPending" + _unitvar,false]) and (_unitG getVariable [("CC" + _unitvar), false]) and not (_unitG getVariable ["CargoChosen", false])) then {
 				_unitG setVariable [("CC" + _unitvar), false, true];
-				[[_unitG,_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
+				[_unitG,_HQ,getpos (_this select 0),false,true] call HAL_SCargo;
 				};
 
 			sleep 5;
@@ -718,7 +714,7 @@ Action8ct = {
 	_ammoBox = (_HQ getVariable ["RydHQ_AmmoBoxes",[]]) select 0;
 	_HQ setVariable ["RydHQ_AmmoBoxes",(_HQ getVariable ["RydHQ_AmmoBoxes",[]]) - [_ammoBox]];
 
-	[[assignedvehicle (leader _FlyBoy),(vehicle (_this select 0)),[],[],true,_ammoBox,_HQ],HAL_GoAmmoSupp] call RYD_Spawn;
+	[assignedvehicle (leader _FlyBoy),(vehicle (_this select 0)),[],[],true,_ammoBox,_HQ] call HAL_GoAmmoSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Supplies are on their way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -813,7 +809,7 @@ Action9ct = {
 
 	if (_AmmoBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No rearming services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	[[_AmmoBoy,(vehicle (_this select 0)),[],[],false,objNull,_HQ,true],HAL_GoAmmoSupp] call RYD_Spawn;
+	[_AmmoBoy,(vehicle (_this select 0)),[],[],false,objNull,_HQ,true] call HAL_GoAmmoSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Ammunition truck is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -904,7 +900,7 @@ Action10ct = {
 
 	if (_FuelBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No refueling services are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	[[_FuelBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoFuelSupp] call RYD_Spawn;
+	[_FuelBoy,(vehicle (_this select 0)),[],_HQ,true] call HAL_GoFuelSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Fuel truck is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -995,7 +991,7 @@ Action11ct = {
 
 	if (_MedBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No ambulances are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	[[_MedBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoMedSupp] call RYD_Spawn;
+	[_MedBoy,(vehicle (_this select 0)),[],_HQ,true] call HAL_GoMedSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Ambulance is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -1086,7 +1082,7 @@ Action12ct = {
 
 	if (_MedBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No MEDEVAC helicopters are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	[[_MedBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoMedSupp] call RYD_Spawn;
+	[_MedBoy,(vehicle (_this select 0)),[],_HQ,true] call HAL_GoMedSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Helicopter is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -1178,7 +1174,7 @@ Action13ct = {
 
 	if (_FixBoy isEqualTo objNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No repair trucks are currently available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
-	[[_FixBoy,(vehicle (_this select 0)),[],_HQ,true],HAL_GoRepSupp] call RYD_Spawn;
+	[_FixBoy,(vehicle (_this select 0)),[],_HQ,true] call HAL_GoRepSupp;
 
 	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Repair truck is on its way - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
@@ -1328,7 +1324,7 @@ ActionGTct = {
 	_TransportPriority pushBackUnique (group (_this select 0));
 	(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 
-	[[_unitG,_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
+	[_unitG,_HQ,getpos (_this select 0),false,true,true] call HAL_SCargo;
 
 	sleep 15;
 
@@ -1363,7 +1359,7 @@ ActionGTct = {
 		waitUntil {
 			if not ((_unitG getVariable ["CargoCheckPending" + _unitvar,false]) and (_unitG getVariable [("CC" + _unitvar), false]) and not (_unitG getVariable ["CargoChosen", false])) then {
 				_unitG setVariable [("CC" + _unitvar), false, true];
-				[[_unitG,_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
+				[_unitG,_HQ,getpos (_this select 0),false,true,true] call HAL_SCargo;
 				};
 
 			sleep 5;
@@ -1531,17 +1527,17 @@ ActionArtct = {
 	_ArtyMenuOrd pushBack ["Cancel Fire Mission", [((count _ArtyMenuOrd) + 1)] , "", -5, [["expression", "player setvariable ['HALArtord',0,true]"]], "1", "1"];
 
 	showCommandingMenu "#USER:_ArtyMenuOrd";
+	params ["_HalArtVar"];
+	waitUntil {sleep 0.2; (not (isnil {_HalArtVar getvariable "HALArtord"}) or not (alive _HalArtVar) or not (_HalArtVar == (leader (group _HalArtVar))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
 
-	waitUntil {sleep 0.2; (not (isnil {(_this select 0) getvariable "HALArtord"}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuOrd"))};
+	if (isnil {_HalArtVar getvariable "HALArtord"}) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtPos",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true]};
 
-	if (isnil {(_this select 0) getvariable "HALArtord"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
+	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtord",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true];_HalArtVar setvariable ["HALArtPos",nil,true]};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
-
-	if (((_this select 0) getvariable "HALArtord") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if ((_HalArtVar getvariable "HALArtord") isEqualTo 0) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtord",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true];_HalArtVar setvariable ["HALArtPos",nil,true]};
 
 	{
-		if ((_x select 0) isEqualTo ((_this select 0) getvariable "HALArtord")) exitwith {_selectedOrd = (_x select 1);(_this select 0) setvariable ["HALArtord",nil,true];};
+		if ((_x select 0) isEqualTo (_HalArtVar getvariable "HALArtord")) exitwith {_selectedOrd = (_x select 1);_HalArtVar setvariable ["HALArtord",nil,true];};
 
 	} foreach _OrdOptions;
 	
@@ -1558,24 +1554,24 @@ ActionArtct = {
 
 	showCommandingMenu "#USER:_ArtyMenuAmnt";
 
-	waitUntil {sleep 0.2; (not (isnil {((_this select 0) getvariable "HALArtAmnt")}) or not (alive (_this select 0)) or not ((_this select 0) == (leader (group (_this select 0)))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
+	waitUntil {sleep 0.2; (not (isnil {(_HalArtVar getvariable "HALArtAmnt")}) or not (alive _HalArtVar) or not (_HalArtVar == (leader (group _HalArtVar))) or not (visibleMap) or not (commandingMenu == "#USER:_ArtyMenuAmnt"))};
 
-	if (isnil {(_this select 0) getvariable "HALArtAmnt"}) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtPos",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true]};
+	if (isnil {_HalArtVar getvariable "HALArtAmnt"}) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtPos",nil,true];_HalArtVar setvariable ["HALArtord",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true]};
 
-	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtAmnt",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
+	if (not (visibleMap)) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtAmnt",nil,true];_HalArtVar setvariable ["HALArtord",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true];_HalArtVar setvariable ["HALArtPos",nil,true]};
 
-	if (((_this select 0) getvariable "HALArtAmnt") == 0) exitwith {hint "Artillery Request Cancelled";(_this select 0) setvariable ["HALArtAmnt",nil,true];(_this select 0) setvariable ["HALArtord",nil,true];(_this select 0) setvariable ["HALArtPiece",nil,true];(_this select 0) setvariable ["HALArtPos",nil,true]};
-
-
-
-	[(_this select 0), "Command, requesting fire support at GRID: " + (mapGridPosition ((_this select 0) getvariable ["HALArtPos",nil])) + " - Over"] remoteExecCall ["RYD_MP_Sidechat"];
-
-	[_HQ,(_this select 0),(_this select 0) getvariable ["HALArtPos",nil],_selectedPiece,_selectedOrd,(_this select 0) getvariable ["HALArtAmnt",nil]] remoteExec ["ActionArt2ct",2];
+	if ((_HalArtVar getvariable "HALArtAmnt") == 0) exitwith {hint "Artillery Request Cancelled";_HalArtVar setvariable ["HALArtAmnt",nil,true];_HalArtVar setvariable ["HALArtord",nil,true];_HalArtVar setvariable ["HALArtPiece",nil,true];_HalArtVar setvariable ["HALArtPos",nil,true]};
 
 
-	(_this select 0) setvariable ["HALArtAmnt",nil,true];
-	(_this select 0) setvariable ["HALArtord",nil,true];
-	(_this select 0) setvariable ["HALArtPiece",nil,true];
+
+	[_HalArtVar, "Command, requesting fire support at GRID: " + (mapGridPosition (_HalArtVar getvariable ["HALArtPos",nil])) + " - Over"] remoteExecCall ["RYD_MP_Sidechat"];
+
+	[_HQ,_HalArtVar,_HalArtVar getvariable ["HALArtPos",nil],_selectedPiece,_selectedOrd,_HalArtVar getvariable ["HALArtAmnt",nil]] remoteExec ["ActionArt2ct",2];
+
+	
+	_HalArtVar setvariable ["HALArtAmnt",nil,true];
+	_HalArtVar setvariable ["HALArtord",nil,true];
+	_HalArtVar setvariable ["HALArtPiece",nil,true];
 //	(_this select 0) setvariable ["HALArtPos",nil,true];
 
 };
@@ -1605,3 +1601,4 @@ ActionArt2ct = {
 	};
 
 };
+
