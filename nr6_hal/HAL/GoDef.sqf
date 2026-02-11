@@ -1,15 +1,9 @@
 _SCRname = "GoDef";
-
+params ["_unitG","_DefPos","_dX","_dY","_DN","__angleV","_HQ"];
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))]}; 
-_DefPos = _this select 1;
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))]}; 
 
-_dX = _this select 2;
-_dY = _this select 3;
-_DN = _this select 4;
-_angleV = _this select 5;
-_HQ = _this select 6;
 
 if ((_unitG in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]))) and ((count (units _unitG)) <= 1) or (_unitG in ((_HQ getVariable ["RydHQ_SupportG",[]]) - (_HQ getVariable ["RydHQ_AirG",[]])))) then 
 	{
@@ -136,8 +130,7 @@ if not (isNull _nE) then
 		else
 			{
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter}};
-			//[_unitG,_nE] spawn RYD_Smoke;
-			[[_unitG,_nE],RYD_Smoke] call RYD_Spawn;
+			[_unitG,_nE] call RYD_Smoke;
 			sleep 10;
 			if ((vehicle _UL) == _UL) then {sleep 25}
 			}
