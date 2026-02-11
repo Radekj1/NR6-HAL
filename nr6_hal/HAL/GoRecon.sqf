@@ -1,21 +1,13 @@
 _SCRname = "GoRecon";
 
 _i = "";
+params ["_unitG","_PosObj1","_stage","_HQ","_reconNr","_specialized"];
 
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_stage = _this select 2;
-_HQ = _this select 3;
-
-_reconNr = _this select 4;
-_stages = _reconNr select 1;
-_reconNr = _reconNr select 0;
+_reconNr params ["_reconNr","_stages"];
 
 _stage = _stage - (_stages * _reconNr);
-
-_PosObj1 = _this select 1;
-
-_specialized = _this select 5;
 
 _recvar = str (_unitG);
 _unitvar = str _unitG;
@@ -101,9 +93,7 @@ while {not _isLOS} do
 				}
 			}
 		};
-
-	_posX = _MElevated select 0;
-	_posY = _MElevated select 1;
+	_MElevated params ["_posX","_posY"];
 	
 	_isWater = surfaceIsWater [_posX,_posY];
 	if not (_isWater) then 
@@ -134,7 +124,7 @@ if (_isWater) exitwith
 		{
 		_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 		_reconAv pushBack _unitG;
-		_HQ setVariable ["RydHQ_ReconAv",_reconAv]
+		_HQ setVariable ["RydHQ_ReconAv",_reconAv];
 		};
 		
 	_unitG setVariable [("Busy" + (str _unitG)),false]
@@ -170,8 +160,7 @@ if not (isNull _AV) then {
 /*
 if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (RydxHQ_ReconCargo) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > 1500)) then 
 	{
-	//[_unitG,_HQ,[_posX,_posY]] spawn HAL_SCargo
-	[[_unitG,_HQ,[_posX,_posY]],HAL_SCargo] call RYD_Spawn;
+	[_unitG,_HQ,[_posX,_posY]] call HAL_SCargo;
 	} 
 else 
 	{
@@ -194,7 +183,7 @@ if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer)) then
 		_cc = false;
 		if (_alive) then
 			{
-			_cc = (_unitG getvariable ("CC" + _unitvar))
+			_cc = (_unitG getvariable ("CC" + _unitvar));
 			};
 			
 		(not (_alive) or (_cc))
@@ -207,7 +196,7 @@ if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
-		deleteMarker ("markRecon" + str (_unitG))
+		deleteMarker ("markRecon" + str (_unitG));
 		};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	};
@@ -273,16 +262,12 @@ _LX1 = _posX;
 _LY1 = _posY;
 
 _eClose1 = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
-
-_tooC1 = _eClose1 select 0;
-_dstEM1 = _eClose1 select 1;
-_NeN = _eClose1 select 2;
+_eClose1 params ["_tooC1","_dstEM1","_NeN"];
 
 if not (isNull _NeN) then
 	{
 	_eClose2 = [_UL,(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
-	_tooC2 = _eClose2 select 0;
-	_dstEM2 = _eClose2 select 1;
+	_eClose2 params ["_tooC2","_dstEM2"];
 	_eClose3 = [(leader _HQ),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
 	_tooC3 = _eClose3 select 0;
 
@@ -343,8 +328,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 
 		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > 1000) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
 			{
-			//[_unitG,_HQ,[_posX,_posY]] spawn HAL_SCargo
-			[[_unitG,_HQ,[_posX,_posY]],HAL_SCargo] call RYD_Spawn;
+			[_unitG,_HQ,[_posX,_posY]] call HAL_SCargo;
 			} 
 		else 
 			{
@@ -467,16 +451,12 @@ _halfway = false;
 _mpl = 1;
 
 _eClose1 = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
-
-_tooC1 = _eClose1 select 0;
-_dstEM1 = _eClose1 select 1;
-_NeN = _eClose1 select 2;
+_eClose1 params ["_tooC1","_dstEM1","_NeN"];
 
 if not (isNull _NeN) then
 	{
 	_eClose2 = [_UL,(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB;
-	_tooC2 = _eClose2 select 0;
-	_dstEM2 = _eClose2 select 1;
+	_eClose2 params ["_tooC2","_dstEM2"];
 	_eClose3 = [(leader _HQ),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB;
 	_tooC3 = _eClose3 select 0;
 
@@ -524,8 +504,7 @@ if (not (isNull _AV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]]))) then
 		if not (isNull _lz) then
 			{
 			_pos = getPosATL _lz;
-			_posX = _pos select 0;
-			_posY = _pos select 1
+			_pos params ["_posX","_posY"];
 			}
 		}
 	};
@@ -565,9 +544,7 @@ if not (_IsAPlayer) then {
 		_OtherGroup = true;
 
 		_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
-		_enemy = _cause select 2;
+		_cause params ["_timer","_alive","_enemy"];
 		}
 	else 
 		{
@@ -576,9 +553,7 @@ if not (_IsAPlayer) then {
 		_enRg = 400;
 		if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 1000};
 		_cause = [_unitG,6,true,_enRG,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
-		_enemy = _cause select 2;
+		_cause params ["_timer","_alive","_enemy"];
 		};
 };
 
@@ -751,9 +726,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_FOG",[]])) then
 	_enRg = 150;
 	if (_unitG in (_HQ getVariable ["RydHQ_AirG",[]])) then {_enRg = 750};
 	_cause = [_unitG,6,true,_enRg,120,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
-	_enemy = _cause select 2
+	_cause params ["_timer","_alive","_enemy"];
 	};
 
 if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))}};
