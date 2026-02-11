@@ -1,17 +1,8 @@
 RYD_Marker = 
 	{
-	private ["_name","_pos","_cl","_shape","_size","_dir","_alpha","_type","_brush","_text","_i"];	
-
-	_name = _this select 0;
-	_pos = _this select 1;
-	_cl = _this select 2;
-	_shape = _this select 3;
-
+	private ["_type","_brush","_text","_i"];	
+	params ["_name","_pos","_cl","_shape","_size","_dir","_alpha"];
 	_shape = toUpper (_shape);
-
-	_size = _this select 4;
-	_dir = _this select 5;
-	_alpha = _this select 6;
 
 	if not (_shape == "ICON") then {_brush = _this select 7} else {_type = _this select 7};
 	_text = _this select 8;
@@ -39,11 +30,8 @@ RYD_Marker =
 
 RYD_DistOrdB = 
 	{
-	private ["_array","_first","_point","_dst","_limit","_final","_VL"];
-
-	_array = _this select 0;//BB strategic areas
-	_point = _this select 1;
-	_limit = _this select 2;
+	private ["_point","_dst","_final","_VL"];
+	params ["_array","_first","_limit"]; //BB strategic areas
 
 	_first = [];
 	_final = [];
@@ -66,11 +54,8 @@ RYD_DistOrdB =
 
 RYD_WhereIs = 
 	{
-	private ["_point","_Rpoint","_angle","_diffA","_axis","_isLeft","_isFlanking","_isBehind"];	
-
-	_point = _this select 0;
-	_rPoint = _this select 1;
-	_axis = _this select 2;
+	private ["_angle","_diffA","_isLeft","_isFlanking","_isBehind"];	
+	params ["_point","_rPoint","_axis"];
 
 	_angle = [_rPoint,_point,0] call RYD_AngTowards;
 
@@ -105,17 +90,14 @@ RYD_WhereIs =
 	
 RYD_TerraCognita = 
 	{
-	private ["_position","_posX","_posY","_radius","_precision","_sourcesCount","_urban","_forest","_hills","_flat","_sea","_valS","_value","_val0","_samples","_sGr","_hprev","_hcurr","_samplePos","_i","_rds"];	
+	private ["_radius","_precision","_sourcesCount","_urban","_forest","_hills","_flat","_sea","_valS","_value","_val0","_sGr","_hprev","_hcurr","_samplePos","_i","_rds"];	
+	params ["_position","_samples"]; 
 
-	_position = _this select 0;
-	_samples = _this select 1;
 	_rds = 100;
 	if ((count _this) > 2) then {_rds = _this select 2};
 
 	if not ((typeName _position) == "ARRAY") then {_position = getPosATL _position};
-
-	_posX = _position select 0;
-	_posY = _position select 1;
+	_position params ["_posX","_posY"];
 
 	_radius = 5;
 	_precision = 1;
@@ -148,9 +130,7 @@ RYD_TerraCognita =
 
 
 			_value = selectBestPlaces [_position,_radius,_x,_precision,_sourcesCount];
-
-			_val0 = _value select 0;
-			_val0 = _val0 select 1;
+			_val0 params ["_value","val0"];
 
 			_valS = _valS + _val0;
 			};
@@ -174,13 +154,9 @@ RYD_TerraCognita =
 	
 RYD_Sectorize = 
 	{
-	private ["_ctr","_lng","_ang","_nbr","_EdgeL","_rd","_main","_step","_X1","_Y1","_posX","_posY","_centers","_first",
-	"_sectors","_centers2","_Xa","_Ya","_dXa","_dYa","_dst","_ang2","_Xb","_Yb","_dXb","_dYb","_center","_crX","_crY","_crPoint","_sec"];
-
-	_ctr = _this select 0;
-	_lng = _this select 1;
-	_ang = _this select 2;
-	_nbr = _this select 3;
+	private ["_EdgeL","_rd","_main","_step","_posX","_posY","_centers","_first",
+	"_sectors","_centers2","_dXa","_dYa","_dst","_ang2","_Xb","_Yb","_dXb","_dYb","_center","_crX","_crY","_crPoint","_sec"];
+	params ["_ctr","_lng","_ang","_nbr"];
 
 	_EdgeL = _lng/_nbr;
 	
@@ -190,9 +166,7 @@ RYD_Sectorize =
 	_main setRectangular true;
 
 	_step = _EdgeL;
-
-	_X1 = _ctr select 0;
-	_Y1 = _ctr select 1;
+	_ctr params ["_X1","_Y1"];
 
 	_posX = (_X1 - _rd) + _step/2;
 	_posY = (_Y1 - _rd) + _step/2;
@@ -200,6 +174,7 @@ RYD_Sectorize =
 	_centers = [[_posX,_posY]];
 	_first = false;
 
+	// REPLACE WHILE TRUE WITH PFH
 	while {(true)} do
 		{
 		while {(true)} do
@@ -220,8 +195,7 @@ RYD_Sectorize =
 		_centers = [];
 
 			{
-			_Xa = _x select 0;
-			_Ya = _x select 1;
+			_x params ["_Xa","_Ya"];
 			_dXa = (_X1 - _Xa);
 			_dYa = (_Y1 - _Ya);
 			_dst = _ctr distance _x;
@@ -258,12 +232,10 @@ RYD_Sectorize =
 
 RYD_LocLineTransform = 
 	{
-	private ["_loc","_p1","_p2","_space","_center","_angle","_r1","_r2"];
-
-	_loc = _this select 0;
-	_p1 = _this select 1;//ATL
-	_p2 = _this select 2;//ATL
-	_space = _this select 3;
+	private ["_center","_angle","_r1","_r2"];
+	params ["_loc","_p1","_p2","_space"];
+	//ATL _p1
+	//ATL _p2
 
 	_center = [((_p1 select 0) + (_p2 select 0))/2,((_p1 select 1) + (_p2 select 1))/2,0];
 
@@ -281,18 +253,17 @@ RYD_LocLineTransform =
 
 RYD_LocMultiTransform = 
 	{
-	private ["_loc","_ps","_space","_center","_angle","_r1","_r2","_sx","_sy","_cnt","_dmax","_pf","_dst","_pfMain","_check","_indx","_pfbis","_dmaxbis","_cX","_cY","_allIn","_mpl","_pX","_pY"];
-
-	_loc = _this select 0;
-	_ps = _this select 1;//array of ATL
-	_space = _this select 2;
+	private ["_center","_angle","_r1","_r2","_sx","_sy","_cnt","_dmax","_pf","_dst","_pfMain","_check","_indx","_pfbis","_dmaxbis","_cX","_cY","_allIn","_mpl","_pX","_pY"];
+	params ["_loc","_ps","_space"];
+	//array of ATL - _ps
 
 	_sx = 0;
 	_sy = 0;
 
 		{
-		_sx = _sx + (_x select 0);
-		_sy = _sy + (_x select 1)
+		_x params ["_sx1","_sy1"]
+		_sx = _sx + _sx1
+		_sy = _sy + _sy1
 		}
 	foreach _ps;
 
@@ -417,35 +388,9 @@ RYD_LocMultiTransform =
 
 RYD_ForceCount = 
 	{
-	private ["_friends","_inf","_car","_arm","_air","_nc","_current","_initial","_value","_morale","_enemies","_einf","_ecar","_earm","_eair","_enc","_frArr","_enArr",
-	"_eInfG","_eCarG","_eArmG","_eAirG","_eNCG","_eAllP","_eInfP","_eCarP","_eArmP","_eAirP","_eNCP","_allP","_infP","_carP","_armP","_airP","_ncP","_enG","_evalue",
-	"_frRep","_enRep","_gpHQ"];
+	private ["_eInfG","_eCarG","_eArmG","_eAirG","_eNCG","_eAllP","_eInfP","_eCarP","_eArmP","_eAirP","_eNCP","_allP","_infP","_carP","_armP","_airP","_ncP","_frRep","_enRep"];
 
-	_friends = _this select 0;
-	_inf = _this select 1;
-	_car = _this select 2;
-	_arm = _this select 3;
-	_air = _this select 4;
-	_nc = _this select 5;
-
-	_current = _this select 6;
-	_initial = _this select 7;
-	_value = _this select 8;
-	_morale = _this select 9;
-
-	_enemies = _this select 10;
-	_einf = _this select 11;
-	_ecar = _this select 12;
-	_earm = _this select 13;
-	_eair = _this select 14;
-	_enc = _this select 15;
-	_evalue = _this select 16;
-
-	_frArr = _this select 17;
-	_enArr = _this select 18;
-
-	_enG = _this select 19;
-	_gpHQ = _this select 20;
+	params ["_friends","_inf","_car","_arm","_air","_nc","_current","_initial","_value","_morale","_enemies","_einf","_ecar","_earm","_eair","_enc","_evalue","_frArr","_enArr","_enG","_gpHQ"];
 
 	_eInfG = [];
 	_eCarG = [];
@@ -512,9 +457,8 @@ RYD_ForceCount =
 
 RYD_ForceAnalyze = 
 	{
-	private ["_HQarr","_frArr","_enArr","_frG","_enG","_HQs","_arr","_HQ"];
-
-	_HQarr = _this select 0;
+	private ["_frArr","_enArr","_frG","_enG","_HQs","_arr","_HQ"];
+	params ["_HQarr"];
 
 	_frArr = [];
 	_enArr = [];
@@ -552,8 +496,7 @@ RYD_ForceAnalyze =
 					];
 					
 				_arr = (_arr + [_frArr,_enArr,_enG,_HQ]) call RYD_ForceCount;
-				_frArr = _arr select 0;
-				_enArr = _arr select 1;
+				_arr params ["_frARR","_enArr"];
 				
 				_HQs pushBack _x;
 				_frG = _frG + (_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_Exhausted",[]]);
@@ -575,9 +518,8 @@ RYD_ForceAnalyze =
 
 RYD_TopoAnalize = 
 	{
-	private ["_sectors","_sectors0","_infF","_vehF","_ct","_urbanF","_forestF","_hillsF","_flatF","_seaF","_roadsF","_grF","_actInf","_actVeh"];
-
-	_sectors = _this select 0;
+	private ["_sectors0","_infF","_vehF","_ct","_urbanF","_forestF","_hillsF","_flatF","_seaF","_roadsF","_grF","_actInf","_actVeh"];
+	params ["_sectors"];
 
 	_sectors0 = _sectors;
 
@@ -628,13 +570,8 @@ RYD_TopoAnalize =
 
 RYD_Itinerary = 
 	{
-	private ["_sectors","_targets","_pos1","_pos2","_bound","_secIn","_tgtIn","_topoAn","_infF","_vehF","_side","_cSum","_varName","_HandledArray"];	
-
-	_sectors = _this select 0;
-	_targets = _this select 1;
-	_pos1 = _this select 2;
-	_pos2 = _this select 3;
-	_side = _this select 4;
+	private ["_bound","_secIn","_tgtIn","_topoAn","_infF","_vehF","_cSum","_varName","_HandledArray"];	
+	params ["_sectors","_targets","_pos1","_pos2","_side"];
 
 	_bound = createLocation ["Name", _pos1, 1, 1];
 	_bound setRectangular true;
@@ -682,13 +619,10 @@ RYD_Itinerary =
 	deleteLocation _bound;
 
 	_topoAn = [_secIn] call RYD_TopoAnalize;
-
-	_secIn = _topoAn select 0;
+	_topoAn params ["_secIn"];
 
 	_topoAn = [_secIn] call RYD_TopoAnalize;
-
-	_infF = _topoAn select 1;
-	_vehF = _topoAn select 2;
+	_topoAn params ["_placebo1","_infF","_vehF"];
 
 	[_secIn,_tgtIn,_infF,_vehF]
 	};
@@ -697,29 +631,12 @@ RYD_ExecuteObj =
 	{
 	_SCRname = "ExecuteObj";
 
-		private ["_HQ","_areas","_o1","_o2","_o3","_o4","_allied","_HQpos","_sortedA","_i","_nObj","_actO","_nObj","_KnEn","_KnEnAct","_VLpos","_enX","_enY","_ct","_VHQpos","_front","_afront",
-				"_frPos","_frDir","_frDim","_chosenPos","_maxTempt","_actTempt","_sectors","_ownKnEn","_ownForce","_ctOwn","_alliedForce","_alliedGarrisons","_alliedExhausted","_inFlank","_Garrisons","_exhausted",
-				"_prop","_enPos","_dst","_val","_profile","_j","_pCnt","_marker","_markerVar","_markerName","_checkPos","_actPos","_indx","_check","_reserve","_garrPool","_fG","_garrison","_chosen","_dstMin","_actG","_actDst","_side",
+		private ["_areas","_HQpos","_i","_nObj","_actO","_nObj","_KnEn","_KnEnAct","_VLpos","_enX","_enY","_ct","_VHQpos","_afront",
+				"_chosenPos","_maxTempt","_actTempt","_sectors","_ownKnEn","_ownForce","_ctOwn","_alliedForce","_alliedGarrisons","_alliedExhausted","_inFlank","_Garrisons","_exhausted",
+				"_prop","_enPos","_dst","_val","_profile","_j","_pCnt","_marker","_markerVar","_markerName","_checkPos","_actPos","_indx","_check","_garrPool","_fG","_garrison","_chosen","_dstMin","_actG","_actDst",
 				"_AllV","_Civs","_AllV2","_Civs2","_AllV0","_AllV20","_NearAllies","_NearEnemies","_actOPos","_mChange","_marksT","_firstP","_actP","_angleM","_centerPoint","_mr1","_mr2","_lM","_wp",
-				"_varName","_HandledArray","_cSum","_reck","_cons","_limit","_lColor","_alive","_AAO","_AAOPts","_BBAOObj","_Unable","_UnableArr","_noGarrAround","_SideAllies","_SideEnemies"];	
-
-		_sortedA = _this select 0;
-		_HQ = _this select 1;
-		_side = _this select 2;
-		_BBAOObj = _this select 3;
-		_AAO = _this select 4;
-		_allied = _this select 5;
-		_front = _this select 6;
-		_frPos = _this select 7;
-		_frDir = _this select 8;
-		_frDim = _this select 9;
-		_reserve = _this select 10;
-		_HandledArray = _this select 11;
-		_varName = _this select 12;
-		_o1 = _this select 13;
-		_o2 = _this select 14;
-		_o3 = _this select 15;
-		_o4 = _this select 16;
+				"_cSum","_reck","_cons","_limit","_lColor","_alive","_AAOPts","_Unable","_UnableArr","_noGarrAround","_SideAllies","_SideEnemies"];	
+		params ["_sortedA","_HQ","_side","_BBAOObj","_AAO","_allied","_front","_frPos","_frDir","_frDim","_reserve","_HandledArray","_varName","_o1","_o2","_o3","_o4"];
 
 		_actO = _sortedA select (_BBAOObj - 1);
 
@@ -1187,7 +1104,7 @@ RYD_ExecuteObj =
 					_HQ setVariable ["RydHQ_Garrison",_garrison];
 					};
 						
-				[[_chosen,_HQ],_code] call RYD_Spawn
+				[_chosen,_HQ] call _code;
 				}
 			};
 				
@@ -1227,29 +1144,17 @@ RYD_ExecutePath =
 	{
 	_SCRname = "ExecutePath";
     
-	private ["_HQ","_areas","_o1","_o2","_o3","_o4","_allied","_HQpos","_sortedA","_i","_nObj","_actO","_nObj","_KnEn","_KnEnAct","_VLpos","_enX","_enY","_ct","_VHQpos","_front","_afront",
-	"_frPos","_frDir","_frDim","_chosenPos","_maxTempt","_actTempt","_sectors","_ownKnEn","_ownForce","_ctOwn","_alliedForce","_alliedGarrisons","_alliedExhausted","_inFlank","_Garrisons","_exhausted",
-	"_prop","_enPos","_dst","_val","_profile","_j","_pCnt","_m","_checkPos","_actPos","_indx","_check","_reserve","_garrPool","_fG","_garrison","_chosen","_dstMin","_actG","_actDst","_side",
+	private ["_sortedA","_i","_nObj","_actO","_nObj","_KnEn","_KnEnAct","_VLpos","_enX","_enY","_ct","_VHQpos","_afront",
+	"_frPos","_frDir","_frDim","_chosenPos","_maxTempt","_actTempt","_ownKnEn","_ownForce","_ctOwn","_alliedForce","_alliedGarrisons","_alliedExhausted","_inFlank","_Garrisons","_exhausted",
+	"_prop","_enPos","_dst","_val","_profile","_j","_pCnt","_m","_checkPos","_actPos","_indx","_check","_garrPool","_fG","_garrison","_chosen","_dstMin","_actG","_actDst",
 	"_AllV","_Civs","_AllV2","_Civs2","_AllV0","_AllV20","_NearAllies","_NearEnemies","_actOPos","_mChange","_marksT","_firstP","_actP","_angleM","_centerPoint","_mr1","_mr2","_lM","_wp",
-	"_varName","_HandledArray","_cSum","_reck","_cons","_limit","_lColor","_alive","_AAO","_AAOPts","_BBAOObj","_AssObj","_ObjDone","_ObjVar","_anyTaskDone"];    
+	"_varName","_HandledArray","_cSum","_reck","_cons","_limit","_lColor","_alive","_AAO","_BBAOObj","_AssObj","_ObjDone","_ObjVar","_anyTaskDone"];    
+	params ["_HQ","_areas","_o1","_o2","_o3","_o4","_allied","_HQpos","_front","_sectors","_reserve","_side","_AAOPts"];
 
-	_HQ = _this select 0;
-	_areas = _this select 1;
-	_o1 = _this select 2;
-	_o2 = _this select 3;
-	_o3 = _this select 4;
-	_o4 = _this select 5;
-	_allied = (_this select 6) - [_HQ];
+	_allied = _allied - [_HQ];
     
 	_AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 	_BBAOObj = _HQ getVariable ["RydHQ_BBAOObj",1];
-
-	_HQpos = _this select 7;
-	_front = _this select 8;
-	_sectors = _this select 9;
-	_reserve = _this select 10;
-	_side = _this select 11;
-	_AAOPts = _this select 12;
 
 	_varName = "HandledAreas" + _side;
 	_HandledArray = missionNameSpace getVariable _varName;
@@ -1304,10 +1209,10 @@ RYD_ExecutePath =
 		_HQ setVariable [format["BBObj%1Done", _i], true];
 	};
 
-	if (_BBAOObj >= 1) then {_AssObj = 1; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
-	if ((_BBAOObj >= 2) && (_AAO)) then {_AssObj = 2; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
-	if ((_BBAOObj >= 3) && (_AAO)) then {_AssObj = 3; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
-	if ((_BBAOObj == 4) && (_AAO)) then {_AssObj = 4; [[_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4],RYD_ExecuteObj] call RYD_Spawn; };
+	if (_BBAOObj >= 1) then {_AssObj = 1; [_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4] call RYD_ExecuteObj;};
+	if ((_BBAOObj >= 2) && (_AAO)) then {_AssObj = 2; [_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4] call RYD_ExecuteObj;};
+	if ((_BBAOObj >= 3) && (_AAO)) then {_AssObj = 3; [_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4] call RYD_ExecuteObj;};
+	if ((_BBAOObj == 4) && (_AAO)) then {_AssObj = 4; [_sortedA,_HQ,_side,_AssObj,_AAO,_allied,_front,_frPos,_frDir,_frDim,_reserve,_HandledArray,_varName,_o1,_o2,_o3,_o4] call RYD_ExecuteObj;};
 
 	sleep 1;
 
@@ -1354,23 +1259,12 @@ RYD_ReserveExecuting =
 	{
 	_SCRname = "ReserveExecuting";
 	
-	private ["_HQ","_ahead","_frontPos","_o1","_o2","_o3","_o4","_allied","_HQpos","_front","_angle","_dst","_dstF","_dDst","_stancePos","_taken","_fG","_val","_forGarr","_ct","_ct2",
-	"_garrison","_task","_hMany","_busy","_Wpos","_mark","_wp","_aheadL","_aliveHQ","_hostileG","_assg","_possPos","_enV","_posArr","_enV2","_nr","_sX","_sY","_dstA","_amnt","_actT",
-	"_maxT","_poss","_m","_side","_rColor"];
-
-	_HQ = _this select 0;
-	_ahead = _this select 1;
-	_o1 = _this select 2;
-	_o2 = _this select 3;
-	_o3 = _this select 4;
-	_o4 = _this select 5;
-	_allied = _this select 6;//leader units
-
+	private ["_HQpos","_angle","_dst","_dstF","_dDst","_stancePos","_fG","_val","_forGarr","_ct","_ct2","_garrison","_task","_hMany","_busy","_Wpos","_mark","_wp","_aheadL",
+	"_aliveHQ","_assg","_possPos","_enV","_posArr","_enV2","_nr","_sX","_sY","_dstA","_amnt","_actT","_maxT","_poss","_m","_rColor","_frontPos"];
+	params ["_HQ","_ahead","_o1","_o2","_o3","_o4","_allied","_front","_taken","_hostileG","_side"];
+	//leader units - _allied
 	_HQpos = getPosATL (vehicle (leader _HQ));
-	_front = _this select 7;
-	_taken = _this select 8;
-	_hostileG = _this select 9;
-	_side = _this select 10;
+
 
 	_frontPos = _HQpos;
 	if ((count _ahead) > 0) then 
@@ -1457,11 +1351,8 @@ RYD_ReserveExecuting =
 						{
 						_SCRname = "ReserveExecutingC1";
 						
-						private ["_unitG","_cause","_timer","_alive","_task","_form","_Wpos","_garrison","_wp"];
-
-						_unitG = _this select 0;
-						_garrison = _this select 1;
-						_Wpos = _this select 2;
+						private ["_cause","_timer","_alive","_task","_form","_wp"];
+						params ["_unitG","_garrison","_Wpos"];
 
 						_form = "DIAMOND";
 						if (isPlayer (leader _unitG)) then {_form = formation _unitG};
@@ -1474,10 +1365,8 @@ RYD_ReserveExecuting =
 						[_unitG] call RYD_WPdel;
 
 						_wp = [_unitG,_Wpos,"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0]"],true,250,[0,0,0],_form] call RYD_WPadd;
-
 						_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-						_timer = _cause select 0;
-						_alive = _cause select 1;
+						_cause params ["_timer","_alive"];
 
 						if not (_alive) exitwith {};
 						if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 1]};
@@ -1487,7 +1376,7 @@ RYD_ReserveExecuting =
 						if not (_timer > 30) then {_garrison pushBack _unitG};
 						};
 						
-					[[_forGarr,_garrison,_Wpos],_code] call RYD_Spawn
+					[_forGarr,_garrison,_Wpos] call _code;
 					}
 				}
 			}
@@ -1616,12 +1505,8 @@ RYD_ObjectivesMon =
 	{
 	_SCRName = "ObjectivesMon";
 	
-	private ["_area","_BBSide","_isTaken","_HQ","_AllV","_Civs","_AllV2","_Civs2","_NearAllies","_NearEnemies","_trg","_AllV0","_AllV20","_mChange","_HQs","_enArea","_enPos","_BBProg","_SideAllies","_SideEnemies"];
-
-	_area = _this select 0;
-	_BBSide = _this select 1;
-	_HQ = _this select 2;
-	_HQs = _this select 3;
+	private ["_isTaken","_AllV","_Civs","_AllV2","_Civs2","_NearAllies","_NearEnemies","_trg","_AllV0","_AllV20","_mChange","_enArea","_enPos","_BBProg","_SideAllies","_SideEnemies"];
+	params ["_area","_BBSide","_HQ","_HQs"];
 	
 
 	while {(RydBB_Active)} do
@@ -1728,7 +1613,7 @@ RYD_ObjectivesMon =
 				//_NearEnemies = (leader _HQ) countenemy _AllV2;
 				_NearEnemies = ({(side _x) in _SideEnemies} count _AllV2);
 
-				if ((_NearAllies >= (_HQ getVariable ["RydHQ_CaptLimit",10])) and (_NearEnemies <= (0 + (((_HQ getVariable ["RydHQ_Recklessness",0.5])/(0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5])))*10)))) 					then 
+				if ((_NearAllies >= (_HQ getVariable ["RydHQ_CaptLimit",10])) and (_NearEnemies <= (0 + (((_HQ getVariable ["RydHQ_Recklessness",0.5])/(0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5])))*10)))) then 
 					{
 					_x set [2,true];
 
@@ -1736,7 +1621,7 @@ RYD_ObjectivesMon =
 					if (_BBSide == "B") then {_enArea = missionNameSpace getVariable ["A_SAreas",[]]};
 
 						{
-						_enPos = _x select 0;
+						_x params ["_enPos"];
 						_enPos = [_enPos select 0,_enPos select 1,0];
 						if (((_enPos distance _trg) < 50) and {(_x select 2)}) exitWith
 							{
@@ -1764,9 +1649,7 @@ RYD_ObjectivesMon =
 RYD_ObjMark = 
 	{
 	_SCRName = "ObjMark";
-	
-	_strArea = _this select 0;
-	_BBSide = _this select 1;
+	params ["_strArea","_BBSide"];
 	
 	_clA = switch (side (RydBBa_HQs select 0)) do
 		{
@@ -1824,10 +1707,8 @@ RYD_ObjMark =
 
 RYD_ClusterA = 
 	{
-	private ["_points","_clusters","_checked","_newCluster","_point","_range","_sum"];
-
-	_points = _this select 0;
-	_range = _this select 1;
+	private ["_clusters","_checked","_newCluster","_point","_sum"];
+	params ["_points","_range"];
 
 	_clusters = [];
 	_checked = [];
@@ -1866,9 +1747,8 @@ RYD_ClusterA =
 
 RYD_ClusterB = 
 	{
-	private ["_points","_clusters","_point","_sumC","_sumS","_sumMin","_pointMin","_dstMin","_sum","_dstAct","_added","_cluster","_inside"];
-
-	_points = _this select 0;
+	private ["_clusters","_point","_sumC","_sumS","_sumMin","_pointMin","_dstMin","_sum","_dstAct","_added","_cluster","_inside"];
+	params ["_points"];
 
 	_clusters = [];
 
@@ -1942,9 +1822,9 @@ RYD_ClusterB =
 
 RYD_Cluster = 
 	{
-	private ["_points","_clusters","_centers","_cluster","_midX","_midY","_center","_clustersC","_newClusters","_newCluster","_clusterNearby","_centerC"];
+	private ["_clusters","_centers","_cluster","_midX","_midY","_center","_clustersC","_newClusters","_newCluster","_clusterNearby","_centerC"];
+	params ["_points"];
 
-	_points = _this select 0;
 
 	_clusters = [_points] call RYD_ClusterB;
 
@@ -2007,13 +1887,11 @@ RYD_Cluster =
 
 RYD_isOnMap = 
 	{
-	private ["_pos","_onMap","_pX","_pY","_mapMinX","_mapMinY"];
+	private ["_onMap","_mapMinX","_mapMinY"];
+	params ["_pos"];
 
-	_pos = _this select 0;
 	_onMap = true;
-
-	_pX = _pos select 0;
-	_pY = _pos select 1;
+	_pos params ["_pX","_pY"];
 
 	_mapMinX = 0;
 	_mapMinY = 0;
@@ -2021,30 +1899,30 @@ RYD_isOnMap =
 	if not (isNil "RydBB_MC") then
 		{
 		_mapMinX = RydBB_MapXMin;
-		_mapMinY = RydBB_MapYMin
+		_mapMinY = RydBB_MapYMin;
 		};
 
 	if (_pX < _mapMinX) then 
 		{
-		_onMap = false
+		_onMap = false;
 		}
 	else
 		{
 		if (_pY < _mapMinY) then
 			{
-			_onMap = false
+			_onMap = false;
 			}
 		else
 			{
 			if (_pX > RydBB_MapXMax) then
 				{
-				_onMap = false
+				_onMap = false;
 				}
 			else
 				{
 				if (_pY > RydBB_MapYMax) then
 					{
-					_onMap = false
+					_onMap = false;
 					}
 				}
 			}
@@ -2055,11 +1933,9 @@ RYD_isOnMap =
 
 RYD_BBSimpleD = 
 	{
-	private ["_HQs","_BBSide","_clusters","_enPos","_ens","_centers","_center","_amounts","_amount","_midX","_midY","_frs","_frCenters","_frCenter","_lPos","_lng","_angle","_arrow","_colorArr","_mainCenter",
+	private ["_clusters","_enPos","_ens","_centers","_center","_amounts","_amount","_midX","_midY","_frs","_frCenters","_frCenter","_lPos","_lng","_angle","_arrow","_colorArr","_mainCenter",
 	"_amounts","_amount","_battles","_battle","_angleBatt","_tooClose","_mPos","_mSize","_dstAct","_colorBatt","_sizeBatt","_oldSize","_HQPosMark","_HQ"];
-
-	_HQs = _this select 0;
-	_BBSide = _this select 1;
+	params ["_HQs","_BBSide"];
 
 	sleep 60;
 
@@ -2264,3 +2140,4 @@ RYD_BBSimpleD =
 		sleep 300
 		}
 	};
+
