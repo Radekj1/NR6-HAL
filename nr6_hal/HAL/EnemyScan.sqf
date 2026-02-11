@@ -1,8 +1,7 @@
 _SCRname = "EnemyScan";
 
 private ["_HQ","_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_frm","_code"];
-
-_HQ = _this select 0;
+params ["_HQ"];
 
 _ne = objNull;
 _is = false;
@@ -22,7 +21,7 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 		{
 		_code =
 			{
-			_HQ = _this select 0;
+			params ["_HQ"];
 			
 			while {not (isNull _HQ)} do
 				{
@@ -64,7 +63,7 @@ if ((_HQ getVariable ["RydHQ_DebugII",false])) then
 				}
 			};
 			
-		[[_HQ],_code] call RYD_Spawn
+		[_HQ] call _code
 		}
 	};
 
@@ -168,3 +167,4 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 foreach ((_HQ getVariable ["RydHQ_Friends",[]]) - (_HQ getVariable ["RydHQ_AirG",[]]));
 
 _HQ setVariable ["RydHQ_ES",true];
+
