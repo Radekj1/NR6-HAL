@@ -1,10 +1,10 @@
 _SCRname = "GoRest";
-
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+params ["_unitG","_HQ"];
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _pos = getPosATL (leader _unitG);
 _UL = leader _unitG;
 _VLU = vehicle _UL;
-_HQ = _this select 1;
+
 _inDanger = false;
 if ((count _this) > 2) then {_inDanger = _this select 2};
 
@@ -64,7 +64,7 @@ if not (isNull _AV) then
 						}
 					}
 				}
-			foreach _ac
+			foreach _ac;
 			}
 		}
 	};
@@ -220,8 +220,7 @@ if not (isNull _nE) then
 		else
 			{
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter}};
-			//[_unitG,_nE] spawn RYD_Smoke;
-			[[_unitG,_nE],RYD_Smoke] call RYD_Spawn;
+			[_unitG,_nE] call RYD_Smoke;
 			sleep 10;
 			if ((vehicle _UL) == _UL) then {sleep 15}
 			}
@@ -271,8 +270,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 
 		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > RydxHQ_CargoObjRange) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
 			{
-			//[_unitG,_HQ,[_posX,_posY]] spawn HAL_SCargo
-			[[_unitG,_HQ,[_posX,_posY],true],HAL_SCargo] call RYD_Spawn;
+			[_unitG,_HQ,[_posX,_posY],true] call HAL_SCargo;
 			} 
 		else 
 			{
@@ -462,16 +460,13 @@ if not (_IsAPlayer) then {
 		_OtherGroup = true;
 
 		_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
-		_enemy = _cause select 2;
+		_cause params ["_timer","_alive","_enemy"];
 		}
 	else 
 		{
 		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		_cause = [_unitG,_counts,true,0,60,[],false] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
+		_cause params ["_timer","_alive"];
 		};
 };
 
