@@ -119,8 +119,7 @@ if (_BBSide == "A") then
 		_x setVariable ["BBSec",true];		
 
 		_secpos = position _x;
-		_sPosX = _secpos select 0;
-		_sPosY = _secpos select 1;
+		_secpos params ["_sPosX","_sPosY"];
 
 		_sUrban = 0;
 		_sForest = 0;
@@ -135,13 +134,13 @@ if (_BBSide == "A") then
 			_samplePos = [_sPosX + ((random 500) - 250),_sPosY + ((random 500) - 250)];
 
 			_topArr = [_samplePos,1] call RYD_TerraCognita;
-
-			_sUrban = _sUrban + (_topArr select 0);
-			_sForest = _sForest + (_topArr select 1);
-			_sHills = _sHills + (_topArr select 2);
-			_sFlat = _sFlat + (_topArr select 3);
-			_sSea = _sSea + (_topArr select 4);
-			_sGr = _sGr + (_topArr select 5);
+			_topArr params ["_sU1",_sFo1","_sH1","_sFl1","_sS1","_sG1"]; 
+			_sUrban = _sUrban + _sU1;
+			_sForest = _sForest + _sFo1;
+			_sHills = _sHills + _sH1;
+			_sFlat = _sFlat + _sFl1;
+			_sSea = _sSea + _sS1;
+			_sGr = _sGr + _sG1;
 			};
 
 		_sUrban = round (_sUrban*100/_count);
@@ -251,8 +250,9 @@ if (_BBSide == "B") then {if not (isNil "RydBBb_Str") then {_BBStr = RydBBb_Str}
 _fixedInitStatus = [];
 
 	{
-	_pos = _x select 0;
-	_pos = (_pos select 0) + (_pos select 1);
+	_x params ["_pos"];
+	_pos params ["_pos0","_pos1"];
+	_pos = _pos0 + _pos1);
 
 	_fixedInitStatus pushBack _pos
 	}
@@ -281,22 +281,14 @@ _strArea0 = [] + _strArea;
 	{
 	_fAr = _x;
 	_k = _foreachIndex;
-	_fPnt = _fAr select 0;
-	_fVal = _fAr select 1;
-	_fTkn = _fAr select 2;
-
-	_fX = _fPnt select 0;
-	_fY = _fPnt select 1;
+	_fAr params ["_fPnt","_fVal","_fTkn"];
+	_fPnt params ["_fX","_fY"];
 
 		{
 		_sAr = _x;
 		_j = _foreachIndex;
-		_sPnt = _sAr select 0;
-		_sVal = _sAr select 1;
-		_sTkn = _sAr select 2;
-
-		_sX = _sPnt select 0;
-		_sY = _sPnt select 1;
+		_sAr params ["_sPnt","_sVal","_sTkn"];
+		_sPnt params ["_sX","_sY"];
 
 		if (((_fPnt distance _sPnt) < 400) and not ((_fPnt select 0) == (_sPnt select 0))) then 
 			{
@@ -439,7 +431,7 @@ while {(RydBB_Active)} do
 				};
 			};
 			
-		[[_BBHQs,_BBSide],_code] call RYD_Spawn
+		[_BBHQs,_BBSide] call _code;
 		};
 
 	_BBHQs = [];
@@ -529,8 +521,7 @@ while {(RydBB_Active)} do
 
 				if not (_taken) then 
 					{
-					_posStr = _x select 0;
-					_valStr = _x select 1;
+					_x params ["_posStr","_valStr"];
 
 					for "_j" from 1 to _valStr do
 						{
@@ -553,9 +544,7 @@ while {(RydBB_Active)} do
 			if not (isNil ("RydBB_CivF")) then {_civF = RydBB_CivF};
 
 				{
-				_posStr = _x select 0;
-				_valStr = _x select 1;
-				_taken = _x select 2;
+				_x params ["_posStr","_valStr","_taken"];
 
 				_mDist = _posStr distance _mainPos;
 				_aDist = _posStr distance _ArmyPos;
@@ -591,15 +580,17 @@ while {(RydBB_Active)} do
 					if ((((_mDist > _amDist) and (_mDist > _aDist) and (_amDist > _aDist) and (_aDist < 1000000)) or (_gDst < 500) or (_aDist < 1000)) and not (_enemyClose)) then 
 						{
 						if not (_taken) then {_change = true};
-						_pos = _x select 0;
-						_pos = (_pos select 0) + (_pos select 1);
+						_x params ["_pos"];
+						_pos params ["_pos0","_pos1"];
+						_pos = _pos0 + _pos1;
 						if not (_pos in _fixedInitStatus) then {_x set [2,true]};
 						}
 					else
 						{
 						if (_taken) then {_change = true};
-						_pos = _x select 0;
-						_pos = (_pos select 0) + (_pos select 1);
+						_x params ["_pos"];
+						_pos params ["_pos0","_pos1"];
+						_pos = _pos0 + _pos1;
 						if not (_pos in _fixedInitStatus) then {_x set [2,false]};
 						}
 
@@ -608,15 +599,17 @@ while {(RydBB_Active)} do
 					if ((((_mDist > _amDist) and (_mDist > _aDist) and (_amDist > _aDist) and (_aDist < 5000)) or (_gDst < 500) or (_aDist < 1000)) and not (_enemyClose)) then 
 						{
 						if not (_taken) then {_change = true};
-						_pos = _x select 0;
-						_pos = (_pos select 0) + (_pos select 1);
+						_x params ["_pos"];
+						_pos params ["_pos0","_pos1"];
+						_pos = _pos0 + _pos1;
 						if not (_pos in _fixedInitStatus) then {_x set [2,true]};
 						}
 					else
 						{
 						if (_taken) then {_change = true};
-						_pos = _x select 0;
-						_pos = (_pos select 0) + (_pos select 1);
+						_x params ["_pos"];
+						_pos params ["_pos0","_pos1"];
+						_pos = _pos0 + _pos1;
 						if not (_pos in _fixedInitStatus) then {_x set [2,false]};
 						}
 					}
@@ -632,12 +625,12 @@ while {(RydBB_Active)} do
 			{
 				{
 				_eA = _x;
-				_eP = _eA select 0;
+				_eA params ["_eP";
 				_eT = _eA select 2;
 
 					{
 					_sA = _x;
-					_sP = _sA select 0;
+					_sA parmas ["_sP"];
 
 					if ((_sP distance _eP) < 100) then
 						{
@@ -660,13 +653,13 @@ while {(RydBB_Active)} do
 
 		if (RydBB_Debug) then
 			{			
-			[[_strArea,_BBSide],RYD_ObjMark] call RYD_Spawn
+			[_strArea,_BBSide] call RYD_ObjMark;
 			};
 			
 		if (RydBB_Debug) then
 			{
 			RydBBa_SAL globalChat format ["Big Boss %1 orients the flanks.",_BBSide];
-			diag_log format ["Big Boss %1 orients the flanks.",_BBSide]
+			diag_log format ["Big Boss %1 orients the flanks.",_BBSide];
 			};
 
 			{
@@ -689,9 +682,7 @@ while {(RydBB_Active)} do
 
 			{
 			_where = [(position _x),_ArmyPos,_attackAxis] call RYD_WhereIs;
-			_isLeft = _where select 0;
-			_isFlank = _where select 1;
-			_isRear = _where select 2;
+			_where params ["_isLeft","_isFlank","_isRear"];
 
 			if (_isLeft) then 
 				{
@@ -720,22 +711,14 @@ while {(RydBB_Active)} do
 			};
 
 		_leftAn = [_leftSectors] call RYD_TopoAnalize;
-
-		_leftSectors = _leftAn select 0;
-		_leftInf = _leftAn select 1;
-		_leftVeh = _leftAn select 2;
+		_leftAn params ["_leftSectors","_leftInf","_leftVeh"];
 
 		_rightAn = [_rightSectors] call RYD_TopoAnalize;
+		_rightAn params ["_rightSectors","_rightInf","_rightVeh"];
 
-		_rightSectors = _rightAn select 0;
-		_rightInf = _rightAn select 1;
-		_rightVeh = _rightAn select 2;
 
 		_frontAn = [_frontSectors] call RYD_TopoAnalize;
-
-		_frontSectors = _frontAn select 0;
-		_frontInf = _frontAn select 1;
-		_frontVeh = _frontAn select 2;
+		_frontAn params ["_frontSectors","_frontInf","_frontVeh"];
 
 		_leftSANmbr = 0;
 		_rightSANmbr = 0;
@@ -1336,8 +1319,7 @@ while {(RydBB_Active)} do
 
 		if (((RydBBa_SimpleDebug) and (_BBSide == "A")) or ((RydBBb_SimpleDebug) and (_BBSide == "B"))) then 
 			{
-			//[_BBHQGrps,_BBSide] spawn RYD_BBSimpleD
-			[[_BBHQGrps,_BBSide],RYD_BBSimpleD] call RYD_Spawn
+			[_BBHQGrps,_BBSide] call RYD_BBSimpleD;
 			};
 		};
 
@@ -1386,7 +1368,7 @@ while {(RydBB_Active)} do
 			{
 			if ((count _goingReserve) > 0) then 
 				{
-				_newL = _goingReserve select 0;
+				_goingReserve params ["_newL"];
 				_goingReserve = _goingReserve - [_newL];
 				_goingAhead pushBack _newL;
 				}
@@ -1408,7 +1390,7 @@ while {(RydBB_Active)} do
 			{
 			if ((count _goingReserve) > 0) then 
 				{
-				_newL = _goingReserve select 0;
+				_goingReserve params ["_newL"];
 				_goingReserve = _goingReserve - [_newL];
 				_goingLeft pushBack _newL;
 				}
@@ -1430,7 +1412,7 @@ while {(RydBB_Active)} do
 			{
 			if ((count _goingReserve) > 0) then 
 				{
-				_newL = _goingReserve select 0;
+				_goingReserve params ["_newL"];
 				_goingReserve = _goingReserve - [_newL];
 				_goingRight pushBack _newL;
 				}
@@ -1446,9 +1428,10 @@ while {(RydBB_Active)} do
 	for "_i" from 0 to ((count (_ForcesRep select 0)) - 2) do
 		{
 		_actRep = (_ForcesRep select 0) select _i;
-		_losses = _losses - (_actRep select 2);
-		_currentNumber = _currentNumber + (_actRep select 1);
-		_ownVal = _ownVal + (_actRep select 3)
+		_actRep params ["_placebofor0","_curr1","_loss1","_ownV1"];
+		_losses = _losses - _loss1;
+		_currentNumber = _currentNumber + _curr1;
+		_ownVal = _ownVal + _ownV1;
 		};
 
 	_enemyVal = 0;
@@ -1582,12 +1565,9 @@ while {(RydBB_Active)} do
 			_fPos = getPosATL (vehicle (leader _x));
 
 			if ((count _notTaken) == 0) exitWith {_x setVariable ["ActualTarget",[_fPos,1,false,"Zero"]]};
-
-			_chosenT = _notTaken select 0;
+			_notTaken params ["_chosenT"];
 			_indx = 0;
-			_cPos = _chosenT select 0;
-			_cVal = _chosenT select 1;
-			_cTaken = _chosenT select 2;
+			_chosenT params ["_cPos","_cVal","_cTaken"];
 			_dstFC = _fPos distance _cPos;
 			_tempMax = 0;
 			if (_dstFC > 0) then {_tempMax = _cVal/((_dstFC/1000) * (_dstFC/1000))};
@@ -1595,10 +1575,7 @@ while {(RydBB_Active)} do
 			for "_i" from 1 to ((count _notTaken) - 1) do
 				{
 				_actT = _notTaken select _i;
-
-				_cPos = _actT select 0;
-				_cVal = _actT select 1;
-				_cTaken = _actT select 2;
+				_actT params ["_cPos","_cVal","_cTaken"];
 				_dstFC = _fPos distance _cPos;
 				_tempAct = 0;
 				if (_dstFC > 0) then {_tempAct = (_cVal/((_dstFC/1000) * (_dstFC/1000))) * (0.5 + (random 0.5) + (random 0.5))};
@@ -1640,12 +1617,10 @@ while {(RydBB_Active)} do
 			_fPos = getPosATL (vehicle (leader _x));
 
 			if ((count _notTaken) == 0) exitWith {_x setVariable ["ActualTarget",[_fPos,1,false,"Zero"]]};
-
-			_chosenT = _notTaken select 0;
+			
+			_notTaken params ["_chosenT"];
 			_indx = 0;
-			_cPos = _chosenT select 0;
-			_cVal = _chosenT select 1;
-			_cTaken = _chosenT select 2;
+			_chosenT params ["_cPos","_cVal","_cTaken"];
 			_dstFC = _fPos distance _cPos;
 			_tempMax = 0;
 			if (_dstFC > 0) then {_tempMax = _cVal/((_dstFC/1000) * (_dstFC/1000))};
@@ -1653,10 +1628,7 @@ while {(RydBB_Active)} do
 			for "_i" from 1 to ((count _notTaken) - 1) do
 				{
 				_actT = _notTaken select _i;
-
-				_cPos = _actT select 0;
-				_cVal = _actT select 1;
-				_cTaken = _actT select 2;
+				_actT params ["_cPos","_cVal","_cTaken"];
 				_dstFC = _fPos distance _cPos;
 				_tempAct = 0;
 				if (_dstFC > 0) then {_tempAct = (_cVal/((_dstFC/1000) * (_dstFC/1000))) * (0.5 + (random 0.5) + (random 0.5))};
@@ -1698,12 +1670,9 @@ while {(RydBB_Active)} do
 
 			if ((count _notTaken) == 0) exitWith {_x setVariable ["ActualTarget",[_fPos,1,false,"Zero"]]};
 
-			_chosenT = _notTaken select 0;
-
+			_notTaken params ["_chosenT"];
 			_indx = 0;
-			_cPos = _chosenT select 0;
-			_cVal = _chosenT select 1;
-			_cTaken = _chosenT select 2;
+			_chosenT params ["_cPos","_cVal","_cTaken"];
 			_dstFC = _fPos distance _cPos;
 			_tempMax = 0;
 			if (_dstFC > 0) then {_tempMax = _cVal/((_dstFC/1000) * (_dstFC/1000))};
@@ -1712,10 +1681,7 @@ while {(RydBB_Active)} do
 			for "_i" from 1 to ((count _notTaken) - 1) do
 				{
 				_actT = _notTaken select _i;
-
-				_cPos = _actT select 0;
-				_cVal = _actT select 1;
-				_cTaken = _actT select 2;
+				_actT params ["_cPos","_cVal","_cTaken"];
 				_dstFC = _fPos distance _cPos;
 				_tempAct = 0;
 				if (_dstFC > 0) then {_tempAct = (_cVal/((_dstFC/1000) * (_dstFC/1000))) * (0.5 + (random 0.5) + (random 0.5))};
@@ -1792,7 +1758,7 @@ while {(RydBB_Active)} do
 
 						_areas pushBack _acT;
 
-						_acT = _acT select 0;
+						_acT params ["_act"];
 
 						if ((count _goingOverall) == 1) then {_areas = (_leftNotTaken + _rightNotTaken + _frontNotTaken)};
 
@@ -1800,8 +1766,7 @@ while {(RydBB_Active)} do
 
 						_pathRep = [_sctrs,_areas,_HQpos,_acT,_BBSide] call RYD_Itinerary;
 
-						_secsAround = _pathRep select 0;
-						//_tgtsAround = _pathRep select 1;
+						_pathRep params ["_secsAround"];
 
 						_tgtsAround = _areas;
 
@@ -1826,9 +1791,7 @@ while {(RydBB_Active)} do
 					
 						[_front,+_points,1200] call RYD_LocMultiTransform;
 
-						//[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide] spawn RYD_ExecutePath;
-
-						[[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide,_AAOPts],RYD_ExecutePath] call RYD_Spawn;
+						[_x,_tgtsAround,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQGrps,_HQpos,_front,_secsAround,_goingReserve,_BBSide,_AAOPts] call RYD_ExecutePath;
 
 						waitUntil
 							{
@@ -1898,9 +1861,7 @@ while {(RydBB_Active)} do
 	*/
 			[_front,+_points,1000] call RYD_LocMultiTransform;
 
-			//[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide] spawn RYD_ReserveExecuting;
-
-			[[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide],RYD_ReserveExecuting] call RYD_Spawn;
+			[_x,_goingAhead,_tObj1,_tObj2,_tObj3,_tObj4,_BBHQs,_front,_takenPoints,_hostileGroups,_BBSide] call RYD_ReserveExecuting;
 
 			waitUntil
 				{
@@ -1922,8 +1883,7 @@ while {(RydBB_Active)} do
 
 	if (_BBCycle == 1) then 
 		{
-		//[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps] spawn RYD_ObjectivesMon
-		[[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps],RYD_ObjectivesMon] call RYD_Spawn;
+		[_strArea,_BBSide,(_BBHQGrps select 0),_BBHQGrps] call RYD_ObjectivesMon;
 		};
 
 	if ((_BBSide == "A") and (_BBCycle == 1)) then {RydBBa_Init = true};
@@ -2021,3 +1981,4 @@ while {(RydBB_Active)} do
 			}
 		};
 	};
+
