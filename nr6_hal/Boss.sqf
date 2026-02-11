@@ -3,10 +3,10 @@ _SCRname = "Boss";
 private 
 	[
 	"_cntr","_lng","_nmbr","_sectors","_markers","_mark","_secpos","_sPosX","_sPosY","_sUrban","_sForest","_sHills","_sFlat","_sSea","_samplePos","_topArr","_sRoads","_bbCycle",
-	"_text","_nbr","_sum","_alpha","_count","_strArea","_loc10","_loc5","_loc2","_loc1","_locHill","_topArr","_frstV","_nmbr","_posGrpX","_sGr","_BBHQs","_BBSide","_urgent",
+	"_text","_nbr","_sum","_alpha","_count","_strArea","_loc10","_loc5","_loc2","_loc1","_locHill","_topArr","_frstV","_nmbr","_posGrpX","_sGr","_urgent",
 	"_posGrpY","_posGrp","_valGrp","_armyPos","_ct","_change","_mainPos","_taken","_posStr","_valStr","_posStrX","_posStrY","_amDist","_mDist","_aDist","_gDst","_actDist","_BBStr",
-	"_attackAxis","_color","_k","_j","_fAr","_fPnt","_fVal","_fTkn","_fX","_fY","_sAr","_sPnt","_sVal","_sTkn","_sX","_sY","_ForcesRep","_ownGroups","_hostileGroups","_BBHQGrps",
-	"_isCiv","_civF","_enemyClose","_allCount","_resCount","_actCount","_flankCount","_centerCount","_BBHQs","_resArr","_chsn","_resDst","_dst","_centerArr","_centerDst","_allAreTaken",
+	"_attackAxis","_color","_k","_j","_fAr","_fPnt","_fVal","_fTkn","_fX","_fY","_sAr","_sPnt","_sVal","_sTkn","_sX","_sY","_ForcesRep","_ownGroups","_hostileGroups",
+	"_isCiv","_civF","_enemyClose","_allCount","_resCount","_actCount","_flankCount","_centerCount","_resArr","_chsn","_resDst","_dst","_centerArr","_centerDst","_allAreTaken",
 	"_isLeft","_where","_isFlank","_isRear","_leftSectors","_rightSectors","_frontSectors","_leftAn","_leftInf","_leftVeh","_rightAn","_rightInf","_rightVeh","_frontAn","_BBSAL",
 	"_frontInf","_frontVeh","_leftSANmbr","_rightSANmbr","_frontSANmbr","_leftSA","_rightSA","_frontSA","_leftSANmbr","_rightSANmbr","_frontSANmbr","_leftSpace","_rightSpace","_ctWait",
 	"_frontSpace","_LmaxSpace","_RmaxSpace","_FmaxSpace","_LmaxSA","_RmaxSA","_FmaxSA","_LmaxVeh","_RmaxVeh","_FmaxVeh","_lFlank","_rFlank","_cFront","_flSMaxStr","_flSpace","_pathDone",
@@ -19,10 +19,8 @@ private
 	"_goingReserve0","_lastGLeft","_lastGRight","_lastGAhead","_aliveHQ","_newL","_lastGLeftN","_lastGRightN","_lastGAheadN","_fixedInitStatus","_pos","_enAr","_eA","_eP","_eT","_sA","_sP",
 	"_strArea0","_k","_j","_flankOne","_goingOne","_flankTwo","_goingTwo","_resCand","_ctVal","_mapSize","_DEFpoints","_defPointsBB","_AAOPts","_goingOverall"
 	];
-
-_BBHQs = (_this select 0) select 0;
-_BBSide = (_this select 0) select 1;
-_BBHQGrps = _this select 1;
+params ["_BBHQs","_BBHQGrps"];
+_BBHQs params ["_BBHQs","_BBSide"]; 
 
 if ((_BBSide == "B") and ((count RydBBa_HQs) > 0)) then 
 	{
@@ -1981,4 +1979,5 @@ while {(RydBB_Active)} do
 			}
 		};
 	};
+
 
