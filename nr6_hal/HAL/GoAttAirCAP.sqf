@@ -1,10 +1,8 @@
 _SCRname = "GoAttAirCAP";
 
 _i = "";
+params ["_unitG","_Trg","_HQ"];
 
-_unitG = _this select 0;
-_Trg = _this select 1;
-_HQ = _this select 2;
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
@@ -34,14 +32,14 @@ if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or no
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 
 	_HQ setVariable ["RydHQ_Exhausted",(_HQ getVariable ["RydHQ_Exhausted",[]]) + [_unitG]];
-	[[_unitG,_HQ],HAL_GoRest] call RYD_Spawn;
+	[_unitG,_HQ] call HAL_GoRest;
 
 };
 
 _nothing = true;
-
-_dX = (_PosObj1 select 0) - ((getPosATL (leader _HQ)) select 0);
-_dY = (_PosObj1 select 1) - ((getPosATL (leader _HQ)) select 1);
+_PosObj1 params ["_dXPosObj1","_dYPosObj1"];
+_dX = _dXPosObj1 - ((getPosATL (leader _HQ)) select 0);
+_dY = _dYPosObj1 - ((getPosATL (leader _HQ)) select 1);
 
 _angle = _dX atan2 _dY;
 
@@ -85,8 +83,8 @@ _lasT = ObjNull;
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
+_cause params ["_timer","_alive"];
+
 
 if not (_alive) exitwith 
 	{
@@ -125,8 +123,7 @@ _mustRTB = false;
 
 if not (_mustRTB) then {
 	_cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
@@ -148,5 +145,6 @@ _HQ setVariable ["RydHQ_AttackAv",_attAv];
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};
+
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
