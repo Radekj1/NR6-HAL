@@ -1,11 +1,9 @@
 _SCRname = "GoDefRecon";
 
 _i = "";
+params ["_unitG","_DefPos","_angleV","_HQ"];
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_DefPos = _this select 1;
-_angleV = _this select 2;
-_HQ = _this select 3;
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
 _unitvar = str _unitG;
 _busy = false;
@@ -128,8 +126,7 @@ if not (isNull _nE) then
 		else
 			{
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter}};
-			//[_unitG,_nE] spawn RYD_Smoke;
-			[[_unitG,_nE],RYD_Smoke] call RYD_Spawn;
+			[_unitG,_nE] call RYD_Smoke;
 			sleep 10;
 			if ((vehicle _UL) == _UL) then {sleep 25}
 			}
@@ -143,7 +140,7 @@ if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,
 if (_HQ getVariable ["RydHQ_Debug",false]) then 
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
-	_i = [_DefPos,_unitG,"markDef","ColorBrown","ICON","waypoint","REC " + (groupId _unitG) + " " + _signum," - WATCH FOREGROUND",[0.5,0.5]] call RYD_Mark
+	_i = [_DefPos,_unitG,"markDef","ColorBrown","ICON","waypoint","REC " + (groupId _unitG) + " " + _signum," - WATCH FOREGROUND",[0.5,0.5]] call RYD_Mark;
 	};
 	
 _AV = assignedVehicle _UL;
@@ -215,8 +212,7 @@ _unitG setFormDir _dir;
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}};
 
-//[_unitG,(_HQ getVariable ["RydHQ_Flare",true]),(_HQ getVariable ["RydHQ_ArtG",[]]),(_HQ getVariable ["RydHQ_ArtyShells",1]),(leader _HQ)] spawn RYD_Flares;
-[[_unitG,(_HQ getVariable ["RydHQ_Flare",true]),(_HQ getVariable ["RydHQ_ArtG",[]]),(_HQ getVariable ["RydHQ_ArtyShells",1]),(leader _HQ)],RYD_Flares] call RYD_Spawn;
+[_unitG,(_HQ getVariable ["RydHQ_Flare",true]),(_HQ getVariable ["RydHQ_ArtG",[]]),(_HQ getVariable ["RydHQ_ArtyShells",1]),(leader _HQ)] call RYD_Flares;
 
 _alive = true;
 /*
@@ -260,5 +256,6 @@ _HQ setVariable ["RydHQ_RecDefSpot",_RecDefSpot];
 
 _unitG setVariable [("Busy" + _unitvar), false];
 _unitG setVariable ["Defending", false];
+
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
