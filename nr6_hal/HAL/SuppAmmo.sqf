@@ -1,9 +1,8 @@
 _SCRname = "SuppAmmo";
 
-private ["_HQ","_ammo","_noenemy","_ammoS","_ammoSG","_Hollow","_soldiers","_ZeroA","_ammoN","_av","_MTrucks","_mtr","_unitvar","_busy","_Unable","_MTrucks2","_MTrucks3","_MTrucks2a","_MTrucks3a","_Zunits","_a",
+private ["_ammo","_noenemy","_ammoS","_ammoSG","_Hollow","_soldiers","_ZeroA","_ammoN","_av","_MTrucks","_mtr","_unitvar","_busy","_Unable","_MTrucks2","_MTrucks3","_MTrucks2a","_MTrucks3a","_Zunits","_a",
 	"_Zunit","_halfway","_distT","_eClose1","_eClose2","_UL","_Hunits","_MTruck","_Hunit","_ammoBox","_supported"];
-
-_HQ = _this select 0;
+params ["_HQ"];
 
 _ammo = RHQ_Ammo + RYD_WS_ammo - RHQs_Ammo;
 
@@ -209,9 +208,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				_supported pushBack (group _Zunit);
 				_HQ setVariable ["RydHQ_ASupportedG",_supported];
 				//_HQ setVariable ["RydHQ_ASupportedG",(_HQ getVariable ["RydHQ_ASupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_ASupportedG",[]])),(group _Zunit)]];
-				//[_MTruck,_Zunit,_Hollow,_soldiers,false,objNull,_HQ] spawn HAL_GoAmmoSupp
-				
-				[[_MTruck,_Zunit,_Hollow,_soldiers,false,objNull,_HQ],HAL_GoAmmoSupp] call RYD_Spawn;
+				[_MTruck,_Zunit,_Hollow,_soldiers,false,objNull,_HQ] call HAL_GoAmmoSupp;
 				}
 			else
 				{
@@ -297,8 +294,7 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 					//_HQ setVariable ["RydHQ_ASupportedG",(_HQ getVariable ["RydHQ_ASupportedG",[]]) set [(count (_HQ getVariable ["RydHQ_ASupportedG",[]])),(group _Hunit)]];
 					_ammoBox = (_HQ getVariable ["RydHQ_AmmoBoxes",[]]) select 0;
 					_HQ setVariable ["RydHQ_AmmoBoxes",(_HQ getVariable ["RydHQ_AmmoBoxes",[]]) - [_ammoBox]];
-					//[_MTruck,_Hunit,_Hollow,_soldiers,true,_ammoBox,_HQ] spawn HAL_GoAmmoSupp; 
-					[[_MTruck,_Hunit,_Hollow,_soldiers,true,_ammoBox,_HQ],HAL_GoAmmoSupp] call RYD_Spawn;
+					[_MTruck,_Hunit,_Hollow,_soldiers,true,_ammoBox,_HQ] call HAL_GoAmmoSupp; 
 					}
 				else
 					{
@@ -315,4 +311,5 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 			}
 		foreach _MTrucks3a
 		}
+
 	};
