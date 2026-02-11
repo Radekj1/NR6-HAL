@@ -37,7 +37,7 @@ RYD_StatusQuo =
 				[_HQ] call HAL_HQReset
 				};
 				
-			[[_HQ],_code] call RYD_Spawn;
+			[_HQ] call _code;
 			};
 		
 		};
@@ -1279,8 +1279,7 @@ RYD_StatusQuo =
 					_trg = vehicle (leader _trgG);
 					if (not ((toLower (typeOf _trg)) in (_HArmor + _LArmor)) or ((random 100) > (90 - ((_HQ getVariable ["RydHQ_Recklessness",0.5]) * 10)))) then 
 						{
-						//[_team,_trg,_trgG,_HQ] spawn HAL_GoSFAttack;
-						[[_team,_trg,_trgG,_HQ],HAL_GoSFAttack] call RYD_Spawn;
+						[_team,_trg,_trgG,_HQ] call HAL_GoSFAttack;
 						}
 					}
 				}
@@ -1422,7 +1421,7 @@ RYD_StatusQuo =
 								}
 							};
 							
-						[[_Lpos,_HQ,_knownEG],_code] call RYD_Spawn
+						[_Lpos,_HQ,_knownEG] call _code;
 						}
 					}
 				}
@@ -1745,7 +1744,7 @@ RYD_LF =
 				}
 			};
 			
-		[[_src,_vPos],_code] call RYD_Spawn
+		[_src,_vPos] call _code;
 		}
 	else
 		{
@@ -2033,7 +2032,7 @@ RYD_ClusterC =
 	_clusters
 	};
 	
-RYD_Spawn = 
+RYD_Spawn = // TO BE REMOVED OR COMMENTED OUT
 	{
 	params ["_arguments","_script"];
 	_arguments call _script;
@@ -3355,4 +3354,5 @@ RYD_deployUAV =
 	foreach (units _gp);
 	
 	_hasUAV
+
 	};
