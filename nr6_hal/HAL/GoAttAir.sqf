@@ -1,10 +1,8 @@
 _SCRname = "GoAttAir";
 
 _i = "";
+params ["_unitG","_Trg","_HQ"];
 
-_unitG = _this select 0;
-_Trg = _this select 1;
-_HQ = _this select 2;
 _request = false;
 _reqTgtSet = false;
 if ((count _this) > 3) then {_request = _this select 3};
@@ -36,7 +34,7 @@ if ((_flight isEqualTo []) and ((isNull (assignedVehicle (leader _unitG))) or no
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 
 	_HQ setVariable ["RydHQ_Exhausted",(_HQ getVariable ["RydHQ_Exhausted",[]]) + [_unitG]];
-	[[_unitG,_HQ],HAL_GoRest] call RYD_Spawn;
+	[_unitG,_HQ] call HAL_GoRest;
 
 };
  
@@ -105,9 +103,8 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 	_tPos = getPosATL _Trg;
 	//_tX = (_tPos select 0) + (random 60) - 30;
 	//_tY = (_tPos select 1) + (random 60) - 30;
-
-	_tX = (_tPos select 0);
-	_tY = (_tPos select 1);
+	
+	_tpos params ["_tX","_tY"];
 
 	if not (_request) then {
 		_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
@@ -125,16 +122,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 	
 	_code =
 		{
-		_Trg = _this select 0;
-		_lasT = _this select 1;
-		_unitG = _this select 2;
-		_HQ = _this select 3;
-		_casPos = _this select 4;
-
-
-		_wp = _this select 6;
-		_tgt = _this select 7;
-		_eSide = _this select 8;
+		params ["_Trg","_lasT","_unitG","_HQ","_casPos","_reqTgtSet","_wp","_tgt","_eSide"];
 		_endThis = false;
 
 		_VL = vehicle (leader _unitG);
@@ -252,14 +240,12 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 		_unitG setVariable ["RydHQ_WaitingTarget",nil];
 		};
 		
-	[[_Trg,_lasT,_unitG,_HQ,[_posX,_posY],_reqTgtSet,_wp,_tgt,_eSide],_code] call RYD_Spawn
-};
+	[_Trg,_lasT,_unitG,_HQ,[_posX,_posY],_reqTgtSet,_wp,_tgt,_eSide] call _code;
 
 
 if (not (_request) and not (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]]))) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
+_cause params ["_timer","_alive"];
 
 _unitG setVariable ["CurrCASLazeOff",true];
 _unitG setVariable ["CurrCASObjSetByLead",objNull];
@@ -301,8 +287,7 @@ _mustRTB = false;
 
 if (_mustRTB) then {
 	_cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
@@ -326,5 +311,6 @@ _HQ setVariable ["RydHQ_AttackAv",_attAv];
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};
+
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
