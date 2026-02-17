@@ -314,7 +314,7 @@ _SideEnemies = [];
 				_HQ setVariable ["RydHQ_Garrison",_garrison];
 				};
 						
-			if ((_trg distance (vehicle (leader _chosen))) < (_HQ getVariable ["RydHQ_ObjRadius2",500])) then {[[_chosen,_HQ],_code] call RYD_Spawn};
+			if ((_trg distance (vehicle (leader _chosen))) < (_HQ getVariable ["RydHQ_ObjRadius2",500])) then {[_chosen,_HQ] call _code;};
 			}
 		};
 
@@ -538,4 +538,5 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 	foreach (_HQ getVariable ["RydHQ_Exhausted",[]]);
 	_HQ setVariable ["RydHQ_Exhausted",_exhausted];
 	_exhausted = _exhausted select {!isNull _x};
+
 };
