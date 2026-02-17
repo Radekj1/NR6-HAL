@@ -5,12 +5,14 @@ _cycle = 0;
 _HQ = _this select 0;
 _signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 _debug = _HQ getVariable ["RydHQ_Debug",false];
-
+// TO DO: REPLACE BELOW While true [when leader exist, with a manual loop that will execute AFTER getting update from sleep 60 + random 120
+// ["_HQ","_cycle"] call LHQ_Code;
+// private LHQ_Code = 
 while {not (isNull _HQ)} do
 	{
 	_last = _HQ getVariable ["leaderHQ",objNull];
 	if (isNil ("_last")) then {_last = ObjNull};
-	sleep 0.2;
+	sleep 0.2; //comment that out
 	if (isNull _HQ) exitWith {};
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {}; 
 	_HQ setVariable ["leaderHQ",(leader _HQ)];
@@ -64,10 +66,11 @@ while {not (isNull _HQ)} do
 							_HQ setVariable ["RydHQ_Circumspection",_Circumspection];
 							_HQ setVariable ["RydHQ_Fineness",_Fineness];
 
-							[] spawn
+							[] call
 								{
 								sleep (60 + (random 120));
 								_HQ setVariable ["RydHQ_Morale",(_HQ getVariable ["RydHQ_Morale",0]) - (10 + round (random 10))]
+								//["_HQ"] call LHQ_Code;
 								}
 							}
 						}
@@ -85,4 +88,5 @@ while {not (isNull _HQ)} do
 if (_debug) then 
 	{
 	hintSilent format ["HQ of %1 forces has been destroyed!",_signum]
+
 	};
