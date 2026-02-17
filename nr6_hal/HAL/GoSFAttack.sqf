@@ -1,10 +1,8 @@
 _SCRname = "GoSFAttack";
-
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG))),true]}; 
-_Trg = _this select 1;
+params ["_unitG","_Trg","_trgG","_HQ"];
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG))),true]}; 
 _trgPos = getPosATL _Trg;
-_trgG = _this select 2;
-_HQ = _this select 3;
+
 
 if (_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) exitwith {};
 _ammo = [_unitG,(_HQ getVariable ["RydHQ_NCVeh",[]])] call RYD_AmmoCount;
@@ -299,8 +297,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posXWP4,_posYWP4] distance (vehicle _UL)) > 1000)) then 
 		{
-		//[_unitG,_HQ,[_posXWP4,_posYWP4]] spawn HAL_SCargo
-		[[_unitG,_HQ,[_posXWP4,_posYWP4]],HAL_SCargo] call RYD_Spawn;
+		[_unitG,_HQ,[_posXWP4,_posYWP4]] call HAL_SCargo;
 		} 
 	else 
 		{
@@ -416,17 +413,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	}:
 
@@ -480,17 +473,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	}:
 
@@ -539,8 +528,7 @@ if ((_ammo > 0) and not (_busy)) then
 			if not (isNull _lz) then
 				{
 				_pos = getPosATL _lz;
-				_posX = _pos select 0;
-				_posY = _pos select 1
+				_pos params ["_posX","_posY"];
 				}
 			}
 		};
@@ -576,17 +564,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	}:
 
@@ -673,8 +657,7 @@ if ((_ammo > 0) and not (_busy)) then
 		_wp35 = [_unitG,[_posXWP35,_posYWP35],"MOVE","STEALTH","GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,50,[50,55,60],_frm] call RYD_WPadd;
 
 		_cause = [_unitG,6,true,0,300,[],false] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
+		_cause params ["_timer","_alive"];
 
 		if not (_alive) exitwith 
 			{
@@ -704,8 +687,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_wp4 setWaypointType "DESTROY";
 
 	_cause = [_unitG,6,true,0,300,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
@@ -746,8 +728,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_wp5 = [_unitG,[_posXWP3,_posYWP3],"MOVE",_beh,"GREEN",_spd,["true","deletewaypoint [(group this), 0];"],true,20,[0,0,0],_frm] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
@@ -779,8 +760,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_wp6 = [_unitG,[_posXWP2,_posYWP2],"MOVE",_beh,"GREEN",_spd,["true","deletewaypoint [(group this), 0];"],true,20,[0,0,0],_frm] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
@@ -812,8 +792,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_wp7 = [_unitG,[_posXWP1,_posYWP1],"MOVE",_beh,"GREEN",_spd,["true","deletewaypoint [(group this), 0];"],true,20,[0,0,0],_frm] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
