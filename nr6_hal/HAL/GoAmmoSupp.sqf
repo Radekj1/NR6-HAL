@@ -1,13 +1,8 @@
 _SCRname = "GoAmmoSupp";
 
 _i = "";
+params ["_unit","_Trg","_Hollow","_soldiers","_drop","_ammoBox","_HQ"];
 
-_unit = _this select 0;
-_Trg = _this select 1;
-_Hollow = _this select 2;
-_soldiers = _this select 3;
-_drop = _this select 4;
-_HQ = _this select 6;
 _request = false;
 if ((count _this) > 7) then {_request = _this select 7};
 
@@ -76,7 +71,7 @@ if (_drop) then
 		{
 		if (_unit isKindOf "Air") then
 			{
-			_ammoBox = _this select 5;
+			//_ammoBox = _this select 5;
 			_abPos = getPosATL _ammoBox;
 			_pos = _Trg;
 			(group _Trg) setVariable ["ForBoxing",_pos];
@@ -136,11 +131,10 @@ if (_drop) then
 					[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0];
 					_ammoBox setPos _abPos
 					}
-				else
+			else
 					{
 					_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 240) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
-					//[_unit,_ammoBox,(group _Trg)] spawn RYD_AmmoDrop;
-					[[_unit,_ammoBox,(group _Trg)],RYD_AmmoDrop] call RYD_Spawn;
+					[_unit,_ammoBox,(group _Trg)] call RYD_AmmoDrop;
 					_boxed = (_HQ getVariable ["RydHQ_Boxed",[]]);
 					_boxed pushBack (group _Trg);
 					_HQ setVariable ["RydHQ_Boxed",_boxed];
@@ -151,8 +145,7 @@ if (_drop) then
 
 
 				_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-				_timer = _cause select 0;
-				_alive = _cause select 1;
+				_cause params ["_timer","_alive"];
 
 				//_unit setVariable ["KeepAlt",false];
 
@@ -173,7 +166,7 @@ if (_drop) then
 					[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 0]
 					}
 				}
-			else
+				else
 				{
 				_pos2 = position _pos;
 				_pos = position _ammoBox;
@@ -559,8 +552,7 @@ _alive = true;
 
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 };
 
 if not (_alive) exitwith 
@@ -600,5 +592,6 @@ if (_lastOne) then
 	_aSupp = _aSupp - [(group _Trg)];
 	_HQ setVariable ["RydHQ_ASupportedG",_aSupp]
 	};
+
 
 _UL = leader _unitG; if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
