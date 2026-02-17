@@ -66,12 +66,12 @@ while {not (isNull _HQ)} do
 							_HQ setVariable ["RydHQ_Circumspection",_Circumspection];
 							_HQ setVariable ["RydHQ_Fineness",_Fineness];
 
-							[] call
+							["_HQ"] call
 								{
 								sleep (60 + (random 120));
 								_HQ setVariable ["RydHQ_Morale",(_HQ getVariable ["RydHQ_Morale",0]) - (10 + round (random 10))]
 								//["_HQ"] call LHQ_Code;
-								}
+								};
 							}
 						}
 					}
@@ -90,3 +90,4 @@ if (_debug) then
 	hintSilent format ["HQ of %1 forces has been destroyed!",_signum]
 
 	};
+
