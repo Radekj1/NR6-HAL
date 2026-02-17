@@ -1593,9 +1593,8 @@ RYD_Dispatcher =
 							{
 							_chosen setVariable ["Busy" + (str _chosen),true];
 							_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
-							//[_chosen,_trg,_HQ] spawn ([_pattern] call RYD_GoLaunch);
 							
-							[[_chosen,_trg,_HQ],([_pattern] call RYD_GoLaunch)] call RYD_Spawn;
+							[[_chosen,_trg,_HQ] call ([_pattern] call RYD_GoLaunch);
 							_limit = _limit - 1;
 							};
 
@@ -3039,7 +3038,7 @@ RYD_ArtyMission =
 				foreach _battery
 				};
 				
-			[[_battery,_pos,_ammoArr,_FO,_amount,_ammoG],_code] call RYD_Spawn
+			[_battery,_pos,_ammoArr,_FO,_amount,_ammoG] call _code;
 			}
 		};
 
@@ -3754,7 +3753,7 @@ RYD_CFF_FFE =
 				};
 			};
 		
-		[[_battery,_distance,_eta,_ammoG,_batlead,_target,_markers,_request],_code] call RYD_Spawn;
+		[_battery,_distance,_eta,_ammoG,_batlead,_target,_markers,_request] call _code;
 			
 		_eta = [_battery,_finalimpact,_ammo,_amount] call RYD_CFF_Fire;
 					
@@ -3968,7 +3967,7 @@ RYD_CFF =
 				if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
 				//[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
 
-				[[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)],RYD_CFF_FFE] call RYD_Spawn;
+				[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
 				}
 			else
 				{
@@ -3993,7 +3992,7 @@ RYD_CFF =
 					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
 					//[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
 					
-					[[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)],RYD_CFF_FFE] call RYD_Spawn;
+					[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
 					}
 				else
 					{
@@ -4865,7 +4864,7 @@ RYD_AIChatter =
 			deleteMarker _mark
 			};
 		
-		[[_mark],_code] call RYD_Spawn;
+		[_mark] call _code;
 		};
 
 	missionNameSpace setVariable ["HAC_AIChatLT" + _varName,[time,_kind]];
