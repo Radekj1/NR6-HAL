@@ -1,14 +1,10 @@
 _SCRname = "GoAttSniper";
 
 _i = "";
-
-_unitG = _this select 0;
-_HQ = _this select 2;
+params ["_unitG","_Trg","_HQ"];
 
 _Spos = _unitG getvariable ("START" + (str _unitG));
 if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-
-_Trg = _this select 1;
 
 _isAttacked = (group _Trg) getvariable ("SnpAttacked" + (str (group _Trg)));
 if (isNil ("_isAttacked")) then {_isAttacked = 0};
@@ -275,7 +271,7 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((ra
 
 _wp = [_unitG,getPosATL (vehicle (leader _unitG)),"SENTRY","STEALTH","RED","NORMAL",["true",""],_cur,0.001,[0,0,0],_frm] call RYD_WPadd;
 
-_fEH = (leader _unitG) addEventHandler ["Fired",{[_this,RYD_FireCount] call RYD_Spawn}];
+_fEH = (leader _unitG) addEventHandler ["Fired",{[_this] call RYD_FireCount}];
 (leader _unitG) setVariable ["HAC_FEH",_fEH];
 [_unitG,_Trg] spawn {_unitG = _this select 0;_Trg = _this select 1; sleep (5 + (random 5));_unitG reveal [_Trg,3]};
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
@@ -303,9 +299,7 @@ if not (_alive) exitwith
 if (_timer > 240) then {[_unitG] call RYD_WPdel};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
-
-_sPosX = _Spos select 0;
-_sPosY = _Spos select 1;
+_Spos params ["_sPosX","_sPosY"];
 
 _wPosX = (_sPosX + _posX)/2;
 _wPosY = (_sPosY + _posY)/2;
@@ -316,8 +310,8 @@ if not (isPlayer (leader _unitG)) then {_frm = "DIAMOND"};
 _wp = [_unitG,[_wPosX,_wPosY],"MOVE","STEALTH","GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0,[0,0,0],_frm] call RYD_WPadd;
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 _cause = [_unitG,6,true,0,300,[],false] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
+_cause params ["_timer","_alive"];
+
 
 if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];[_Trg,"SnpAttacked"] call RYD_VarReductor;if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
 if (_timer > 300) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
@@ -372,5 +366,6 @@ _HQ setVariable ["RydHQ_AttackAv",_attAv];
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 [_Trg,"SnpAttacked"] call RYD_VarReductor;
+
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
