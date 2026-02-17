@@ -34,7 +34,7 @@ _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
 
 [_HQ] call HAL_Personality;
 
-[[_HQ],HAL_LHQ] call RYD_Spawn;
+[_HQ] call HAL_LHQ;
 
 if (isNil ("RydHQ_Boxed")) then {RydHQ_Boxed = []};
 _HQ setVariable ["RydHQ_Boxed",RydHQ_Boxed];
@@ -687,4 +687,5 @@ while {true} do
 		};
 	
 	call RYD_StatusQuo;
+
 	};
