@@ -395,12 +395,12 @@ if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (Ryd
 
 if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [(group leaderHQ)] call A_HQSitRep; [(group leaderHQ)] call HAL_FBFTLOOP; [(group leaderHQ)] call HAL_SecTasks; sleep 5};
 if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] call B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] call B_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] call B_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] call B_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] call B_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] call B_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] call B_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] call C_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] call D_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] call E_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] call F_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] call G_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] call HAL_SecTasks; sleep 5};
+if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] call H_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] call HAL_SecTasks; sleep 5};
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{	
@@ -412,3 +412,4 @@ nul = [] call compile (RYD_Path + "SquadTaskingNR6Init.sqf");
 };
 
 } call CBA_fnc_directCall;
+
