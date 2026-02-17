@@ -32,10 +32,12 @@ _HQ setVariable ["RydHQ_Circumspection",RydHQ_Circumspection];
 if (isNil ("RydHQ_Fineness")) then {RydHQ_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
 
-[_HQ] call HAL_Personality;
+[{[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
 
+//LHQ - TO BE CONVERTED TO NON-SCHEDULED
 [_HQ] call HAL_LHQ;
 
+[{
 if (isNil ("RydHQ_Boxed")) then {RydHQ_Boxed = []};
 _HQ setVariable ["RydHQ_Boxed",RydHQ_Boxed];
 
@@ -96,6 +98,7 @@ _HQ setVariable ["RydHQ_Exhausted",[]];
 if (isNil ("RydHQ_SupportWP")) then {RydHQ_SupportWP = false};
 	
 _HQ setVariable ["RydHQ_SupportWP",RydHQ_SupportWP];
+},[_HQ]] call CBA_fnc_execNextFrame;
 
 _lastHQ = _HQ getVariable ["leaderHQ",objNull];
 _OLmpl = 0;
@@ -106,6 +109,7 @@ _lastReset = 0;
 _HQlPos = [-10,-10,0];
 _cInitial = 0;
 
+//TO BE 520 lines + CALLS - LOOP TO BE REPLACED MANUALLY, SPLITTED BETWEEN FRAMES, SYNCED WITH CALLS RESULTS
 while {true} do
 	{
 
@@ -115,57 +119,31 @@ while {true} do
 	};
 		
 	_specFor_class = RHQ_SpecFor + RYD_WS_specFor_class - RHQs_SpecFor;
-
 	_recon_class = RHQ_Recon + RYD_WS_recon_class - RHQs_Recon;
-		
 	_FO_class = RHQ_FO + RYD_WS_FO_class - RHQs_FO;
-		
-	_snipers_class = RHQ_Snipers + RYD_WS_snipers_class - RHQs_Snipers;
-		
-	_ATinf_class = RHQ_ATInf + RYD_WS_ATinf_class - RHQs_ATInf;
-		
+	_snipers_class = RHQ_Snipers + RYD_WS_snipers_class - RHQs_Snipers;	
+	_ATinf_class = RHQ_ATInf + RYD_WS_ATinf_class - RHQs_ATInf;		
 	_AAinf_class = RHQ_AAInf + RYD_WS_AAinf_class - RHQs_AAInf;
-
-	_Inf_class = RHQ_Inf + RYD_WS_Inf_class - RHQs_Inf;
-		
-	_Art_class = RHQ_Art + RYD_WS_Art_class - RHQs_Art;
-		
-	_HArmor_class = RHQ_HArmor + RYD_WS_HArmor_class - RHQs_HArmor;
-		
+	_Inf_class = RHQ_Inf + RYD_WS_Inf_class - RHQs_Inf;		
+	_Art_class = RHQ_Art + RYD_WS_Art_class - RHQs_Art;		
+	_HArmor_class = RHQ_HArmor + RYD_WS_HArmor_class - RHQs_HArmor;		
 	_MArmor_class = RHQ_MArmor + RYD_WS_MArmor_class - RHQs_MArmor;
-
-	_LArmor_class = RHQ_LArmor + RYD_WS_LArmor_class - RHQs_LArmor;
-		
+	_LArmor_class = RHQ_LArmor + RYD_WS_LArmor_class - RHQs_LArmor;		
 	_LArmorAT_class = RHQ_LArmorAT + RYD_WS_LArmorAT_class - RHQs_LArmorAT;
-
-	_Cars_class = RHQ_Cars + RYD_WS_Cars_class - RHQs_Cars;
-		
-	_Air_class = RHQ_Air + RYD_WS_Air_class - RHQs_Air;
-		
-	_BAir_class = RHQ_BAir + RYD_WS_BAir_class - RHQs_BAir;
-		
-	_RAir_class = RHQ_RAir + RYD_WS_RAir_class - RHQs_RAir;
-		
+	_Cars_class = RHQ_Cars + RYD_WS_Cars_class - RHQs_Cars;		
+	_Air_class = RHQ_Air + RYD_WS_Air_class - RHQs_Air;		
+	_BAir_class = RHQ_BAir + RYD_WS_BAir_class - RHQs_BAir;		
+	_RAir_class = RHQ_RAir + RYD_WS_RAir_class - RHQs_RAir;		
 	_NCAir_class = RHQ_NCAir + RYD_WS_NCAir_class - RHQs_NCAir;
-
 	_Naval_class = RHQ_Naval + RYD_WS_Naval_class - RHQs_Naval;
-
-	_Static_class = RHQ_Static + RYD_WS_Static_class - RHQs_Static;
-		
-	_StaticAA_class = RHQ_StaticAA + RYD_WS_StaticAA_class - RHQs_StaticAA;
-		
-	_StaticAT_class = RHQ_StaticAT + RYD_WS_StaticAT_class - RHQs_StaticAT;
-		
-	_Support_class = RHQ_Support + RYD_WS_Support_class - RHQs_Support;
-		
-	_Cargo_class = RHQ_Cargo + RYD_WS_Cargo_class - RHQs_Cargo;
-		
-	_NCCargo_class = RHQ_NCCargo + RYD_WS_NCCargo_class - RHQs_NCCargo;
-		
-	_Crew_class = RHQ_Crew + RYD_WS_Crew_class - RHQs_Crew;
-		
+	_Static_class = RHQ_Static + RYD_WS_Static_class - RHQs_Static;		
+	_StaticAA_class = RHQ_StaticAA + RYD_WS_StaticAA_class - RHQs_StaticAA;		
+	_StaticAT_class = RHQ_StaticAT + RYD_WS_StaticAT_class - RHQs_StaticAT;		
+	_Support_class = RHQ_Support + RYD_WS_Support_class - RHQs_Support;		
+	_Cargo_class = RHQ_Cargo + RYD_WS_Cargo_class - RHQs_Cargo;		
+	_NCCargo_class = RHQ_NCCargo + RYD_WS_NCCargo_class - RHQs_NCCargo;		
+	_Crew_class = RHQ_Crew + RYD_WS_Crew_class - RHQs_Crew;		
 	_Other_class = RHQ_Other + RYD_WS_Other_class;
-
 	_NCrewInf_class = _Inf_class - _Crew_class;
 	_Cargo_class = _Cargo_class - (_Support_class - ["MH60S"]);
 
@@ -316,8 +294,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_LastFriends",_HQ getVariable ["RydHQ_Friends",[]]];
 	
 	if (isNil "RydHQ_Garrison") then {RydHQ_Garrison = []};
-	_HQ setVariable ["RydHQ_Garrison",RydHQ_Garrison];
-	
+	_HQ setVariable ["RydHQ_Garrison",RydHQ_Garrison];	
 	if (isNil ("RydHQ_NoAirCargo")) then {RydHQ_NoAirCargo = false};
 	_HQ setVariable ["RydHQ_NoAirCargo",RydHQ_NoAirCargo];
 	if (isNil ("RydHQ_NoLandCargo")) then {RydHQ_NoLandCargo = false};
@@ -422,13 +399,10 @@ while {true} do
 	_HQ setVariable ["RydHQ_GetHQInside",RydHQ_GetHQInside];
 	if (isNil "RydHQ_WA") then {RydHQ_WA = true};
 	_HQ setVariable ["RydHQ_WA",RydHQ_WA];
-
 	if (isNil "RydHQ_InfoMarkers") then {RydHQ_InfoMarkers = false};
 	_HQ setVariable ["RydHQ_InfoMarkers",RydHQ_InfoMarkers];
-
 	if (isNil "RydHQ_ArtyMarks") then {RydHQ_ArtyMarks = false};
-	_HQ setVariable ["RydHQ_ArtyMarks",RydHQ_ArtyMarks];
-	
+	_HQ setVariable ["RydHQ_ArtyMarks",RydHQ_ArtyMarks];	
 	if (isNil ("RydHQ_ResetNow")) then {RydHQ_ResetNow = false};
 	_HQ setVariable ["RydHQ_ResetNow",RydHQ_ResetNow];
 	if (isNil ("RydHQ_ResetOnDemand")) then {RydHQ_ResetOnDemand = false};
@@ -442,8 +416,7 @@ while {true} do
 	if (isNil ("RydHQ_ObjRadius2")) then {RydHQ_ObjRadius2 = 500};
 	_HQ setVariable ["RydHQ_ObjRadius2",RydHQ_ObjRadius2];
 	if (isNil ("RydHQ_KnowTL")) then {RydHQ_KnowTL = true};
-	_HQ setVariable ["RydHQ_KnowTL",RydHQ_KnowTL];
-	
+	_HQ setVariable ["RydHQ_KnowTL",RydHQ_KnowTL];	
 	if (isNil ("RydHQ_SMed")) then {RydHQ_SMed = true};
 	_HQ setVariable ["RydHQ_SMed",RydHQ_SMed];
 	if (isNil ("RydHQ_ExMedic")) then {RydHQ_ExMedic = []};
@@ -452,12 +425,10 @@ while {true} do
 	_HQ setVariable ["RydHQ_MedPoints",RydHQ_MedPoints];
 	if (isNil ("RydHQ_SupportedG")) then {RydHQ_SupportedG = []};
 	_HQ setVariable ["RydHQ_SupportedG",RydHQ_SupportedG];
-
 	if (isNil ("RydHQ_RCAS")) then {RydHQ_RCAS = []};
 	_HQ setVariable ["RydHQ_RCAS",RydHQ_RCAS];
 	if (isNil ("RydHQ_RCAP")) then {RydHQ_RCAP = []};
-	_HQ setVariable ["RydHQ_RCAP",RydHQ_RCAP];
-	
+	_HQ setVariable ["RydHQ_RCAP",RydHQ_RCAP];	
 	if (isNil ("RydHQ_SFuel")) then {RydHQ_SFuel = true};
 	_HQ setVariable ["RydHQ_SFuel",RydHQ_SFuel];
 	if (isNil ("RydHQ_ExRefuel")) then {RydHQ_ExRefuel = []};
@@ -465,8 +436,7 @@ while {true} do
 	if (isNil ("RydHQ_FuelPoints")) then {RydHQ_FuelPoints = []};
 	_HQ setVariable ["RydHQ_FuelPoints",RydHQ_FuelPoints];
 	if (isNil ("RydHQ_FSupportedG")) then {RydHQ_FSupportedG = []};
-	_HQ setVariable ["RydHQ_FSupportedG",RydHQ_FSupportedG];
-	
+	_HQ setVariable ["RydHQ_FSupportedG",RydHQ_FSupportedG];	
 	if (isNil ("RydHQ_SAmmo")) then {RydHQ_SAmmo = true};
 	_HQ setVariable ["RydHQ_SAmmo",RydHQ_SAmmo];
 	if (isNil ("RydHQ_ExReammo")) then {RydHQ_ExReammo = []};
@@ -474,8 +444,7 @@ while {true} do
 	if (isNil ("RydHQ_AmmoPoints")) then {RydHQ_AmmoPoints = []};
 	_HQ setVariable ["RydHQ_AmmoPoints",RydHQ_AmmoPoints];
 	if (isNil ("RydHQ_ASupportedG")) then {RydHQ_ASupportedG = []};
-	_HQ setVariable ["RydHQ_ASupportedG",RydHQ_ASupportedG];
-	
+	_HQ setVariable ["RydHQ_ASupportedG",RydHQ_ASupportedG];	
 	if (isNil ("RydHQ_SRep")) then {RydHQ_SRep = true};
 	_HQ setVariable ["RydHQ_SRep",RydHQ_SRep];
 	if (isNil ("RydHQ_ExRepair")) then {RydHQ_ExRepair = []};
@@ -483,11 +452,9 @@ while {true} do
 	if (isNil ("RydHQ_RepPoints")) then {RydHQ_RepPoints = []};
 	_HQ setVariable ["RydHQ_RepPoints",RydHQ_RepPoints];
 	if (isNil ("RydHQ_RSupportedG")) then {RydHQ_RSupportedG = []};
-	_HQ setVariable ["RydHQ_RSupportedG",RydHQ_RSupportedG];
-	
+	_HQ setVariable ["RydHQ_RSupportedG",RydHQ_RSupportedG];	
 	if (isNil "RydHQ_AirDist") then {RydHQ_AirDist = 4000};
-	_HQ setVariable ["RydHQ_AirDist",RydHQ_AirDist];
-	
+	_HQ setVariable ["RydHQ_AirDist",RydHQ_AirDist];	
 	if (isNil ("RydHQ_CommDelay")) then {RydHQ_CommDelay = 1};
 	_HQ setVariable ["RydHQ_CommDelay",RydHQ_CommDelay];
 
@@ -506,7 +473,6 @@ while {true} do
 
 	if (isNil ("RydHQ_CRDefRes")) then {RydHQ_CRDefRes = 0};
 	_HQ setVariable ["RydHQ_CRDefRes",RydHQ_CRDefRes];
-
 	if (isNil ("RydHQ_ReconReserve")) then {RydHQ_ReconReserve = (0.3 * (0.5 + (_HQ getVariable ["RydHQ_Circumspection",0.5])))};
 	_HQ setVariable ["RydHQ_ReconReserve",RydHQ_ReconReserve];
 	if (isNil ("RydHQ_Exhausted")) then {RydHQ_Exhausted = []};
@@ -515,10 +481,8 @@ while {true} do
 	_HQ setVariable ["RydHQ_AttackReserve",RydHQ_AttackReserve];
 	if (isNil ("RydHQ_IdleOrd")) then {RydHQ_IdleOrd = true};
 	_HQ setVariable ["RydHQ_IdleOrd",RydHQ_IdleOrd];
-
 	if (isNil ("RydHQ_IdleDef")) then {RydHQ_IdleDef = true};
 	_HQ setVariable ["RydHQ_IdleDef",RydHQ_IdleDef];
-
 	if (isNil "RydHQ_IdleDecoy") then {RydHQ_IdleDecoy = objNull};
 	_HQ setVariable ["RydHQ_IdleDecoy",RydHQ_IdleDecoy]; 
 	if (isNil "RydHQ_SupportDecoy") then {RydHQ_SupportDecoy = objNull};
@@ -529,53 +493,40 @@ while {true} do
 	_HQ setVariable ["RydHQ_Sec1",RydHQ_Sec1]; 
 	if (isNil "RydHQ_Sec2") then {RydHQ_Sec2 = objNull};
 	_HQ setVariable ["RydHQ_Sec2",RydHQ_Sec2]; 
-
 	if (isNil "RydHQ_SupportRTB") then {RydHQ_SupportRTB = false};
-	_HQ setVariable ["RydHQ_SupportRTB",RydHQ_SupportRTB]; 
-	
+	_HQ setVariable ["RydHQ_SupportRTB",RydHQ_SupportRTB]; 	
 	if (isNil "RydHQ_Debug") then {RydHQ_Debug = false};
 	_HQ setVariable ["RydHQ_Debug",RydHQ_Debug]; 
 	if (isNil "RydHQ_DebugII") then {RydHQ_DebugII = false};
-	_HQ setVariable ["RydHQ_DebugII",RydHQ_DebugII]; 
-	
+	_HQ setVariable ["RydHQ_DebugII",RydHQ_DebugII]; 	
 	if (isNil "RydHQ_AlwaysKnownU") then {RydHQ_AlwaysKnownU = []};
 	_HQ setVariable ["RydHQ_AlwaysKnownU",RydHQ_AlwaysKnownU]; 
 	if (isNil "RydHQ_AlwaysUnKnownU") then {RydHQ_AlwaysUnKnownU = []};
-	_HQ setVariable ["RydHQ_AlwaysUnKnownU",RydHQ_AlwaysUnKnownU]; 
-	
+	_HQ setVariable ["RydHQ_AlwaysUnKnownU",RydHQ_AlwaysUnKnownU]; 	
 	if (isNil "RydHQ_AOnly") then {RydHQ_AOnly = []};
 	_HQ setVariable ["RydHQ_AOnly",RydHQ_AOnly]; 
 	if (isNil "RydHQ_ROnly") then {RydHQ_ROnly = []};
-	_HQ setVariable ["RydHQ_ROnly",RydHQ_ROnly]; 
-	
+	_HQ setVariable ["RydHQ_ROnly",RydHQ_ROnly]; 	
 	if (isNil "RydHQ_AirEvac") then {RydHQ_AirEvac = false};
-	_HQ setVariable ["RydHQ_AirEvac",RydHQ_AirEvac]; 
-	
+	_HQ setVariable ["RydHQ_AirEvac",RydHQ_AirEvac]; 	
 	if (isNil "RydHQ_AAO") then {RydHQ_AAO = false};
 	_HQ setVariable ["RydHQ_AAO",RydHQ_AAO]; 
 	if (isNil "RydHQ_ForceAAO") then {RydHQ_ForceAAO = false};
 	_HQ setVariable ["RydHQ_ForceAAO",RydHQ_ForceAAO];
-	
-
 	if (isNil "RydHQ_BBAOObj") then {RydHQ_BBAOObj = 1};
 	_HQ setVariable ["RydHQ_BBAOObj",RydHQ_BBAOObj]; 
-
 	if (isNil ("RydHQ_MoraleConst")) then {RydHQ_MoraleConst = 1};
-	_HQ setVariable ["RydHQ_MoraleConst",RydHQ_MoraleConst];
-	
+	_HQ setVariable ["RydHQ_MoraleConst",RydHQ_MoraleConst];	
 	if (isNil ("RydHQ_OffTend")) then {RydHQ_OffTend = 1};
-	_HQ setVariable ["RydHQ_OffTend",RydHQ_OffTend];
-	
+	_HQ setVariable ["RydHQ_OffTend",RydHQ_OffTend];	
 	if (isNil "RydHQ_EBDoctrine") then {RydHQ_EBDoctrine = false};
 	_HQ setVariable ["RydHQ_EBDoctrine",RydHQ_EBDoctrine]; 
 	if (isNil "RydHQ_ForceEBDoctrine") then {RydHQ_ForceEBDoctrine = false};
-	_HQ setVariable ["RydHQ_ForceEBDoctrine",RydHQ_ForceEBDoctrine]; 
-
+	_HQ setVariable ["RydHQ_ForceEBDoctrine",RydHQ_ForceEBDoctrine];
 	if (isNil "RydHQ_DefRange") then {RydHQ_DefRange = 1};
 	_HQ setVariable ["RydHQ_DefRange",RydHQ_DefRange];
 	if (isNil "RydHQ_GarrRange") then {RydHQ_GarrRange = 1};
-	_HQ setVariable ["RydHQ_GarrRange",RydHQ_GarrRange];
-	
+	_HQ setVariable ["RydHQ_GarrRange",RydHQ_GarrRange];	
 	if (isNil "RydHQ_NoCapt") then {RydHQ_NoCapt = []};
 	_HQ setVariable ["RydHQ_NoCapt",RydHQ_NoCapt];
 	
@@ -611,16 +562,12 @@ while {true} do
 
 	if (isNil ("RydHQ_SimpleMode")) then {RydHQ_SimpleMode = true};
 	_HQ setVariable ["RydHQ_SimpleMode",RydHQ_SimpleMode];
-
 	if (isNil ("RydHQ_SecTasks")) then {RydHQ_SecTasks = false};
 	_HQ setVariable ["RydHQ_SecTasks",RydHQ_SecTasks];
-
 	if (isNil ("RydHQ_SimpleObjs")) then {RydHQ_SimpleObjs = []};
 	_HQ setVariable ["RydHQ_SimpleObjs",RydHQ_SimpleObjs];
-
 	if (isNil ("RydHQ_NavalObjs")) then {RydHQ_NavalObjs = []};
 	_HQ setVariable ["RydHQ_NavalObjs",RydHQ_NavalObjs];
-
 	if (isNil ("RydHQ_MaxSimpleObjs")) then {RydHQ_MaxSimpleObjs = 5};
 	_HQ setVariable ["RydHQ_MaxSimpleObjs",RydHQ_MaxSimpleObjs];
 
