@@ -2031,13 +2031,13 @@ RYD_ClusterC =
 
 	_clusters
 	};
-	
-RYD_Spawn = // TO BE REMOVED OR COMMENTED OUT
+/* RYD_Spawn removed on 2026.02.17 YYYY/MM/DD
+RYD_Spawn =
 	{
 	params ["_arguments","_script"];
 	_arguments call _script;
 	};
-	/*
+	
 	private ["_handle"];
 	_handle = _arguments spawn _script;
 	
@@ -3356,3 +3356,4 @@ RYD_deployUAV =
 	_hasUAV
 
 	};
+
