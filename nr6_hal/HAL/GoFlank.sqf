@@ -5,14 +5,9 @@ _i2 = "";
 _i3 = "";
 _i4 = "";
 
-_unitG = _this select 0;
+params ["_unitG","_BEnemyPos","_PosMidX","_PosMidY","_angle0","_MinSide","_HQ"];
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG))),true]}; 
-_BEnemyPos = _this select 1;
-_PosMidX = _this select 2;
-_PosMidY = _this select 3;
-_angle0 = _this select 4;
-_MinSide = _this select 5;
-_HQ = _this select 6;
+
 
 _UL = leader _unitG;
 
@@ -28,8 +23,7 @@ _safeY2 = 0;
 _GposX = (getPosATL (leader _unitG)) select 0;
 _GposY = (getPosATL (leader _unitG)) select 1;
 
-_BEposX = _BEnemyPos select 0;
-_BEposY = _BEnemyPos select 1;
+_BEnemyPos params ["_BEposX","_BEposY"];
 
 _dX = _BEposX - ((getPosATL (leader _HQ)) select 0);
 _dY = _BEposY - ((getPosATL (leader _HQ)) select 1);
@@ -190,8 +184,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posXWP4,_posYWP4] distance (vehicle _UL)) > RydxHQ_CargoObjRange)) then 
 		{
-		//[_unitG,_HQ,[_posXWP4,_posYWP4]] spawn HAL_SCargo
-		[[_unitG,_HQ,[_posXWP4,_posYWP4]],HAL_SCargo] call RYD_Spawn;
+		[_unitG,_HQ,[_posXWP4,_posYWP4]] call HAL_SCargo;
 		} 
 	else 
 		{
@@ -295,17 +288,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	};
 
@@ -357,17 +346,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	};
 
@@ -414,8 +399,7 @@ if ((_ammo > 0) and not (_busy)) then
 			if not (isNull _lz) then
 				{
 				_pos = getPosATL _lz;
-				_posX = _pos select 0;
-				_posY = _pos select 1
+				_pos params ["_posX","_posY"];
 				}
 			}
 		};
@@ -451,17 +435,13 @@ if ((_ammo > 0) and not (_busy)) then
 			_OtherGroup = true;
 
 			_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			}
 		else 
 			{
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-			_timer = _cause select 0;
-			_alive = _cause select 1;
-			_enemy = _cause select 2;
+			_cause params ["_timer","_alive","_enemy"];
 			};
 	};
 
@@ -550,8 +530,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_wp4 = [_unitG,[_posXWP4,_posYWP4],"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,200,[0,0,0],_frm] call RYD_WPadd;
 
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	_cause params ["_timer","_alive"];
 
 	if not (_alive) exitwith 
 		{
