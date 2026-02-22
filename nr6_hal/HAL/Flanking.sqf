@@ -150,7 +150,7 @@ switch true do
 				} 
 			else 
 				{
-				[[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] call HAL_GoFlank;
+				[_x,_BEnemyPosB,_PosMid0,_PosMid1,_angle0,false,_HQ] call HAL_GoFlank;
 				};
 			}
 		foreach _FlankAv;

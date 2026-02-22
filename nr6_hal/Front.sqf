@@ -60,7 +60,7 @@ _code2 =
 		_ia setMarkerBrush "Border";
 		_ia setMarkerColor "ColorKhaki";
 		_SCRname = "Front2";				
-		[_HQ,_front,_ia] call_code;
+		[_HQ,_front,_ia] call _code;
 		}
 	};
 			

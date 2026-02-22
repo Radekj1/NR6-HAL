@@ -135,7 +135,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 			sleep 5;
 
 			_endThis = false;
-//			_Trg = _unitG getVariable ["CurrCASTgt",_Trg];
+				//_Trg = _unitG getVariable ["CurrCASTgt",_Trg];
 			_newTrg = objNull;
 
 			if ((isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) and not (isNull _Trg)) then {
@@ -241,7 +241,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 		};
 		
 	[_Trg,_lasT,_unitG,_HQ,[_posX,_posY],_reqTgtSet,_wp,_tgt,_eSide] call _code;
-
+	};
 
 if (not (_request) and not (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]]))) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
@@ -313,4 +313,5 @@ _unitG setVariable [("Busy" + (str _unitG)),false];
 if not (_request) then {[_Trg,"AirAttacked"] call RYD_VarReductor};
 
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG;
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};

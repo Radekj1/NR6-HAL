@@ -95,7 +95,7 @@ if (_BBSide == "A") then
 	missionNameSpace setVariable ["BattleF",[_cntr,_lng,_nmbr]];
 
 	RydBB_Sectors = ([_cntr,_lng,0,_nmbr] call RYD_Sectorize) select 0;
-/*
+	/*
 	//_markers = [];
 	
 		{
@@ -132,7 +132,7 @@ if (_BBSide == "A") then
 			_samplePos = [_sPosX + ((random 500) - 250),_sPosY + ((random 500) - 250)];
 
 			_topArr = [_samplePos,1] call RYD_TerraCognita;
-			_topArr params ["_sU1",_sFo1","_sH1","_sFl1","_sS1","_sG1"]; 
+			_topArr params ["_sU1","_sFo1","_sH1","_sFl1","_sS1","_sG1"]; 
 			_sUrban = _sUrban + _sU1;
 			_sForest = _sForest + _sFo1;
 			_sHills = _sHills + _sH1;
@@ -250,7 +250,7 @@ _fixedInitStatus = [];
 	{
 	_x params ["_pos"];
 	_pos params ["_pos0","_pos1"];
-	_pos = _pos0 + _pos1);
+	_pos = _pos0 + _pos1;
 
 	_fixedInitStatus pushBack _pos
 	}
@@ -623,12 +623,12 @@ while {(RydBB_Active)} do
 			{
 				{
 				_eA = _x;
-				_eA params ["_eP";
+				_eA params ["_eP"];
 				_eT = _eA select 2;
 
 					{
 					_sA = _x;
-					_sA parmas ["_sP"];
+					_sA params ["_sP"];
 
 					if ((_sP distance _eP) < 100) then
 						{

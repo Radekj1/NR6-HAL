@@ -261,9 +261,9 @@ RYD_LocMultiTransform =
 	_sy = 0;
 
 		{
-		_x params ["_sx1","_sy1"]
-		_sx = _sx + _sx1
-		_sy = _sy + _sy1
+		_x params ["_sx1","_sy1"];
+		_sx = _sx + _sx1;
+		_sy = _sy + _sy1;
 		}
 	foreach _ps;
 
