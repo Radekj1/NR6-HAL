@@ -265,7 +265,7 @@ if (_patrol) then
 
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,50,[],false,true,true,false,true,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,50,[],false,true,true,false,true] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -291,7 +291,7 @@ if (_alive) then
 	{
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,false,0,0,[],true,true,false,true,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,false,0,0,[],true,true,false,true] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_alive = _WaitCarrier getVariable "_alive";

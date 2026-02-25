@@ -173,7 +173,7 @@ _enemy = false;
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -262,7 +262,7 @@ _wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";

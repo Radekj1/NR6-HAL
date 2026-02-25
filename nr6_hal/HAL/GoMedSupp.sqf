@@ -113,7 +113,7 @@ while {(_counter <= 3)} do
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -184,7 +184,7 @@ _alive = true;
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";

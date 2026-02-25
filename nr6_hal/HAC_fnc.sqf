@@ -1756,8 +1756,8 @@ RYD_Wait =
 	_GDV setVariable ["_GDV",_gp];
 	_AV setVariable ["_AV",vehicle _UL];
 	
-	_RyD_WaitHandle = [{
-		params ["_args", "_RyD_WaitHandle "];
+	_HAL_WaitHandle = [{
+		params ["_args", "_HAL_WaitHandle"];
 		private ["_timer","_alive","_enemy","_busy","_Break","_type"];
 		_args params ["_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit"];
 		_timer = _gp getVariable ["_timer",0];
@@ -1798,13 +1798,13 @@ RYD_Wait =
 				if not (_own) then {_GDV = group _DAV};
 				};
 				
-				_RYD_WaitHandleAssVeh = [{
-					params ["_args", "_RYD_WaitHandleAssVeh"];
+				_HAL_WaitHandleAssVeh = [{
+					params ["_args", "_HAL_WaitHandleAssVeh"];
 					_args params ["_AV","_UL","_DAV","_own","_GDV", "_exitCode"];
 					not (isNull (assignedVehicle _UL));
 					
 					if (isNull (assignedVehicle _UL)) then {
-						_RYD_WaitHandleAssVeh call CBA_fnc_removePerFrameHandler;
+						_HAL_WaitHandleAssVeh call CBA_fnc_removePerFrameHandler;
 						[_AV,_UL,_DAV,_own,_GDV] call _exitCode;
 					};
 				}, 0.5, [_AV,_UL,_DAV,_own,_GDV, _exitCode]] call CBA_fnc_addPerFrameHandler;
@@ -1993,14 +1993,14 @@ RYD_Wait =
 		_gp setVariable ["_Break",_Break];
 		_GDV setVariable ["_GDV",_GDV];
 		_AV setVariable ["_AV",_AV];
-		((((count (waypoints _GDV)) < _wplimit) and (_wpCheck)) or ((_timer > _tolerance) and not (_isPlayer)) or ((_enemy) and not (_isPlayer)) or (_Break) or not (_alive) or (_isInside) or (_isOutside) or (_busy)) then 
+		if ((((count (waypoints _GDV)) < _wplimit) and (_wpCheck)) or ((_timer > _tolerance) and not (_isPlayer)) or ((_enemy) and not (_isPlayer)) or (_Break) or not (_alive) or (_isInside) or (_isOutside) or (_busy)) then 
 		{
-			_RyD_WaitHandle call CBA_fnc_removePerFrameHandler; _gp setVariable ["RYD_WaitHandleFinished",true];
+			_HAL_WaitHandle call CBA_fnc_removePerFrameHandler; _gp setVariable ["HAL_WaitHandleFinished",true];
 		};
 		}, _int, [_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit]] call CBA_fnc_addPerFrameHandler;
 
 	[{
-	private _isitdone = _gp getVariable ["RYD_WaitHandleFinished",false];
+	private _isitdone = _gp getVariable ["HAL_WaitHandleFinished",false];
 	_isitdone;
 	},{
 	params ["_gp","_AV","_tolerance","_GDV","_AV"];

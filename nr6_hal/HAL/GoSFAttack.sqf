@@ -361,7 +361,7 @@ if ((_ammo > 0) and not (_busy)) then
 		{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 		private _WaitCarrier = objNull;
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_unitG,1,false,0,300,[],true,false,true,false,false,false,_WaitCarrier] call RYD_Wait; 
+		[_WaitCarrier,_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
@@ -417,7 +417,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -429,7 +429,7 @@ if ((_ammo > 0) and not (_busy)) then
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -489,7 +489,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],true] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -501,7 +501,7 @@ if ((_ammo > 0) and not (_busy)) then
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -592,7 +592,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -604,7 +604,7 @@ if ((_ammo > 0) and not (_busy)) then
 			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			private _WaitCarrier = objNull;
 			_WaitCarrier setVariable ["_continueAW",false];
-			[_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+			[_WaitCarrier,_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
 			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer = _WaitCarrier getVariable "_timer";
@@ -644,7 +644,7 @@ if ((_ammo > 0) and not (_busy)) then
 		{	
 		private _WaitCarrier = objNull;
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_WaitCarrier] call RYD_Wait; 
+		[_WaitCarrier,_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
@@ -672,7 +672,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 		private _WaitCarrier = objNull;
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_GDV,3,true,0,8,[],false,_WaitCarrier] call RYD_Wait; 
+		[_WaitCarrier,_GDV,3,true,0,8,[],false] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
@@ -705,7 +705,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 		private _WaitCarrier = objNull;
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_unitG,6,true,0,300,[],false,_WaitCarrier] call RYD_Wait; 
+		[_WaitCarrier,_unitG,6,true,0,300,[],false] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
@@ -741,7 +741,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,300,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,300,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -787,7 +787,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -824,7 +824,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -861,7 +861,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";

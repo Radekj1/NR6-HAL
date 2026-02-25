@@ -214,7 +214,7 @@ _DAV = assigneddriver _AV;
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,300,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,300,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -244,7 +244,7 @@ if (_halfway) then
 	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,300,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,300,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -287,7 +287,7 @@ _fEH = (leader _unitG) addEventHandler ["Fired",{[_this] call RYD_FireCount}];
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,5,true,0,240,[],false,true,true,false,false,false,true,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,5,true,0,240,[],false,true,true,false,false,false,true] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -325,7 +325,7 @@ _wp = [_unitG,[_wPosX,_wPosY],"MOVE","STEALTH","GREEN","NORMAL",["true","deletew
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,300,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,300,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -348,7 +348,7 @@ _wp = [_unitG,_Spos,"MOVE","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(gr
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -369,7 +369,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";

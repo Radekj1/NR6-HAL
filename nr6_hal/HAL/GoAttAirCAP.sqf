@@ -128,7 +128,7 @@ _mustRTB = false;
 if not (_mustRTB) then {
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,24,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";

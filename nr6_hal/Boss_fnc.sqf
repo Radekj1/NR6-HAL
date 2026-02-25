@@ -1367,7 +1367,7 @@ RYD_ReserveExecuting =
 						_wp = [_unitG,_Wpos,"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0]"],true,250,[0,0,0],_form] call RYD_WPadd;
 						private _WaitCarrier = objNull;
 						_WaitCarrier setVariable ["_continueAW",false];
-						[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+						[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
