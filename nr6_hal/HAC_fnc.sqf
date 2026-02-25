@@ -1697,7 +1697,7 @@ RYD_Wait =
 	{
 	private ["_int","_ammoF","_air","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer",
 	"_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
-	params ["_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo","_WaitCarrier"];//I made a mistake here fixing later
+	params ["_WaitCarrier","_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];//I made a mistake here fixing later
 			
 	_int = floor _int0;
 	_ammoF = false;
@@ -1723,19 +1723,19 @@ RYD_Wait =
 		};
 
 	_inside = true;
-	if ((count _this) > 7) then {_inside = _this select 7};
+	if ((count _this) > 8) then {_inside = _this select 8};
 	_outside = true;
-	if ((count _this) > 8) then {_outside = _this select 8};
+	if ((count _this) > 9) then {_outside = _this select 9};
 	_own = false;
-	if ((count _this) > 9) then {_own = _this select 9};
+	if ((count _this) > 10) then {_own = _this select 10};
 	_isBusy = false;
-	if ((count _this) > 10) then {_isBusy = _this select 10};
+	if ((count _this) > 11) then {_isBusy = _this select 11};
 	_wpCheck = true;
-	if ((count _this) > 11) then {_wpCheck = _this select 11};
+	if ((count _this) > 12) then {_wpCheck = _this select 12};
 	_firedF = false;
-	if ((count _this) > 12) then {_firedF = _this select 12};
+	if ((count _this) > 13) then {_firedF = _this select 13};
 	_pass = (units _gp);
-	if ((count _this) > 13) then {_pass = _this select 13};
+	if ((count _this) > 14) then {_pass = _this select 14};
 
 	_wplimit = 1;
 	if not ((_tolerance - (round _tolerance)) == 0) then {_wplimit = 2};
