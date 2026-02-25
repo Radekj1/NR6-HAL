@@ -114,7 +114,7 @@ if (_drop) then
 					} else {
 						private _WaitCarrier = objNull;
 						_WaitCarrier setVariable ["_continueAW",false];
-						[_unitG,1,true,0,240,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+						[_WaitCarrier,_unitG,1,true,0,240,[],true,true,true,true] call RYD_Wait; 
 						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
@@ -150,7 +150,7 @@ if (_drop) then
 
 				private _WaitCarrier = objNull;
 						_WaitCarrier setVariable ["_continueAW",false];
-						[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+						[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 						waitUntil {_WaitCarrier getVariable ["_continueAW",false];};
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
@@ -190,7 +190,7 @@ if (_drop) then
 					
 					private _WaitCarrier = objNull;
 						_WaitCarrier setVariable ["_continueAW",false];
-						[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+						[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 						waitUntil {_WaitCarrier getVariable ["_continueAW",false];};
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
@@ -215,7 +215,7 @@ if (_drop) then
 					
 					private _WaitCarrier = objNull;
 					_WaitCarrier setVariable ["_continueAW",false];
-					[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+					[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 					waitUntil {_WaitCarrier getVariable ["_continueAW",false];};
 					_WaitCarrier setVariable ["_continueAW",false];
 					_timer = _WaitCarrier getVariable "_timer";
@@ -370,7 +370,7 @@ if (_drop) then
 					
 					private _WaitCarrier = objNull;
 					_WaitCarrier setVariable ["_continueAW",false];
-					[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+					[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 					waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 					_WaitCarrier setVariable ["_continueAW",false];
 					_timer = _WaitCarrier getVariable "_timer";
@@ -486,7 +486,7 @@ else
 
 		private _WaitCarrier = objNull;
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+		[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
@@ -580,7 +580,7 @@ _alive = true;
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -627,3 +627,4 @@ if (_lastOne) then
 
 
 _UL = leader _unitG; if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+
