@@ -1,4 +1,4 @@
-
+diag_log text "SquadTaskingNR6Init.sqf: Initializing squad tasking.";
 if (isNil ("LeaderHQ")) then {LeaderHQ = objNull};
 if (isNil ("LeaderHQB")) then {LeaderHQB = objNull};
 if (isNil ("LeaderHQC")) then {LeaderHQC = objNull};
@@ -498,9 +498,21 @@ if (RydxHQ_SupportActions) then {
 			};
 	};
 } foreach allPlayers;
-addMissionEventHandler ["LeaderChanged", {
-	params ["_group", "_newLeader"];
+
+allGroups apply {_x addEventHandler ["LeaderChanged", {
+	params ["_group","_newLeader"];
 	if (isplayer _newLeader) then {
 	[_newLeader,LeaderHQ,LeaderHQB,LeaderHQC,LeaderHQD,LeaderHQE,LeaderHQF,LeaderHQG,LeaderHQH] call (RYD_Path + "SquadTaskingUpdate.sqf");
 	};
+}];};
+addMissionEventHandler ["GroupCreated", {
+	params ["_group"];
+	_group addEventHandler ["LeaderChanged", {
+		params ["_group","_newLeader"];
+		if (isplayer _newLeader) then {
+		[_newLeader,LeaderHQ,LeaderHQB,LeaderHQC,LeaderHQD,LeaderHQE,LeaderHQF,LeaderHQG,LeaderHQH] call (RYD_Path + "SquadTaskingUpdate.sqf");
+		};
+	}];
 }];
+
+diag_log text "SquadTaskingNR6Init.sqf: Squad tasking initialized.";

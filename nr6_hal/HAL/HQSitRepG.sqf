@@ -34,7 +34,7 @@ _HQ setVariable ["RydHQ_Fineness",RydHQG_Fineness];
 
 [_HQ] call HAL_Personality;
 
-[_HQ] call HAL_LHQ;
+[_HQ] spawn HAL_LHQ;
 
 if (isNil ("RydHQG_Boxed")) then {RydHQG_Boxed = []};
 _HQ setVariable ["RydHQ_Boxed",RydHQG_Boxed];

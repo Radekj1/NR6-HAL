@@ -171,10 +171,15 @@ _enemy = false;
 //_lz = objNull;
 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
-_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
-_enemy = _cause select 2;
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false,_WaitCarrier] call RYD_Wait; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
+_enemy = _WaitCarrier getVariable "_enemy";
+
 
 _DAV = assigneddriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
@@ -255,9 +260,13 @@ if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
 _wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,100,[0,0,0],_frm] call RYD_WPadd;
 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
-_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
 
 if not (_alive) exitwith 
 	{

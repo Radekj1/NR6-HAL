@@ -1,6 +1,8 @@
 _SCRname = "SitRep";
+diag_log text "HQSitRep A started";
 _HQ = _this select 0;
-
+HQSitREP_A_Fin1 = false;
+HQSitREP_A_Fin2 = false;
 _HQ setVariable ["leaderHQ",(leader _HQ)];
 _csN = +RydHQ_CallSignsN;
 
@@ -9,6 +11,7 @@ _csN = +RydHQ_CallSignsN;
 	_csN set [_foreachIndex,_nouns]
 	}
 foreach _csN;
+diag_log text "HQSitRep A: Call signs generated.";
 
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
@@ -31,11 +34,14 @@ if (isNil ("RydHQ_Circumspection")) then {RydHQ_Circumspection = 0.5};
 _HQ setVariable ["RydHQ_Circumspection",RydHQ_Circumspection];
 if (isNil ("RydHQ_Fineness")) then {RydHQ_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
-
+diag_log text "HQSitRep A: Personality set.";
+HQSitREP_A_Fin1 = true;
 [{[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
-
+diag_log text "HQSitRep A: Personality finished.";
+waitUntil {HQSitREP_A_Fin1};
 //LHQ - TO BE CONVERTED TO NON-SCHEDULED
-[_HQ] call HAL_LHQ;
+[_HQ] spawn HAL_LHQ;
+diag_log text "HQSitRep A: LHQ initialized/spawned.";
 
 [{
 if (isNil ("RydHQ_Boxed")) then {RydHQ_Boxed = []};
@@ -51,16 +57,15 @@ if (isNil ("RydHQ_AmmoBoxes")) then
 		RydHQ_AmmoBoxes = (getPosATL RydHQ_AmmoDepot) nearObjects ["ReammoBox_F",_rds]
 		}
 	};
-	
+
 _HQ setVariable ["RydHQ_AmmoBoxes",RydHQ_AmmoBoxes];
+diag_log text "HQSitRep A: Ammo boxes initialized.";
 
 _HQ setVariable ["RydHQ_ReconDone",false];
 _HQ setVariable ["RydHQ_DefDone",false];
 _HQ setVariable ["RydHQ_ReconStage",1];
 _HQ setVariable ["RydHQ_ReconStage2",1];
 _HQ setVariable ["RydHQ_AirInDef",[]];
-
-_KnEnPos = [];
 
 if (isNil ("RydHQ_Excluded")) then {RydHQ_Excluded = []};
 _HQ setVariable ["RydHQ_Excluded",RydHQ_Excluded];
@@ -98,7 +103,11 @@ _HQ setVariable ["RydHQ_Exhausted",[]];
 if (isNil ("RydHQ_SupportWP")) then {RydHQ_SupportWP = false};
 	
 _HQ setVariable ["RydHQ_SupportWP",RydHQ_SupportWP];
+HQSitREP_A_Fin2 = true;
 },[_HQ]] call CBA_fnc_execNextFrame;
+
+diag_log text "HQSitRep A: SitRep variables initialized.";
+waitUntil {HQSitREP_A_Fin2};
 
 _lastHQ = _HQ getVariable ["leaderHQ",objNull];
 _OLmpl = 0;
@@ -108,7 +117,8 @@ _wp = [];
 _lastReset = 0;
 _HQlPos = [-10,-10,0];
 _cInitial = 0;
-
+_KnEnPos = [];
+diag_log text "HQSitRep A: Initial setup complete. Loop starting.";
 //TO BE 520 lines + CALLS - LOOP TO BE REPLACED MANUALLY, SPLITTED BETWEEN FRAMES, SYNCED WITH CALLS RESULTS
 while {true} do
 	{
@@ -632,7 +642,7 @@ while {true} do
 		case (3) : {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj3]};
 		default {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj4]};
 		};
-	
+	diag_log text "HQSitRep A - calling StatusQuo";
 	call RYD_StatusQuo;
-
+	diag_log text "HQSitRep A Finished - StatusQuo called";
 	};

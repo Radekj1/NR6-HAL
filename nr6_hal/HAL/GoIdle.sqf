@@ -263,10 +263,15 @@ if (_patrol) then
 		}
 	};
 
-_cause = [_unitG,6,true,0,50,[],false,true,true,false,true] call RYD_Wait;
-_timer = _cause select 0;
-_alive = _cause select 1;
-_busy = _cause select 3;
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,0,50,[],false,true,true,false,true,_WaitCarrier] call RYD_Wait; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
+_busy = _WaitCarrier getVariable "_busy";
+
 
 if (not (_patrol) and not (_busy) and (_alive)) then 
 	{
@@ -284,9 +289,13 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 
 if (_alive) then 
 	{
-	_cause = [_unitG,6,false,0,0,[],true,true,false,true] call RYD_Wait;
-	_alive = _cause select 1;
-	_busy = _cause select 3;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,false,0,0,[],true,true,false,true,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_alive = _WaitCarrier getVariable "_alive";
+	_busy = _WaitCarrier getVariable "_busy";
 
 	if not (_alive) exitwith {};
 	if not (isPlayer (leader _unitG)) then {_unitG setFormation "WEDGE"};

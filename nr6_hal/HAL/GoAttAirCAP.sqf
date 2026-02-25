@@ -82,9 +82,13 @@ _lasT = ObjNull;
 
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-_cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
-_cause params ["_timer","_alive"];
-
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,0,120,[],false,_WaitCarrier] call RYD_Wait;
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];};  
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
 
 if not (_alive) exitwith 
 	{
@@ -122,8 +126,14 @@ _mustRTB = false;
 
 
 if not (_mustRTB) then {
-	_cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
-	_cause params ["_timer","_alive"];
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,24,[],false,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
+
 
 	if not (_alive) exitwith 
 		{

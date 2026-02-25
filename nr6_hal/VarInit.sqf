@@ -1,3 +1,4 @@
+Diag_log text "VarInit: Initializing objectives and library files.";
 RYD_Path = "\NR6_HAL\"; //To make sure it is loaded prperly
 [{
 RydHQ_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
@@ -39,6 +40,7 @@ RydHQH_Obj1 = createTrigger ["EmptyDetector",[0,0,0]];
 RydHQH_Obj2 = createTrigger ["EmptyDetector",[0,0,0]];
 RydHQH_Obj3 = createTrigger ["EmptyDetector",[0,0,0]];
 RydHQH_Obj4 = createTrigger ["EmptyDetector",[0,0,0]];
+Diag_log text "VarInit: Objectives initialized.";
 
 if (isNil ("RHQ_SPMortars")) then {RHQ_SPMortars = []};
 if (isNil ("RHQ_Mortars")) then {RHQ_Mortars = []};
@@ -69,6 +71,8 @@ RydHQ_AllArty = RydHQ_Howitzer + RydHQ_Mortar + RydHQ_Rocket + RydHQ_Mortar_A3 +
 	foreach (_x select 0)
 	}
 foreach RydHQ_OtherArty;
+Diag_log text "VarInit: Artillery lists initialized.";
+
 RydxHQ_SmokeMuzzles = 
 	[
 	["SmokeShellMuzzle",["SmokeShell"]],
@@ -87,7 +91,8 @@ RydxHQ_FlareMuzzles =
 	["EGLM",["UGL_FlareWhite_F","UGL_FlareGreen_F","UGL_FlareRed_F","UGL_FlareYellow_F","UGL_FlareCIR_F"]],
 	["GL_3GL_F",["UGL_FlareWhite_F","UGL_FlareGreen_F","UGL_FlareRed_F","UGL_FlareYellow_F","UGL_FlareCIR_F","3Rnd_UGL_FlareWhite_F","3Rnd_UGL_FlareGreen_F","3Rnd_UGL_FlareRed_F","3Rnd_UGL_FlareYellow_F","3Rnd_UGL_FlareCIR_F"]]
 	];
-	
+Diag_log text "VarInit: Smoke and flare lists initialized.";
+
 if (isNil ("RydART_Amount")) then {RydART_Amount = 6};
 if (isNil ("RydBB_Active")) then {RydBB_Active = false};
 if (isNil ("RydBBa_HQs")) then {RydBBa_HQs = []};
@@ -198,7 +203,10 @@ if (isNil ("RydHQ_OALib")) then {RydHQ_OALib = false};
 if (isNil ("RydHQ_ACRLib")) then {RydHQ_ACRLib = false};
 if (isNil ("RydHQ_BAFLib")) then {RydHQ_BAFLib = false};
 if (isNil ("RydHQ_PMCLib")) then {RydHQ_PMCLib = false};
-call compile preprocessfile (RYD_Path + "RHQLibrary.sqf")
+Diag_log text "VarInit: Library variables initialized.";
+
+call compile preprocessfile (RYD_Path + "RHQLibrary.sqf");
+Diag_log text "VarInit: RHQ Library files loaded.";
 }] call CBA_fnc_directCall;
 //Call signs and MA ratio + Markers, Handles, LF [active and normal]
 [{
@@ -278,6 +286,7 @@ RydxHQ_Markers = [];
 RydxHQ_Handles = [];
 RydxHQ_LFActive = false; 
 RydHQ_LF = false;
+Diag_log text "VarInit: Call signs, MA ratio, and marker/handle/LF variables initialized.";
 }] call CBA_fnc_directCall;
 //Lines 
 [{
@@ -613,6 +622,7 @@ RydxHQ_AIC_ArtFire =
 	"HAC_ArtFire5"
 	];
 
+Diag_log text "VarInit: AIC lines initialized.";
 }] call CBA_fnc_directCall;
 //40K IMPERIUM OF MAN LINES
 [{
@@ -797,6 +807,7 @@ RydxHQ_AIC_40KImp_ArtFire =
 	"HAC_40KImp_ArtFire4",
 	"HAC_40KImp_ArtFire5"
 	];
+Diag_log text "VarInit: 40K Imperium of Man lines initialized.";
 }] call CBA_fnc_directCall;
 //SILENT LINES
 [{
@@ -981,6 +992,7 @@ RydxHQ_AIC_SILENTM_ArtFire =
 	"HAC_SILENTM_ArtFire4",
 	"HAC_SILENTM_ArtFire5"
 	];
+Diag_log text "VarInit: Silent lines initialized.";
 }] call CBA_fnc_directCall;	
 //mods RHQ library
 [{
@@ -1128,55 +1140,97 @@ if (RydHQ_PMCLib) then
 	RHQ_NCCargo = RHQ_NCCargo + RHQ_NCCargo_PMC;
 	RHQ_Crew = RHQ_Crew + RHQ_Crew_PMC;
 	};
+Diag_log text "VarInit: RHQ library files loaded.";
 }] call CBA_fnc_directCall;
-
+Diag_log text "VarInit: Finished loading library files.";
 Boss = compile preprocessfile (RYD_Path + "Boss.sqf");
+Diag_log text "VarInit: Boss script loaded.";
 Desperado = compile preprocessfile (RYD_Path + "Desperation.sqf");
-
+Diag_log text "VarInit: Desperation script loaded.";
 HAL_EnemyScan = compile preprocessfile (RYD_Path + "HAL\EnemyScan.sqf");
+Diag_log text "VarInit: HAL Enemy Scan script loaded.";
 HAL_Flanking = compile preprocessfile (RYD_Path + "HAL\Flanking.sqf");
+Diag_log text "VarInit: HAL Flanking script loaded.";
 HAL_Garrison = compile preprocessfile (RYD_Path + "HAL\Garrison.sqf");
+Diag_log text "VarInit: HAL Garrison script loaded.";
 HAL_GoAmmoSupp = compile preprocessfile (RYD_Path + "HAL\GoAmmoSupp.sqf");
+Diag_log text "VarInit: HAL Go Ammo Supp script loaded.";
 HAL_GoAttAir = compile preprocessfile (RYD_Path + "HAL\GoAttAir.sqf");
+Diag_log text "VarInit: HAL Go Attack - Air script loaded.";
 HAL_GoAttAirCAP = compile preprocessfile (RYD_Path + "HAL\GoAttAirCAP.sqf");
+Diag_log text "VarInit: HAL Go Attack Air - Capture script loaded.";
 HAL_GoAttArmor = compile preprocessfile (RYD_Path + "HAL\GoAttArmor.sqf");
+Diag_log text "VarInit: HAL Go Attack - Armor script loaded.";
 HAL_GoAttInf = compile preprocessfile (RYD_Path + "HAL\GoAttInf.sqf");
+Diag_log text "VarInit: HAL Go Attack - Infantry script loaded.";
 HAL_GoAttSniper = compile preprocessfile (RYD_Path + "HAL\GoAttSniper.sqf");
+Diag_log text "VarInit: HAL Go Attack - Sniper script loaded.";
 HAL_GoAttNaval = compile preprocessfile (RYD_Path + "HAL\GoAttNaval.sqf");
+Diag_log text "VarInit: HAL Go Attack - Naval script loaded.";
 HAL_GoCapture = compile preprocessfile (RYD_Path + "HAL\GoCapture.sqf");
+Diag_log text "VarInit: HAL Go Capture script loaded.";
 HAL_GoCaptureNaval = compile preprocessfile (RYD_Path + "HAL\GoCaptureNaval.sqf");
+Diag_log text "VarInit: HAL Go Capture Naval script loaded.";
 HAL_GoDef = compile preprocessfile (RYD_Path + "HAL\GoDef.sqf");
+Diag_log text "VarInit: HAL Go Defend script loaded.";
 HAL_GoDefAir = compile preprocessfile (RYD_Path + "HAL\GoDefAir.sqf");
+Diag_log text "VarInit: HAL Go Defend - Air script loaded.";
 HAL_GoDefRecon = compile preprocessfile (RYD_Path + "HAL\GoDefRecon.sqf");
+Diag_log text "VarInit: HAL Go Defend - Recon script loaded.";
 HAL_GoDefRes = compile preprocessfile (RYD_Path + "HAL\GoDefRes.sqf");
+Diag_log text "VarInit: HAL Go Defend - Reserve script loaded.";
 HAL_GoDefNav = compile preprocessfile (RYD_Path + "HAL\GoDefNav.sqf");
+Diag_log text "VarInit: HAL Go Defend - Naval script loaded.";
 HAL_GoFlank = compile preprocessfile (RYD_Path + "HAL\GoFlank.sqf");
+Diag_log text "VarInit: HAL Go Flank script loaded.";
 HAL_GoFuelSupp = compile preprocessfile (RYD_Path + "HAL\GoFuelSupp.sqf");
+Diag_log text "VarInit: HAL Go Fuel Supp script loaded.";
 HAL_GoIdle = compile preprocessfile (RYD_Path + "HAL\GoIdle.sqf");
+Diag_log text "VarInit: HAL Go Idle script loaded.";
 HAL_GoMedSupp = compile preprocessfile (RYD_Path + "HAL\GoMedSupp.sqf");
+Diag_log text "VarInit: HAL Go Medical Supp script loaded.";
 HAL_GoRecon = compile preprocessfile (RYD_Path + "HAL\GoRecon.sqf");
+Diag_log text "VarInit: HAL Go Recon script loaded.";
 HAL_GoRepSupp = compile preprocessfile (RYD_Path + "HAL\GoRepSupp.sqf");
+Diag_log text "VarInit: HAL Go Repair Supp script loaded.";
 HAL_GoRest = compile preprocessfile (RYD_Path + "HAL\GoRest.sqf");
+Diag_log text "VarInit: HAL Go Rest script loaded.";
 HAL_GoSFAttack = compile preprocessfile (RYD_Path + "HAL\GoSFAttack.sqf");
+Diag_log text "VarInit: HAL Go Special Forces Attack script loaded.";
 HAL_HQOrders = compile preprocessfile (RYD_Path + "HAL\HQOrders.sqf");
+Diag_log text "VarInit: HAL HQ Orders script loaded.";
 HAL_HQOrdersEast = compile preprocessfile (RYD_Path + "HAL\HQOrdersEast.sqf");
+Diag_log text "VarInit: HAL HQ Orders - East script loaded.";
 HAL_HQOrdersDef = compile preprocessfile (RYD_Path + "HAL\HQOrdersDef.sqf");
+Diag_log text "VarInit: HAL HQ Orders - Defend script loaded.";
 HAL_HQReset = compile preprocessfile (RYD_Path + "HAL\HQReset.sqf");
+Diag_log text "VarInit: HAL HQ Reset script loaded.";
 HAL_LHQ = compile preprocessfile (RYD_Path + "HAL\LHQ.sqf");
+Diag_log text "VarInit: HAL LHQ script loaded.";
 HAL_LPos = compile preprocessfile (RYD_Path + "HAL\LPos.sqf");
+Diag_log text "VarInit: HAL LPos script loaded.";
 HAL_Personality = compile preprocessfile (RYD_Path + "HAL\Personality.sqf");
+Diag_log text "VarInit: HAL Personality script loaded.";
 HAL_Reloc = compile preprocessfile (RYD_Path + "HAL\Reloc.sqf");
+Diag_log text "VarInit: HAL Reloc script loaded.";
 HAL_Rev = compile preprocessfile (RYD_Path + "HAL\Rev.sqf");
+Diag_log text "VarInit: HAL Rev script loaded.";
 HAL_SCargo = compile preprocessfile (RYD_Path + "HAL\SCargo.sqf");
+Diag_log text "VarInit: HAL SCargo script loaded.";
 HAL_SFIdleOrd = compile preprocessfile (RYD_Path + "HAL\SFIdleOrd.sqf");
+Diag_log text "VarInit: HAL SF Idle Orders script loaded.";
 HAL_Spotscan = compile preprocessfile (RYD_Path + "HAL\SpotScan.sqf");
+Diag_log text "VarInit: HAL Spot Scan script loaded.";
 HAL_SuppAmmo = compile preprocessfile (RYD_Path + "HAL\SuppAmmo.sqf");
+Diag_log text "VarInit: HAL Supply Ammo script loaded.";
 HAL_SuppFuel = compile preprocessfile (RYD_Path + "HAL\SuppFuel.sqf");
+Diag_log text "VarInit: HAL Supply Fuel script loaded.";
 HAL_SuppMed = compile preprocessfile (RYD_Path + "HAL\SuppMed.sqf");
+Diag_log text "VarInit: HAL Supply Medical script loaded.";
 HAL_SuppRep = compile preprocessfile (RYD_Path + "HAL\SuppRep.sqf");
-
+Diag_log text "VarInit: HAL Supply Repair script loaded.";
 A_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRep.sqf");
-
+Diag_log text "VarInit: HAL HQ SitRep A script loaded.";
 if not (isNil ("leaderHQ")) then 
 	{
 	if (isNil ("RydHQ_Obj1")) then {RydHQ_Obj1 = vehicle leaderHQ};
@@ -1184,7 +1238,7 @@ if not (isNil ("leaderHQ")) then
 	if (isNil ("RydHQ_Obj3")) then {RydHQ_Obj3 = RydHQ_Obj2};
 	if (isNil ("RydHQ_Obj4")) then {RydHQ_Obj4 = RydHQ_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep A Objectives initialized.";
 if not (isNil ("leaderHQB")) then 
 	{
 	B_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepB.sqf");	
@@ -1193,7 +1247,7 @@ if not (isNil ("leaderHQB")) then
 	if (isNil ("RydHQB_Obj3")) then {RydHQB_Obj3 = RydHQB_Obj2};
 	if (isNil ("RydHQB_Obj4")) then {RydHQB_Obj4 = RydHQB_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep B Objectives initialized.";
 if not (isNil ("leaderHQC")) then 
 	{
 	C_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepC.sqf");
@@ -1202,7 +1256,7 @@ if not (isNil ("leaderHQC")) then
 	if (isNil ("RydHQC_Obj3")) then {RydHQC_Obj3 = RydHQC_Obj2};
 	if (isNil ("RydHQC_Obj4")) then {RydHQC_Obj4 = RydHQC_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep C Objectives initialized.";
 if not (isNil ("leaderHQD")) then 
 	{
 	D_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepD.sqf");
@@ -1211,7 +1265,7 @@ if not (isNil ("leaderHQD")) then
 	if (isNil ("RydHQD_Obj3")) then {RydHQD_Obj3 = RydHQD_Obj2};
 	if (isNil ("RydHQD_Obj4")) then {RydHQD_Obj4 = RydHQD_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep D Objectives initialized.";
 if not (isNil ("leaderHQE")) then 
 	{
 	E_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepE.sqf");
@@ -1220,7 +1274,7 @@ if not (isNil ("leaderHQE")) then
 	if (isNil ("RydHQE_Obj3")) then {RydHQE_Obj3 = RydHQE_Obj2};
 	if (isNil ("RydHQE_Obj4")) then {RydHQE_Obj4 = RydHQE_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep E Objectives initialized.";
 if not (isNil ("leaderHQF")) then 
 	{
 	F_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepF.sqf");
@@ -1229,7 +1283,7 @@ if not (isNil ("leaderHQF")) then
 	if (isNil ("RydHQF_Obj3")) then {RydHQF_Obj3 = RydHQF_Obj2};
 	if (isNil ("RydHQF_Obj4")) then {RydHQF_Obj4 = RydHQF_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep F Objectives initialized.";
 if not (isNil ("leaderHQG")) then 
 	{
 	G_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepG.sqf");
@@ -1238,7 +1292,7 @@ if not (isNil ("leaderHQG")) then
 	if (isNil ("RydHQG_Obj3")) then {RydHQG_Obj3 = RydHQG_Obj2};
 	if (isNil ("RydHQG_Obj4")) then {RydHQG_Obj4 = RydHQG_Obj3};
 	};
-
+Diag_log text "VarInit: HAL HQ SitRep G Objectives initialized.";
 if not (isNil ("leaderHQH")) then 
 	{
 	H_HQSitRep = compile preprocessfile (RYD_Path + "HAL\HQSitRepH.sqf");
@@ -1247,7 +1301,7 @@ if not (isNil ("leaderHQH")) then
 	if (isNil ("RydHQH_Obj3")) then {RydHQH_Obj3 = RydHQH_Obj2};
 	if (isNil ("RydHQH_Obj4")) then {RydHQH_Obj4 = RydHQH_Obj3};
 	};
-	
+Diag_log text "VarInit: HAL HQ SitRep H Objectives initialized.";
 if (isNil ("leaderHQ")) then {leaderHQ = objNull};
 if (isNil ("leaderHQB")) then {leaderHQB = objNull};
 if (isNil ("leaderHQC")) then {leaderHQC = objNull};

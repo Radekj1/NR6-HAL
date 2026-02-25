@@ -768,9 +768,14 @@ if not (_GD == _unitG) then
 			};
 			
 		_GD setVariable [("CargoM" + _unitvar), false];
-		_cause = [_unitG,1,false,0,240,[],false,true,false] call RYD_Wait;
+		private _WaitCarrier = objNull;
+		_WaitCarrier setVariable ["_continueAW",false];
+		[_unitG,1,false,0,240,[],false,true,false,_WaitCarrier] call RYD_Wait; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		_WaitCarrier setVariable ["_continueAW",false];
+		_timer = _WaitCarrier getVariable "_timer";
+
 		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
-		_timer = _cause select 0;
 		_ChosenOne land 'NONE';
 		};
 

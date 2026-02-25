@@ -111,17 +111,27 @@ while {(_counter <= 3)} do
 
 	if not (_request) then {
 
-		_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
+		private _WaitCarrier = objNull;
+		_WaitCarrier setVariable ["_continueAW",false];
+		[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		_WaitCarrier setVariable ["_continueAW",false];
+		_timer = _WaitCarrier getVariable "_timer";
+		_alive = _WaitCarrier getVariable "_alive";
+
 
 //		if (((_cis distance _Trg) < 50) and ((fuel _Trg) == 0)) then {_Trg setfuel 0.09};
 
 	} else {
 
-		_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-		_timer = _cause select 0;
-		_alive = _cause select 1;
+		private _WaitCarrier = objNull;
+		_WaitCarrier setVariable ["_continueAW",false];
+		[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		_WaitCarrier setVariable ["_continueAW",false];
+		_timer = _WaitCarrier getVariable "_timer";
+		_alive = _WaitCarrier getVariable "_alive";
+
 
 	};
 
@@ -188,9 +198,14 @@ _timer = 0;
 _alive = true;
 
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
-	_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
+
 };
 
 if (((_cis distance _Trg) < 50) and ((fuel _Trg) == 0)) then {_Trg setfuel 0.09};

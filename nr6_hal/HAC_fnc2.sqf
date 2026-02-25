@@ -2830,132 +2830,111 @@ RYD_PresentRHQ =
 	};
 
 HAL_FBFTLOOP = 
-
 	{
-
+	_HQ = (_this select 0);
+	
+	private _FBFTLOOP = [{
 		private ["_SidePLY","_IgnoredPLY","_RydMarks","_MarkGrps","_checkFriends","_OldMarkGrps","_mrk","_mrk2","_OldRydMarks","_RydOrd","_OldRydOrd","_RydMarksOrd","_OldRydMarksOrd"];
+		params ["_args","_FBFTLOOP"];
+		_args params ["_HQ"];
+		
+		_SidePLY = [];
+		_IgnoredPLY = [];
 
-		_HQ = (_this select 0);
+		{
+			if ((side _x) == (side _HQ)) then {_SidePLY pushBack _x};
+			if ((group _x) in (_HQ getVariable ["RydHQ_Friends",[]])) then  {_IgnoredPLY pushBack (group _x)};
+		} foreach allplayers;
 
-		while {not (isNull _HQ)} do {
+		_OldMarkGrps = _HQ getvariable ["RydMarkGrpF",[]];
+		_OldRydMarks = _HQ getvariable ["RydMarksF",[]];
+		_OldRydOrd = _HQ getvariable ["RydOrdnances",[]];
+		_OldRydMarksOrd = _HQ getvariable ["RydMarksOrd",[]];
 
+		_MarkGrps = [];
+		_RydMarks = [];
 
-			_SidePLY = [];
-			_IgnoredPLY = [];
+		_RydOrd = [];
+		_RydMarksOrd = [];
 
-			{
-				if ((side _x) == (side _HQ)) then {_SidePLY pushBack _x};
-				if ((group _x) in (_HQ getVariable ["RydHQ_Friends",[]])) then  {_IgnoredPLY pushBack (group _x)};
-
-			} foreach allplayers;
-
-			_OldMarkGrps = _HQ getvariable ["RydMarkGrpF",[]];
-			_OldRydMarks = _HQ getvariable ["RydMarksF",[]];
-
-			_OldRydOrd = _HQ getvariable ["RydOrdnances",[]];
-			_OldRydMarksOrd = _HQ getvariable ["RydMarksOrd",[]];
-
-			_MarkGrps = [];
-			_RydMarks = [];
-
-			_RydOrd = [];
-			_RydMarksOrd = [];
-
-			if (_HQ getvariable ["RydHQ_InfoMarkers",false]) then {
+		if (_HQ getvariable ["RydHQ_InfoMarkers",false]) then {
 
 				//{
 				//	private ["_ply"];
 				//	_ply = _x;
-				_MarkGrps = ((_HQ getVariable ["RydHQ_Friends",[]]) - _IgnoredPLY);
-				_RydOrd = _HQ getVariable ["RydHQ_OrdnanceDrops",[]];
+			_MarkGrps = ((_HQ getVariable ["RydHQ_Friends",[]]) - _IgnoredPLY);
+			_RydOrd = _HQ getVariable ["RydHQ_OrdnanceDrops",[]];
 
-					{
-						private ["_mrk","_mrkcolor","_mrktype","_mrktext","_mrk2","_mrksize","_distance","_dx","_dY","_angle","_dXb","_dYb","_posX","_posY","_mrk3"];
+				{
+					private ["_mrk","_mrkcolor","_mrktype","_mrktext","_mrk2","_mrksize","_distance","_dx","_dY","_angle","_dXb","_dYb","_posX","_posY","_mrk3"];
 
-						_mrk = _x getVariable "FirstMarkF";
-						if (isNil "_mrk") then {_mrk = createMarker ["markF" + (str _x),(leader _x)];_x setVariable ["FirstMarkF",_mrk];};
-						_mrkcolor = format ["Color%1", side _x];
-						_mrktype = _x call HAL_fnc_getType;
-						_mrksize = [_x,units _x,_mrktype] call HAL_fnc_getSize;
+					_mrk = _x getVariable "FirstMarkF";
+					if (isNil "_mrk") then {_mrk = createMarker ["markF" + (str _x),(leader _x)];_x setVariable ["FirstMarkF",_mrk];};
+					_mrkcolor = format ["Color%1", side _x];
+					_mrktype = _x call HAL_fnc_getType;
+					_mrksize = [_x,units _x,_mrktype] call HAL_fnc_getSize;
 
-						switch (side _x) do {
+					switch (side _x) do {
 
-							case WEST : {_mrktype = "b_" + _mrktype};
-							case EAST : {_mrktype = "o_" + _mrktype};
-							case RESISTANCE : {_mrktype = "n_" + _mrktype};
-							default {_mrktype = "Empty"};
-
+						case WEST : {_mrktype = "b_" + _mrktype};
+						case EAST : {_mrktype = "o_" + _mrktype};
+						case RESISTANCE : {_mrktype = "n_" + _mrktype};
+						default {_mrktype = "Empty"};
 						};
 
-						_mrk setMarkerType _mrktype;
-						_mrk setMarkerColor _mrkcolor;
+					_mrk setMarkerType _mrktype;
+					_mrk setMarkerColor _mrkcolor;
 
 
-						if not (_mrksize == -1) then {
+					if not (_mrksize == -1) then {
+						_mrk2 = _x getVariable "FirstMarkF2";
+						if (isNil "_mrk2") then {_mrk2 = createMarker ["markF2" + (str _x),(leader _x)];_x setVariable ["FirstMarkF2",_mrk2];};
+						_mrk2 setMarkerType ("group_" + (str _mrksize));
+					};
 
-							_mrk2 = _x getVariable "FirstMarkF2";
-							if (isNil "_mrk2") then {_mrk2 = createMarker ["markF2" + (str _x),(leader _x)];_x setVariable ["FirstMarkF2",_mrk2];};
-							_mrk2 setMarkerType ("group_" + (str _mrksize));
+					_mrktext = _x getvariable ["Ryd_MarkText",nil];
+					if (isNil "_mrktext") then {
+						if ((RydxHQ_InfoMarkersID) and ((side _x) == (side _HQ))) then {_mrk setMarkerText (groupId _x)};
+					} else {
+						if ((side _x) == (side _HQ)) then {_mrk setMarkerText _mrktext};
+					};
 
-						};
+					_mrk setMarkerSize [0.75,0.75];
+					if not (_mrksize == -1) then {
 
-						_mrktext = _x getvariable ["Ryd_MarkText",nil];
-
-						if (isNil "_mrktext") then {
-
-							if ((RydxHQ_InfoMarkersID) and ((side _x) == (side _HQ))) then {_mrk setMarkerText (groupId _x)};
-
-						} else {
-
-							if ((side _x) == (side _HQ)) then {_mrk setMarkerText _mrktext};
-
-						};
-
-						_mrk setMarkerSize [0.75,0.75];
-						if not (_mrksize == -1) then {
-
-							if ((side _x) == EAST) then {_mrk2 setMarkerSize [0.85,1.15]};
-							if ((side _x) == WEST) then {_mrk2 setMarkerSize [0.85,0.85]};
-							if ((side _x) == RESISTANCE) then {_mrk2 setMarkerSize [0.85,1.05]};
-							_mrk2 setMarkerPos (position (leader _x));
-							_RydMarks pushBack _mrk2;
-
-						};
-
-						_RydMarks pushBack _mrk;
-						_mrk setMarkerPos (position (leader _x));
+						if ((side _x) == EAST) then {_mrk2 setMarkerSize [0.85,1.15]};
+						if ((side _x) == WEST) then {_mrk2 setMarkerSize [0.85,0.85]};
+						if ((side _x) == RESISTANCE) then {_mrk2 setMarkerSize [0.85,1.05]};
+						_mrk2 setMarkerPos (position (leader _x));
+						_RydMarks pushBack _mrk2;
+					};
+					_RydMarks pushBack _mrk;
+					_mrk setMarkerPos (position (leader _x));
 									
-					} foreach _MarkGrps;
+				} foreach _MarkGrps;
 
-					{
-						private ["_mrk","_mrkcolor","_mrktype"];
+				{
+					private ["_mrk","_mrkcolor","_mrktype"];
 
-						_mrk = _x getVariable "FirstMarkOrd";
-						if (isNil "_mrk") then {_mrk = createMarker ["markOrd" + (str _x),_x];_x setVariable ["FirstMarkOrd",_mrk];};
-						_mrkcolor = format ["Color%1", side (leader _HQ)];
+					_mrk = _x getVariable "FirstMarkOrd";
+					if (isNil "_mrk") then {_mrk = createMarker ["markOrd" + (str _x),_x];_x setVariable ["FirstMarkOrd",_mrk];};
+					_mrkcolor = format ["Color%1", side (leader _HQ)];
 
-						switch (side (leader _HQ)) do {
+					switch (side (leader _HQ)) do {
 
-							case WEST : {_mrktype = "b_" + "Ordnance"};
-							case EAST : {_mrktype = "o_" + "Ordnance"};
-							case RESISTANCE : {_mrktype = "n_" + "Ordnance"};
-							default {_mrktype = "Empty"};
+						case WEST : {_mrktype = "b_" + "Ordnance"};
+						case EAST : {_mrktype = "o_" + "Ordnance"};
+						case RESISTANCE : {_mrktype = "n_" + "Ordnance"};
+						default {_mrktype = "Empty"};
 
-						};
+					};
 
-						_mrk setMarkerType _mrktype;
-						_mrk setMarkerColor _mrkcolor;
-
-						_mrk setMarkerSize [0.75,0.75];
-
-
-						_RydMarksOrd pushBack _mrk;
-						_mrk setMarkerPos (position _x);
-									
-					} foreach _RydOrd;
-
-				//} foreach _SidePLY;
-
+					_mrk setMarkerType _mrktype;
+					_mrk setMarkerColor _mrkcolor;
+					_mrk setMarkerSize [0.75,0.75];
+					_RydMarksOrd pushBack _mrk;
+					_mrk setMarkerPos (position _x);									
+				} foreach _RydOrd;
 			};
 			
 			{
@@ -2978,17 +2957,13 @@ HAL_FBFTLOOP =
 
 			_HQ setvariable ["RydMarkGrpF",_MarkGrps];
 			_HQ setvariable ["RydMarksF",_RydMarks];
-
 			_HQ setvariable ["RydOrdnances",_RydOrd];
 			_HQ setvariable ["RydMarksOrd",_RydMarksOrd];
-
-			sleep 5;
-
-		};
-
-
+			if (isNull _HQ) then {
+			_FBFTLOOP call CBA_fnc_removePerFrameHandler;
+			};
+		}, 5, [_HQ]] call CBA_fnc_addPerFrameHandler;
 	};
-
 HAL_EBFT =
 
 	{

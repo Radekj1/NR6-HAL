@@ -561,7 +561,7 @@ RYD_AmmoFullCount =
 RYD_Mark = 
 	{//[_pos,_ref,_pfx,_cl,_shp,_tp,_dTxt,_ifPTxt,_sz,_dir] call RYD_Mark;
 	private ["_sz","_dir","_txt","_i"];
-	params [_pos,_ref,_pfx,_cl,_shp,_tp,_dTxt,_ifPTxt];
+	params ["_pos","_ref","_pfx","_cl","_shp","_tp","_dTxt","_ifPTxt"];
 
 	_sz = [1,1];
 	if ((count _this) > 8) then {_sz = _this select 8};
@@ -987,7 +987,7 @@ RYD_FindClosestWithIndex =
 
 	if ((count _objects) > 0) then 
 		{
-		_objects params [_closest];
+		_closest = _objects select 0;
 		_clst = _closest;
 		if ((typeName _clst) == (typename grpNull)) then {_clst = vehicle (leader _clst)};
 		_index = 0;
@@ -1680,7 +1680,7 @@ RYD_CloseEnemyB =
 	_tooClose = false;
 
 	_dstM = 100000;
-	_eG params [_closest];
+	_eG params ["_closest"];
 
 		{
 		_dstAct = (vehicle (leader _x)) distance _pos;
@@ -1695,13 +1695,12 @@ RYD_CloseEnemyB =
 
 RYD_Wait = 
 	{
-	private ["_int","_ammoF","_air","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy",
-	"_isInside","_isOutside","_enG","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
-	params ["_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];
+	private ["_int","_ammoF","_air","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer",
+	"_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
+	params ["_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo","_WaitCarrier"];//I made a mistake here fixing later
 			
 	_int = floor _int0;
 	_ammoF = false;
-
 	_air = [];
 	_enG = [];
 
@@ -1741,8 +1740,7 @@ RYD_Wait =
 	_wplimit = 1;
 	if not ((_tolerance - (round _tolerance)) == 0) then {_wplimit = 2};
 
-	_gp setVariable ["_timer",0];
-	
+	_timer = _gp setVariable ["_timer",0];
 	_alive = false;
 	_enemy = false;
 	_enPres = false;
@@ -1758,30 +1756,29 @@ RYD_Wait =
 	_GDV setVariable ["_GDV",_gp];
 	_AV setVariable ["_AV",vehicle _UL];
 	
-	RyD_WaitHandle = [{
-		params ["_args", "RyD_WaitHandle "];
-		private ["_isPlayer","_timer","_alive","_enemy","_busy","_Break"];
-		_args params ["_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo","_int","_ammoF","_air","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy",
-	"_isInside","_isOutside","_enG","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
-	_timer = _gp getVariable ["_timer",0];
-	_alive = _gp getVariable ["_alive",false];
-	_enemy = _gp getVariable ["_enemy",false];
-	_busy = _gp getVariable ["_busy",true];
-	_Break = _gp getVariable ["_Break",false];
-	_AV = _AV getVariable ["_AV",_AV];
-	_GDV = _GDV getVariable ["_GDV",_gp];
+	_RyD_WaitHandle = [{
+		params ["_args", "_RyD_WaitHandle "];
+		private ["_timer","_alive","_enemy","_busy","_Break","_type"];
+		_args params ["_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit"];
+		_timer = _gp getVariable ["_timer",0];
+		_alive = _gp getVariable ["_alive",false];
+		_enemy = _gp getVariable ["_enemy",false];
+		_busy = _gp getVariable ["_busy",true];
+		_Break = _gp getVariable ["_Break",false];
+		_AV = _AV getVariable ["_AV",_AV];
+		_GDV = _GDV getVariable ["_GDV",_gp];
 
 		_isPlayer = (isPlayer (leader _gp));
 		
 		_alive = true;
 		switch (true) do
 			{
-			case (isNull (_this select 0)) : {_alive = false};
-			case (({alive _x} count (units (_this select 0))) < 1) : {_alive = false};
+			case (isNull _gp) : {_alive = false};
+			case (({alive _x} count (units _gp)) < 1) : {_alive = false};
 			case (isNull _AV) : {_alive = false};
 			case (not (alive _AV)) : {_alive = false};
-			case ((_this select 0) getVariable ["RydHQ_MIA",false]) : {_alive = false;(_this select 0) setVariable ["RydHQ_MIA",nil]};
-			case ((_this select 0) getVariable ["Break",false]) : {_Break = true;_alive = false}
+			case (_gp getVariable ["RydHQ_MIA",false]) : {_alive = false; _gp setVariable ["RydHQ_MIA",nil]};
+			case (_gp getVariable ["Break",false]) : {_Break = true;_alive = false}
 			};
 
 		if (_alive) then
@@ -1998,10 +1995,9 @@ RYD_Wait =
 		_AV setVariable ["_AV",_AV];
 		((((count (waypoints _GDV)) < _wplimit) and (_wpCheck)) or ((_timer > _tolerance) and not (_isPlayer)) or ((_enemy) and not (_isPlayer)) or (_Break) or not (_alive) or (_isInside) or (_isOutside) or (_busy)) then 
 		{
-			RyD_WaitHandle call CBA_fnc_removePerFrameHandler; _gp setVariable ["RYD_WaitHandleFinished",true];
+			_RyD_WaitHandle call CBA_fnc_removePerFrameHandler; _gp setVariable ["RYD_WaitHandleFinished",true];
 		};
-		}, _int, [_gp,_int0,_speedF,_enemyF,_tolerance,_arr,_cargo,_int,_ammoF,_air,_timer,_alive,_enemy,_UL,_DAV,_GDV,_AV,_inside,_outside,_own,_wplimit,_isBusy,_busy,
-	_isInside,_isOutside,_enG,_type,_cplR,_cWp,_wpCheck,_boxed,_firedF,_fCount,_forBoxing,_wp,_pass,_Break,_isPlayer,_enPres,_HQ,_ctc,_dw,_fr]] call CBA_fnc_addPerFrameHandler;
+		}, _int, [_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit]] call CBA_fnc_addPerFrameHandler;
 
 	[{
 	private _isitdone = _gp getVariable ["RYD_WaitHandleFinished",false];
@@ -2037,8 +2033,13 @@ RYD_Wait =
 		_gp setVariable ["Break",false];
 		_timer = _tolerance + 10;
 	};
-
-	[_timer,_alive,_enemy,_busy,_Break] 
+	_WaitCarrier setVariable ["_continueAW",true];
+	_WaitCarrier setVariable ["_timer",_timer];
+	_WaitCarrier setVariable ["_alive",_alive];
+	_WaitCarrier setVariable ["_enemy",_enemy];
+	_WaitCarrier setVariable ["_busy",_busy];
+	_WaitCarrier setVariable ["_Break",_Break];
+	//[_timer,_alive,_enemy,_busy,_Break];
 	},[_gp,_AV,_tolerance,_GDV,_AV]] call CBA_fnc_waitUntilAndExecute;
 	};
 	
@@ -2414,13 +2415,14 @@ RYD_ArtyPrep =
 RYD_CFF_TGT = 
 	{	//First part - categorize vehicles as targets 
 	//_tgt = [RydHQ_KnEnemies] call RYD_CFF_TGT;
+	diag_log text "CFF_TGT started";
 	private ["_targets","_lastEnemy"];
-	params ["_enemies"];
-	_lastEnemy = _enemies select -1;
+	params ["_knEnemies","_CallForFireArgs"];
+	_lastEnemy = _knEnemies select -1;
 	_targets = [];
 
 	private _enemyCode = {
-		params ["_thisEnemy","_targets","_lastEnemy"];
+		params ["_thisEnemy","_targets","_lastEnemy","_CallForFireArgs"];
 		private ["_potential","_potL","_taken"];
 		_potential = vehicle _thisEnemy;
 		
@@ -2448,22 +2450,25 @@ RYD_CFF_TGT =
 					};
 				};
 			};
+		
+		if (_lastEnemy isEqualTo _thisEnemy) then { 
+			diag_log text "CFF_TGT part 1 finished, calling part 2";
+			[{[_targets,_CallForFireArgs] call RYD_CFF_TGT_Part2}, [_targets]] call CBA_fnc_execNextFrame;
 		};
-		if (_lastEnemy == _thisEnemy) then { 
-			[{[_targets] call RYD_CFF_TGT_Part2}, [_targets]] call CBA_fnc_execNextFrame;
-		};
+	};
 	{[{
 	private _thisEnemy = _x;
-	params ["_targets","_lastEnemy"];
-	[_thisEnemy, _targets,_lastEnemy] call _enemyCode;
-	},[_targets,_lastEnemy],_forEachIndex] call CBA_fnc_execAfterNFrames;} foreach _enemies;
+	params ["_targets","_lastEnemy","_CallForFireArgs"];
+	[_thisEnemy, _targets,_lastEnemy,_CallForFireArgs] call _enemyCode;
+	},[_targets,_lastEnemy,_CallForFireArgs],_forEachIndex] call CBA_fnc_execAfterNFrames;} foreach _knEnemies;
 	};
 
 	//Second part of the code. Check for civilians and assign rating for valid targets.
 RYD_CFF_TGT_Part2 = 
 	{
+		diag_log text "CFF_TGT part 2 started";
 	private ["_target","_lastTarget"];
-	params ["_targets"];
+	params ["_targets","_CallForFireArgs"];
 	_lastTarget = _targets select -1;
 
 	temptingCode = {
@@ -2498,17 +2503,17 @@ RYD_CFF_TGT_Part2 =
 			};
 			_CL setVariable ["_crowdFactor",_crowdFactor];
 			if (_Witness == _lastNearImp) then { 
-			[{[_targets,_candidate,_removeTargets,_CL] call _AssignTemptation}, [_targets,_candidate]] call CBA_fnc_execNextFrame;
+			[{[_targets,_candidate,_removeTargets,_CL,_CallForFireArgs] call _AssignTemptation}, [_targets,_candidate]] call CBA_fnc_execNextFrame;
 			};
 		};
 
 		{[{
 		private _Witness = _x;
-		[_Witness,_candidate,_CL,_nearCiv,_targets] call _PossVictim;
-		},[_candidate,_CL,_nearCiv,_targets],_foreachIndex] call CBA_fnc_execAfterNFrames;} foreach _nearImp;
+		[_Witness,_candidate,_CL,_nearCiv,_targets,_CallForFireArgs] call _PossVictim;
+		},[_candidate,_CL,_nearCiv,_targets,_CallForFireArgs],_foreachIndex] call CBA_fnc_execAfterNFrames;} foreach _nearImp;
 
 		private _AssignTemptation = {
-			params ["_targets","_candidate","_removeTargets","_CL"];
+			params ["_targets","_candidate","_removeTargets","_CL","_CallForFireArgs"];
 			_temptation = 0;
 			_vehFactor = 0;
 			_artFactor = 1;
@@ -2532,19 +2537,21 @@ RYD_CFF_TGT_Part2 =
 			_candidate setVariable ["CFF_Temptation",_temptation];
 			if (_lastTarget == _thistarget) then {
 				_CL setVariable ["_crowdFactor",1]; 
-				[{[_targets,_removeTargets] call RYD_CFF_TGT_Part3}, [_targets]] call CBA_fnc_execNextFrame;
+				diag_log text "CFF_TGT temptation assigned, calling part 3";
+				[{[_targets,_removeTargets,_CallForFireArgs] call RYD_CFF_TGT_Part3}, [_targets]] call CBA_fnc_execNextFrame;
 			};
 		};
 	};
 	{[{
 	private _thistarget = _x;
-	[_thistarget,_lastTarget] call temptingCode;
-	},[_targets,_lastTarget],_foreachIndex*10] call CBA_fnc_execAfterNFrames;} foreach _targets;
+	[_thistarget,_lastTarget,_CallForFireArgs] call temptingCode;
+	},[_targets,_lastTarget,_CallForFireArgs],_foreachIndex*10] call CBA_fnc_execAfterNFrames;} foreach _targets;
 	};
 RYD_CFF_TGT_Part3 = 
 	{ 	//Assign the target
+	diag_log text "CFF_TGT part 3 started";
 	private ["_target","_ValMax","_trgValS"];
-	params ["_targets","_removeTargets"];
+	params ["_targets","_removeTargets","_CallForFireArgs"];
 	_target = objNull;
 	//slower - _removeTargets contains objects, not indexes
 	_targets = _targets - _removeTargets; 	
@@ -2560,7 +2567,8 @@ RYD_CFF_TGT_Part3 =
 			_target = selectRandom _targets;
 		};
 	//return value
-	_target
+	diag_log text "target found";
+	[_target,_CallForFireArgs] spawn RYD_CFF_Part2; //for now.
 	};
 
 RYD_CFF_Fire = 
@@ -3913,18 +3921,12 @@ RYD_CFF_FFE =
 		}
 	foreach _battery
 	};
-
+//Artillery Support Mission - Call For Fire - RYD_CFF
 RYD_CFF = 
 	{//[RydHQ_ArtG,RydHQ_KnEnemies,(RydHQ_EnHArmor + RydHQ_EnMArmor + RydHQ_EnLArmor),RydHQ_Friends,RydHQ_Debug] call RYD_CFF;
-	_SCRname = "CFF";
-	private ["_amnt","_artG","_knEnemies","_enArmor","_friends","_Debug","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_ldr","_amount","_fr"];
-
-	_artG = _this select 0;
-	_knEnemies = _this select 1;
-	_enArmor = _this select 2;
-	_friends = _this select 3;
-	_Debug = _this select 4;
-	_ldr = _this select 5;
+	_SCRname = "CFF - Call For Fire";
+	private ["_amnt","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_amount","_fr"];
+	params ["_artG","_knEnemies","_enArmor","_friends","_Debug","_ldr"];
 
 	_fr = (group _ldr) getvariable ["RydHQ_Front",locationNull];
 	if not (isNull _fr) then {
@@ -3932,24 +3934,33 @@ RYD_CFF =
 	};
 	
 	_amount = RydART_Amount;
-
 	_CFFMissions = ceil (random (count _artG));
 
 	for "_i" from 1 to _CFFMissions do
 		{
-		_tgt = [_knEnemies] call RYD_CFF_TGT;
+		diag_log text "call target";
+		sleep (5 + (random 5)); //for now.
+		_CallForFireArgs = [_artG, _enArmor, _friends, _Debug, _ldr, _amount];
+		[_knEnemies,_CallForFireArgs] call RYD_CFF_TGT;
+		};
+	};
+RYD_CFF_Part2 = {
+	_SCRname = "CFF - Call For Fire - Part 2";
+	diag_log text "target acquired";
+	params ["_target","_CallForFireArgs"];
+	_CallForFireArgs params ["_artG","_enArmor","_friends","_Debug","_ldr","_amount"];
 		if not (isNull _tgt) then
-			{
+		{
 			_ammo = "HE";
 			_amnt = _amount;
 			if ((random 100) > 85) then {_ammo = "SPECIAL";_amnt = (ceil (_amount/3))};
-			//if (_tgt in _enArmor) then {_ammo = "HE";_amnt = 6};	
+			//if (_target in _enArmor) then {_ammo = "HE";_amnt = 6};	
 
-			_bArr = [(getPosATL _tgt),_artG,_ammo,_amnt,objNull] call RYD_ArtyMission;
+			_bArr = [(getPosATL _target),_artG,_ammo,_amnt,objNull] call RYD_ArtyMission;
 			_possible = _bArr select 0;
 
 			//_UL = leader (_friends select (floor (random (count _friends))));
-			_UL = _tgt getVariable ["RydHQ_MyFO",leader (_friends select (floor (random (count _friends))))];
+			_UL = _target getVariable ["RydHQ_MyFO",leader (_friends select (floor (random (count _friends))))];
 
 			if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_ArtyReq,"ArtyReq"] call RYD_AIChatter}};
 
@@ -3963,9 +3974,9 @@ RYD_CFF =
 					}
 				foreach (_bArr select 1);
 				if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
-				//[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
+				//[_bArr select 1,_target,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
 
-				[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
+				[_bArr select 1,_target,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
 				}
 			else
 				{
@@ -3975,7 +3986,7 @@ RYD_CFF =
 					case (_ammo in ["HE"]) : {_ammo = "SECONDARY";_amnt = _amount};
 					};
 
-				_bArr = [(getPosATL _tgt),_artG,_ammo,_amnt,objNull] call RYD_ArtyMission;
+				_bArr = [(getPosATL _target),_artG,_ammo,_amnt,objNull] call RYD_ArtyMission;
 
 				_possible = _bArr select 0;
 				if (_possible) then
@@ -3997,9 +4008,6 @@ RYD_CFF =
 					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter}
 					}
 				}
-			};
-
-		sleep (5 + (random 5));
 		};
 	};
 
@@ -4073,9 +4081,7 @@ RYD_WPSync =
 RYD_DbgMon = 
 	{
 	_SCRname = "DbgMon";
-	
-	private ["_txtArr","_dbgMon","_txt"];
-
+	diag_log text "DbgMon started";
 	if (RydBB_Active) then
 		{
 		waitUntil
@@ -4087,9 +4093,12 @@ RYD_DbgMon =
 
 	_txtArr = [];
 
-	while {((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug))} do
-		{
-		if (({(_x getVariable ["RydHQ_KIA",false])} count RydxHQ_AllHQ) == (count RydxHQ_AllHQ)) exitWith {};	
+	private	_Debug_Handle = [{
+		if (({(_x getVariable ["RydHQ_KIA",false])} count RydxHQ_AllHQ) == (count RydxHQ_AllHQ) 
+		or {(RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)}) then {
+			_Debug_Handle call CBA_fnc_removePerFrameHandler;
+		};	
+		private ["_txtArr","_dbgMon","_txt"];
 		_txtArr = [];
 
 			{
@@ -4117,9 +4126,7 @@ RYD_DbgMon =
 
 			hintSilent _txt
 			};
-
-		sleep 15
-		};
+	}, 15, []] call CBA_fnc_addPerFrameHandler;
 	};
 
 RYD_LZ = 
@@ -5205,7 +5212,7 @@ RYD_NearestRoad =
 RYD_FlatLandNoRoad =
 	{
 	private ["_final","_isGood","_isFlat","_noRoad","_nR","_ct"];
-	params [_pos, _radius];
+	params ["_pos","_radius"];
 
 	_final = +_pos;
 

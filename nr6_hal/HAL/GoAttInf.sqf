@@ -175,8 +175,13 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (
 
 	{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
-	_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
-	_timer = _cause select 0;
+	private _WaitCarrier = objNull;
+						_WaitCarrier setVariable ["_continueAW",false];
+						[_unitG,1,false,0,300,[],true,false,true,false,false,false,_WaitCarrier] call RYD_Wait; 
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+						_WaitCarrier setVariable ["_continueAW",false];
+						_timer = _WaitCarrier getVariable "_timer";
+
 	_AV land 'NONE';
 	};
 
@@ -358,8 +363,13 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
 			if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-			_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
-			_timer2 = _cause select 0;
+			private _WaitCarrier = objNull;
+			_WaitCarrier setVariable ["_continueAW",false];
+			[_unitG,1,false,0,300,[],true,false,true,false,false,false,_WaitCarrier] call RYD_Wait; 
+			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+			_WaitCarrier setVariable ["_continueAW",false];
+			_timer2 =_WaitCarrier getVariable "_timer";
+
 			_AV land 'NONE';
 
 			if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
@@ -542,15 +552,29 @@ if not (_IsAPlayer) then {
 		{
 		_OtherGroup = true;
 
-		_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
-		_cause params ["_timer","_alive","_enemy"];
+		private _WaitCarrier = objNull;
+		_WaitCarrier setVariable ["_continueAW",false];
+		[_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false,_WaitCarrier] call RYD_Wait; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		_WaitCarrier setVariable ["_continueAW",false];
+		_timer = _WaitCarrier getVariable "_timer";
+		_alive = _WaitCarrier getVariable "_alive";
+		_enemy = _WaitCarrier getVariable "_enemy";
+
 		}
 	else 
 		{
 		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-		_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
-		_cause params ["_timer","_alive","_enemy"];
+		private _WaitCarrier = objNull;
+		_WaitCarrier setVariable ["_continueAW",false];
+		[_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false,_WaitCarrier] call RYD_Wait; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		_WaitCarrier setVariable ["_continueAW",false];
+		_timer = _WaitCarrier getVariable "_timer";
+		_alive = _WaitCarrier getVariable "_alive";
+		_enemy = _WaitCarrier getVariable "_enemy";
+
 		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),false]};
 		};
 };
@@ -611,8 +635,12 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_uni
 	{
 	_pass = (units _unitG);
 	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-	_cause = [_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_AV] call RYD_Wait;
-	_timer = _cause select 0
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_AV,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
 	};
 
 if (not ((_GDV == _unitG) or (isNull _GDV)) and not (_IsAPlayer)) then 
@@ -646,8 +674,13 @@ if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not 
 	{
 	_wp = [_GDV,[((getPosATL _AV) select 0) + (random 200) - 100,((getPosATL _AV) select 1) + (random 200) - 100,1000],"MOVE","STEALTH","YELLOW","NORMAL"] call RYD_WPadd;
 
-	_cause = [_GDV,3,true,0,8,[],false] call RYD_Wait;
-	_timer = _cause select 0;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_GDV,3,true,0,8,[],false,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+
 	if (_timer > 8) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]};
 	};
 
@@ -678,9 +711,13 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 
 	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
 
 	if not (_alive) exitwith 
 		{
@@ -723,8 +760,13 @@ if not (_request) then {
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-_cause = [_unitG,6,true,0,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
-_cause params ["_timer","_alive"];
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,0,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false,_WaitCarrier] call RYD_Wait; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
 
 //if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [true, false]};
 //Mech or motorized groups getout in combat now (added in wait loop)
@@ -751,9 +793,14 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 	
 	_wp = [_unitG,_Spos,"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,5] call RYD_WPadd;
 
-	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
+
 
 	if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
 	if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};

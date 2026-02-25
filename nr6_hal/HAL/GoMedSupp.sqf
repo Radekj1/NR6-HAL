@@ -111,9 +111,13 @@ while {(_counter <= 3)} do
 	_wp = [_unitG,_pos,_tp,"SAFE","BLUE","FULL",["true","(vehicle this) land 'GET IN';deletewaypoint [(group this), 0]"]] call RYD_WPadd;
 	if (_counter == 0) then {_wp waypointAttachVehicle _Trg};
 
-	_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
 
 	if not (_alive) exitwith 
 		{
@@ -178,9 +182,14 @@ _timer = 0;
 _alive = true;
 
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
-	_cause = [_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,24,[],true,true,true,true,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
+
 };
 
 if not (_alive) exitwith 

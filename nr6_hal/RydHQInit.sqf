@@ -116,13 +116,20 @@ if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoo
 _hi remoteExecCall ["systemChat"];
 HQInit1 = true;
 }] call CBA_fnc_directCall;
+diag_log text "RydHQInit.sqf: Global variables initialized.";
 waitUntil {sleep 1; HQInit1};
+diag_log text "RydHQInit.sqf: Global variables initialization complete. Now compiling functions.";
 
 call compile preprocessfile (RYD_Path + "HAC_fnc.sqf");
+diag_log text "RydHQInit.sqf: HAC functions compiled.";
 call compile preprocessfile (RYD_Path + "HAC_fnc2.sqf");
+diag_log text "RydHQInit.sqf: HAC functions 2 compiled.";
 call compile preprocessfile (RYD_Path + "VarInit.sqf"); 
+diag_log text "RydHQInit.sqf: VarInit initialized.";
 call compile preprocessfile (RYD_Path + "TaskMenu.sqf");
+diag_log text "RydHQInit.sqf: TaskMenu initialized.";
 call compile preprocessfile (RYD_Path + "TaskInitNR6.sqf");
+diag_log text "RydHQInit.sqf: TaskInitNR6 initialized.";
 
 //Running below publicvariables in unsheduled mode.
 [{
@@ -229,10 +236,13 @@ publicVariable "ACEAction13fncR";
 publicVariable "ActionGTct";
 publicVariable "ActionArtct";
 publicVariable "ActionArt2ct";
+diag_log text "RydHQInit.sqf: Public variables initialized.";
 HQInit2 = true;
 }] call CBA_fnc_directCall;
 waitUntil {HQInit2};
+diag_log text "RydHQInit.sqf: Public variables initialization complete. RHQ checking...";
 if (RydHQ_RHQCheck) then {[] call RYD_RHQCheck};
+diag_log text "RydHQInit.sqf: RHQ check complete. Now initializing HQs.";
 
 RydxHQ_AllLeaders = [];
 RydxHQ_AllHQ = [];
@@ -250,6 +260,7 @@ RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 	}
 foreach RydHQ_CallSignsN; 
 */
+diag_log text "RydHQInit.sqf: Colours and callsigns initialized. Now checking for HQ leaders and initializing HQs.";
 if not (isNull leaderHQ) then 
 	{
 	_gp = group leaderHQ;
@@ -262,7 +273,7 @@ if not (isNull leaderHQ) then
 		_gp setVariable ["RydHQ_Front",HET_FA]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ A initialized.";
 if not (isNull leaderHQB) then 
 	{
 	_gp = group leaderHQB;
@@ -275,7 +286,7 @@ if not (isNull leaderHQB) then
 		_gp setVariable ["RydHQ_Front",HET_FB]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ B initialized.";
 if not (isNull leaderHQC) then 
 	{
 	_gp = group leaderHQC;
@@ -288,7 +299,8 @@ if not (isNull leaderHQC) then
 		_gp setVariable ["RydHQ_Front",HET_FC]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ C initialized.";
+
 if not (isNull leaderHQD) then 
 	{
 	_gp = group leaderHQD;
@@ -301,7 +313,8 @@ if not (isNull leaderHQD) then
 		_gp setVariable ["RydHQ_Front",HET_FD]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ D initialized.";
+
 if not (isNull leaderHQE) then 
 	{
 	_gp = group leaderHQE;
@@ -313,8 +326,9 @@ if not (isNull leaderHQE) then
 		{
 		_gp setVariable ["RydHQ_Front",HET_FE]
 		}
-	};
-	
+	};	
+diag_log text "RydHQInit.sqf: HQ E initialized.";
+
 if not (isNull leaderHQF) then 
 	{
 	_gp = group leaderHQF;
@@ -327,7 +341,8 @@ if not (isNull leaderHQF) then
 		_gp setVariable ["RydHQ_Front",HET_FF]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ F initialized.";
+
 if not (isNull leaderHQG) then 
 	{
 	_gp = group leaderHQG;
@@ -340,7 +355,8 @@ if not (isNull leaderHQG) then
 		_gp setVariable ["RydHQ_Front",HET_FG]
 		}
 	};
-	
+diag_log text "RydHQInit.sqf: HQ G initialized.";
+
 if not (isNull leaderHQH) then 
 	{
 	_gp = group leaderHQH;
@@ -353,16 +369,18 @@ if not (isNull leaderHQH) then
 		_gp setVariable ["RydHQ_Front",HET_FH]
 		}
 	};
-
+diag_log text "RydHQInit.sqf: HQ H initialized.";
+diag_log text "RydHQInit.sqf: HQ leaders initialized. Now initializing fronts.";
 [] call compile preprocessfile (RYD_Path + "Front.sqf");
-
+diag_log text "RydHQInit.sqf: Fronts initialized.";
 if (RydHQ_TimeM) then 
 	{
 	[([player] + (switchableUnits - [player]))] call RYD_TimeMachine
 	};
-	
+diag_log text "RydHQInit.sqf: Time machine initialized";
 if (RydBB_Active) then 
 	{
+	diag_log text "RydHQInit.sqf: Big Boss active. Initializing.";
 	call compile preprocessfile (RYD_Path + "Boss_fnc.sqf");
 	RydBBa_InitDone = false;
 	RydBBb_InitDone = false;
@@ -389,27 +407,45 @@ if (RydBB_Active) then
 		sleep 1;
 		}
 	foreach [[RydBBa_HQs,"A"],[RydBBb_HQs,"B"]];
+	diag_log text "RydHQInit.sqf: Big Boss initialized.";
 	};
-
+diag_log text "RydHQInit.sqf: HQ initialization complete. Now initializing debug systems.";
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[] call RYD_DbgMon};
-
-if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [(group leaderHQ)] call A_HQSitRep; [(group leaderHQ)] call HAL_FBFTLOOP; [(group leaderHQ)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] call B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] call C_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] call D_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] call E_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] call F_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] call G_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] call HAL_SecTasks; sleep 5};
-if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] call H_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] call HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: Debug systems initialized. Now initializing HQ sitreps and loops.";
+if not (isNull leaderHQ) then {publicVariable "leaderHQ"; 
+	diag_log text "RydHQInit.sqf: HQ A leader public variable set.";
+	[(group leaderHQ)] spawn A_HQSitRep; //To be converted to call eventually, but spawn is needed for now to prevent blocking the rest of the initialization.
+	diag_log text "RydHQInit.sqf: HQ A sitrep initialized.";
+	[(group leaderHQ)] call HAL_FBFTLOOP; 
+	diag_log text "RydHQInit.sqf: HQ A FBFT loop initialized.";
+	[(group leaderHQ)] spawn HAL_SecTasks; //TBA
+	diag_log text "RydHQInit.sqf: HQ A sec tasks initialized.";
+sleep 5};
+diag_log text "RydHQInit.sqf: HQ A initialized.";
+if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] spawn B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ B initialized.";
+if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] spawn C_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ C initialized.";
+if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] spawn D_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ D initialized.";
+if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] spawn E_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ E initialized.";
+if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] spawn F_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ F initialized.";
+if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] spawn G_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ G initialized.";
+if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] spawn H_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] spawn HAL_SecTasks; sleep 5};
+diag_log text "RydHQInit.sqf: HQ H initialized.";
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{	
 	[RydHQ_GroupMarks] call RYD_GroupMarkerLoop;
 	};
 {
-if (RydxHQ_Actions) then {
-nul = [] call compile (RYD_Path + "SquadTaskingNR6Init.sqf");
-};
-
+	diag_log text "RydHQInit.sqf: Group markers initialized.";
+	if (RydxHQ_Actions) then {
+		[] call compile preprocessfile (RYD_Path + "SquadTaskingNR6Init.sqf");
+	};
+	diag_log text "RydHQInit.sqf: Squad tasking initialized.";
 } call CBA_fnc_directCall;
-
+diag_log text "RydHQInit.sqf: Initialization complete.";

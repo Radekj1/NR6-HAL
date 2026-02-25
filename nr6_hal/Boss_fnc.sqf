@@ -1351,7 +1351,7 @@ RYD_ReserveExecuting =
 						{
 						_SCRname = "ReserveExecutingC1";
 						
-						private ["_cause","_timer","_alive","_task","_form","_wp"];
+						private ["_timer","_alive","_task","_form","_wp"];
 						params ["_unitG","_garrison","_Wpos"];
 
 						_form = "DIAMOND";
@@ -1365,8 +1365,14 @@ RYD_ReserveExecuting =
 						[_unitG] call RYD_WPdel;
 
 						_wp = [_unitG,_Wpos,"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0]"],true,250,[0,0,0],_form] call RYD_WPadd;
-						_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
-						_cause params ["_timer","_alive"];
+						private _WaitCarrier = objNull;
+						_WaitCarrier setVariable ["_continueAW",false];
+						[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+						_WaitCarrier setVariable ["_continueAW",false];
+						_timer = _WaitCarrier getVariable "_timer";
+						_alive = _WaitCarrier getVariable "_alive";
+
 
 						if not (_alive) exitwith {};
 						if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [position (vehicle (leader _unitG)), 1]};

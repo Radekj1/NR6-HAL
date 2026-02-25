@@ -244,8 +244,14 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 	};
 
 if (not (_request) and not (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]]))) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
-_cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
-_cause params ["_timer","_alive"];
+private _WaitCarrier = objNull;
+_WaitCarrier setVariable ["_continueAW",false];
+[_unitG,6,true,0,120,[],false,_WaitCarrier] call RYD_Wait; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+_WaitCarrier setVariable ["_continueAW",false];
+_timer = _WaitCarrier getVariable "_timer";
+_alive = _WaitCarrier getVariable "_alive";
+
 
 _unitG setVariable ["CurrCASLazeOff",true];
 _unitG setVariable ["CurrCASObjSetByLead",objNull];
@@ -286,8 +292,13 @@ _mustRTB = false;
 
 
 if (_mustRTB) then {
-	_cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
-	_cause params ["_timer","_alive"];
+	private _WaitCarrier = objNull;
+	_WaitCarrier setVariable ["_continueAW",false];
+	[_unitG,6,true,0,24,[],false,_WaitCarrier] call RYD_Wait; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	_WaitCarrier setVariable ["_continueAW",false];
+	_timer = _WaitCarrier getVariable "_timer";
+	_alive = _WaitCarrier getVariable "_alive";
 
 	if not (_alive) exitwith 
 		{
