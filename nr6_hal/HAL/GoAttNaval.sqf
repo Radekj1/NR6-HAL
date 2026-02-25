@@ -87,7 +87,7 @@ if (RydxHQ_SynchroAttack) then
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,24,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -138,7 +138,7 @@ if not (_request) then {
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
 private _WaitCarrier = objNull;
 _WaitCarrier setVariable ["_continueAW",false];
-[_unitG,6,true,0,24,[],false,_WaitCarrier] call RYD_Wait; 
+[_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -174,7 +174,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 
 	private _WaitCarrier = objNull;
 	_WaitCarrier setVariable ["_continueAW",false];
-	[_unitG,6,true,0,30,[],false,_WaitCarrier] call RYD_Wait; 
+	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
 	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
@@ -198,5 +198,6 @@ _HQ setVariable ["RydHQ_AttackAv",_attAv];
 _unitG setVariable [("Busy" + (str _unitG)),false];
 
 if not (_request) then {[_Trg,"NavAttacked"] call RYD_VarReductor};
+
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
