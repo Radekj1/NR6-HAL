@@ -958,6 +958,7 @@ RYD_TerraCognita =
 
 RYD_GoLaunch = 
 	{
+	Diag_log text "RYD_GoLaunch started";
 	private ["_code"];
 	params ["_kind"];
 	_code = {};
@@ -971,7 +972,7 @@ RYD_GoLaunch =
 		case ("AIRCAP") : {_code = HAL_GoAttAirCAP};
 		case ("NAVAL") : {_code = HAL_GoAttNaval};
 		};
-
+	Diag_log text "RYD_GoLaunch returns";
 	_code
 	};
 	
@@ -1191,7 +1192,7 @@ RYD_Recon =
 RYD_Dispatcher =
 	{
 	_SCRname = "Dispatcher";
-	
+	diag_log text "RYD_Dispatcher started";
 	private ["_pool","_force","_range","_pattern","_SortedForce","_tPos","_limit","_avF","_trg","_ix","_infEnough","_armEnough","_airEnough","_sum","_handled","_chosen","_ammo","_topo","_sCity","_sForest","_sHills","_sMeadow",
 	"_sGr","_sVal","_mpl","_busy","_positive","_ATRR1","_ATRR2","_thRep","_isClose","_enDst","_thFct","_chVP","_clstE","_Airmpl","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_navEnough","_cntNav","_fr"];
 	
@@ -1339,9 +1340,9 @@ RYD_Dispatcher =
 			{
 			_trg = vehicle (leader _x);
 			_tPos = getPosATL _trg;	
-
+			diag_log text "RYD_Dispatcher calling RYD_TerraCognita";
 			_topo = [_trg,5] call RYD_TerraCognita;
-
+			diag_log text "RYD_Dispatcher finished RYD_TerraCognita";
 			_sCity = 100 * (_topo select 0);
 			_sForest = 100 * (_topo select 1);
 			_sHills = 100 * (_topo select 2);
@@ -1377,9 +1378,9 @@ RYD_Dispatcher =
 							}
 						foreach _force;
 						};
-
+					diag_log text "RYD_Dispatcher _SortedForce calling RYD_DistOrd";
 					_SortedForce = [_force,_tPos,10000*_range] call RYD_DistOrd;
-					
+					diag_log text "RYD_Dispatcher _SortedForce called RYD_DistOrd";
 					_SortedForce = _FTFinPool + (_SortedForce - _FTFinPool);
 
 					_avF = _SortedForce;
@@ -1393,8 +1394,9 @@ RYD_Dispatcher =
 						_ix = _ix + 1;
 
 						_positive = true;
-
+						diag_log text "RYD_Dispatcher calling RYD_AmmoCount";
 						_ammo = [_chosen,_NCVeh] call RYD_AmmoCount;
+						diag_log text "RYD_Dispatcher called RYD_AmmoCount";
 
 						switch (true) do
 							{
@@ -1477,9 +1479,11 @@ RYD_Dispatcher =
 
 															if ((_chosen in _allAir) and ((count _AAthreat) > 0)) then
 																{
+																diag_log text "RYD_Dispatcher calling RYD_CloseEnemyB";
 																_thRep = [_chVP,_AAthreat,25000] call RYD_CloseEnemyB;
 																_thRep params ["_isClose"];
 																_clstE = getPosATL (vehicle (leader (_thRep select 2)));
+																diag_log text "RYD_Dispatcher calling RYD_PointToSecDst";
 																_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
 
 																if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
@@ -1519,7 +1523,7 @@ RYD_Dispatcher =
 									};
 								};
 							};
-						
+						diag_log text "RYD_Dispatcher Anti Tank Risk Resign";
 						_ATRR1 = _ATriskResign1;
 						_ATRR2 = _ATriskResign2;
 						if (_chosen in _LArmorG) then 
@@ -1532,12 +1536,16 @@ RYD_Dispatcher =
 						{
 							if (_pattern in ["ARM"]) then
 							{
+							diag_log text "RYD_Dispatcher Pattern ARM";
 								if ((count _ATthreat) > 0) then
 									{
+									diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
 									_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
 									_thRep params ["_isClose"];
 									_clstE = getPosATL (vehicle (leader (_thRep select 2)));
+									diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
 									_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
+									diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
 
 									if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
 										{
@@ -1552,11 +1560,13 @@ RYD_Dispatcher =
 									{
 									if ((count _armorATthreat) > 0) then
 										{
+										diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
 										_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
 										_thRep params ["_isClose"];
 										_clstE = getPosATL (vehicle (leader (_thRep select 2)));
+										diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
 										_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
-
+										diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
 										if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
 											{
 											_thFct = ((_ATRR2 * 40)/(sqrt _enDst))/(0.5 + (2 * _reck));//diag_log format ["Grp: %1 endst: %2 thFct: %3",typeOf (vehicle (leader _chosen)),_enDst,_thFct];
@@ -1571,6 +1581,7 @@ RYD_Dispatcher =
 
 							if (_pattern in ["AIR","AIRCAP"]) then
 								{
+								Diag_log text "RYD_Dispatcher Pattern AIR/AIRCAP";
 								if ((count _AAthreat) > 0) then
 									{
 									_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
@@ -1590,13 +1601,14 @@ RYD_Dispatcher =
 								};
 						};
 
-
+						Diag_log text "RYD_Dispatcher Pattern ended";
 						if (_positive) then
 							{
 							_chosen setVariable ["Busy" + (str _chosen),true];
 							_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
-							
+							Diag_log text "RYD_Dispatcher call RYD_GoLaunch";
 							[_chosen,_trg,_HQ] call ([_pattern] call RYD_GoLaunch);
+							Diag_log text "RYD_Dispatcher called RYD_GoLaunch";
 							_limit = _limit - 1;
 							};
 
@@ -1697,8 +1709,8 @@ RYD_Wait =
 	{
 	private ["_int","_ammoF","_air","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer",
 	"_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
-	params ["_WaitCarrier","_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];//I made a mistake here fixing later
-			
+	params ["_WaitCarrier","_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];
+	diag_log text "RYD_Wait started";
 	_int = floor _int0;
 	_ammoF = false;
 	_air = [];
@@ -1721,7 +1733,6 @@ RYD_Wait =
 		{
 		_ammoF = true
 		};
-
 	_inside = true;
 	if ((count _this) > 8) then {_inside = _this select 8};
 	_outside = true;
@@ -1736,7 +1747,7 @@ RYD_Wait =
 	if ((count _this) > 13) then {_firedF = _this select 13};
 	_pass = (units _gp);
 	if ((count _this) > 14) then {_pass = _this select 14};
-
+	diag_log text "RYD_Wait params loaded";
 	_wplimit = 1;
 	if not ((_tolerance - (round _tolerance)) == 0) then {_wplimit = 2};
 
@@ -1755,11 +1766,13 @@ RYD_Wait =
 	_GDV = _gp;
 	_GDV setVariable ["_GDV",_gp];
 	_AV setVariable ["_AV",vehicle _UL];
-	
+	diag_log text "RYD_Wait variables set";
+	diag_log text "RYD_Wait _HAL_WaitHandle";
 	_HAL_WaitHandle = [{
 		params ["_args", "_HAL_WaitHandle"];
 		private ["_timer","_alive","_enemy","_busy","_Break","_type"];
-		_args params ["_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit"];
+		_args params ["_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy"];
+		diag_log text "RYD_Wait WaitHandle started";
 		_timer = _gp getVariable ["_timer",0];
 		_alive = _gp getVariable ["_alive",false];
 		_enemy = _gp getVariable ["_enemy",false];
@@ -1797,13 +1810,15 @@ RYD_Wait =
 				_AV setVariable ["_AV",_AV];
 				if not (_own) then {_GDV = group _DAV};
 				};
-				
+				diag_log text "RYD_Wait _HAL_WaitHandleAssVeh";
 				_HAL_WaitHandleAssVeh = [{
+					diag_log text "RYD_Wait _HAL_WaitHandleAssVeh loaded";
 					params ["_args", "_HAL_WaitHandleAssVeh"];
 					_args params ["_AV","_UL","_DAV","_own","_GDV", "_exitCode"];
 					not (isNull (assignedVehicle _UL));
 					
 					if (isNull (assignedVehicle _UL)) then {
+						diag_log text "RYD_Wait _HAL_WaitHandleAssVeh ended";
 						_HAL_WaitHandleAssVeh call CBA_fnc_removePerFrameHandler;
 						[_AV,_UL,_DAV,_own,_GDV] call _exitCode;
 					};
@@ -1993,11 +2008,31 @@ RYD_Wait =
 		_gp setVariable ["_Break",_Break];
 		_GDV setVariable ["_GDV",_GDV];
 		_AV setVariable ["_AV",_AV];
-		if ((((count (waypoints _GDV)) < _wplimit) and (_wpCheck)) or ((_timer > _tolerance) and not (_isPlayer)) or ((_enemy) and not (_isPlayer)) or (_Break) or not (_alive) or (_isInside) or (_isOutside) or (_busy)) then 
+		diag_log text "_HAL_WaitHandle check for exit condition";
+		private _WaypointCountedGDV = {count (waypoints _GDV)};
+		diag_log _WaypointCountedGDV;
+		diag_log _wplimit; //1
+		diag_log _wpCheck; //true
+		diag_log _timer; //0
+		diag_log _tolerance; //24
+		diag_log _isPlayer; //false
+		diag_log _Break; //false
+		diag_log _alive; //false
+		diag_log _isInside; //false
+		diag_log _isOutside; //true
+		diag_log _busy; //false
+		diag_log _enemy; 
+		
+		if (
+		_Break || !_alive || _isInside || _isOutside || _busy || 
+		{(_WaypointCountedGDV < _wplimit) && _wpCheck} || 
+  		{(_timer > _tolerance) && !_isPlayer} || 
+   		{_enemy && !_isPlayer}
+    	) then 
 		{
-			_HAL_WaitHandle call CBA_fnc_removePerFrameHandler; _gp setVariable ["HAL_WaitHandleFinished",true];
+			diag_log text "RYD_Wait Handle ended"; _gp setVariable ["HAL_WaitHandleFinished",true]; _HAL_WaitHandle call CBA_fnc_removePerFrameHandler; 
 		};
-		}, _int, [_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit]] call CBA_fnc_addPerFrameHandler;
+		}, _int, [_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy]] call CBA_fnc_addPerFrameHandler;
 
 	[{
 	private _isitdone = _gp getVariable ["HAL_WaitHandleFinished",false];
@@ -2039,6 +2074,7 @@ RYD_Wait =
 	_WaitCarrier setVariable ["_enemy",_enemy];
 	_WaitCarrier setVariable ["_busy",_busy];
 	_WaitCarrier setVariable ["_Break",_Break];
+	diag_log text "RYD_Wait _WaitCarrier values assignedCargo";
 	//[_timer,_alive,_enemy,_busy,_Break];
 	},[_gp,_AV,_tolerance,_GDV,_AV]] call CBA_fnc_waitUntilAndExecute;
 	};
