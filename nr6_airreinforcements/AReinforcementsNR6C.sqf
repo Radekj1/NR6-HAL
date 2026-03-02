@@ -1,5 +1,5 @@
 // [Side, Spawning helipads/objects (array), Starting aircraft (array), Availabe empty aircraft (array), Threshold (0 to 1), Leaders (aray), Delay time between checks (seconds), code to execute on spawned groups (_this stands for squad leader)] spawn NR6_fnc_AirReinforcementsB;
-
+if (!isServer) exitwith {};
 private 
     [
     "_side","_Commanders","_coreObj","_SpawnPads","_sideForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_Leaders","_SpawnRGroup","_CTR","_grp", "_GoodPads","_LiveForces","_CLiveForces","_CStartForces","_TickTime","_GoodsideForces","_ExtraArgs"
@@ -82,13 +82,12 @@ while {_CStartForces < _counter} do
 };
 
 
-
-while {true} do 
-
-    {
-
+_RespawnAirCHandle = [{
+    params ["_args", "_RespawnAirCHandle"];
+    _args params [];
+    private ["_GoodsideForces","_CLiveForces","_CurrentForces","_crewUnits","_crewCount","_crewSize","_selectedAircraft"];
     _GoodsideForces = [];
-
+    _LiveForces = _logic getVariable ["_LiveForcesAR_C", _LiveForces];
     {
         _crewUnits = (units (_x getvariable ["Air_ReinforcementsNR6_Crew",grpNull]));
         _crewCount = count _crewUnits;
@@ -111,7 +110,7 @@ while {true} do
 
     _CurrentForces = count _LiveForces;
 
-    testfor = _GoodsideForces;
+    //testfor = _GoodsideForces;
 
 
     if ((_CurrentForces) < (_Threshold*_CStartForces)) then 
@@ -122,7 +121,7 @@ while {true} do
 
                 _selectedAircraft = [_side,_GoodsideForces,_Leaders] call SpawnARGroupC;
 
-                sleep 1;
+                //sleep 1;
                 
                 _LiveForces pushback _selectedAircraft;
 
@@ -131,8 +130,7 @@ while {true} do
                     
             };  
         };
-
-    if (_GoodsideForces isequalto []) exitwith {};
-
-    sleep _TickTime;
-    };
+    _logic setVariable ["_LiveForcesAR_C", _LiveForces];
+    if (_GoodsideForces isequalto []) then {(_RespawnAirCHandle) call CBA_fnc_removePerFrameHandler;};
+}, _TickTime, [_sideForces,_LiveForces,_Leaders,_logic,_side,_DontLand,_Threshold,_CStartForces,_TickTime
+]] call CBA_fnc_addPerFrameHandler;

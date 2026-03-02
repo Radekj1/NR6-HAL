@@ -1,3 +1,4 @@
+if (!isServer) exitWith {};
 private ["_Leader","_logic","_grp","_LeaderType","_grpID"];
 
 _logic = (_this select 0);

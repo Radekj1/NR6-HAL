@@ -1,5 +1,5 @@
 // [Side, Spawning helipads/objects (array), Starting aircraft (array), Availabe empty aircraft (array), Threshold (0 to 1), Leaders (aray), Delay time between checks (seconds)] spawn NR6_fnc_AirReinforcementsB;
-
+if (!isServer) exitwith {};
 private 
     [
     "_side","_Commanders","_coreObj","_SpawnPads","_sideForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_Leaders","_SpawnRGroup","_CTR","_grp", "_GoodPads","_LiveForces","_CLiveForces","_CStartForces","_TickTime","_GoodsideForces","_ExtraArgs"
@@ -77,12 +77,13 @@ while {_CStartForces < _counter} do
 
 
 
-while {true} do 
 
-    {
-
+_RespawnAirBHandle = [{
+    params ["_args", "_RespawnAirBHandle"];
+    _args params ["_SpawnPads","_LiveForces","_sideForces","_logic","_side","_Leaders","_DontLand","_Threshold","_CStartForces","_TickTime"];
+    private ["_GoodsideForces","_GoodPads","_CLiveForces","_CurrentForces","_grp"];
     _GoodsideForces = [];
-
+    _LiveForces = _logic getVariable ["_LiveForcesAR_B", _LiveForces];
     {
         if ((alive _x) and ((damage _x) < 0.4) and not (_x getvariable ["Air_ReinforcementsNR6_Taken",false])) then {
 
@@ -121,7 +122,7 @@ while {true} do
 
                 _grp = [_GoodPads,_side,_GoodsideForces,_Leaders] call SpawnARGroupB;
 
-                sleep 1;
+                //sleep 1;
                 
                 _LiveForces pushback (vehicle (leader _grp));
 
@@ -130,8 +131,7 @@ while {true} do
                     
             };  
         };
-
-    if (_GoodsideForces isequalto []) exitwith {};
-
-    sleep _TickTime;
-    };
+    _logic setVariable ["_LiveForcesAR_B",_LiveForces];
+    if (_GoodsideForces isequalto []) then {(_RespawnAirBHandle) call CBA_fnc_removePerFrameHandler;};
+}, _TickTime, [_SpawnPads,_LiveForces,_sideForces,_logic,_side,_Leaders,_DontLand,_Threshold,_CStartForces,_TickTime
+]] call CBA_fnc_addPerFrameHandler;

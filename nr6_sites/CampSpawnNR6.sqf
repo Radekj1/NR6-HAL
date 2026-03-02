@@ -1,7 +1,7 @@
 //[position of site, radius of site,  number of groups, chance for patrol,,minimum building size, side, array of available groups for guard to spawn (can be a config path or array), controlled HAL leaders] call NR6_Sites;
 
 //Ex: [(getPos this),100,4,0.2,1,west,[['rhsusf_army_ocp_teamleader', 'rhsusf_army_ocp_grenadier','rhsusf_army_ocp_autorifleman','rhsusf_army_ocp_rifleman'],['rhsusf_army_ocp_grenadier', 'rhsusf_army_ocp_rifleman']], [LeaderHQ,LeaderHQB]] call NR6_fnc_Sites; 
-
+if (!isServer) exitWith {};
 private 
     [
     "_grp","_Commanders","_SpawnPos","_SpawnRadius","_Pool","_GrpQuantity","_Leaders","_i","_Side","_SpawnRGroup","_PatrolPercent","_MinBuilding"

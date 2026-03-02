@@ -3,6 +3,7 @@
 //Ex: [east,1,[(getpos RO1),(getpos RO2),(getpos RO3)],100,50,"LOP_TKA",1,[LeaderHQC,LeaderHQD]]  spawn NR6_fnc_Reinforcements; 
 //Ex (using custom faction): [west,1,[(getpos RB1),(getpos RB2)],100,30,"custom",1,[LeaderHQ,LeaderHQB],[['Hum_al_serg','Hum_al_corp','Hum_al_sold','Hum_al_sold','Hum_al_sold','Hum_al_corp','Hum_al_sold','Hum_al_snip','Hum_al_soldAT'],['Hum_al_serg','Hum_al_soldAT','Hum_al_soldAT','Hum_al_sold'],['C_mako1_al_F'],['MEOP_veh_kodiakArm_alliance']]] spawn NR6_fnc_Reinforcements;  
 
+if (!isServer) exitWith {};
 
 private 
     [
@@ -898,6 +899,7 @@ _RespawnHandle = [ {
     if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         _sidetick = 0;
+        _logic setvariable ["_sidetick",_sidetick];
     };
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetick != 0) and ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
@@ -907,6 +909,7 @@ _RespawnHandle = [ {
         };
         _sidetick = 0;
         _logic setVariable ["_sidetickHold", _sidetickHold]; 
+        _logic setvariable ["_sidetick",_sidetick];
     };
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetickHold != 0) and (_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) then 
     {
@@ -916,6 +919,7 @@ _RespawnHandle = [ {
         };
         _sidetickHold = 0;
         _logic setVariable ["_sidetickHold", _sidetickHold]; 
+        _logic setvariable ["_sidetick",_sidetick];
     };
     // Spawning units code
     //_CurrentForces = (_side countSide allUnits);
@@ -936,6 +940,6 @@ _RespawnHandle = [ {
             }; 
         };
     //Permanently remove Frame Handler when not needed anymore
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitWith {(_RespawnHandle) call CBA_fnc_removePerFrameHandler;};
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) then {(_RespawnHandle) call CBA_fnc_removePerFrameHandler;};
 }, 5, [_logic,_ThresholdDecay,_HalReinf,_SpawnPos,_SpawnRadius,_side,_Pool,_Leaders,_RejoinPoint,_ExtraArgs,_StartForces,
 _playerRange,_playerFriend,_sideEn,_sideEn2,_Commanders,_Objsource,_CrrFr,_rStrgt]] call CBA_fnc_addPerFrameHandler;

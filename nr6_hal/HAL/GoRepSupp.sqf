@@ -60,8 +60,16 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 	_i = [[_posX,_posY],_unitG,"markRepSupp","ColorKhaki","ICON","waypoint","REPAIR " + (groupId _unitG) + " " + _signum," - REPAIR SUPPORT",[0.5,0.5],180] call RYD_Mark
 	};
 
-_task = [(leader _unitG),["Perform field repairs for " + (groupId (group _Trg)), "Repair " + (groupId (group _Trg)), ""],(position _Trg),"repair"] call RYD_AddTask;
+private _AddTask = createGroup sideLogic;
+_AddTask setVariable ["_continueAfterTask",false];
 
+[_AddTask,(leader _unitG),["Perform field repairs for " + (groupId (group _Trg)), "Repair " + (groupId (group _Trg)), ""],(position _Trg),"repair"] call RYD_AddTask;
+	
+waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+diag_log text "RYD_AddTask code finished, waituntil passed";
+_AddTask setVariable ["_continueAfterTask",false];
+_task = _AddTask getVariable "_task";
+deleteGroup _AddTask;
 _counter = 0;
 _timer = 0;
 
@@ -110,14 +118,15 @@ while {(_counter <= 3)} do
 	_wp = [_unitG,_pos,_tp,"SAFE","BLUE","FULL",["true","(vehicle this) land 'GET IN';deletewaypoint [(group this), 0]"]] call RYD_WPadd;
 	if (_counter == 0) then {_wp waypointAttachVehicle _Trg};
 
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";
-
+	deleteGroup _WaitCarrier;
 
 
 	if (((_rtr distance _Trg) < 50) and not (CanMove _Trg)) then {_Trg setdamage ((damage _Trg) - 0.1)};
@@ -184,13 +193,15 @@ _timer = 0;
 _alive = true;
 
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";
+	deleteGroup _WaitCarrier;
 };
 
 if (((_rtr distance _Trg) < 50) and not (CanMove _Trg)) then {_Trg setdamage ((damage _Trg) - 0.1)};

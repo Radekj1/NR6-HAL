@@ -274,8 +274,16 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 			_i = [_pos,_unitG,"markGarrison","ColorBlack","ICON","mil_box","GARR " + (groupId _unitG) + " " + _signum," - GARRISON",[0.5,0.5]] call RYD_Mark;
 			};
 
-		_task = [(leader _unitG),["Setup Garrison", "Setup a garrison and defend the area.", ""],(getPosATL (leader _unitG)),"defend"] call RYD_AddTask;
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
 
+		[_AddTask,(leader _unitG),["Setup Garrison", "Setup a garrison and defend the area.", ""],(getPosATL (leader _unitG)),"defend"] call RYD_AddTask;
+
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
 		[_unitG,_pos,150,1,0.5,0,false] remoteExecCall ["NR6_fnc_CBA_Defend",(leader _unitG)];
 	
 		}

@@ -239,7 +239,7 @@ Action4ct = {
 
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];								
-	[_chosen,_trg,_HQ,_request] call (["AIR"] call RYD_GoLaunch);
+	[_chosen,_trg,_HQ,_request] spawn (["AIR"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched for CAS - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 
@@ -356,7 +356,7 @@ Action5ct = {
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
 								
-	[_chosen,_trg,_HQ,_request] call (["INF"] call RYD_GoLaunch);
+	[_chosen,_trg,_HQ,_request] spawn (["INF"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 
@@ -468,7 +468,7 @@ Action6ct = {
 	_chosen setVariable ["Busy" + (str _chosen),true];
 	_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
 								
-	[_chosen,_trg,_HQ,_request] call (["ARM"] call RYD_GoLaunch);
+	[_chosen,_trg,_HQ,_request] spawn (["ARM"] call RYD_GoLaunch);
 	[leader _HQ, (groupId (group (_this select 0))) + ', ' + (groupId _chosen) + ' has been dispatched - Out'] remoteExecCall ["RYD_MP_Sidechat"];
 
 

@@ -1,4 +1,5 @@
 
+if (!isServer) exitWith {};
 if (isNil ("RydHQ_Included")) then {RydHQ_Included = []};
 if (isNil ("RydHQB_Included")) then {RydHQB_Included = []};
 if (isNil ("RydHQC_Included")) then {RydHQC_Included = []};

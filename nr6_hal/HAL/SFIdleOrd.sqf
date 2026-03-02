@@ -56,7 +56,16 @@ _pos = getPosATL (vehicle (leader _HQ));
 
 			if ((count _tasks) == 0) then
 				{
-				_task = [_UL,["Guard HQ.", "Guard", ""],[_posX,_posY]] call RYD_AddTask
+				private _AddTask = createGroup sideLogic;
+				_AddTask setVariable ["_continueAfterTask",false];
+
+				[_AddTask,_UL,["Guard HQ.", "Guard", ""],[_posX,_posY]] call RYD_AddTask;
+	
+				waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+				diag_log text "RYD_AddTask code finished, waituntil passed";
+				_AddTask setVariable ["_continueAfterTask",false];
+				_task = _AddTask getVariable "_task";
+				deleteGroup _AddTask;
 				};
 
 			_wp = [_unitG,[_posX,_posY],"HOLD","AWARE","RED","NORMAL"] call RYD_WPadd

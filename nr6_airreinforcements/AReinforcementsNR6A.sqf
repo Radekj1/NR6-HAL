@@ -1,5 +1,5 @@
 // [Side, Spawning helipads/objects (Array), Starting aircraft (array), Amount of available Aircraft, Faction, Threshold (0 to 1), Leaders (array), Pool of available aircraft classnames if "custom" faction is chosen (array), Delay time between checks (seconds) ] spawn NR6_fnc_AirReinforcements;
-
+if (!isServer) exitwith {};
 private 
     [
     "_side","_flight","_Commanders","_coreObj","_SpawnPads","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_Leaders","_SpawnRGroup","_CTR","_grp", "_GoodPads","_LiveForces","_CLiveForces","_CStartForces",
@@ -155,10 +155,10 @@ if (_faction == "custom") then {
 
 
 
-if (isNil "_sidetickHold") then 
-    {
-        _sidetickHold = 0;
-    };
+//if (isNil "_sidetickHold") then 
+//    {
+//        _sidetickHold = 0;
+//    };
 
 if (isNil "_sideEn") then 
     {
@@ -216,10 +216,15 @@ while {_CStartForces < _counter} do
 
 
 
-while {true} do 
-
-    {
-
+_RespawnAirAHandle = [{
+    params ["_args", "_RespawnAirAHandle"];
+    _args params ["_SpawnPads","_LiveForces","_ObjSource","_logic","_side","_sideEn","_sideEn2","_SpawnPos","_playerRange","_Commanders",
+    "_HalReinf","_flight","_Pool","_Airborne","_DontLand","_TickTime","_playerFriend","_CStartForces","_coreObj","_Leaders"];
+    private ["_GoodPads","_CanSpawn","_CLiveForces","_CurrentForces","_chosenFlight","_grp"];
+    private _sidetick = _logic getVariable ["_sidetick",0];
+    private _sidetickHold = _logic getVariable ["_sidetickHold",0];
+    private _Threshold = _logic getVariable ["_Threshold",0];
+    _LiveForces  = _logic getVariable ["_LiveForcesAR_A",_LiveForces];
     _GoodPads = [];
 
     {
@@ -254,6 +259,7 @@ while {true} do
     if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
     {
         _sidetick = 0;
+        _logic setvariable ["_sidetick",_sidetick];
     };
 
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetick != 0) and ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
@@ -263,6 +269,8 @@ while {true} do
             _sidetickHold = _sidetick;
         };
         _sidetick = 0;
+        _logic setVariable ["_sidetickHold", _sidetickHold]; 
+        _logic setvariable ["_sidetick",_sidetick];
     };
     if ((_HalReinf isEqualTo "ReCapture") and (_sidetickHold != 0) and (_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) then 
     {
@@ -271,6 +279,8 @@ while {true} do
             _sidetick = _sidetickHold;
         };
         _sidetickHold = 0; 
+        _logic setVariable ["_sidetickHold", _sidetickHold]; 
+        _logic setvariable ["_sidetick",_sidetick];
     };
 
     {
@@ -288,10 +298,10 @@ _chosenFlight = (selectRandom _flight);
                 private ["_grp"];
 
                 _grp = [_GoodPads,_side,_Pool,_Leaders,_chosenFlight,_Airborne] call SpawnARGroupA;
-                sleep 1;
                 
-                _sidetick = (_sidetick - _chosenFlight);
+                _sidetick = (_sidetick - 1);
                 _logic setvariable ["_sidetick",_sidetick];
+
                 {if not ((vehicle _x) in _LiveForces) then {_LiveForces pushback (vehicle _x)}} foreach (units _grp);
 
                 (leader _grp) call compile ((_logic getVariable ["_ExtraArgs",""]) + _DontLand);
@@ -299,8 +309,7 @@ _chosenFlight = (selectRandom _flight);
                     
             };  
         };
-
-    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
-
-    sleep _TickTime;
-    };
+_logic setVariable ["_LiveForcesAR_A",_LiveForces];
+if ((_sidetick <= 0) and (_sidetickHold <= 0)) then {(_RespawnAirAHandle) call CBA_fnc_removePerFrameHandler;};
+}, _TickTime, [_SpawnPads,_LiveForces,_ObjSource,_logic,_side,_sideEn,_sideEn2,_SpawnPos,_playerRange,_Commanders,
+_HalReinf,_flight,_Pool,_Airborne,_DontLand,_TickTime,_playerFriend,_CStartForces,_coreObj,_Leaders]] call CBA_fnc_addPerFrameHandler;

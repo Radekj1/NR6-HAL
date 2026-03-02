@@ -1360,18 +1360,28 @@ RYD_ReserveExecuting =
 
 						if not (isPlayer (leader _unitG)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _unitG),RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
-						_task = [(leader _unitG),["Reach the designated position.", "Move", ""],_Wpos] call RYD_AddTask;
+ 						private _AddTask = createGroup sideLogic;
+						_AddTask setVariable ["_continueAfterTask",false];
+
+						[_AddTask,(leader _unitG),["Reach the designated position.", "Move", ""],_Wpos]call RYD_AddTask;
+
+						waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+						diag_log text "RYD_AddTask code finished, waituntil passed";
+						_AddTask setVariable ["_continueAfterTask",false];
+						_task = _AddTask getVariable "_task";
+						deleteGroup _AddTask;
 
 						[_unitG] call RYD_WPdel;
 
 						_wp = [_unitG,_Wpos,"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0]"],true,250,[0,0,0],_form] call RYD_WPadd;
-						private _WaitCarrier = objNull;
+						private _WaitCarrier = createGroup sideLogic;
 						_WaitCarrier setVariable ["_continueAW",false];
 						[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
-						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
 						_alive = _WaitCarrier getVariable "_alive";
+						deleteGroup _WaitCarrier;
 
 
 						if not (_alive) exitwith {};

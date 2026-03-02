@@ -63,8 +63,16 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 	};
 
 
-_task = [(leader _unitG),["Patrol towards the designated area and standby for further orders. ", "Patrol Waters And Standby", ""],_DefPos,"defend"] call RYD_AddTask;
+private _AddTask = createGroup sideLogic;
+_AddTask setVariable ["_continueAfterTask",false];
 
+[_AddTask,(leader _unitG),["Patrol towards the designated area and standby for further orders. ", "Patrol Waters And Standby", ""],_DefPos,"defend"] call RYD_AddTask;
+			
+waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+diag_log text "RYD_AddTask code finished, waituntil passed";
+_AddTask setVariable ["_continueAfterTask",false];
+_task = _AddTask getVariable "_task";
+deleteGroup _AddTask;
 _tp = "MOVE";
 
 _frm = formation _unitG;

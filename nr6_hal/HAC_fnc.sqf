@@ -1027,7 +1027,7 @@ RYD_DistOrd =
 	while {(({not ((typeName _x) in [(typeName "")])} count _array) > 0)} do
 		{
 		_closest = [_point,_array] call RYD_FindClosestWithIndex;
-		_closest params ["_closest","_ix"];
+		_ix = _closest select 1; _closest = _closest select 0;
 		_clst = _closest;
 		if ((typeName _clst) == (typename grpNull)) then {_clst = vehicle (leader _clst)};
 		
@@ -1607,7 +1607,7 @@ RYD_Dispatcher =
 							_chosen setVariable ["Busy" + (str _chosen),true];
 							_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
 							Diag_log text "RYD_Dispatcher call RYD_GoLaunch";
-							[_chosen,_trg,_HQ] call ([_pattern] call RYD_GoLaunch);
+							[_chosen,_trg,_HQ] spawn ([_pattern] call RYD_GoLaunch); //calling here would slow down orders. Spawn will que 
 							Diag_log text "RYD_Dispatcher called RYD_GoLaunch";
 							_limit = _limit - 1;
 							};
@@ -1706,9 +1706,8 @@ RYD_CloseEnemyB =
 	};
 
 RYD_Wait = 
-	{
-	private ["_int","_ammoF","_air","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer",
-	"_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw","_fr"];
+	{//   passed argument looping - [_WaitCarrier,_unitG,6,true,0,50,[],false,true,true,false,true] call RYD_Wait; 
+	private ["_int","_ammoF","_air","_alive","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer","_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_enPres","_HQ","_ctc","_dw","_fr","_enemy"];
 	params ["_WaitCarrier","_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];
 	diag_log text "RYD_Wait started";
 	_int = floor _int0;
@@ -1747,11 +1746,11 @@ RYD_Wait =
 	if ((count _this) > 13) then {_firedF = _this select 13};
 	_pass = (units _gp);
 	if ((count _this) > 14) then {_pass = _this select 14};
-	diag_log text "RYD_Wait params loaded";
+	//diag_log text "RYD_Wait params loaded";
 	_wplimit = 1;
 	if not ((_tolerance - (round _tolerance)) == 0) then {_wplimit = 2};
 
-	_timer = _gp setVariable ["_timer",0];
+	_timer = 0;
 	_alive = false;
 	_enemy = false;
 	_enPres = false;
@@ -1760,109 +1759,134 @@ RYD_Wait =
 	_isOutside = false;
 	_Break = false;
 
-	_UL = leader (_this select 0);
+	_UL = leader _gp;
 	_AV = vehicle _UL;
 	_DAV = _UL;
 	_GDV = _gp;
-	_GDV setVariable ["_GDV",_gp];
-	_AV setVariable ["_AV",vehicle _UL];
-	diag_log text "RYD_Wait variables set";
-	diag_log text "RYD_Wait _HAL_WaitHandle";
-	_HAL_WaitHandle = [{
-		params ["_args", "_HAL_WaitHandle"];
-		private ["_timer","_alive","_enemy","_busy","_Break","_type"];
-		_args params ["_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy"];
-		diag_log text "RYD_Wait WaitHandle started";
-		_timer = _gp getVariable ["_timer",0];
-		_alive = _gp getVariable ["_alive",false];
-		_enemy = _gp getVariable ["_enemy",false];
-		_busy = _gp getVariable ["_busy",true];
-		_Break = _gp getVariable ["_Break",false];
-		_AV = _AV getVariable ["_AV",_AV];
-		_GDV = _GDV getVariable ["_GDV",_gp];
+	_WaitCarrier setVariable ["_GDV",_gp];
+	_WaitCarrier setVariable ["_AV",vehicle _UL];
+	//diag_log text "RYD_Wait variables set";
+	//diag_log text "RYD_Wait _HAL_WaitCode start";
+	_gp setVariable ["HAL_WaitHandleFinished",false];
+	
 
-		_isPlayer = (isPlayer (leader _gp));
-		
-		_alive = true;
-		switch (true) do
-			{
+	[{
+	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
+    _this call HAL_WaitCode;
+	},[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_UL,_isInside,_enPres,_speedF]] call CBA_fnc_execNextFrame;
+	//_HAL_WaitHandle = [{
+		//params ["_args", "_HAL_WaitHandle"];
+};
+HAL_WaitCode = {
+	private ["_timer","_alive","_enemy","_Break","_type","_HAL_WaitHandleAssVeh","_isPlayer"];
+	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
+	diag_log text "RYD_Wait _HAL_WaitCode started";
+	_timer = _WaitCarrier getVariable ["_timer",0];
+	_alive = _WaitCarrier getVariable ["_alive",false];
+	_enemy = _WaitCarrier getVariable ["_enemy",false];
+	_busy = _WaitCarrier getVariable ["_busy",true];
+	_Break = _WaitCarrier getVariable ["_Break",false];
+	_AV = _WaitCarrier getVariable ["_AV",_AV];
+	_GDV = _WaitCarrier getVariable ["_GDV",_gp];
+	_WaitCarrier setVariable ["HAL_WaitHandleAssVehFinish",false];
+	_isPlayer = (isPlayer (leader _gp));
+	_alive = true;
+
+	switch (true) do
+		{
 			case (isNull _gp) : {_alive = false};
 			case (({alive _x} count (units _gp)) < 1) : {_alive = false};
 			case (isNull _AV) : {_alive = false};
 			case (not (alive _AV)) : {_alive = false};
 			case (_gp getVariable ["RydHQ_MIA",false]) : {_alive = false; _gp setVariable ["RydHQ_MIA",nil]};
 			case (_gp getVariable ["Break",false]) : {_Break = true;_alive = false}
-			};
+		};
 
-		if (_alive) then
-			{
+	if (_alive) then
+		{
+		diag_log text "HAL_WaitCode Alive returned true";
 			if (_cargo) then
-			{
+			{	
+				diag_log text "HAL_WaitCode cargo returned true";
+				_WaitCarrier setVariable ["HAL_WaitHandleAssVehFinish", false];
 				_AV = assignedVehicle _UL;
 				_DAV = assigneddriver _AV;
-				_AV setVariable ["_AV",_AV];
+				_WaitCarrier setVariable ["_AV",_AV];
 				if not (_own) then {_GDV = group _DAV};
-				
-				private _exitCode = {
-				params ["_AV","_UL","_DAV","_own","_GDV"]; 				
-				_AV = assignedVehicle _UL;
-				_DAV = assigneddriver _AV;
-				_AV setVariable ["_AV",_AV];
-				if not (_own) then {_GDV = group _DAV};
-				};
-				diag_log text "RYD_Wait _HAL_WaitHandleAssVeh";
-				_HAL_WaitHandleAssVeh = [{
-					diag_log text "RYD_Wait _HAL_WaitHandleAssVeh loaded";
-					params ["_args", "_HAL_WaitHandleAssVeh"];
-					_args params ["_AV","_UL","_DAV","_own","_GDV", "_exitCode"];
+				[{
+					_UL = _this select 28;
 					not (isNull (assignedVehicle _UL));
-					
-					if (isNull (assignedVehicle _UL)) then {
-						diag_log text "RYD_Wait _HAL_WaitHandleAssVeh ended";
-						_HAL_WaitHandleAssVeh call CBA_fnc_removePerFrameHandler;
-						[_AV,_UL,_DAV,_own,_GDV] call _exitCode;
-					};
-				}, 0.5, [_AV,_UL,_DAV,_own,_GDV, _exitCode]] call CBA_fnc_addPerFrameHandler;
+				}, {
+					params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
+					diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
+					_AV = assignedVehicle _UL;
+					_DAV = assigneddriver _AV;
+					_WaitCarrier setVariable ["_AV",_AV];
+					if not (_own) then {_GDV = group _DAV};
+					[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF] call HAL_WaitCode2;
+				}, [_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF]] call CBA_fnc_waitUntilAndExecute;
+			} else 
+			{
+				diag_log text "HAL_WaitCode Alive returned true, cargo false calling code2";
+				[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF] call HAL_WaitCode2;
+			};
+		}
+		else 
+		{
+			//They are dead.
+			diag_log text "HAL_WaitCode calling HAL_WaitCodeFinish";
+			[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
+		};
+};
+HAL_WaitCode2 = {
+	private ["_type","_forBoxing","_boxed","_fCount","_wtgt","_wotgt","_woHQ","_ctc","_dw","_fr","_cplR","_cWp","_wp","_AliveUnits"];
+	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
+	diag_log text "HAL_WaitCode2 - starting";
+	_pass = (units _gp);
+	_AliveUnits = ({alive _x} count _pass);
+	_timer = _WaitCarrier getVariable ["_timer",0];
+	_enemy = false;
+	_enPres = false;
+	if (_AliveUnits == 0) then {
+		diag_log text "_pass is empty, exiting.";
+		_WaitCarrier setVariable ["_alive",false];
+		[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
+	}
+	else {
+		if ((count _arr) > 0) then 
+			{
+			_enG = _arr select 1;
+			_air = _arr select 0;
+			if ((count _arr) > 2) then {
+				_HQ = _arr select 2;
+			_enG = _HQ getVariable ["RydHQ_KnEnemiesG",[]];
+			//_air = _HQ getVariable ["RydHQ_AirG",[]];
+				};
+			};
+			if (_enemyF > 0) then
+			{
+			if not ((_GDV in _air) and not (_own)) then {_enemy = [_AV,_enG,_enemyF] call RYD_CloseEnemy}
+			} else {
+			if not (_GDV in _air) then {_enPres = [_AV,_enG,RydxHQ_DisembarkRange] call RYD_CloseEnemy}
 			};
 			
-
-			if ((count _arr) > 0) then 
-				{
-				_enG = _arr select 1;
-				_air = _arr select 0;
-				if ((count _arr) > 2) then {
-					_HQ = _arr select 2;
-					_enG = _HQ getVariable ["RydHQ_KnEnemiesG",[]];
-					//_air = _HQ getVariable ["RydHQ_AirG",[]];
-					};
-				};
-
-			if (_enemyF > 0) then
-				{
-				if not ((_GDV in _air) and not (_own)) then {_enemy = [_AV,_enG,_enemyF] call RYD_CloseEnemy}
-				} else {
-				if not (_GDV in _air) then {_enPres = [_AV,_enG,RydxHQ_DisembarkRange] call RYD_CloseEnemy}
-				};
-			
-			if ((_gp getVariable ["InfGetinCheck"  + (str _gp),false]) and (_GDV == _gp) and not (isNull (assignedVehicle _UL))) then {
-
-				_AV = assignedVehicle _UL;
-				_DAV = assigneddriver _AV;
-
-				if (not (_enemy) and not (_enPres) and not (_GDV in _air)) then {
-					_ctc = objNull;
-					_ctc = (vehicle (leader _gp)) findNearestEnemy (vehicle (leader _gp));
-					if not (isNull _ctc) then 
-						{
-							if (((vehicle (leader _gp)) distance _ctc) < RydxHQ_DisembarkRange) then {_enPres = true; if (_enemyF > 0) then {_enemy = true;}};
-						};
-					};
-
-				if ((_enemy) or (_enPres)) then 
+		if ((_gp getVariable ["InfGetinCheck"  + (str _gp),false]) and (_GDV == _gp) and not (isNull (assignedVehicle _UL))) then {
+			_AV = assignedVehicle _UL;
+			_DAV = assigneddriver _AV;
+	
+			if (not (_enemy) and not (_enPres) and not (_GDV in _air)) then {
+				_ctc = objNull;
+				_ctc = (vehicle (leader _gp)) findNearestEnemy (vehicle (leader _gp));
+				if not (isNull _ctc) then 
 					{
-						if ((_GDV == _gp) and not (isNull _AV)) then {_AV setUnloadInCombat [true, false]};
+						if (((vehicle (leader _gp)) distance _ctc) < RydxHQ_DisembarkRange) then {_enPres = true; if (_enemyF > 0) then {_enemy = true;}};
+					};
+					};
+					if ((_enemy) or (_enPres)) then 
+					{
+					if ((_GDV == _gp) and not (isNull _AV)) then {_AV setUnloadInCombat [true, false]};
 
-					} else {
+				} else {
 
 						if ((_GDV == _gp) and not (isNull _AV)) then 
 							{
@@ -1882,7 +1906,7 @@ RYD_Wait =
 				//if (_AV getVariable ["WaitForCargo" + (str _AV),false]) then {_enemy = false};
 
 			};
-
+			diag_log text "WaitCode alive - step 1";
 			if (not (isNull _GDV) and not (isNull _UL)) then {_alive = true} else {_alive = false};
 			if (_speedF) then
 				{
@@ -1899,9 +1923,6 @@ RYD_Wait =
 					}
 				};
 			
-			_pass = (units _gp);
-			if ((count _this) > 13) then {_pass = _this select 13};
-
 			if not (_inside) then
 				{			
 					{
@@ -1923,7 +1944,7 @@ RYD_Wait =
 				
 				_timer = _timer + 1
 				};
-
+			//diag_log text "WaitCode alive - step 2";
 			if (_cargo) then
 				{
 				if (_own) then
@@ -1940,7 +1961,7 @@ RYD_Wait =
 				};
 				
 
-			_forBoxing = _gp getVariable "forBoxing";
+			_forBoxing = _gp getVariable "ForBoxing";
 
 			if ((_ammoF) and not (isNil "_forBoxing")) then
 				{
@@ -1990,7 +2011,7 @@ RYD_Wait =
 						};
 					};	
 				};
-
+			//diag_log text "WaitCode alive - step 3";
 			if not (isnil {_gp getVariable "RydHQ_WaitingObjective"}) then
 				{
 				_wotgt = ((_gp getVariable "RydHQ_WaitingObjective") select 1);
@@ -2000,29 +2021,42 @@ RYD_Wait =
 					_gp setVariable ["RydHQ_WaitingObjective",nil];
 					};	
 				};
-			};
-		_gp setVariable ["_timer",_timer];
-		_gp setVariable ["_alive",_alive];
-		_gp setVariable ["_enemy",_enemy];
-		_gp setVariable ["_busy",_busy];
-		_gp setVariable ["_Break",_Break];
-		_GDV setVariable ["_GDV",_GDV];
-		_AV setVariable ["_AV",_AV];
-		diag_log text "_HAL_WaitHandle check for exit condition";
-		private _WaypointCountedGDV = {count (waypoints _GDV)};
-		diag_log _WaypointCountedGDV;
-		diag_log _wplimit; //1
-		diag_log _wpCheck; //true
-		diag_log _timer; //0
-		diag_log _tolerance; //24
-		diag_log _isPlayer; //false
-		diag_log _Break; //false
-		diag_log _alive; //false
-		diag_log _isInside; //false
-		diag_log _isOutside; //true
-		diag_log _busy; //false
+			
+		_WaitCarrier setVariable ["_timer",_timer];
+		_WaitCarrier setVariable ["_alive",_alive];
+		_WaitCarrier setVariable ["_enemy",_enemy];
+		_WaitCarrier setVariable ["_busy",_busy];
+		_WaitCarrier setVariable ["_Break",_Break];
+		_WaitCarrier setVariable ["_GDV",_GDV];
+		_WaitCarrier setVariable ["_AV",_AV];
+		diag_log text "RYD_Wait HAL_WaitCode check for exit condition";
+		private _WaypointCountedGDV = count (waypoints _GDV);
+		/*
+		diag_log text "WaypointCountedGDV";
+		diag_log _WaypointCountedGDV; 
+		diag_log text "wplimit";
+		diag_log _wplimit; 
+		diag_log text "wpCheck";
+		diag_log _wpCheck;
+		diag_log text "timer";
+		diag_log _timer; 
+		diag_log text "tolerance";
+		diag_log _tolerance;
+		diag_log text "isPlayer";
+		diag_log _isPlayer;
+		diag_log text "Break";
+		diag_log _Break; 
+		diag_log text "alive";
+		diag_log _alive; 
+		diag_log text "isInside";
+		diag_log _isInside; 
+		diag_log text "isOutside";
+		diag_log _isOutside; 
+		diag_log text "busy";
+		diag_log _busy; 
+		diag_log text "enemy"; 
 		diag_log _enemy; 
-		
+		*/
 		if (
 		_Break || !_alive || _isInside || _isOutside || _busy || 
 		{(_WaypointCountedGDV < _wplimit) && _wpCheck} || 
@@ -2030,23 +2064,44 @@ RYD_Wait =
    		{_enemy && !_isPlayer}
     	) then 
 		{
-			diag_log text "RYD_Wait Handle ended"; _gp setVariable ["HAL_WaitHandleFinished",true]; _HAL_WaitHandle call CBA_fnc_removePerFrameHandler; 
+			diag_log text "RYD_Wait HAL_WaitCode2 ended. Calling HAL_WaitCodeFinish"; 
+			_gp setVariable ["HAL_WaitHandleFinished",true]; 
+			[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
+		}
+		else 
+		{
+			diag_log text "RYD_Wait HAL_WaitCode2 restarted"; 
+			//[[{[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer] call HAL_WaitCode2;}],
+			[{params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
+			if (({alive _x} count (units _gp)) > 0) then {
+			diag_log text "RYD_Wait HAL_WaitCode2 calling restart";
+			_this call HAL_WaitCode2;
+			//[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF] call HAL_WaitCode2;
+			} else {
+			_WaitCarrier setVariable ["_continueAW",true];
+			_WaitCarrier setVariable ["_timer",_timer];
+			_WaitCarrier setVariable ["_alive",_alive];
+			_WaitCarrier setVariable ["_enemy",_enemy];
+			_WaitCarrier setVariable ["_busy",_busy];
+			_WaitCarrier setVariable ["_Break",_Break];
+			diag_log text "HAL_Wait - group is done.";
+			};
+			},[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF], _int] call CBA_fnc_waitAndExecute;
 		};
-		}, _int, [_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy]] call CBA_fnc_addPerFrameHandler;
-
-	[{
-	private _isitdone = _gp getVariable ["HAL_WaitHandleFinished",false];
-	_isitdone;
-	},{
-	params ["_gp","_AV","_tolerance","_GDV","_AV"];
+	};
+};
+HAL_WaitCodeFinish = {
+	//diag_log text "HAL_WaitCodeFinish started";
+	//params ["_gp","_WaitCarrier","_tolerance","_isPlayer"];
+	params ["_gp","_AV","_tolerance","_GDV","_WaitCarrier","_isPlayer"];
 	private ["_timer","_alive","_enemy","_busy","_Break"];
-	_timer = _gp getVariable ["_timer",0];
-	_alive = _gp getVariable ["_alive",false];
-	_enemy = _gp getVariable ["_enemy",false];
-	_busy = _gp getVariable ["_busy",true];
-	_Break = _gp getVariable ["_Break",false];
-	_GDV = _gp getVariable ["_GDV",_gp];
-	_AV = _gp getVariable ["_AV",_AV];
+	_timer = _WaitCarrier getVariable ["_timer",0];
+	_alive = _WaitCarrier getVariable ["_alive",false];
+	_enemy = _WaitCarrier getVariable ["_enemy",false];
+	_busy = _WaitCarrier getVariable ["_busy",true];
+	_Break = _WaitCarrier getVariable ["_Break",false];
+	_GDV = _WaitCarrier getVariable ["_GDV",_gp];
+	_AV = _WaitCarrier getVariable ["_AV",_AV];
 	if (_isPlayer) then {_timer = 0};
 
 	if not (isNull (_AV)) then {_AV setVariable ["WaitForCargo" + (str _AV),false]};
@@ -2057,7 +2112,7 @@ RYD_Wait =
 	if (_gp getVariable ["InfGetinCheck"  + (str _gp),false]) then {_gp setVariable ["InfGetinCheck"  + (str _gp),false]; if (_GDV == _gp) then {_AV setUnloadInCombat [true, false]}};
 
 	if (_timer > _tolerance) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _gp),RydxHQ_AIC_OrdDen,"OrdDen"] call RYD_AIChatter}};
-
+	
 	if (_Break) then {
 		_alive = false;
 	//		_gp setVariable [("Busy" + (str _gp)),false];
@@ -2065,7 +2120,7 @@ RYD_Wait =
 	//		_gp setVariable [("Deployed" + (str _gp)),false];
 	//		_gp setVariable ["Defending", false];
 
-		_gp setVariable ["Break",false];
+		_gp setVariable ["_Break",false];
 		_timer = _tolerance + 10;
 	};
 	_WaitCarrier setVariable ["_continueAW",true];
@@ -2074,11 +2129,10 @@ RYD_Wait =
 	_WaitCarrier setVariable ["_enemy",_enemy];
 	_WaitCarrier setVariable ["_busy",_busy];
 	_WaitCarrier setVariable ["_Break",_Break];
-	diag_log text "RYD_Wait _WaitCarrier values assignedCargo";
+	diag_log text "RYD_Wait _WaitCarrier values assigned. WaitCode finished";
 	//[_timer,_alive,_enemy,_busy,_Break];
-	},[_gp,_AV,_tolerance,_GDV,_AV]] call CBA_fnc_waitUntilAndExecute;
-	};
-	
+};
+
 RYD_CreateDecoy = 
 	{
 	private ["_class","_HQ","_gp","_object"];
@@ -3090,7 +3144,7 @@ RYD_ArtyMission =
 	};
 
 RYD_CFF_FFE = 
-	{//[_battery,_tgt,_batlead,"SADARM",RydHQ_Friends,RydHQ_Debug] spawn RYD_CFF_FFE
+	{	//[_battery,_tgt,_batlead,"SADARM",RydHQ_Friends,RydHQ_Debug] spawn RYD_CFF_FFE
 	_SCRname = "CFF_FFE";
 	
 	private ["_battery","_target","_batlead","_Ammo","_friends","_Debug","_ammoG","_batname","_first","_phaseF","_targlead","_againF","_dispF","_accF","_amount","_Rate","_FMType","_againcheck","_Aunit",
@@ -3956,8 +4010,7 @@ RYD_CFF_FFE =
 			}
 		}
 	foreach _battery
-	};
-//Artillery Support Mission - Call For Fire - RYD_CFF
+	};//Artillery Support Mission - Call For Fire - RYD_CFF
 RYD_CFF = 
 	{//[RydHQ_ArtG,RydHQ_KnEnemies,(RydHQ_EnHArmor + RydHQ_EnMArmor + RydHQ_EnLArmor),RydHQ_Friends,RydHQ_Debug] call RYD_CFF;
 	_SCRname = "CFF - Call For Fire";
@@ -4219,49 +4272,34 @@ RYD_TimeMachine =
 	};
 	
 RYD_AddTask = 
-	{//[(leader _unitG),[],[_posX,_posY]] call RYD_AddTask;
-	private ["_unit","_descr","_dstn","_type","_task","_tasks","_tName","_presentplayer"];
+	{//[_AddTask,(leader _unitG),[],[_posX,_posY]] call RYD_AddTask;
+	private ["_tasks"];
+	params ["_AddTask","_unit","_descr","_dstn","_type"];
 
-	_unit = _this select 0;
-	_descr = _this select 1;
-	_dstn = _this select 2;
-	_type = _this select 3;
-	
 	if (isNil "_type") then {_type = "move"};
 	
 	_tasks = (group _unit) getVariable ["HACAddedTasks",[]];
-	_task = taskNull;
-
-	_presentplayer = true;
-
-	/*
-	{
-		if (isPlayer _x) exitwith {_presentplayer = true};
-	} forEach (units (group _unit));
-	*/
-		
-	if (_presentplayer) then
+	
+	(group _unit) setVariable ["HACAddedTasks",[]];	
 		{
+		[_x] call BIS_fnc_deleteTask;
+		} 
+	foreach _tasks;
+	[{  
+	private ["_task","_tasks"];
+	params ["_AddTask","_unit","_descr","_dstn","_type"];
 
-		(group _unit) setVariable ["HACAddedTasks",[]];
-		
-			{
-			[_x] call BIS_fnc_deleteTask;
-			} 
-		foreach _tasks;
+	_task = [(group _unit),(str (group _unit)) + "HALTask", _descr, _dstn,"ASSIGNED",0,true,_type,true] call BIS_fnc_taskCreate;
+	_tasks = [];
 
-		sleep 1;
-
-		_task = [(group _unit),(str (group _unit)) + "HALTask", _descr, _dstn,"ASSIGNED",0,true,_type,true] call BIS_fnc_taskCreate;
-		_tasks = [];
-
-		_tasks pushBack _task;
+	_tasks pushBack _task;
 			
-		(group _unit) setVariable ["HACAddedTasks",_tasks];
+	(group _unit) setVariable ["HACAddedTasks",_tasks];
 			
-		};
-
-	_task
+	_AddTask setVariable ["_task",_task];
+	_AddTask setVariable ["_continueAfterTask",true];
+	
+	}, [_AddTask,_unit,_descr,_dstn,_type], 1] call CBA_fnc_waitAndExecute;
 	};
 	
 RYD_FindHighestWithIndex = 

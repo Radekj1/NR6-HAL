@@ -160,8 +160,17 @@ if not (isNull _AV) then {
 		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
 	} forEach (units _unitG);
 };
+private _AddTask = createGroup sideLogic;
+_AddTask setVariable ["_continueAfterTask",false];
 
-_task = [(leader _unitG),["Take a defensive position at the designated coordinates.", "Defend Position", ""],_DefPos,"defend"] call RYD_AddTask;
+[_AddTask,(leader _unitG),["Take a defensive position at the designated coordinates.", "Defend Position", ""],_DefPos,"defend"] call RYD_AddTask;
+
+			
+waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+diag_log text "RYD_AddTask code finished, waituntil passed";
+_AddTask setVariable ["_continueAfterTask",false];
+_task = _AddTask getVariable "_task";
+deleteGroup _AddTask;
 
 _tp = "MOVE";
 

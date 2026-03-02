@@ -60,8 +60,17 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 	_i = [[_posX,_posY],_unitG,"markFuelSupp","ColorKhaki","ICON","waypoint","REFUEL " + (groupId _unitG) + " " + _signum," - REFUEL",[0.5,0.5]] call RYD_Mark
 	};
 
-_task = [(leader _unitG),["Deliver Fuel to " + (groupId (group _Trg)), "Refuel " + (groupId (group _Trg)), ""],(position _Trg),"refuel"] call RYD_AddTask;
 
+private _AddTask = createGroup sideLogic;
+_AddTask setVariable ["_continueAfterTask",false];
+
+[_AddTask,(leader _unitG),["Deliver Fuel to " + (groupId (group _Trg)), "Refuel " + (groupId (group _Trg)), ""],(position _Trg),"refuel"] call RYD_AddTask;
+			
+waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+diag_log text "RYD_AddTask code finished, waituntil passed";
+_AddTask setVariable ["_continueAfterTask",false];
+_task = _AddTask getVariable "_task";
+deleteGroup _AddTask;
 _counter = 0;
 _timer = 0;
 
@@ -111,27 +120,29 @@ while {(_counter <= 3)} do
 
 	if not (_request) then {
 
-		private _WaitCarrier = objNull;
+		private _WaitCarrier = createGroup sideLogic;
+
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
-
+		deleteGroup _WaitCarrier;
 
 //		if (((_cis distance _Trg) < 50) and ((fuel _Trg) == 0)) then {_Trg setfuel 0.09};
 
 	} else {
 
-		private _WaitCarrier = objNull;
+		private _WaitCarrier = createGroup sideLogic;
+
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
-
+		deleteGroup _WaitCarrier;
 
 	};
 
@@ -198,14 +209,15 @@ _timer = 0;
 _alive = true;
 
 if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";
-
+	deleteGroup _WaitCarrier;
 };
 
 if (((_cis distance _Trg) < 50) and ((fuel _Trg) == 0)) then {_Trg setfuel 0.09};

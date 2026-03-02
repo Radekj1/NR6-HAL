@@ -1,3 +1,4 @@
+if (!isServer) exitWith {};
 private 
     [
     "_logic","_SyncedAssets","_PoolModules","_MainPool","_SyncedGroups","_SyncedEmpties","_ArrVar","_GUnits","_Vehicles","_crewGear","_crewClasses","_pylons","_civVeh","_civMen","_civFact"

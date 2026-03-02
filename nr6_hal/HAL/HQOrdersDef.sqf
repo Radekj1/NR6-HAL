@@ -7,6 +7,7 @@ private ["_HQ","_defRange","_LMCU","_airDef","_recDef","_allInDef","_goodSpots",
 	"_dstAct","_aa","_Spot","_defSpot","_def","_bb","_SpotB","_radius","_position","_precision","_sourcesCount","_expression","_NR","_cnt","_Rpoint","_ammo",
 	"_dL","_d1","_d2","_d3","_d4","_Unable","_defPointsBB","_defPointsOBJ","_exhausted","_unitvar","_busy","_vehready","_solready","_effective","_Gdamage","_nominal","_current","_veh","_inD","_recvar"];
 params ["HQ"];
+diag_log text "HQ_OrdersDef started";
 
 _defRange = _HQ getVariable ["RydHQ_DefRange",1];
 

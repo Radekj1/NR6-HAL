@@ -3,9 +3,11 @@
 //w kazdej recon i atak
 //dodatkowo dywizja rezerwowa dla wzmocnienia ataku najbardziej udanego i oskrzydlenia reszty frontu
 //wsparcie strategicznie - lotnictwo i artyleria
-
+//Send recon, attack and support
+//four ( or the amount of targets) divisions
+//in each recon and attack 
+//additionally a reserve division to support the most successfull attack and to flank the rest of the frontline.
 _SCRname = "Orders";
-diag_log text "HQOrders.sqf started";
 private ["_nObj","_Trg","_vHQ","_landE","_dstMin","_dstAct","_dstMin","_PosObj1","_ReconAv","_onlyL","_unitvar","_busy","_Unable","_vehready","_solready","_effective","_ammo","_Gdamage",
 	"_nominal","_current","_veh","_forRRes","_RRp","_AttackAv","_FlankAv","_exhausted","_inD","_ResC","_stages","_rcheckArr","_gps","_LMCUA","_reserve","_recvar","_resting","_allT",
 	"_deployed","_capturing","_reconthreat","_FOthreat","_snipersthreat","_ATinfthreat","_AAinfthreat","_Infthreat","_Artthreat","_HArmorthreat","_LArmorthreat","_Carsthreat","_reconNr",
@@ -13,7 +15,7 @@ private ["_nObj","_Trg","_vHQ","_landE","_dstMin","_dstAct","_dstMin","_PosObj1"
 	"_isAttacked","_captCount","_captLimit","_forCapt","_groupCount","_LMCU","_WADone","_WAchance","_armored","_WAAv","_where","_heldBy","_howMuch","_AAO","_toTake",
 	"_taken","_objectives","_BBAOObj","_IsAPlayer","_takenNav","_totakeNav","_forNavCapt","_Navalobjectives"];
 params ["_HQ"];
-
+diag_log text "HQ_Orders started";
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 
 _HQ setVariable ["RydHQ_DefDone",false];
@@ -551,7 +553,7 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 				if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
 					[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] call HAL_GoDefRes;
 					} else {
-					[_x,_HQ] call HAL_GoIdle;
+					[_x,_HQ] spawn HAL_GoIdle;
 					};
 				};
 			}
@@ -787,7 +789,7 @@ _toTake = _toTake - [objNull];
 	_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 
 	if (isNil ("_isAttacked")) then {_isAttacked = [0,0]};
-	_isAttacked params ["_isAttacked","_captCount"];
+	_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 	_captLimit = (_HQ getVariable ["RydHQ_CaptLimit",10]) * (1 + ((_HQ getVariable ["RydHQ_Circumspection",0.5])/(2 + (_HQ getVariable ["RydHQ_Recklessness",0.5]))));
 	if ((_isAttacked <= 3) or (_captCount < _captLimit)) then
 		{
@@ -812,14 +814,14 @@ _toTake = _toTake - [objNull];
 					{
 					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-					_isAttacked params ["_isAttacked","_captCount"];
+					_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 
 					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 
 						{
 						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-						_isAttacked params ["_isAttacked","_captCount"];
+						_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 
 						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 
@@ -876,13 +878,13 @@ _toTake = _toTake - [objNull];
 					{
 					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-					_isAttacked params ["_isAttacked","_captCount"];
+					_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 
 						{
 						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-						_isAttacked params ["_isAttacked","_captCount"];
+						_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 
 						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 						if (_x in (_HQ getVariable ["RydHQ_AttackAv",[]])) then
@@ -964,7 +966,7 @@ _toTakeNav = _toTakeNav - [objNull];
 
 	if (isNil ("_isAttacked")) then {_isAttacked = [0,0]};
 
-	_isAttacked params ["_isAttacked","_captCount"];
+	_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 	_captLimit = 1 * (1 + ((_HQ getVariable ["RydHQ_Circumspection",0.5])/(2 + (_HQ getVariable ["RydHQ_Recklessness",0.5]))));
 	if ((_isAttacked <= 3) or (_captCount < _captLimit)) then
 		{
@@ -989,14 +991,14 @@ _toTakeNav = _toTakeNav - [objNull];
 					{
 					_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 					if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-					_isAttacked params ["_isAttacked","_captCount"];
+					_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 
 					if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 
 						{
 						_isAttacked = _Trg getvariable ("Capturing" + (str _Trg) + (str _HQ));
 						if (isNil ("_isAttacked")) then {_isAttacked = [1,0]};
-						_isAttacked params ["_isAttacked","_captCount"];
+						_captCount = _isAttacked select 1; _isAttacked = _isAttacked select 0; 
 
 						if ((_isAttacked > 3) and (_captCount >= _captLimit)) exitwith {};
 
@@ -1112,8 +1114,8 @@ diag_log text "HQOrders Line 1027";
 diag_log text "HQOrders Line 1091";
 if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 	{
+	diag_log text "HQOrders RydHQ_IdleOrd";
 	_reserve = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]) + (_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_NoAttack",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])));
-
 		{
 		_recvar = str _x;
 		_busy = false;
@@ -1136,9 +1138,13 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
+				diag_log text "HQOrders call HAL_GoDefRes";
 				[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] call HAL_GoDefRes;
+				diag_log text "HQOrders called HAL_GoDefRes";
 				} else {
-				[_x,_HQ] call HAL_GoIdle;
+				diag_log text "HQOrders spawn HAL_GoIdle";
+				[_x,_HQ] spawn HAL_GoIdle;
+				diag_log text "HQOrders spawned HAL_GoIdle";
 				};
 			};
 		}

@@ -1182,34 +1182,34 @@ RYD_StatusQuo =
 		_lastS = _HQ getVariable ["LastStance","At"];
 		if ((_lastS == "De") or (_cycleC == 1)) then
 			{
-			diag_log text "Calling RYD_AIChatter";
+			diag_log text "RYD_StatusQuo Calling RYD_AIChatter";
 			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_OffStance,"OffStance"] call RYD_AIChatter};
-			diag_log text "Call finished";
+			diag_log text "RYD_StatusQuo Call RYD_AIChatter finished";
 			};
 
 		_HQ setVariable ["LastStance","At"];
 		_HQ setVariable ["RydHQ_Inertia",30 * (0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5]))*(0.5 + (_HQ getVariable ["RydHQ_Activity",0.5]))];
-		diag_log text "Calling HAL_HQOrders";
+		diag_log text "RYD_StatusQuo Calling HAL_HQOrders";
 		[_HQ] call HAL_HQOrders;
-		diag_log text "Call finished";
+		diag_log text "RYD_StatusQuo Call HAL_HQOrders finished";
 		} 
 	else 
 		{
 		_lastS = _HQ getVariable ["LastStance","De"];
 		if ((_lastS == "At") or (_cycleC == 1)) then
 			{
-			diag_log text "Calling RYD_AIChatter - LastStance";
+			diag_log text "RYD_StatusQuo Calling RYD_AIChatter - LastStance";
 			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_DefStance,"DefStance"] call RYD_AIChatter};
-			diag_log text "Call finished";
+			diag_log text "RYD_StatusQuo Call LastStance finished";
 			};
 
 		_HQ setVariable ["LastStance","De"];
 		_HQ setVariable ["RydHQ_Inertia", - (30  * (0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5])))/(0.5 + (_HQ getVariable ["RydHQ_Activity",0.5]))];
 		diag_log text "Calling HAL_HQOrdersDef";
 		[_HQ] call HAL_HQOrdersDef;
-		diag_log text "Call finished";
+		diag_log text "Call HAL_HQOrdersDef finished";
 		};
-
+	diag_log text "RYD_StatusQuo - 25rd - Objectives acquired";
 	if (((((_HQ getVariable ["RydHQ_Circumspection",0.5]) + (_HQ getVariable ["RydHQ_Fineness",0.5]))/2) + 0.1) > (random 1.2)) then
 		{
 		diag_log text "Counting Special Forces";
@@ -1303,6 +1303,8 @@ RYD_StatusQuo =
 		diag_log text "RYD_StatusQuo - 27th step";
 	if ((_HQ getVariable ["RydHQ_LRelocating",false]) and {not (_AAO)}) then
 		{
+		diag_log text "RYD_StatusQuo - RydHQ LRelocating step";
+
 		if ((abs (speed (vehicle (_HQ getVariable ["leaderHQ",(leader _HQ)])))) < 0.1) then {_HQ setVariable ["onMove",false]};
 		_onMove = _HQ getVariable ["onMove",false];
 
@@ -1327,10 +1329,10 @@ RYD_StatusQuo =
 							_Lpos = (_HQ getVariable ["RydHQ_Fpos",_Lpos]);
 							if ((_HQ getVariable ["leaderHQ",(leader _HQ)]) in (RydBBa_HQs + RydBBb_HQs)) then 
 								{
-								_Lpos = position (_HQ getVariable ["leaderHQ",(leader _HQ)])
+								_Lpos = position (_HQ getVariable ["leaderHQ",(leader _HQ)]);
 								};
 
-							_rds = 0
+							_rds = 0;
 							};
 							
 						case (2) : {_Lpos = position (_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])};
@@ -1429,7 +1431,9 @@ RYD_StatusQuo =
 								_wp = [_HQ,_Lpos,"MOVE","AWARE","GREEN",_spd,["true",""],true,_rds,[0,0,0],"FILE"] call RYD_WPadd;
 								if (isNull (assignedVehicle (_HQ getVariable ["leaderHQ",(leader _HQ)]))) then
 									{
-									if (_HQ getVariable ["RydHQ_GetHQInside",false]) then {[_wp] call RYD_GoInside}
+									diag_log text "RYD_StatusQuo calling RYD_GoInside";
+									if (_HQ getVariable ["RydHQ_GetHQInside",false]) then {[_wp] call RYD_GoInside};
+									diag_log text "RYD_StatusQuo called RYD_GoInside";
 									};
 
 								_HQ setVariable ["onMove",true];
@@ -1442,7 +1446,7 @@ RYD_StatusQuo =
 				}
 			}
 		};
-		diag_log text "RYD_StatusQuo - 29th step";
+	diag_log text "RYD_StatusQuo - 29th step";
 	_alive = true;
 	_ct = time;
 	_ctRev = time;

@@ -305,9 +305,28 @@ if not (_emptyV) then
 	_ChosenOne disableAI "TARGET";_ChosenOne disableAI "AUTOTARGET";
 		
 	if not (_withdraw) then {
-		_task = [(leader _GD),["Pick up "+ (groupId _unitG) + " for transport to a designated position.", "Pick Up " + (groupId _unitG) , ""],_Lpos,"run"] call RYD_AddTask;
+
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
+
+		[_AddTask,(leader _GD),["Pick up "+ (groupId _unitG) + " for transport to a designated position.", "Pick Up " + (groupId _unitG) , ""],_Lpos,"run"] call RYD_AddTask;
+		
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
 		} else {
-		_task = [(leader _GD),["Pick up " + (groupId _unitG) + " for MEDEVAC.", "MEDEVAC " + (groupId _unitG), ""],_Lpos,"heal"] call RYD_AddTask;
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
+
+		[_AddTask,(leader _GD),["Pick up " + (groupId _unitG) + " for MEDEVAC.", "MEDEVAC " + (groupId _unitG), ""],_Lpos,"heal"] call RYD_AddTask;
+		
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
 		};
 
 	_taskTxt = "Wait and get into vehicle.";
@@ -362,9 +381,17 @@ if not (_emptyV) then
 		};
 		
 	if not (_request) then {
-		
-		_task2 = [(leader _unitG),[_taskTxt, "Wait For Lift", ""],_Lpos,"getin"] call RYD_AddTask;
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
 
+		[_AddTask,(leader _unitG),[_taskTxt, "Wait For Lift", ""],_Lpos,"getin"] call RYD_AddTask;
+
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task2 = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
+		
 		_wp = [_GD,_Lpos,"MOVE","STEALTH","YELLOW","FULL",["true","{(vehicle _x) land 'GET IN'} foreach (units (group this));deletewaypoint [(group this), 0];"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
 	} else {
@@ -423,7 +450,16 @@ if not (_emptyV) then
 
 		if not (isNil ("_Vpos")) then {_LandPos = _GD getvariable ("START" + (str _GD))} else {_LandPos = [((position (vehicle (leader _HQ))) select 0) + (random 200) - 100,((position (vehicle (leader _HQ))) select 1) + (random 200) - 100]};
 
-		_task = [(leader _GD),["Return to departure base.", "Abort Pick Up, RTB", ""],_LandPos,"land"] call RYD_AddTask;
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
+
+		[_AddTask,(leader _GD),["Return to departure base.", "Abort Pick Up, RTB", ""],_LandPos,"land"] call RYD_AddTask;
+
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
 
 		_GD = (group (assigneddriver _ChosenOne));
 
@@ -503,8 +539,17 @@ if not (_alive) exitwith {
 
 	if not (isNil ("_Vpos")) then {_LandPos = _GD getvariable ("START" + (str _GD))} else {_LandPos = [((position (vehicle (leader _HQ))) select 0) + (random 200) - 100,((position (vehicle (leader _HQ))) select 1) + (random 200) - 100]};
 
-	_task = [(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+	private _AddTask = createGroup sideLogic;
+	_AddTask setVariable ["_continueAfterTask",false];
 
+	[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+	
+	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+	diag_log text "RYD_AddTask code finished, waituntil passed";
+	_AddTask setVariable ["_continueAfterTask",false];
+	_task = _AddTask getVariable "_task";
+	deleteGroup _AddTask;
+	
 	_GD = (group (assigneddriver _ChosenOne));
 
 	_rrr = (_GD getVariable ["Ryd_RRR",false]);
@@ -692,7 +737,16 @@ if not (_GD == _unitG) then
 
 		if not (isNil ("_Vpos")) then {_LandPos = _GD getvariable ("START" + _unitvar)} else {_LandPos = [((position (vehicle (leader _HQ))) select 0) + (random 200) - 100,((position (vehicle (leader _HQ))) select 1) + (random 200) - 100]};
 
-		_task = [(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+		private _AddTask = createGroup sideLogic;
+		_AddTask setVariable ["_continueAfterTask",false];
+
+		[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+		
+		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+		diag_log text "RYD_AddTask code finished, waituntil passed";
+		_AddTask setVariable ["_continueAfterTask",false];
+		_task = _AddTask getVariable "_task";
+		deleteGroup _AddTask;
 
 		_GD = (group (assigneddriver _ChosenOne));
 
@@ -768,13 +822,14 @@ if not (_GD == _unitG) then
 			};
 			
 		_GD setVariable [("CargoM" + _unitvar), false];
-		private _WaitCarrier = objNull;
+		private _WaitCarrier = createGroup sideLogic;
+
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,1,false,0,240,[],false,true,false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
-
+		deleteGroup _WaitCarrier;
 		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 		_ChosenOne land 'NONE';
 		};
@@ -795,7 +850,16 @@ if not (_GD == _unitG) then
 //	sleep 5;
 //	if not (_GD in (_HQ getVariable ["RydHQ_AirG",[]])) then {sleep 15};
 
-	_task = [(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+	private _AddTask = createGroup sideLogic;
+	_AddTask setVariable ["_continueAfterTask",false];
+
+	[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+	
+	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+	diag_log text "RYD_AddTask code finished, waituntil passed";
+	_AddTask setVariable ["_continueAfterTask",false];
+	_task = _AddTask getVariable "_task";
+	deleteGroup _AddTask;
 
 	_GD = (group (assigneddriver _ChosenOne));
 

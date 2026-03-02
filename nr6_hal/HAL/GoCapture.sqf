@@ -175,7 +175,7 @@ _task = taskNull;
 
 if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_GDV == _unitG) and not (_IsAPlayer)) then
 	{
-	_task = [(leader _unitG),["Embark your lift", "Get In Lift", ""],(getPosATL (leader _unitG)),"getin"] call RYD_AddTask;
+	_task = [(leader _unitG),["Embark your lift", "Get In Lift", ""],(getPosATL (leader _unitG)),"getin"] call RYD_AddTask-OLD;
 	
 	_wp = [_unitG,_AV,"GETIN"] call RYD_WPadd;
 	_wp waypointAttachVehicle _AV;
@@ -183,13 +183,14 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (
 
 	{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0]}} foreach (units _unitG);
 
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
-
+	deleteGroup _WaitCarrier;
 	_AV land 'NONE';
 	};
 	
@@ -375,7 +376,16 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 			
 			[_unitG] call RYD_WPdel;
 
-			_task = [(leader _unitG),["Embark your lift", "Get In Lift", ""],(getPosATL (leader _unitG)),"getin"] call RYD_AddTask;
+			private _AddTask = createGroup sideLogic;
+			_AddTask setVariable ["_continueAfterTask",false];
+
+			[_AddTask,(leader _unitG),["Embark your lift", "Get In Lift", ""],(getPosATL (leader _unitG)),"getin"] call RYD_AddTask;
+			
+			waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+			diag_log text "RYD_AddTask code finished, waituntil passed";
+			_AddTask setVariable ["_continueAfterTask",false];
+			_task = _AddTask getVariable "_task";
+			deleteGroup _AddTask;
 
 			_wp = [_unitG,_AV,"GETIN"] call RYD_WPadd;
 			_wp waypointAttachVehicle _AV;
@@ -383,12 +393,14 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 
 			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
-			private _WaitCarrier = objNull;
+			private _WaitCarrier = createGroup sideLogic;
+
 			_WaitCarrier setVariable ["_continueAW",false];
 			[_WaitCarrier,_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait; 
-			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer2 =_WaitCarrier getVariable "_timer";
+			deleteGroup _WaitCarrier;
 
 			_AV land 'NONE';
 
@@ -467,13 +479,32 @@ if ((_halfway) and not (_IsAPlayer)) then {
 	_dropposY = (_posY + _LY1)/2;
 };
 
+private _AddTask = createGroup sideLogic;
+_AddTask setVariable ["_continueAfterTask",false];
 
-_task = [(leader _unitG),["Secure the objective. Neutralize any hostile forces and hold the objective.", "Secure And Hold Objective", ""],[_posX,_posY],"move"] call RYD_AddTask;
+[_AddTask,(leader _unitG),["Secure the objective. Neutralize any hostile forces and hold the objective.", "Secure And Hold Objective", ""],[_posX,_posY],"move"] call RYD_AddTask;
+			
+waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+diag_log text "RYD_AddTask code finished, waituntil passed";
+_AddTask setVariable ["_continueAfterTask",false];
+_task = _AddTask getVariable "_task";
+deleteGroup _AddTask;
+
+
 
 _Ctask = taskNull;
 if (not ((leader _GDV) == (leader _unitG)) and not (_GDV == _unitG)) then
 	{
-	_Ctask = [(leader _GDV),["Disembark " + (groupId _unitG) + " at  their designated destination.", "Drop Off " + (groupId _unitG), ""],[_dropposX,_dropposY],"getout"] call RYD_AddTask
+	private _AddTask = createGroup sideLogic;
+	_AddTask setVariable ["_continueAfterTask",false];
+
+	[_AddTask,(leader _GDV),["Disembark " + (groupId _unitG) + " at  their designated destination.", "Drop Off " + (groupId _unitG), ""],[_dropposX,_dropposY],"getout"] call RYD_AddTask;
+	
+	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
+	diag_log text "RYD_AddTask code finished, waituntil passed";
+	_AddTask setVariable ["_continueAfterTask",false];
+	_Ctask = _AddTask getVariable "_task";
+	deleteGroup _AddTask;
 	};
 
 _gp = _unitG;
@@ -572,28 +603,31 @@ if not (_IsAPlayer) then {
 
 		_OtherGroup = true;
 
-		private _WaitCarrier = objNull;
+		private _WaitCarrier = createGroup sideLogic;
+
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
 		_enemy = _WaitCarrier getVariable "_enemy";
-
+		deleteGroup _WaitCarrier;
 		}
 	else 
 		{
 		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
-		private _WaitCarrier = objNull;
+		private _WaitCarrier = createGroup sideLogic;
+
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
 		_enemy = _WaitCarrier getVariable "_enemy";
+		deleteGroup _WaitCarrier;
 		};
 };
 
@@ -670,13 +704,14 @@ _GDV = group _DAV;
 if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_unitG in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) and not (_GDV == _unitG) and not (_IsAPlayer)) then
 	{
 	_pass = (units _unitG);
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_AV] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
-	
+	deleteGroup _WaitCarrier;
 	};
 
 if not ((_GDV == _unitG) or (isNull _GDV)) then 
@@ -722,13 +757,14 @@ if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not 
 	{
 	_wp = [_GDV,[((getPosATL _AV) select 0) + (random 200) - 100,((getPosATL _AV) select 1) + (random 200) - 100,1000],"MOVE","STEALTH","YELLOW","NORMAL"] call RYD_WPadd;
 	
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_GDV,3,true,0,8,[],false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
-
+	deleteGroup _WaitCarrier;
 	if (_timer > 8) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]};
 	};
 
@@ -758,14 +794,16 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 
 	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-	private _WaitCarrier = objNull;
+	private _WaitCarrier = createGroup sideLogic;
+
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";
 	_enemy = _WaitCarrier getVariable "_enemy";
+	deleteGroup _WaitCarrier;
 
 	if not (_alive) exitwith 
 		{
@@ -833,14 +871,15 @@ _wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 
 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
-private _WaitCarrier = objNull;
+private _WaitCarrier = createGroup sideLogic;
+
 _WaitCarrier setVariable ["_continueAW",false];
 [_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
-waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; 
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
-
+deleteGroup _WaitCarrier;
 
 if not (_alive) exitwith 
 	{
