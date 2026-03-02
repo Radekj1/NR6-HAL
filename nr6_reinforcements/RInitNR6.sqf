@@ -20,12 +20,11 @@ SpawnRGroup = {
 	//_Leaders = _this select 4;
     //_RejoinPoint = _this select 5;
     //_ExtraArgs = _this select 6; - IN PARAMS
-    _SelGroup = (selectRandom _Pool);
+    _SelGroup = selectRandom _Pool;
     _selectedPos = selectRandom _SpawnPos;
-
+	
     _grp = grpNull;
     if ((typeName (_SelGroup select 0)) isNotEqualTo "ARRAY") then {
-
        {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
     
     };
@@ -201,4 +200,5 @@ NR6_DimsmissAllAI = {
 	} foreach _sUnits;
 	
 };
+
 
