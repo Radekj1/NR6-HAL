@@ -1,3 +1,38 @@
+private [
+    "_HQ", "_csN", "_nouns",
+    "_SCRname", "_cycleC", "_lastHQ",
+    "_OLmpl", "_cycleCap", "_firstMC", "_wp",
+    "_lastReset", "_HQlPos", "_cInitial", "_KnEnPos",
+    "_objectives", "_NAVObjectives", "_listed",
+    "_midX", "_midY", "_notTaken", "_nTc", "_pos", "_nObj",
+    "_civF",
+    "_specFor_class", "_recon_class", "_FO_class", "_snipers_class",
+    "_ATinf_class", "_AAinf_class", "_Inf_class", "_Art_class",
+    "_HArmor_class", "_MArmor_class", "_LArmor_class", "_LArmorAT_class",
+    "_Cars_class", "_Air_class", "_BAir_class", "_RAir_class", "_NCAir_class",
+    "_Naval_class", "_Static_class", "_StaticAA_class", "_StaticAT_class",
+    "_Support_class", "_Cargo_class", "_NCCargo_class", "_Crew_class",
+    "_Other_class", "_NCrewInf_class",
+    "_SpecFor", "_SpecForG", "_recon", "_reconG", "_FO", "_FOG",
+    "_snipers", "_snipersG", "_ATinf", "_ATinfG", "_AAinf", "_AAinfG",
+    "_Inf", "_InfG", "_Art", "_ArtG", "_HArmor", "_HArmorG",
+    "_MArmor", "_MArmorG", "_LArmor", "_LArmorG", "_LArmorAT", "_LArmorATG",
+    "_Cars", "_CarsG", "_Air", "_AirG", "_BAir", "_BAirG",
+    "_RAir", "_RAirG", "_NCAir", "_NCAirG", "_Naval", "_NavalG",
+    "_Static", "_StaticG", "_StaticAA", "_StaticAAG", "_StaticAT", "_StaticATG",
+    "_Support", "_SupportG", "_Cargo", "_CargoG", "_NCCargo", "_NCCargoG",
+    "_Crew", "_CrewG", "_NCrewInf", "_NCrewInfG", "_Other", "_OtherG",
+    "_EnSpecFor", "_EnSpecForG", "_Enrecon", "_EnreconG", "_EnFO", "_EnFOG",
+    "_Ensnipers", "_EnsnipersG", "_EnATinf", "_EnATinfG", "_EnAAinf", "_EnAAinfG",
+    "_EnInf", "_EnInfG", "_EnArt", "_EnArtG", "_EnHArmor", "_EnHArmorG",
+    "_EnMArmor", "_EnMArmorG", "_EnLArmor", "_EnLArmorG", "_EnLArmorAT", "_EnLArmorATG",
+    "_EnCars", "_EnCarsG", "_EnAir", "_EnAirG", "_EnBAir", "_EnBAirG",
+    "_EnRAir", "_EnRAirG", "_EnNCAir", "_EnNCAirG", "_EnNaval", "_EnNavalG",
+    "_EnStatic", "_EnStaticG", "_EnStaticAA", "_EnStaticAAG", "_EnStaticAT", "_EnStaticATG",
+    "_EnSupport", "_EnSupportG", "_EnCargo", "_EnCargoG", "_EnNCCargo", "_EnNCCargoG",
+    "_EnCrew", "_EnCrewG", "_EnNCrewInf", "_EnNCrewInfG", "_EnOther", "_EnOtherG",
+    "_rds"
+];
 _SCRname = "SitRep";
 diag_log text "HQSitRep H started";
 _HQ = _this select 0;
@@ -16,7 +51,8 @@ diag_log text "HQSitRep H: Call signs generated.";
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
 _cycleC = 0;
-
+[{
+params [_HQ];
 if (isNil ("RydHQH_MAtt")) then {RydHQH_MAtt = false};
 _HQ setVariable ["RydHQ_MAtt",RydHQH_MAtt];
 if ((isNil ("RydHQH_Personality")) or not (_HQ getVariable ["RydHQ_MAtt",false])) then {RydHQH_Personality = "OTHER"};
@@ -35,7 +71,7 @@ _HQ setVariable ["RydHQ_Circumspection",RydHQH_Circumspection];
 if (isNil ("RydHQH_Fineness")) then {RydHQH_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQH_Fineness];
 HQSitREP_H_Fin1 = true;
-[{[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
+[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
 diag_log text "HQSitRep H: Personality finished.";
 waitUntil {HQSitREP_H_Fin1};
 
@@ -373,7 +409,7 @@ while {true} do
 	if (isNil ("RydHQH_VoiceComm")) then {RydHQH_VoiceComm = true};
 	_HQ setVariable ["RydHQ_VoiceComm",RydHQH_VoiceComm];
 	if (isNil ("RydHQH_FrontA")) then {RydHQH_Front = false};
-	_HQ setVariable ["RydHQ_FrontA",RydHQH_Front];
+	_HQ setVariable ["RydHQ_Front",RydHQH_Front];
 	if (isNil ("RydHQH_LRelocating")) then {RydHQH_LRelocating = false};
 	_HQ setVariable ["RydHQ_LRelocating",RydHQH_LRelocating];
 	if (isNil ("RydHQH_Flee")) then {RydHQH_Flee = true};
@@ -695,6 +731,6 @@ while {true} do
 		default {_HQ setVariable ["RydHQ_Obj",RydHQH_Obj4]};
 		};
 		
-	call RYD_StatusQuo;
+	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos] call RYD_StatusQuo;
 
 	};

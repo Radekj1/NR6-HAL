@@ -1,3 +1,38 @@
+private [
+    "_HQ", "_csN", "_nouns",
+    "_SCRname", "_cycleC", "_lastHQ",
+    "_OLmpl", "_cycleCap", "_firstMC", "_wp",
+    "_lastReset", "_HQlPos", "_cInitial", "_KnEnPos",
+    "_objectives", "_NAVObjectives", "_listed",
+    "_midX", "_midY", "_notTaken", "_nTc", "_pos", "_nObj",
+    "_civF",
+    "_specFor_class", "_recon_class", "_FO_class", "_snipers_class",
+    "_ATinf_class", "_AAinf_class", "_Inf_class", "_Art_class",
+    "_HArmor_class", "_MArmor_class", "_LArmor_class", "_LArmorAT_class",
+    "_Cars_class", "_Air_class", "_BAir_class", "_RAir_class", "_NCAir_class",
+    "_Naval_class", "_Static_class", "_StaticAA_class", "_StaticAT_class",
+    "_Support_class", "_Cargo_class", "_NCCargo_class", "_Crew_class",
+    "_Other_class", "_NCrewInf_class",
+    "_SpecFor", "_SpecForG", "_recon", "_reconG", "_FO", "_FOG",
+    "_snipers", "_snipersG", "_ATinf", "_ATinfG", "_AAinf", "_AAinfG",
+    "_Inf", "_InfG", "_Art", "_ArtG", "_HArmor", "_HArmorG",
+    "_MArmor", "_MArmorG", "_LArmor", "_LArmorG", "_LArmorAT", "_LArmorATG",
+    "_Cars", "_CarsG", "_Air", "_AirG", "_BAir", "_BAirG",
+    "_RAir", "_RAirG", "_NCAir", "_NCAirG", "_Naval", "_NavalG",
+    "_Static", "_StaticG", "_StaticAA", "_StaticAAG", "_StaticAT", "_StaticATG",
+    "_Support", "_SupportG", "_Cargo", "_CargoG", "_NCCargo", "_NCCargoG",
+    "_Crew", "_CrewG", "_NCrewInf", "_NCrewInfG", "_Other", "_OtherG",
+    "_EnSpecFor", "_EnSpecForG", "_Enrecon", "_EnreconG", "_EnFO", "_EnFOG",
+    "_Ensnipers", "_EnsnipersG", "_EnATinf", "_EnATinfG", "_EnAAinf", "_EnAAinfG",
+    "_EnInf", "_EnInfG", "_EnArt", "_EnArtG", "_EnHArmor", "_EnHArmorG",
+    "_EnMArmor", "_EnMArmorG", "_EnLArmor", "_EnLArmorG", "_EnLArmorAT", "_EnLArmorATG",
+    "_EnCars", "_EnCarsG", "_EnAir", "_EnAirG", "_EnBAir", "_EnBAirG",
+    "_EnRAir", "_EnRAirG", "_EnNCAir", "_EnNCAirG", "_EnNaval", "_EnNavalG",
+    "_EnStatic", "_EnStaticG", "_EnStaticAA", "_EnStaticAAG", "_EnStaticAT", "_EnStaticATG",
+    "_EnSupport", "_EnSupportG", "_EnCargo", "_EnCargoG", "_EnNCCargo", "_EnNCCargoG",
+    "_EnCrew", "_EnCrewG", "_EnNCrewInf", "_EnNCrewInfG", "_EnOther", "_EnOtherG",
+    "_rds"
+];
 _SCRname = "SitRep";
 diag_log text "HQSitRep A started";
 _HQ = _this select 0;
@@ -16,7 +51,8 @@ diag_log text "HQSitRep A: Call signs generated.";
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
 _cycleC = 0;
-
+[{
+params [_HQ];
 if (isNil ("RydHQ_MAtt")) then {RydHQ_MAtt = false};
 _HQ setVariable ["RydHQ_MAtt",RydHQ_MAtt];
 if ((isNil ("RydHQ_Personality")) or not (_HQ getVariable ["RydHQ_MAtt",false])) then {RydHQ_Personality = "OTHER"};
@@ -36,7 +72,7 @@ if (isNil ("RydHQ_Fineness")) then {RydHQ_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
 diag_log text "HQSitRep A: Personality set.";
 HQSitREP_A_Fin1 = true;
-[{[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
+[_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
 diag_log text "HQSitRep A: Personality finished.";
 waitUntil {HQSitREP_A_Fin1};
 //LHQ - TO BE CONVERTED TO NON-SCHEDULED
@@ -122,7 +158,7 @@ diag_log text "HQSitRep A: Initial setup complete. Loop starting.";
 //TO BE 520 lines + CALLS - LOOP TO BE REPLACED MANUALLY, SPLITTED BETWEEN FRAMES, SYNCED WITH CALLS RESULTS
 while {true} do
 	{
-
+	diag_log text "HQSitRep A: Loop started";
 	if (RydxHQ_RHQAutoFill) then
 	{
 	[] call RYD_PresentRHQ
@@ -162,6 +198,7 @@ while {true} do
 	if (isNull _HQ) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (({alive _x} count (units _HQ)) == 0) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (_HQ getVariable ["RydHQ_Surrender",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
+	diag_log text "HQSitRep A: Step 1";
 
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then 
 		{
@@ -184,7 +221,7 @@ while {true} do
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 
 	_lastHQ = (leader _HQ);
-	
+	diag_log text "HQSitRep A: Step 2";
 	_HQ setVariable ["RydHQ_Cyclecount",_cycleC + 1];
 	_cycleC = _HQ getVariable ["RydHQ_Cyclecount",1];
 	
@@ -302,7 +339,7 @@ while {true} do
 
 	_HQ setVariable ["RydHQ_LastE",count (_HQ getVariable ["RydHQ_KnEnemies",[]])];
 	_HQ setVariable ["RydHQ_LastFriends",_HQ getVariable ["RydHQ_Friends",[]]];
-	
+	diag_log text "HQSitRep A: Step 3";
 	if (isNil "RydHQ_Garrison") then {RydHQ_Garrison = []};
 	_HQ setVariable ["RydHQ_Garrison",RydHQ_Garrison];	
 	if (isNil ("RydHQ_NoAirCargo")) then {RydHQ_NoAirCargo = false};
@@ -349,8 +386,8 @@ while {true} do
 	_HQ setVariable ["RydHQ_FirstToFight",RydHQ_FirstToFight];
 	if (isNil ("RydHQ_VoiceComm")) then {RydHQ_VoiceComm = true};
 	_HQ setVariable ["RydHQ_VoiceComm",RydHQ_VoiceComm];
-	if (isNil ("RydHQ_FrontA")) then {RydHQ_Front = false};
-	_HQ setVariable ["RydHQ_FrontA",RydHQ_Front];
+	if (isNil ("RydHQ_Front")) then {RydHQ_Front = false};
+	_HQ setVariable ["RydHQ_Front",RydHQ_Front];
 	if (isNil ("RydHQ_LRelocating")) then {RydHQ_LRelocating = false};
 	_HQ setVariable ["RydHQ_LRelocating",RydHQ_LRelocating];
 	if (isNil ("RydHQ_Flee")) then {RydHQ_Flee = true};
@@ -468,7 +505,7 @@ while {true} do
 	if (isNil ("RydHQ_CommDelay")) then {RydHQ_CommDelay = 1};
 	_HQ setVariable ["RydHQ_CommDelay",RydHQ_CommDelay];
 
-
+	diag_log text "HQSitRep A: Step 4";
 	if ((isNil ("RydHQ_Order")) and (isNil {_HQ getVariable "RydHQ_Order"})) then {_HQ setVariable ["RydHQ_Order","ATTACK"]};
 	if ( not (isNil ("RydHQ_Order"))) then {
 		if (RydHQ_Order == "DEFEND") then {
@@ -566,7 +603,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_Obj2",RydHQ_Obj2];
 	_HQ setVariable ["RydHQ_Obj3",RydHQ_Obj3];
 	_HQ setVariable ["RydHQ_Obj4",RydHQ_Obj4];
-		
+	diag_log text "HQSitRep A: Step 5";
 	_objectives = [RydHQ_Obj1,RydHQ_Obj2,RydHQ_Obj3,RydHQ_Obj4];
 	_NAVObjectives = [];
 
@@ -594,7 +631,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_NavalObjectives",_NAVObjectives];
 	
 	_listed = _HQ getVariable "BBProgress";
-
+	diag_log text "HQSitRep A: Step 6";
 	if (isNil "_listed") then
 		{
 		_midX = 0;
@@ -619,7 +656,7 @@ while {true} do
 			
 		_HQ setVariable ["RydHQ_EyeOfBattle",[_midX/_nTc,_midY/_nTc,0]];
 		};
-
+	diag_log text "HQSitRep A: Step 7";
 	if not (isNil "RydHQ_DefFrontL") then {_HQ setVariable ["RydHQ_DefFrontL",RydHQ_DefFrontL]};
 	if not (isNil "RydHQ_DefFront1") then {_HQ setVariable ["RydHQ_DefFront1",RydHQ_DefFront1]};
 	if not (isNil "RydHQ_DefFront2") then {_HQ setVariable ["RydHQ_DefFront2",RydHQ_DefFront2]};
@@ -634,7 +671,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_Def",RydHQ_Def];
 	
 	_nObj = _HQ getVariable ["RydHQ_NObj",1];
-
+	diag_log text "HQSitRep A: Step 8";
 	switch (_nObj) do
 		{
 		case (1) : {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj1]};
@@ -643,6 +680,6 @@ while {true} do
 		default {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj4]};
 		};
 	diag_log text "HQSitRep A - calling StatusQuo";
-	call RYD_StatusQuo;
+	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos] call RYD_StatusQuo;
 	diag_log text "HQSitRep A Finished - StatusQuo called";
 	};

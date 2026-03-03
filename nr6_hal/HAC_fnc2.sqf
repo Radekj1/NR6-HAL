@@ -1,10 +1,53 @@
 RYD_StatusQuo = 
 	{
+	params ["_HQ","_cycleC","_lastReset","_cInitial","_HQlPos"];
+	private [
+    "_SCRname", "_orderFirst", "_alive", "_code", "_delay", "_channel",
+    "_enemies", "_friends", "_checkFriends", "_subOrd", "_excl", "_Ex",
+    "_knownE", "_knownEG", "_alwaysKn", "_KnEnPos", "_KnEnemy", "_toAdd",
+    "_FValue", "_EValue", "_morale", "_lossP", "_lossArr", "_lostU",
+    "_lossWeight", "_lossFinal", "_balanceF", "_CCurrent", "_CLast",
+    "_midCow", "_AllCow", "_AllPanic", "_cowF", "_gauss100","_moraleInfl", "_enemyInfl", "_obj", "_objs","_AAO", "_EBT", "_lastS", "_Artdebug",
+	"_isNight", "_enemyN", "_onMove","_Recklessness", "_Activity", "_Fineness", "_Circumspection", "_Consistency",
+    "_ct", "_ctRev", "_ctMedS", "_ctFuel", "_ctAmmo", "_ctRep",
+    "_ctISF", "_ctReloc", "_ctLPos", "_ctDesp", "_ctEScan", "_ctGarr",
+    "_SpecForcheck", "_reconcheck", "_FOcheck", "_sniperscheck",
+    "_ATinfcheck", "_AAinfcheck", "_Infcheck", "_Artcheck",
+    "_HArmorcheck", "_MArmorcheck", "_LArmorcheck", "_LArmorATcheck",
+    "_Carscheck", "_Aircheck", "_BAircheck", "_RAircheck", "_NCAircheck",
+    "_Navalcheck", "_Staticcheck", "_StaticAAcheck", "_StaticATcheck",
+    "_Supportcheck", "_Cargocheck", "_NCCargocheck", "_Crewcheck",
+    "_NCrewInfcheck", "_Othercheck","_tp", "_grp", "_vh", "_asV", "_grpD", "_grpG", "_Tvh", "_TasV",
+    "_isCaptive", "_isCiv", "_front", "_fr","_SpecFor", "_SpecForG", "_recon", "_reconG", "_FO", "_FOG",
+    "_snipers", "_snipersG", "_ATinf", "_ATinfG", "_AAinf", "_AAinfG",
+    "_Inf", "_InfG", "_Art", "_ArtG", "_HArmor", "_HArmorG",
+    "_MArmor", "_MArmorG", "_LArmor", "_LArmorG", "_LArmorAT", "_LArmorATG",
+    "_Cars", "_CarsG", "_Air", "_AirG", "_BAir", "_BAirG",
+    "_RAir", "_RAirG", "_NCAir", "_NCAirG", "_Naval", "_NavalG",
+    "_Static", "_StaticG", "_StaticAA", "_StaticAAG", "_StaticAT", "_StaticATG",
+    "_Support", "_SupportG", "_Cargo", "_CargoG", "_NCCargo", "_NCCargoG",
+    "_Crew", "_CrewG", "_NCrewInf", "_NCrewInfG", "_Other", "_OtherG",
+    "_CargoAirEx", "_CargoLandEx","_EnSpecFor", "_EnSpecForG", "_Enrecon", "_EnreconG", "_EnFO", "_EnFOG",
+    "_Ensnipers", "_EnsnipersG", "_EnATinf", "_EnATinfG", "_EnAAinf", "_EnAAinfG",
+    "_EnInf", "_EnInfG", "_EnArt", "_EnArtG", "_EnHArmor", "_EnHArmorG",
+    "_EnMArmor", "_EnMArmorG", "_EnLArmor", "_EnLArmorG", "_EnLArmorAT", "_EnLArmorATG",
+    "_EnCars", "_EnCarsG", "_EnAir", "_EnAirG", "_EnBAir", "_EnBAirG",
+    "_EnRAir", "_EnRAirG", "_EnNCAir", "_EnNCAirG", "_EnNaval", "_EnNavalG",
+    "_EnStatic", "_EnStaticG", "_EnStaticAA", "_EnStaticAAG", "_EnStaticAT", "_EnStaticATG",
+    "_EnSupport", "_EnSupportG", "_EnCargo", "_EnCargoG", "_EnNCCargo", "_EnNCCargoG",
+    "_EnCrew", "_EnCrewG", "_EnNCrewInf", "_EnNCrewInfG", "_EnOther", "_EnOtherG",
+    "_SFcount", "_SFTgts", "_SFAv", "_chance", "_team", "_trg", "_trgG", "_alreadyAttacked",
+    "_taken", "_Navaltaken", "_objs", "_prefix", "_objStr", "_respPoint",
+    "_Lpos", "_rds", "_spd", "_wp", "_nPos", "_onPlace", "_getBack", "_eDst", "_eLdr",
+    "_signum", "_varName1", "_varName2", "_mdbg", "_cl", "_dbgMon",
+    "_isBusy", "_isResting", "_inDanger", "_dngr", "_panic", "_cow",
+    "_i", "_already", "_enemyU", "_UL", "_diff", "_when", "_age", "_loss","_gp", "_z", "_a",
+	];
 	diag_log text "RYD_StatusQuo - 1st step";
 	_SCRname = "SQ";
-	_orderFirst = _HQ getVariable "RydHQ_Orderfirst";
 	
-	private ["_SidePLY","_IgnoredPLY","_RydMarks","_MarkGrps","_checkFriends"];
+	_orderFirst = _HQ getVariable "RydHQ_Orderfirst";
+	_KnEnPos = [];
 
 	if (isNil ("_orderFirst")) then 
 		{
@@ -101,7 +144,7 @@ RYD_StatusQuo =
 			
 		if not ((isNull ((_HQ getVariable ["leaderHQ",(leader _HQ)]))) and {not (isNull _x) and {(alive ((_HQ getVariable ["leaderHQ",(leader _HQ)]))) and {(alive (leader _x)) and {not (_isCaptive)}}}}) then
 			{
-			if (not ((_HQ getVariable ["RydHQ_FrontA",false])) and {((side _x) getFriend (side _HQ) < 0.6) and {not (_isCiv)}}) then 
+			if (not ((_HQ getVariable ["RydHQ_Front",false])) and {((side _x) getFriend (side _HQ) < 0.6) and {not (_isCiv)}}) then 
 				{
 				if not (_x in _enemies) then 
 					{
@@ -116,7 +159,7 @@ RYD_StatusQuo =
 				_front = ((getPosATL (vehicle (leader _x))) in _fr)
 				};
 				
-			if ((_HQ getVariable ["RydHQ_FrontA",false]) and {((side _x) getFriend (side _HQ) < 0.6) and {(_front) and {not (_isCiv)}}}) then 
+			if ((_HQ getVariable ["RydHQ_Front",false]) and {((side _x) getFriend (side _HQ) < 0.6) and {(_front) and {not (_isCiv)}}}) then 
 				{
 				if not (_x in _enemies) then 
 					{
@@ -944,7 +987,7 @@ RYD_StatusQuo =
 									{
 									[_x] spawn
 										{
-										_unit = _this select 0;
+										private _unit = _this select 0;
 
 										sleep (random 1);
 										if (isPlayer _unit) exitWith {[_unit] join grpNull};
@@ -954,7 +997,7 @@ RYD_StatusQuo =
 
 										for [{_a = 0},{_a < (count (weapons _unit))},{_a = _a + 1}] do
 											{
-											_weapon = (weapons _unit) select _a;
+											private _weapon = (weapons _unit) select _a;
 											private _weaponHolder = "GroundWeaponHolder" createVehicle getPosATL _unit;
 											_unit Action ["dropWeapon", _weaponHolder, _weapon] 
 											};
@@ -1000,7 +1043,7 @@ RYD_StatusQuo =
 	foreach _knownEG;
 	diag_log text "RYD_StatusQuo - 19th step";
 	_HQ setVariable ["RydHQ_KnEnPos",_KnEnPos];
-
+	
 	for [{_z = 0},{_z < (count _knownE)},{_z = _z + 1}] do
 		{
 		_KnEnemy = _knownE select _z;
