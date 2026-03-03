@@ -1817,7 +1817,7 @@ HAL_WaitCode = {
 					_UL = _this select 28;
 					not (isNull (assignedVehicle _UL));
 				}, {
-					params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
+					params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
 					diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
 					_AV = assignedVehicle _UL;
 					_DAV = assigneddriver _AV;
