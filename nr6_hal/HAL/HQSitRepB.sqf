@@ -154,7 +154,7 @@ _cInitial = 0;
 
 while {true} do
 	{
-	
+	diag_log text "HQSitRep B: Loop started";
 	if (RydxHQ_RHQAutoFill) then
 	{
 	[] call RYD_PresentRHQ
@@ -732,7 +732,7 @@ while {true} do
 		default {_HQ setVariable ["RydHQ_Obj",RydHQB_Obj4]};
 		};
 	
-	
+	diag_log text "HQSitRep B: Status Quo call";
 	_PassedArgs = [
 	_SpecFor,_recon,_FO,_snipers,_ATinf,_AAinf,_Inf,_Art,_HArmor,_MArmor,_LArmor,_LArmorAT,_Cars,_Air,_BAir,_RAir,_NCAir,_Naval,_Static,_StaticAA,_StaticAT,_Support,_Cargo,
 	_NCCargo,_Other,_Crew,_NCrewInf,_SpecForG,_reconG,_FOG,_snipersG,_ATinfG,_AAinfG,_InfG,_ArtG,_HArmorG,_MArmorG,_LArmorG,_LArmorATG,_CarsG,_AirG,_BAirG,_RAirG,_NCAirG,
@@ -741,5 +741,5 @@ while {true} do
 	_EnSpecForG,_EnreconG,_EnFOG,_EnsnipersG,_EnATinfG,_EnAAinfG,_EnInfG,_EnArtG,_EnHArmorG,_EnMArmorG,_EnLArmorG,_EnLArmorATG,_EnCarsG,_EnAirG,_EnBAirG,_EnRAirG,_EnNCAirG,
 	_EnNavalG,_EnStaticG,_EnStaticAAG,_EnStaticATG,_EnSupportG,_EnCargoG,_EnNCCargoG,_EnOtherG,_EnCrewG,_EnNCrewInfG];
 	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos,_PassedArgs] call RYD_StatusQuo;
-
+	diag_log text "HQSitRep B: Status Quo called";
 	};
