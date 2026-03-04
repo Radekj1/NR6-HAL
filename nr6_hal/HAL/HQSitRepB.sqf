@@ -52,7 +52,7 @@ _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
 _cycleC = 0;
 [{
-params [_HQ];
+params ["_HQ"];
 if (isNil ("RydHQB_MAtt")) then {RydHQB_MAtt = false};
 _HQ setVariable ["RydHQ_MAtt",RydHQB_MAtt];
 if ((isNil ("RydHQB_Personality")) or not (_HQ getVariable ["RydHQ_MAtt",false])) then {RydHQB_Personality = "OTHER"};
@@ -408,7 +408,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_FirstToFight",RydHQB_FirstToFight];
 	if (isNil ("RydHQB_VoiceComm")) then {RydHQB_VoiceComm = true};
 	_HQ setVariable ["RydHQ_VoiceComm",RydHQB_VoiceComm];
-	if (isNil ("RydHQB_FrontA")) then {RydHQB_Front = false};
+	if (isNil ("RydHQB_Front")) then {RydHQB_Front = false};
 	_HQ setVariable ["RydHQ_Front",RydHQB_Front];
 	if (isNil ("RydHQB_LRelocating")) then {RydHQB_LRelocating = false};
 	_HQ setVariable ["RydHQ_LRelocating",RydHQB_LRelocating];
@@ -732,6 +732,14 @@ while {true} do
 		default {_HQ setVariable ["RydHQ_Obj",RydHQB_Obj4]};
 		};
 	
-	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos] call RYD_StatusQuo;
+	
+	_PassedArgs = [
+	_SpecFor,_recon,_FO,_snipers,_ATinf,_AAinf,_Inf,_Art,_HArmor,_MArmor,_LArmor,_LArmorAT,_Cars,_Air,_BAir,_RAir,_NCAir,_Naval,_Static,_StaticAA,_StaticAT,_Support,_Cargo,
+	_NCCargo,_Other,_Crew,_NCrewInf,_SpecForG,_reconG,_FOG,_snipersG,_ATinfG,_AAinfG,_InfG,_ArtG,_HArmorG,_MArmorG,_LArmorG,_LArmorATG,_CarsG,_AirG,_BAirG,_RAirG,_NCAirG,
+	_NavalG,_StaticG,_StaticAAG,_StaticATG,_SupportG,_CargoG,_NCCargoG,_OtherG,_CrewG,_NCrewInfG,_EnSpecFor,_Enrecon,_EnFO,_Ensnipers,_EnATinf,_EnAAinf,_EnInf,_EnArt,_EnHArmor,
+	_EnMArmor,_EnLArmor,_EnLArmorAT,_EnCars,_EnAir,_EnBAir,_EnRAir,_EnNCAir,_EnNaval,_EnStatic,_EnStaticAA,_EnStaticAT,_EnSupport,_EnCargo,_EnNCCargo,_EnOther,_EnCrew,_EnNCrewInf,
+	_EnSpecForG,_EnreconG,_EnFOG,_EnsnipersG,_EnATinfG,_EnAAinfG,_EnInfG,_EnArtG,_EnHArmorG,_EnMArmorG,_EnLArmorG,_EnLArmorATG,_EnCarsG,_EnAirG,_EnBAirG,_EnRAirG,_EnNCAirG,
+	_EnNavalG,_EnStaticG,_EnStaticAAG,_EnStaticATG,_EnSupportG,_EnCargoG,_EnNCCargoG,_EnOtherG,_EnCrewG,_EnNCrewInfG];
+	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos,_PassedArgs] call RYD_StatusQuo;
 
 	};

@@ -261,6 +261,8 @@ RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 foreach RydHQ_CallSignsN; 
 */
 diag_log text "RydHQInit.sqf: Colours and callsigns initialized. Now checking for HQ leaders and initializing HQs.";
+diag_log text "RydHQInit.sqf: HQ leaders initialized. Now initializing fronts.";
+[] call compile preprocessfile (RYD_Path + "Front.sqf");
 if not (isNull leaderHQ) then 
 	{
 	_gp = group leaderHQ;
@@ -270,10 +272,13 @@ if not (isNull leaderHQ) then
 			
 	if not (isNil ("HET_FA")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FA]
+		_gp setVariable ["RydHQ_FrontLine",HET_FA];
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ A initialized.";
 if not (isNull leaderHQB) then 
 	{
 	_gp = group leaderHQB;
@@ -283,10 +288,13 @@ if not (isNull leaderHQB) then
 	
 	if not (isNil ("HET_FB")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FB]
+		_gp setVariable ["RydHQ_FrontLine",HET_FB]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ B initialized.";
 if not (isNull leaderHQC) then 
 	{
 	_gp = group leaderHQC;
@@ -296,10 +304,13 @@ if not (isNull leaderHQC) then
 	
 	if not (isNil ("HET_FC")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FC]
+		_gp setVariable ["RydHQ_FrontLine",HET_FC]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ C initialized.";
 
 if not (isNull leaderHQD) then 
 	{
@@ -310,10 +321,13 @@ if not (isNull leaderHQD) then
 	
 	if not (isNil ("HET_FD")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FD]
+		_gp setVariable ["RydHQ_FrontLine",HET_FD]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ D initialized.";
 
 if not (isNull leaderHQE) then 
 	{
@@ -324,10 +338,13 @@ if not (isNull leaderHQE) then
 	
 	if not (isNil ("HET_FE")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FE]
+		_gp setVariable ["RydHQ_FrontLine",HET_FE]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};	
-diag_log text "RydHQInit.sqf: HQ E initialized.";
 
 if not (isNull leaderHQF) then 
 	{
@@ -338,10 +355,13 @@ if not (isNull leaderHQF) then
 	
 	if not (isNil ("HET_FF")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FF]
+		_gp setVariable ["RydHQ_FrontLine",HET_FF]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ F initialized.";
 
 if not (isNull leaderHQG) then 
 	{
@@ -352,11 +372,13 @@ if not (isNull leaderHQG) then
 	
 	if not (isNil ("HET_FG")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FG]
+		_gp setVariable ["RydHQ_FrontLine",HET_FG]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ G initialized.";
-
 if not (isNull leaderHQH) then 
 	{
 	_gp = group leaderHQH;
@@ -366,12 +388,13 @@ if not (isNull leaderHQH) then
 	
 	if not (isNil ("HET_FH")) then 
 		{
-		_gp setVariable ["RydHQ_Front",HET_FH]
+		_gp setVariable ["RydHQ_FrontLine",HET_FH]
+		}
+		else 
+		{
+		_gp setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
-diag_log text "RydHQInit.sqf: HQ H initialized.";
-diag_log text "RydHQInit.sqf: HQ leaders initialized. Now initializing fronts.";
-[] call compile preprocessfile (RYD_Path + "Front.sqf");
 diag_log text "RydHQInit.sqf: Fronts initialized.";
 if (RydHQ_TimeM) then 
 	{

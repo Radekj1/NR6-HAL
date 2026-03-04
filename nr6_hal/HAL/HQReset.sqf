@@ -1,10 +1,9 @@
 _SCRname = "Reset";
 
-private ["_HQ","_Edistance","_LE","_LEvar","_trg","_mLoss","_lastObj","_lost","_AllV20","_Civs20","_AllV2","_Civs20","_Civs2","_NearEnemies","_AllV0","_Civs0","_AllV","_Civs","_NearAllies","_objectives",
+private ["_Edistance","_LE","_LEvar","_trg","_mLoss","_lastObj","_lost","_AllV20","_Civs20","_AllV2","_Civs20","_Civs2","_NearEnemies","_AllV0","_Civs0","_AllV","_Civs","_NearAllies","_objectives",
 	"_captLimit","_enRoute","_captDiff","_isC","_amountC","_reserve","_exhausted","_unitvar","_nominal","_current","_ex","_Aex","_unitvarA","_nominalA","_currentA","_AAO","_taken","_cTaken","_oTaken",
 	"_garrPool","_UnableArr","_noGarrAround","_fG","_chosen","_dstMin","_actDst","_actG","_code","_unitG","_ct","_MIAPass","_garrison","_setTaken","_SideAllies","_SideEnemies","_Navaltaken","_Navalobjectives"];
-
-_HQ = _this select 0;
+params ["_HQ"];
 
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 		

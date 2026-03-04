@@ -1,6 +1,6 @@
 RYD_StatusQuo = 
 	{
-	params ["_HQ","_cycleC","_lastReset","_cInitial","_HQlPos"];
+	params ["_HQ","_cycleC","_lastReset","_cInitial","_HQlPos","_PassedArgs"];
 	private [
     "_SCRname","_orderFirst","_alive","_code","_delay","_channel","_enemies","_friends","_checkFriends","_subOrd","_excl","_Ex",
     "_knownE","_knownEG","_alwaysKn","_KnEnPos","_KnEnemy","_toAdd","_FValue","_EValue","_morale","_lossP","_lossArr","_lostU",
@@ -11,20 +11,22 @@ RYD_StatusQuo =
 	"_Artcheck","_HArmorcheck","_MArmorcheck","_LArmorcheck","_LArmorATcheck","_Carscheck","_Aircheck","_BAircheck","_RAircheck",
 	"_NCAircheck","_Navalcheck","_Staticcheck","_StaticAAcheck","_StaticATcheck","_Supportcheck","_Cargocheck","_NCCargocheck",
 	"_Crewcheck","_NCrewInfcheck","_Othercheck","_tp","_grp","_vh","_asV","_grpD","_grpG","_Tvh","_TasV","_isCaptive","_isCiv","_front",
-	"_fr","_SpecFor","_SpecForG","_recon","_reconG","_FO","_FOG","_snipers","_snipersG","_ATinf","_ATinfG","_AAinf","_AAinfG","_Inf",
-	"_InfG","_Art","_ArtG","_HArmor","_HArmorG","_MArmor","_MArmorG","_LArmor","_LArmorG","_LArmorAT","_LArmorATG","_Cars","_CarsG",
-	"_Air","_AirG","_BAir","_BAirG","_RAir","_RAirG","_NCAir","_NCAirG","_Naval","_NavalG","_Static","_StaticG","_StaticAA",
-	"_StaticAAG","_StaticAT","_StaticATG","_Support","_SupportG","_Cargo","_CargoG","_NCCargo","_NCCargoG","_Crew","_CrewG","_NCrewInf",
-	"_NCrewInfG","_Other","_OtherG","_CargoAirEx","_CargoLandEx","_EnSpecFor","_EnSpecForG","_Enrecon","_EnreconG","_EnFO","_EnFOG",
-	"_Ensnipers","_EnsnipersG","_EnATinf","_EnATinfG","_EnAAinf","_EnAAinfG","_EnInf","_EnInfG","_EnArt","_EnArtG","_EnHArmor",
-	"_EnHArmorG","_EnMArmor","_EnMArmorG","_EnLArmor","_EnLArmorG","_EnLArmorAT","_EnLArmorATG","_EnCars","_EnCarsG","_EnAir",
-	"_EnAirG","_EnBAir","_EnBAirG","_EnRAir","_EnRAirG","_EnNCAir","_EnNCAirG","_EnNaval","_EnNavalG","_EnStatic","_EnStaticG","_EnStaticAA",
-	"_EnStaticAAG","_EnStaticAT","_EnStaticATG","_EnSupport","_EnSupportG","_EnCargo","_EnCargoG","_EnNCCargo","_EnNCCargoG","_EnCrew",
-	"_EnCrewG","_EnNCrewInf","_EnNCrewInfG","_EnOther","_EnOtherG","_SFcount","_SFTgts","_SFAv","_chance","_team","_trg","_trgG",
-	"_alreadyAttacked","_taken","_Navaltaken","_objs","_prefix","_objStr","_respPoint","_Lpos","_rds","_spd","_wp","_nPos","_onPlace",
+	"_fr","_CargoAirEx","_CargoLandEx",
+	"_SFcount","_SFTgts","_SFAv","_chance","_team","_trg","_trgG",
+	"_alreadyAttacked","_taken","_Navaltaken","_prefix","_objStr","_respPoint","_Lpos","_rds","_spd","_wp","_nPos","_onPlace",
 	"_getBack","_eDst","_eLdr","_signum","_varName1","_varName2","_mdbg","_cl","_dbgMon","_isBusy","_isResting","_inDanger","_dngr",
 	"_panic","_cow","_i","_already","_enemyU","_UL","_diff","_when","_age","_loss","_gp", "_z", "_a"
 	];
+	_PassedArgs params ["_SpecFor","_recon","_FO","_snipers","_ATinf","_AAinf","_Inf","_Art","_HArmor","_MArmor","_LArmor","_LArmorAT","_Cars",
+	"_Air","_BAir","_RAir","_NCAir","_Naval","_Static","_StaticAA","_StaticAT","_Support","_Cargo","_NCCargo","_Other","_Crew","_NCrewInf",
+	"_SpecForG","_reconG","_FOG","_snipersG","_ATinfG","_AAinfG","_InfG","_ArtG","_HArmorG","_MArmorG","_LArmorG","_LArmorATG","_CarsG","_AirG",
+	"_BAirG","_RAirG","_NCAirG","_NavalG","_StaticG","_StaticAAG","_StaticATG","_SupportG","_CargoG","_NCCargoG","_OtherG","_CrewG","_NCrewInfG",
+	"_EnSpecFor","_Enrecon","_EnFO","_Ensnipers","_EnATinf","_EnAAinf","_EnInf","_EnArt","_EnHArmor","_EnMArmor","_EnLArmor","_EnLArmorAT","_EnCars",
+	"_EnAir","_EnBAir","_EnRAir","_EnNCAir","_EnNaval","_EnStatic","_EnStaticAA","_EnStaticAT","_EnSupport","_EnCargo","_EnNCCargo","_EnOther",
+	"_EnCrew","_EnNCrewInf","_EnSpecForG","_EnreconG","_EnFOG","_EnsnipersG","_EnATinfG","_EnAAinfG","_EnInfG","_EnArtG","_EnHArmorG","_EnMArmorG",
+	"_EnLArmorG","_EnLArmorATG","_EnCarsG","_EnAirG","_EnBAirG","_EnRAirG","_EnNCAirG","_EnNavalG","_EnStaticG","_EnStaticAAG","_EnStaticATG",
+	"_EnSupportG","_EnCargoG","_EnNCCargoG","_EnOtherG","_EnCrewG","_EnNCrewInfG"];
+
 	diag_log text "RYD_StatusQuo - 1st step";
 	_SCRname = "SQ";
 	
@@ -45,7 +47,7 @@ RYD_StatusQuo =
 				{
 				_lastReset = time;
 				[_HQ] call HAL_HQReset
-				}
+				};
 			}
 		else 
 			{
@@ -135,7 +137,7 @@ RYD_StatusQuo =
 				};
 			
 			_front = true;
-			_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+			_fr = _HQ getVariable "RydHQ_FrontLine"; //position of the frontline
 			if not (isNull _fr) then 
 				{
 				_front = ((getPosATL (vehicle (leader _x))) in _fr)

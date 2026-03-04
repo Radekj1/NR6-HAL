@@ -1330,7 +1330,7 @@ RYD_Dispatcher =
 		if not (alive (leader _x)) then {_sum = 0};
 		if (isNull (leader _x)) then {_sum = 0};
 
-		_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+		_fr = _HQ getvariable "RydHQ_FrontLine";
 		if not (isNull _fr) then 
 			{
 			if not ((getPosATL (vehicle (leader _x))) in _fr) then {_sum = 0}
@@ -1999,7 +1999,7 @@ HAL_WaitCode2 = {
 					_gp setVariable ["RydHQ_WaitingTarget",nil];
 					_timer = _tolerance + 10;
 					} else {
-					_fr = _HQ getvariable ["RydHQ_Front",locationNull];
+					_fr = _HQ getVariable "RydHQ_FrontLine";
 					if not (isNull _fr) then 
 						{
 						if not ((getPosATL _wtgt) in _fr) then 
@@ -4017,7 +4017,7 @@ RYD_CFF =
 	private ["_amnt","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_amount","_fr"];
 	params ["_artG","_knEnemies","_enArmor","_friends","_Debug","_ldr"];
 
-	_fr = (group _ldr) getvariable ["RydHQ_Front",locationNull];
+	_fr = (group _ldr) getvariable "RydHQ_FrontLine";
 	if not (isNull _fr) then {
 		_knEnemies = [_knEnemies, [], {_ldr distance (vehicle _x) }, "ASCEND",{((getPosATL (vehicle _x)) in _fr)}] call BIS_fnc_sortBy;
 	};

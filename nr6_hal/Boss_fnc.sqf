@@ -780,7 +780,7 @@ RYD_ExecuteObj =
 							{
 							
 							_KnEnAct = _x getVariable ["RydHQ_KnEnemiesG",[]];
-							_afront = _x getVariable ["RydHQ_Front",locationNull];	
+							_afront = _x getVariable ["RydHQ_FrontLine",locationNull];	
 
 							_alliedForce = _x getVariable ["RydHQ_Friends",[]];
 							_alliedGarrisons = _x getVariable ["RydHQ_Garrison",[]];

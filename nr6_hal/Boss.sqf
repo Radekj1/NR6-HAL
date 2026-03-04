@@ -1470,7 +1470,7 @@ while {(RydBB_Active)} do
 			if (_aliveHQ) then
 				{
 				_HQ = _x;
-				_front = _HQ getVariable ["RydHQ_Front",locationNull];
+				_front = _HQ getVariable ["RydHQ_FrontLine",locationNull];
 				_tObj1 = _HQ getVariable ["RydHQ_Obj1",objNull];
 				_tObj2 = _HQ getVariable ["RydHQ_Obj2",objNull];
 				_tObj3 = _HQ getVariable ["RydHQ_Obj3",objNull];
@@ -1730,7 +1730,7 @@ while {(RydBB_Active)} do
 					if (_pathDone) then
 						{
 						_HQ = _x;
-						_front = _HQ getVariable ["RydHQ_Front",locationNull];
+						_front = _HQ getVariable ["RydHQ_FrontLine",locationNull];
 						_tObj1 = _HQ getVariable ["RydHQ_Obj1",objNull];
 						_tObj2 = _HQ getVariable ["RydHQ_Obj2",objNull];
 						_tObj3 = _HQ getVariable ["RydHQ_Obj3",objNull];
@@ -1845,7 +1845,7 @@ while {(RydBB_Active)} do
 		if (_aliveHQ) then
 			{
 			_HQ = _x;
-			_front = _HQ getVariable ["RydHQ_Front",locationNull];
+			_front = _HQ getVariable ["RydHQ_FrontLine",locationNull];
 			_tObj1 = _HQ getVariable ["RydHQ_Obj1",objNull];
 			_tObj2 = _HQ getVariable ["RydHQ_Obj2",objNull];
 			_tObj3 = _HQ getVariable ["RydHQ_Obj3",objNull];
