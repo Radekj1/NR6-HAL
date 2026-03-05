@@ -159,7 +159,7 @@ while {true} do
 	{
 	[] call RYD_PresentRHQ
 	};
-	
+	diag_log text "HQSitRep B: called RYD_PresentRHQ";
 	_specFor_class = RHQ_SpecFor + RYD_WS_specFor_class - RHQs_SpecFor;
 
 	_recon_class = RHQ_Recon + RYD_WS_recon_class - RHQs_Recon;
@@ -220,7 +220,7 @@ while {true} do
 	if (isNull _HQ) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (({alive _x} count (units _HQ)) == 0) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (_HQ getVariable ["RydHQ_Surrender",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
-	
+	diag_log text "HQSitRep B: before RydHQ_Fast";
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then 
 		{
 		waituntil 
@@ -229,7 +229,7 @@ while {true} do
 			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
 			}
 		};
-		
+	diag_log text "HQSitRep B: after RydHQ_Fast";		
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	
 	_HQ setVariable ["RydHQ_Pending",true];
@@ -357,7 +357,7 @@ while {true} do
 	_EnOtherG = [];
 	_EnCrewG = [];
 	_EnNCrewInfG = [];
-
+	
 	_HQ setVariable ["RydHQ_LastE",count (_HQ getVariable ["RydHQ_KnEnemies",[]])];
 	_HQ setVariable ["RydHQ_LastFriends",_HQ getVariable ["RydHQ_Friends",[]]];
 	
@@ -499,9 +499,9 @@ while {true} do
 	if (isNil ("RydHQB_SupportedG")) then {RydHQB_SupportedG = []};
 	_HQ setVariable ["RydHQ_SupportedG",RydHQB_SupportedG];
 
-	if (isNil ("RydHQB_RCASB")) then {RydHQB_RCAS = []};
+	if (isNil ("RydHQB_RCAS")) then {RydHQB_RCAS = []};
 	_HQ setVariable ["RydHQ_RCAS",RydHQB_RCAS];
-	if (isNil ("RydHQB_RCAPB")) then {RydHQB_RCAP = []};
+	if (isNil ("RydHQB_RCAP")) then {RydHQB_RCAP = []};
 	_HQ setVariable ["RydHQ_RCAP",RydHQB_RCAP];
 	
 	if (isNil ("RydHQB_SFuel")) then {RydHQB_SFuel = true};
@@ -537,6 +537,7 @@ while {true} do
 	if (isNil ("RydHQB_CommDelay")) then {RydHQB_CommDelay = 1};
 	_HQ setVariable ["RydHQ_CommDelay",RydHQB_CommDelay];
 
+	diag_log text "HQSitRep B: step 1";
 
 	if ((isNil ("RydHQB_Order")) and (isNil {_HQ getVariable "RydHQ_Order"})) then {_HQ setVariable ["RydHQ_Order","ATTACK"]};
 	if ( not (isNil ("RydHQB_Order"))) then {
@@ -546,7 +547,7 @@ while {true} do
 			_HQ setVariable ["RydHQ_Order","ATTACK"]
 		};
 	};
-
+	diag_log text "HQSitRep B: step 2";
 	if (isNil ("RydHQB_AttackAlways")) then {RydHQB_AttackAlways = false};
 	_HQ setVariable ["RydHQ_AttackAlways",RydHQB_AttackAlways];
 
@@ -641,7 +642,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_ReconDistance",RydHQB_ReconDistance];
 	if (isNil "RydHQB_UAVAlt") then {RydHQB_UAVAlt = 150};
 	_HQ setVariable ["RydHQ_UAVAlt",RydHQB_UAVAlt];
-
+	diag_log text "HQSitRep B: step 3";
 	if (isNil "RydHQB_Obj1") then {RydHQB_Obj1 = createTrigger ["EmptyDetector", leaderHQB]};
 	if (isNil "RydHQB_Obj2") then {RydHQB_Obj2 = createTrigger ["EmptyDetector", leaderHQB]};
 	if (isNil "RydHQB_Obj3") then {RydHQB_Obj3 = createTrigger ["EmptyDetector", leaderHQB]};
@@ -654,7 +655,7 @@ while {true} do
 		
 	_objectives = [RydHQB_Obj1,RydHQB_Obj2,RydHQB_Obj3,RydHQB_Obj4];
 	_NAVObjectives = [];
-
+	diag_log text "HQSitRep B: step 4";
 	if (isNil ("RydHQB_SimpleMode")) then {RydHQB_SimpleMode = true};
 	_HQ setVariable ["RydHQ_SimpleMode",RydHQB_SimpleMode];
 
@@ -708,7 +709,7 @@ while {true} do
 			
 		_HQ setVariable ["RydHQ_EyeOfBattle",[_midX/_nTc,_midY/_nTc,0]];
 		};
-			
+	diag_log text "HQSitRep B: step 5";
 	if not (isNil "RydHQB_DefFrontL") then {_HQ setVariable ["RydHQ_DefFrontL",RydHQB_DefFrontL]};
 	if not (isNil "RydHQB_DefFront1") then {_HQ setVariable ["RydHQ_DefFront1",RydHQB_DefFront1]};
 	if not (isNil "RydHQB_DefFront2") then {_HQ setVariable ["RydHQ_DefFront2",RydHQB_DefFront2]};
@@ -723,7 +724,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_Def",RydHQB_Def];
 	
 	_nObj = _HQ getVariable ["RydHQ_NObj",1];
-
+	diag_log text "HQSitRep B: step 6";
 	switch (_nObj) do
 		{
 		case (1) : {_HQ setVariable ["RydHQ_Obj",RydHQB_Obj1]};
@@ -733,7 +734,7 @@ while {true} do
 		};
 	
 	diag_log text "HQSitRep B: Status Quo call";
-	_PassedArgs = [
+	private _PassedArgs = [
 	_SpecFor,_recon,_FO,_snipers,_ATinf,_AAinf,_Inf,_Art,_HArmor,_MArmor,_LArmor,_LArmorAT,_Cars,_Air,_BAir,_RAir,_NCAir,_Naval,_Static,_StaticAA,_StaticAT,_Support,_Cargo,
 	_NCCargo,_Other,_Crew,_NCrewInf,_SpecForG,_reconG,_FOG,_snipersG,_ATinfG,_AAinfG,_InfG,_ArtG,_HArmorG,_MArmorG,_LArmorG,_LArmorATG,_CarsG,_AirG,_BAirG,_RAirG,_NCAirG,
 	_NavalG,_StaticG,_StaticAAG,_StaticATG,_SupportG,_CargoG,_NCCargoG,_OtherG,_CrewG,_NCrewInfG,_EnSpecFor,_Enrecon,_EnFO,_Ensnipers,_EnATinf,_EnAAinf,_EnInf,_EnArt,_EnHArmor,

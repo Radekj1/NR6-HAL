@@ -733,7 +733,7 @@ while {true} do
 		};
 		
 	
-	_PassedArgs = [
+	private _PassedArgs = [
 	_SpecFor,_recon,_FO,_snipers,_ATinf,_AAinf,_Inf,_Art,_HArmor,_MArmor,_LArmor,_LArmorAT,_Cars,_Air,_BAir,_RAir,_NCAir,_Naval,_Static,_StaticAA,_StaticAT,_Support,_Cargo,
 	_NCCargo,_Other,_Crew,_NCrewInf,_SpecForG,_reconG,_FOG,_snipersG,_ATinfG,_AAinfG,_InfG,_ArtG,_HArmorG,_MArmorG,_LArmorG,_LArmorATG,_CarsG,_AirG,_BAirG,_RAirG,_NCAirG,
 	_NavalG,_StaticG,_StaticAAG,_StaticATG,_SupportG,_CargoG,_NCCargoG,_OtherG,_CrewG,_NCrewInfG,_EnSpecFor,_Enrecon,_EnFO,_Ensnipers,_EnATinf,_EnAAinf,_EnInf,_EnArt,_EnHArmor,

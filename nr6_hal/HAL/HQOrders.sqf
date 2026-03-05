@@ -229,7 +229,7 @@ diag_log text "_exhausted passed";
 					
 					if (not (_resting) and not (_Unable) and not (_IsAPlayer)) then
 						{
-						[_x,_HQ,true] call HAL_GoRest;
+						[_x,_HQ,true] spawn HAL_GoRest;
 						//_exhausted pushBack _x
 						}
 					}; 
@@ -247,7 +247,6 @@ _AttackAv = _AttackAv - (_HQ getVariable ["RydHQ_ROnly",[]]);
 
 diag_log text "Calling HQOrdersEast";
 if (_HQ getVariable ["RydHQ_ChosenEBDoctrine",false]) exitWith {[_HQ,_ReconAv,_AttackAv] call HAL_HQOrdersEast};
-diag_log text "Call finished";
 
 if ((_HQ getVariable ["RydHQ_AttackReserve",0]) > 0) then 
 	{
@@ -299,9 +298,9 @@ if not (_HQ getVariable ["RydHQ_FlankingInit",false]) then
 					if (_gap > 0) then
 						{
 						_HQ setVariable ["RydHQ_FlankingInit",true];
-						diag_log text "Call HAL_Flanking";
-						[_HQ] call HAL_Flanking;
-						diag_log text "Call finished";
+						diag_log text "Spawn HAL_Flanking";
+						[_HQ] spawn HAL_Flanking;
+						diag_log text "Spawn HAL_Flanking finished";
 						}
 					}
 				}
@@ -384,7 +383,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -401,7 +400,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -418,7 +417,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -435,7 +434,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -453,7 +452,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,true] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -470,7 +469,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				};
@@ -488,7 +487,7 @@ if (((_HQ getVariable ["RydHQ_NoRec",1]) * ((_HQ getVariable ["RydHQ_Recklessnes
 					_reconAv = _HQ getVariable ["RydHQ_ReconAv",[]];
 					_reconAv = _reconAv - [_x];
 					_HQ setVariable ["RydHQ_ReconAv",_reconAv];
-					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] call HAL_GoRecon;
+					[_x,_PosObj1,(_HQ getVariable ["RydHQ_ReconStage",1]),_HQ,_reconNr,false] spawn HAL_GoRecon;
 					}
 				foreach _gps
 				}
@@ -520,7 +519,7 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 		if (RydxHQ_NoRestPlayers and (isPlayer (leader _x))) then {_IsAPlayer = true};
 		if (not (_resting) and not (_Unable) and not (_IsAPlayer)) then 
 			{
-			[_x,_HQ] call HAL_GoRest;
+			[_x,_HQ] spawn HAL_GoRest;
 			}
 		}
 	foreach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
@@ -551,7 +550,7 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 				//[_x,_HQ] spawn HAL_GoIdle
 
 				if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
-					[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] call HAL_GoDefRes;
+					[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] spawn HAL_GoDefRes;
 					} else {
 					[_x,_HQ] spawn HAL_GoIdle;
 					};
@@ -855,7 +854,7 @@ _toTake = _toTake - [objNull];
 												case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 												};
 
-											[_x,_isAttacked,_HQ,_Trg] call HAL_GoCapture;
+											[_x,_isAttacked,_HQ,_Trg] spawn HAL_GoCapture;
 											}
 										}
 									}
@@ -913,7 +912,7 @@ _toTake = _toTake - [objNull];
 											case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 											};
 
-										[_x,_isAttacked,_HQ,_Trg] call HAL_GoCapture;										}
+										[_x,_isAttacked,_HQ,_Trg] spawn HAL_GoCapture;										}
 									}
 								}
 							}
@@ -1032,7 +1031,7 @@ _toTakeNav = _toTakeNav - [objNull];
 												case (0) : {_Trg setVariable [("Capturing" + (str  _Trg) + (str _HQ)),[1,_captCount + _groupCount]]};
 												};
 
-											[_x,_isAttacked,_HQ,_Trg] call HAL_GoCaptureNaval;
+											[_x,_isAttacked,_HQ,_Trg] spawn HAL_GoCaptureNaval;
 											}
 										}
 									}
@@ -1138,9 +1137,9 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
-				diag_log text "HQOrders call HAL_GoDefRes";
-				[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] call HAL_GoDefRes;
-				diag_log text "HQOrders called HAL_GoDefRes";
+				diag_log text "HQOrders spawn HAL_GoDefRes";
+				[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] spawn HAL_GoDefRes;
+				diag_log text "HQOrders spawned HAL_GoDefRes";
 				} else {
 				diag_log text "HQOrders spawn HAL_GoIdle";
 				[_x,_HQ] spawn HAL_GoIdle;
@@ -1173,7 +1172,8 @@ diag_log text "HQOrders Line 1125";
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_TakenNaval",[]]) isEqualTo [])) then {
-				[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ] call HAL_GoDefNav;
+				diag_log text "HQOrders Spawned HAL_GoDefNav";
+				[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ] spawn HAL_GoDefNav;
 				};
 			};
 		}
@@ -1195,7 +1195,8 @@ diag_log text "HQOrders Line 1125";
 		{
 		if not (_x in (_HQ getVariable ["RydHQ_Garrison",[]])) then
 			{
-			[_x,_HQ] call HAL_GoRest;
+			diag_log text "HQOrders Spawn HAL_GoRest";
+			[_x,_HQ] spawn HAL_GoRest;
 			}
 		}
 	}

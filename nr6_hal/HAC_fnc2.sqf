@@ -46,7 +46,9 @@ RYD_StatusQuo =
 			if ((time - _lastReset) > (_HQ getVariable ["RydHQ_ResetTime",600])) then
 				{
 				_lastReset = time;
-				[_HQ] call HAL_HQReset
+				diag_log text "StatusQuo call HAL_HQReset";
+				[_HQ] call HAL_HQReset;
+				diag_log text "StatusQuo called HAL_HQReset";
 				};
 			}
 		else 
@@ -62,7 +64,9 @@ RYD_StatusQuo =
 					};
 					
 				_HQ setVariable ["RydHQ_ResetNow",false];
-				[_HQ] call HAL_HQReset
+				diag_log text "StatusQuo call HAL_HQReset";
+				[_HQ] call HAL_HQReset;
+				diag_log text "StatusQuo called HAL_HQReset";
 				};
 				
 			[_HQ] call _code;
@@ -2875,7 +2879,7 @@ RYD_PresentRHQ =
 	
 	true
 	};
-
+//Friendly Blue Force Tracker Loop
 HAL_FBFTLOOP = 
 	{
 	_HQ = (_this select 0);
@@ -3106,14 +3110,18 @@ HAL_EBFT =
 	};
 
 HAL_SecTasks =
-
 	{
-		private ["_leader","_side","_HQ","_taskedGroups","_taskedGroups"];
-
-		_HQ = _this select 0;
-
-		while {not (isNull _HQ)} do {
-
+		params ["_HQ"];
+		//private ["_leader","_side","_HQ","_taskedGroups","_taskedGroups"];
+		//_HQ = _this select 0;
+		//while {not (isNull _HQ)} do {
+		private _HAL_SecTasksLoop = [{
+			params ["_args","_HAL_SecTasksLoop"];
+			_args params ["_HQ"];
+			private ["_leader","_side","_HQ","_taskedGroups","_friends","_where","_nL"]; 
+			if (isNull _HQ) then {
+			_HAL_SecTasksLoop call CBA_fnc_removePerFrameHandler;
+			};
 			if ((_HQ getvariable ["RydHQ_SecTasks",true]) and (_HQ getvariable ["RydHQ_SimpleMode",true])) then {
 
 				_taskedGroups = [];
@@ -3127,7 +3135,7 @@ HAL_SecTasks =
 				} foreach allPlayers;
 
 				{
-					private ["_Group","_TaskedObjectives","_DefendObjectives","_taskedGroups","_taskedGroups","_setTaken","_taskID","_ObjName","_ParentID"];
+					private ["_Group","_TaskedObjectives","_DefendObjectives","_setTaken","_taskID","_ObjName","_ParentID"];
 
 					_Group = _x;
 					_TaskedObjectives = (_Group getVariable ["TaskedObjectives",[]]);
@@ -3213,10 +3221,8 @@ HAL_SecTasks =
 					_Group setVariable ["DefendObjectives",_DefendObjectives];
 
 				} foreach _taskedGroups;
-
-				sleep 15;
 			};
-		};
+		}, 15, [_HQ]] call CBA_fnc_addPerFrameHandler;
 	};
 
 RYD_PresentRHQLoop = 

@@ -439,25 +439,25 @@ if not (isNull leaderHQ) then {publicVariable "leaderHQ";
 	diag_log text "RydHQInit.sqf: HQ A leader public variable set.";
 	[(group leaderHQ)] spawn A_HQSitRep; //To be converted to call eventually, but spawn is needed for now to prevent blocking the rest of the initialization.
 	diag_log text "RydHQInit.sqf: HQ A sitrep initialized.";
-	[(group leaderHQ)] call HAL_FBFTLOOP; 
+	[(group leaderHQ)] call HAL_FBFTLOOP; // Friendly Blue Force Tracker
 	diag_log text "RydHQInit.sqf: HQ A FBFT loop initialized.";
-	[(group leaderHQ)] spawn HAL_SecTasks; //TBA
+	[(group leaderHQ)] call HAL_SecTasks; 
 	diag_log text "RydHQInit.sqf: HQ A sec tasks initialized.";
 sleep 5};
 diag_log text "RydHQInit.sqf: HQ A initialized.";
-if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] spawn B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [(group leaderHQB)] spawn B_HQSitRep; [(group leaderHQB)] call HAL_FBFTLOOP; [(group leaderHQB)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ B initialized.";
-if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] spawn C_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [(group leaderHQC)] spawn C_HQSitRep; [(group leaderHQC)] call HAL_FBFTLOOP; [(group leaderHQC)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ C initialized.";
-if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] spawn D_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [(group leaderHQD)] spawn D_HQSitRep; [(group leaderHQD)] call HAL_FBFTLOOP; [(group leaderHQD)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ D initialized.";
-if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] spawn E_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [(group leaderHQE)] spawn E_HQSitRep; [(group leaderHQE)] call HAL_FBFTLOOP; [(group leaderHQE)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ E initialized.";
-if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] spawn F_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [(group leaderHQF)] spawn F_HQSitRep; [(group leaderHQF)] call HAL_FBFTLOOP; [(group leaderHQF)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ F initialized.";
-if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] spawn G_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [(group leaderHQG)] spawn G_HQSitRep; [(group leaderHQG)] call HAL_FBFTLOOP; [(group leaderHQG)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ G initialized.";
-if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] spawn H_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] spawn HAL_SecTasks; sleep 5};
+if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [(group leaderHQH)] spawn H_HQSitRep; [(group leaderHQH)] call HAL_FBFTLOOP; [(group leaderHQH)] call HAL_SecTasks; sleep 5};
 diag_log text "RydHQInit.sqf: HQ H initialized.";
 
 if ((count RydHQ_GroupMarks) > 0) then

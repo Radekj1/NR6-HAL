@@ -1780,7 +1780,7 @@ RYD_Wait =
 HAL_WaitCode = {
 	private ["_timer","_alive","_enemy","_Break","_type","_HAL_WaitHandleAssVeh","_isPlayer"];
 	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
-	diag_log text "RYD_Wait _HAL_WaitCode started";
+	//diag_log text "RYD_Wait _HAL_WaitCode started";
 	_timer = _WaitCarrier getVariable ["_timer",0];
 	_alive = _WaitCarrier getVariable ["_alive",false];
 	_enemy = _WaitCarrier getVariable ["_enemy",false];
@@ -1804,10 +1804,10 @@ HAL_WaitCode = {
 
 	if (_alive) then
 		{
-		diag_log text "HAL_WaitCode Alive returned true";
+		//diag_log text "HAL_WaitCode Alive returned true";
 			if (_cargo) then
 			{	
-				diag_log text "HAL_WaitCode cargo returned true";
+				//diag_log text "HAL_WaitCode cargo returned true";
 				_WaitCarrier setVariable ["HAL_WaitHandleAssVehFinish", false];
 				_AV = assignedVehicle _UL;
 				_DAV = assigneddriver _AV;
@@ -1818,7 +1818,7 @@ HAL_WaitCode = {
 					not (isNull (assignedVehicle _UL));
 				}, {
 					params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
-					diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
+					//diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
 					_AV = assignedVehicle _UL;
 					_DAV = assigneddriver _AV;
 					_WaitCarrier setVariable ["_AV",_AV];
@@ -1827,28 +1827,28 @@ HAL_WaitCode = {
 				}, [_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF]] call CBA_fnc_waitUntilAndExecute;
 			} else 
 			{
-				diag_log text "HAL_WaitCode Alive returned true, cargo false calling code2";
+				//diag_log text "HAL_WaitCode Alive returned true, cargo false calling code2";
 				[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF] call HAL_WaitCode2;
 			};
 		}
 		else 
 		{
 			//They are dead.
-			diag_log text "HAL_WaitCode calling HAL_WaitCodeFinish";
+			//diag_log text "HAL_WaitCode calling HAL_WaitCodeFinish";
 			[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
 		};
 };
 HAL_WaitCode2 = {
 	private ["_type","_forBoxing","_boxed","_fCount","_wtgt","_wotgt","_woHQ","_ctc","_dw","_fr","_cplR","_cWp","_wp","_AliveUnits"];
 	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
-	diag_log text "HAL_WaitCode2 - starting";
+	//diag_log text "HAL_WaitCode2 - starting";
 	_pass = (units _gp);
 	_AliveUnits = ({alive _x} count _pass);
 	_timer = _WaitCarrier getVariable ["_timer",0];
 	_enemy = false;
 	_enPres = false;
 	if (_AliveUnits == 0) then {
-		diag_log text "_pass is empty, exiting.";
+		//diag_log text "_pass is empty, exiting.";
 		_WaitCarrier setVariable ["_alive",false];
 		[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
 	}
@@ -1906,7 +1906,7 @@ HAL_WaitCode2 = {
 				//if (_AV getVariable ["WaitForCargo" + (str _AV),false]) then {_enemy = false};
 
 			};
-			diag_log text "WaitCode alive - step 1";
+			//diag_log text "WaitCode alive - step 1";
 			if (not (isNull _GDV) and not (isNull _UL)) then {_alive = true} else {_alive = false};
 			if (_speedF) then
 				{
@@ -2029,7 +2029,7 @@ HAL_WaitCode2 = {
 		_WaitCarrier setVariable ["_Break",_Break];
 		_WaitCarrier setVariable ["_GDV",_GDV];
 		_WaitCarrier setVariable ["_AV",_AV];
-		diag_log text "RYD_Wait HAL_WaitCode check for exit condition";
+		//diag_log text "RYD_Wait HAL_WaitCode check for exit condition";
 		private _WaypointCountedGDV = count (waypoints _GDV);
 		/*
 		diag_log text "WaypointCountedGDV";
@@ -2059,24 +2059,22 @@ HAL_WaitCode2 = {
 		*/
 		if (
 		_Break || !_alive || _isInside || _isOutside || _busy || 
-		{(_WaypointCountedGDV < _wplimit) && _wpCheck} || 
-  		{(_timer > _tolerance) && !_isPlayer} || 
-   		{_enemy && !_isPlayer}
+		((_WaypointCountedGDV < _wplimit) && _wpCheck) || 
+		((_timer > _tolerance) && !_isPlayer) || 
+		(_enemy && !_isPlayer)
     	) then 
 		{
-			diag_log text "RYD_Wait HAL_WaitCode2 ended. Calling HAL_WaitCodeFinish"; 
+			//diag_log text "RYD_Wait HAL_WaitCode2 ended. Calling HAL_WaitCodeFinish"; 
 			_gp setVariable ["HAL_WaitHandleFinished",true]; 
 			[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
 		}
 		else 
 		{
-			diag_log text "RYD_Wait HAL_WaitCode2 restarted"; 
-			//[[{[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer] call HAL_WaitCode2;}],
+			//diag_log text "RYD_Wait HAL_WaitCode2 restarted"; 
 			[{params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
 			if (({alive _x} count (units _gp)) > 0) then {
-			diag_log text "RYD_Wait HAL_WaitCode2 calling restart";
+			//diag_log text "RYD_Wait HAL_WaitCode2 calling restart";
 			_this call HAL_WaitCode2;
-			//[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF] call HAL_WaitCode2;
 			} else {
 			_WaitCarrier setVariable ["_continueAW",true];
 			_WaitCarrier setVariable ["_timer",_timer];
@@ -2084,7 +2082,7 @@ HAL_WaitCode2 = {
 			_WaitCarrier setVariable ["_enemy",_enemy];
 			_WaitCarrier setVariable ["_busy",_busy];
 			_WaitCarrier setVariable ["_Break",_Break];
-			diag_log text "HAL_Wait - group is done.";
+			//diag_log text "HAL_Wait - group is done.";
 			};
 			},[_WaitCarrier,_gp,_AV,_GDV,_cargo,_int,_ammoF,_air,_enG,_HQ,_tolerance,_enemyF,_arr,_inside,_outside,_own,_isBusy,_wpCheck,_firedF,_pass,_DAV,_wplimit,_isOutside,_busy,_enemy,_timer,_alive,_Break,_UL,_isPlayer,_isInside,_enPres,_speedF], _int] call CBA_fnc_waitAndExecute;
 		};
@@ -2129,7 +2127,7 @@ HAL_WaitCodeFinish = {
 	_WaitCarrier setVariable ["_enemy",_enemy];
 	_WaitCarrier setVariable ["_busy",_busy];
 	_WaitCarrier setVariable ["_Break",_Break];
-	diag_log text "RYD_Wait _WaitCarrier values assigned. WaitCode finished";
+	//diag_log text "RYD_Wait _WaitCarrier values assigned. WaitCode finished";
 	//[_timer,_alive,_enemy,_busy,_Break];
 };
 
