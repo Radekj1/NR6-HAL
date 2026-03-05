@@ -46,6 +46,7 @@ RYD_StatusQuo =
 			if ((time - _lastReset) > (_HQ getVariable ["RydHQ_ResetTime",600])) then
 				{
 				_lastReset = time;
+				_HQ setVariable ["_lastReset",_lastReset];
 				diag_log text "StatusQuo call HAL_HQReset";
 				[_HQ] call HAL_HQReset;
 				diag_log text "StatusQuo called HAL_HQReset";

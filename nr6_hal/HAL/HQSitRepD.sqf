@@ -160,7 +160,10 @@ while {true} do
 	[] call RYD_PresentRHQ
 	};
 	
+	_cycleC = _HQ getVariable ["RydHQ_Cyclecount",0];
+	_lastReset = _HQ getVariable ["_lastReset",0];
 	_specFor_class = RHQ_SpecFor + RYD_WS_specFor_class - RHQs_SpecFor;
+
 
 	_recon_class = RHQ_Recon + RYD_WS_recon_class - RHQs_Recon;
 		
@@ -243,8 +246,6 @@ while {true} do
 	_lastHQ = (leader _HQ);
 	
 	_HQ setVariable ["RydHQ_Cyclecount",_cycleC + 1];
-	_cycleC = _HQ getVariable ["RydHQ_Cyclecount",1];
-	
 	_SpecFor = [];
 	_recon = [];
 	_FO = [];

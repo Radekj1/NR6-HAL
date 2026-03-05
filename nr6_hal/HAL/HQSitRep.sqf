@@ -163,8 +163,10 @@ while {true} do
 	{
 	[] call RYD_PresentRHQ
 	};
-		
+	_cycleC = _HQ getVariable ["RydHQ_Cyclecount",0];
+	_lastReset = _HQ getVariable ["_lastReset",0];
 	_specFor_class = RHQ_SpecFor + RYD_WS_specFor_class - RHQs_SpecFor;
+
 	_recon_class = RHQ_Recon + RYD_WS_recon_class - RHQs_Recon;
 	_FO_class = RHQ_FO + RYD_WS_FO_class - RHQs_FO;
 	_snipers_class = RHQ_Snipers + RYD_WS_snipers_class - RHQs_Snipers;	
@@ -223,7 +225,7 @@ while {true} do
 	_lastHQ = (leader _HQ);
 	diag_log text "HQSitRep A: Step 2";
 	_HQ setVariable ["RydHQ_Cyclecount",_cycleC + 1];
-	_cycleC = _HQ getVariable ["RydHQ_Cyclecount",1];
+	
 	
 	_SpecFor = [];
 	_recon = [];
