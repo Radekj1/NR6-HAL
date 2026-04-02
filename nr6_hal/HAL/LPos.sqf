@@ -1,8 +1,7 @@
 _SCRname = "LPos";
 
-private ["_HQ","_veh","_pos","_start","_ammo","_rest","_wp","_exh","_dst","_newPos","_lz","_heli","_gp","_cause","_timer","_alive","_ct"];
-
-_HQ = _this select 0;
+private ["_veh","_pos","_start","_ammo","_rest","_wp","_exh","_dst","_newPos","_lz","_heli","_gp","_cause","_timer","_alive","_ct"];
+params ["_HQ"];
 
 	{
 		if not (isNull _x) then {

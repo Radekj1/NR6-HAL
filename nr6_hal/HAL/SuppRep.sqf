@@ -1,6 +1,6 @@
 _SCRname = "SuppRep";
 
-private ["_HQ","_rep","_noenemy","_repS","_repSG","_damaged","_Sdamaged","_Ldamaged","_av","_rtrs","_rt","_unitvar","_busy","_unable","_rtrs2","_SDunits","_a","_rtr","_SDunit","_halfway","_distT","_eClose1",
+private ["_rep","_noenemy","_repS","_repSG","_damaged","_Sdamaged","_Ldamaged","_av","_rtrs","_rt","_unitvar","_busy","_unable","_rtrs2","_SDunits","_a","_rtr","_SDunit","_halfway","_distT","_eClose1",
 	"_eClose2","_UL","_Dunits","_Dunit","_supported"];
 params ["_HQ"];
 

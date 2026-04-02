@@ -1,5 +1,5 @@
 private [
-    "_HQ", "_csN", "_nouns",
+    "_csN", "_nouns",
     "_SCRname", "_cycleC", "_lastHQ",
     "_OLmpl", "_cycleCap", "_firstMC", "_wp",
     "_lastReset", "_HQlPos", "_cInitial", "_KnEnPos",
@@ -33,6 +33,7 @@ private [
     "_EnCrew", "_EnCrewG", "_EnNCrewInf", "_EnNCrewInfG", "_EnOther", "_EnOtherG",
     "_rds"
 ];
+params ["_HQ"];
 _SCRname = "SitRep";
 diag_log text "HQSitRep D started";
 _HQ = _this select 0;

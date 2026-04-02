@@ -1,16 +1,8 @@
 _SCRname = "SpotScan";
 
-private ["_spotsneeded","_windroseOne","_windroseTwo","_scanRange","_sectorLenght","_sectorWidth","_markscan","_HQ","_step","_isdone","_true","_goodSpots","_isGood","_X","_Y","_scannedSpot",
-	"_steepnessInitial","_probeStep","_steepnessActual","_centralSpot","_probeNorth","_probeSouth","_probeEast","_probeWest","_goodmark"];
-
-_spotsneeded = _this select 0;
-_windroseOne = _this select 1;
-_windroseTwo = _this select 2;
-_scanRange = _this select 3;
-_sectorLenght = _this select 4;
-_sectorWidth = _this select 5;
-_markscan = _this select 6;
-_HQ = _this select 7;
+private ["_step","_isdone","_true","_goodSpots","_isGood","_X","_Y","_scannedSpot","_steepnessInitial","_probeStep",
+"_steepnessActual","_centralSpot","_probeNorth","_probeSouth","_probeEast","_probeWest","_goodmark"];
+params ["_spotsneeded","_windroseOne","_windroseTwo","_scanRange","_sectorLenght","_sectorWidth","_markscan","_HQ"];
 	
 //_step = (_sectorLenght + _sectorWidth)/30;
 _step = 80;

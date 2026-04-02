@@ -1671,10 +1671,8 @@ RYD_isInside =
 
 RYD_LiveFeed = 
 	{
-	private ["_unit","_HQ","_id"];
-
-	_unit = _this select 0;
-	_HQ = _this select 1;
+	private ["_id"];
+	params ["_unit","_HQ"];
 
 	_id = _unit addAction ["Enable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -71, false, true, "", "(not RydxHQ_LFActive) and (_this == _target)"];
 	_id = _unit addAction ["Disable cam view", (RYD_Path + "LF\LF.sqf"),[_HQ], -81, false, true, "", "(RydxHQ_LFActive) and (_this == _target)"];
@@ -2883,8 +2881,7 @@ RYD_PresentRHQ =
 //Friendly Blue Force Tracker Loop
 HAL_FBFTLOOP = 
 	{
-	_HQ = (_this select 0);
-	
+	params ["_HQ"];	
 	private _FBFTLOOP = [{
 		private ["_SidePLY","_IgnoredPLY","_RydMarks","_MarkGrps","_checkFriends","_OldMarkGrps","_mrk","_mrk2","_OldRydMarks","_RydOrd","_OldRydOrd","_RydMarksOrd","_OldRydMarksOrd"];
 		params ["_args","_FBFTLOOP"];
@@ -3016,12 +3013,11 @@ HAL_FBFTLOOP =
 			};
 		}, 5, [_HQ]] call CBA_fnc_addPerFrameHandler;
 	};
-HAL_EBFT =
 
+HAL_EBFT =
 	{
 		private ["_SidePLY","_IgnoredPLY","_RydMarks","_MarkGrps","_checkFriends","_OldMarkGrps","_mrk","_mrk2","_OldRydMarks"];
-
-		_HQ = (_this select 0);
+		params ["_HQ"];
 
 		_OldMarkGrps = _HQ getvariable ["RydMarkGrpE",[]];
 		_OldRydMarks = _HQ getvariable ["RydMarksE",[]];
@@ -3119,7 +3115,7 @@ HAL_SecTasks =
 		private _HAL_SecTasksLoop = [{
 			params ["_args","_HAL_SecTasksLoop"];
 			_args params ["_HQ"];
-			private ["_leader","_side","_HQ","_taskedGroups","_friends","_where","_nL"]; 
+			private ["_leader","_side","_taskedGroups","_friends","_where","_nL"]; 
 			if (isNull _HQ) then {
 			_HAL_SecTasksLoop call CBA_fnc_removePerFrameHandler;
 			};
@@ -3240,11 +3236,11 @@ RYD_PresentRHQLoop =
 
 RYD_deployUAV = 
 	{
-	private ["_gp","_pos","_HQ","_uav","_hasUAV","_myPos","_ang","_unit","_backpack","_backPackClass","_assClass","_uavClass","_sPos","_uav","_gpUAV","_mPos","_wp","_timer","_alive","_nE","_excl","_alt"];
-	
-	_gp = _this select 0;//uav team
-	_pos = _this select 1;//position to be observed
-	_HQ = _this select 2;
+	private ["_uav","_hasUAV","_myPos","_ang","_unit","_backpack","_backPackClass","_assClass","_uavClass","_sPos","_uav","_gpUAV","_mPos","_wp","_timer","_alive","_nE","_excl","_alt"];
+	params ["_gp","_pos","_HQ"];
+	//_gp = _this select 0;//uav team
+	//_pos = _this select 1;//position to be observed
+	//_HQ = _this select 2;
 	
 	_uav = objNull;
 	_hasUAV = false;

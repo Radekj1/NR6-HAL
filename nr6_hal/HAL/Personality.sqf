@@ -1,8 +1,7 @@
 _SCRname = "Personality";
 
-private ["_HQ","_rnd","_MAtt","_pers","_signum","_Recklessness","_Consistency","_Activity","_Reflex","_Circumspection","_Fineness"];
-
-_HQ = _this select 0;
+private ["_rnd","_MAtt","_pers","_signum","_Recklessness","_Consistency","_Activity","_Reflex","_Circumspection","_Fineness"];
+params ["_HQ"];
 
 _signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 

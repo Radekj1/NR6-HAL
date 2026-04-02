@@ -1,8 +1,7 @@
 _SCRname = "Rev";
+private ["_players","_KnU","_ldr","_dst","_friends","_enemies"];
+params ["_HQ"];
 
-private ["_HQ","_players","_KnU","_ldr","_dst","_friends","_enemies"];
-
-_HQ = _this select 0;
 
 _players = [];
 _friends = (_HQ getVariable ["RydHQ_Friends",[]]);

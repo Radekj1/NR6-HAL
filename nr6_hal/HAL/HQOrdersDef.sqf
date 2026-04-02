@@ -1,12 +1,12 @@
 _SCRname = "OrdersDef";
 
-private ["_HQ","_defRange","_LMCU","_airDef","_recDef","_allInDef","_goodSpots","_inDef","_default","_Epos0","_Epos1","_nObj","_default","_Epos0Max","_Epos0Min","_EposA","_Epos1Max","_Epos1Min",
+private ["_defRange","_LMCU","_airDef","_recDef","_allInDef","_goodSpots","_inDef","_default","_Epos0","_Epos1","_nObj","_default","_Epos0Max","_Epos0Min","_EposA","_Epos1Max","_Epos1Min",
 	"_sel1Max","_sel1Min","_EposB","_PosMid0","_PosMid1","_defRes","_defPoints","_ct","_cl","_clr","_closest","_friend","_dstM","_dstAct","_defPoints0","_defArray","_Lenght1","_Width1",
 	"_Lenght2","_Width2","_FreeLOS","_PrimDir","_SecDir","_randomPrimDir","_randomSecDir","_DN","_defPoint","_dX","_dY","_Angle","_dXb","_dYb","_posX","_posY","_Center","_lng","_wdt",
 	"_defFront","_goodmark","_spotsN","_goodSpotsRec","_angleV","_Spot","_GS","_recDefSpot","_isDef","_closestArr","_friend","_dstM","_arrP","_AAO","_ad",
 	"_dstAct","_aa","_Spot","_defSpot","_def","_bb","_SpotB","_radius","_position","_precision","_sourcesCount","_expression","_NR","_cnt","_Rpoint","_ammo",
 	"_dL","_d1","_d2","_d3","_d4","_Unable","_defPointsBB","_defPointsOBJ","_exhausted","_unitvar","_busy","_vehready","_solready","_effective","_Gdamage","_nominal","_current","_veh","_inD","_recvar"];
-params ["HQ"];
+params ["_HQ"];
 diag_log text "HQ_OrdersDef started";
 
 _defRange = _HQ getVariable ["RydHQ_DefRange",1];

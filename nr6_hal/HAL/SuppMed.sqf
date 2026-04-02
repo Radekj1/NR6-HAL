@@ -1,6 +1,6 @@
 _SCRname = "SuppMed";
 
-private ["_HQ","_med","_noenemy","_medS","_medSG","_medASG","_airMedAv","_landMedAv","_busy","_unable","_wounded","_Swounded","_Lwounded","_ambulances","_amb","_unitvar","_ambulances2","_SWunits","_a",
+private ["_med","_noenemy","_medS","_medSG","_medASG","_airMedAv","_landMedAv","_busy","_unable","_wounded","_Swounded","_Lwounded","_ambulances","_amb","_unitvar","_ambulances2","_SWunits","_a",
 	"_SWunit","_halfway","_distT","_eClose1","_eClose2","_UL","_Wunits","_ambulance","_WUnit","_supported"];
 params ["_HQ"];
 
@@ -48,7 +48,7 @@ _landMedAv = [];
 	_unable = _x getvariable "Unable";
 	if (isNil ("_unable")) then {_unable = false};
 
-	if not (_busy) and not (_unable) then {_airMedAv pushBack _x}
+	if ((!_busy) && {!_unable}) then {_airMedAv pushBackUnique _x};
 	}
 foreach _medASG;
 
@@ -59,7 +59,7 @@ foreach _medASG;
 	_unable = _x getvariable "Unable";
 	if (isNil ("_unable")) then {_unable = false};
 
-	if (not (_busy) and not (_unable)) then {_landMedAv pushBack _x}
+	if((!_busy) && {!_unable}) then {_landMedAv pushBackUnique _x}
 	}
 foreach (_medSG - _medASG);
 

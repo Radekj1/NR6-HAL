@@ -1,6 +1,6 @@
 _SCRname = "SuppFuel";
 
-private ["_HQ","_fuel","_noenemy","_fuelS","_fuelSG","_dried","_ZeroF","_av","_cisterns","_cis","_unitvar","_busy","_unable","_cisterns2","_Zunits","_a","_cistern","_Zunit","_noenemy","_halfway","_distT",
+private ["_fuel","_noenemy","_fuelS","_fuelSG","_dried","_ZeroF","_av","_cisterns","_cis","_unitvar","_busy","_unable","_cisterns2","_Zunits","_a","_cistern","_Zunit","_noenemy","_halfway","_distT",
 	"_eClose1","_eClose2","_UL","_Dunits","_Dunit","_supported"];
 params ["_HQ"];
 

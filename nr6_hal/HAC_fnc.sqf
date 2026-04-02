@@ -687,8 +687,9 @@ RYD_WPadd =
 		_rds = 0
 		};
 
-	if (not (isNull (assignedVehicle (leader _gp))) and (_gp == (group (assignedVehicle (leader _gp))))) then {
-		if not ((assignedVehicle (leader _gp)) isKindOf "Air") then {
+	private _assVehLeader = assignedVehicle (leader _gp);
+	if (!(isNull (_assVehLeader)) && {_gp == (group _assVehLeader)}) then {
+		if !((_assVehLeader) isKindOf "Air") then {
 
 			_Sc = 50;
 			_pos params ["_posX","_posY"];
@@ -711,7 +712,6 @@ RYD_WPadd =
 
 	if ((RydxHQ_PathFinding > 0) and (_pfAll)) then
 		{
-		_assVeh = assignedVehicle (leader _gp);
 		if (isNull _assVeh) then
 			{
 				{
@@ -2133,7 +2133,7 @@ HAL_WaitCodeFinish = {
 
 RYD_CreateDecoy = 
 	{
-	private ["_class","_HQ","_gp","_object"];
+	private ["_class","_gp","_object"];
 	params ["_pos"];
 	
 	_class = "Sign_Sphere100cm_F";

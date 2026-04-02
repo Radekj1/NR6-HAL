@@ -1,8 +1,8 @@
 _SCRname = "Reloc";
 
-private ["_HQ","_expression","_radius","_precision","_sourcesCount","_LU","_lastpos","_position","_Spot","_posX","_posY","_isWater","_AAO","_obj"];
+private ["_expression","_radius","_precision","_sourcesCount","_LU","_lastpos","_position","_Spot","_posX","_posY","_isWater","_AAO","_obj"];
+params ["_HQ"];
 
-_HQ = _this select 0;
 
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 
