@@ -30,7 +30,7 @@ RYD_PosTowards2D =
 RYD_RandomAround = 
 	{//based on Muzzleflash' function
 	params ["_pos","_a"];
-	params ["_xPos","_yPos"];
+	_pos params ["_xPos","_yPos"];
 	private ["_dir","_angle","_mag","_nX","_nY","_temp"];
 
 	_dir = random 360;
@@ -63,7 +63,7 @@ RYD_RandomAroundB =
 RYD_RandomAroundMM = 
 	{//based on Muzzleflash' function
 	params ["_pos","_a","_b"];
-	params ["_xPos","_yPos"];
+	_pos params ["_xPos","_yPos"];
 	private ["_dir","_angle","_mag","_nX","_nY","_temp"];
 
 	_b = _b - _a;
@@ -2319,7 +2319,6 @@ RYD_Flares =
 	private _Flares_Handle = [{
 		private ["_nE","_Scount","_lat","_day","_hour","_sunangle","_pos","_CFF"];
 		params ["_gp","_flare","_arty","_shells","_ldr","_UL","_inDef"];
-		_inDef = _gp getVariable "Defending";
 		if (isNull _gp) then {_inDef = false};
 		if not (alive _UL) then {_inDef = false};
 		if (_inDef isEqualTo true) then {

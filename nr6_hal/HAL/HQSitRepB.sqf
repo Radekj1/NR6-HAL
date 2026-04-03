@@ -226,9 +226,11 @@ while {true} do
 	diag_log text "HQSitRep B: before RydHQ_Fast";
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then 
 		{
+		diag_log text "HQSitRep B: during RydHQ_Fast";	
 		waituntil 
 			{
 			sleep 0.1;
+			diag_log text "HQSitRep B: waituntil RydHQ_Fast";
 			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
 			}
 		};
