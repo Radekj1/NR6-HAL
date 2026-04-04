@@ -1,14 +1,14 @@
 	_SCRname = "LHQ";
-	private ["_cycle","_signum","_debug"];
+	private ["_cycle","_signum","_debug","_LHQ_Code"];
 	params ["_HQ"];
 	_cycle = 0;
 
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_debug = _HQ getVariable ["RydHQ_Debug",false];
 
-	private LHQ_Code = 
+	_LHQ_Code = 
 		{
-		params ["_HQ","_cycle","_signum","_debug"];
+		params ["_HQ","_cycle","_signum","_debug","_LHQ_Code"];
 		if (!(isNull _HQ)) then 
 		{
 		private _last = _HQ getVariable ["leaderHQ",objNull];
@@ -70,20 +70,21 @@
 								_HQ setVariable ["RydHQ_Fineness",_Fineness];
 
 								[{
-									params ["_HQ","_cycle","_signum","_debug"];
+									params ["_HQ","_cycle","_signum","_debug","_LHQ_Code"];
 									_HQ setVariable ["RydHQ_Morale",(_HQ getVariable ["RydHQ_Morale",0]) - (10 + round (random 10))];
 									if !(isNull (leader _HQ)) then {
-									[_HQ,_cycle,_signum,_debug] call LHQ_Code;};
-									}, [_HQ,_cycle,_signum,_debug], (60 + (random 120))] call CBA_fnc_waitAndExecute;
+									[_HQ,_cycle,_signum,_debug,_LHQ_Code] call _LHQ_Code;};
+									}, [_HQ,_cycle,_signum,_debug,_LHQ_Code], (60 + (random 120))] call CBA_fnc_waitAndExecute;
 								}
 							} else 
 							{
 								[{
-								params ["_HQ","_cycle","_signum","_debug"];
+								params ["_HQ","_cycle","_signum","_debug","_LHQ_Code"];
 								if !(isNull (leader _HQ)) then {
-								[_HQ,_cycle,_signum,_debug] call LHQ_Code;};
-								}, [_HQ,_cycle,_signum,_debug], (60 + (random 120))] call CBA_fnc_waitAndExecute;
+								[_HQ,_cycle,_signum,_debug,_LHQ_Code] call _LHQ_Code;};
+								}, [_HQ,_cycle,_signum,_debug,_LHQ_Code], (60 + (random 120))] call CBA_fnc_waitAndExecute;
 							};
+							
 					};
 				};
 			};
@@ -104,6 +105,6 @@
 		};
 		};
 
-		};
+	};
 
-	[_HQ,_cycle,_signum,_debug] call LHQ_Code;
+[_HQ,_cycle,_signum,_debug,_LHQ_Code] call _LHQ_Code;

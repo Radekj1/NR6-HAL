@@ -231,7 +231,15 @@ while {true} do
 			{
 			sleep 0.1;
 			diag_log text "HQSitRep B: waituntil RydHQ_Fast";
-			((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
+			diag_log text "HQSitRep B: RydHQ_Fast Pending";
+			private _test = ({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ);
+			diag_log _test;
+			private _test2 = (_HQ getVariable ["RydHQ_Pending",false]);
+			diag_log _test2;
+			diag_log text "HQSitRep B: RydHQ_Fast KIA";
+			diag_log (_HQ getVariable ["RydHQ_KIA",false]);
+			//((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
+			(!(_HQ getVariable ["RydHQ_Pending",false]) or (_HQ getVariable ["RydHQ_KIA",false]))
 			}
 		};
 	diag_log text "HQSitRep B: after RydHQ_Fast";		

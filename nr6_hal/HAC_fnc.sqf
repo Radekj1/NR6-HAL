@@ -2310,15 +2310,16 @@ RYD_Flares =
 	{ 
 	_SCRname = "Flares";
 	
-	private ["_UL","_inDef"];
+	private ["_UL","_inDef","_FlaresHandle"];
 	params ["_gp","_flare","_arty","_shells","_ldr"];
 
 	_UL = leader _gp;
 	_inDef = true;
 
-	private _Flares_Handle = [{
+	_FlaresHandle = [{
+		params ["_args", "_FlaresHandle"];
+		_args params ["_gp","_flare","_arty","_shells","_ldr","_UL","_inDef"];
 		private ["_nE","_Scount","_lat","_day","_hour","_sunangle","_pos","_CFF"];
-		params ["_gp","_flare","_arty","_shells","_ldr","_UL","_inDef"];
 		if (isNull _gp) then {_inDef = false};
 		if not (alive _UL) then {_inDef = false};
 		if (_inDef isEqualTo true) then {
@@ -2444,9 +2445,9 @@ RYD_Flares =
 			};
 		}
 		} else {
-			_Flares_Handle call CBA_fnc_removePerFrameHandler;
+			_FlaresHandle call CBA_fnc_removePerFrameHandler;
 		};
-	}, {60 + (random 60)}, [_gp,_flare,_arty,_shells,_ldr,_UL,_inDef]] call CBA_fnc_addPerFrameHandler;
+	}, (60 + (random 60)), [_gp,_flare,_arty,_shells,_ldr,_UL,_inDef]] call CBA_fnc_addPerFrameHandler;
 	};
 
 RYD_ArtyPrep = 

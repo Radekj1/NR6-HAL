@@ -51,7 +51,9 @@ SpawnRGroupS = {
             {
                _unit = _grp createUnit [_class, ([_selectedPos,0,30,1] call BIS_fnc_findSafePos), [], 0, "NONE"];
 			   [_unit] joinSilent _grp;
-               if ((_x select 1) isNotEqualTo []) then {_unit setUnitLoadout (_x select 1)};
+               if ((_x select 1) isNotEqualTo []) then {
+                _unit setUnitLoadout (configFile >> "EmptyLoadout");
+                _unit setUnitLoadout (_x select 1)};
             } else 
             {
                 _crewGear = _x select 1;

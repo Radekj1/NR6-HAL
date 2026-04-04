@@ -39,7 +39,9 @@ SpawnRGroup = {
             {
                _unit = _grp createUnit [_class, ([_selectedPos,0,30,1] call BIS_fnc_findSafePos), [], 0, "NONE"];
 			   [_unit] joinSilent _grp;
-               if ((_x select 1) isNotEqualTo []) then {_unit setUnitLoadout (_x select 1)};
+               if ((_x select 1) isNotEqualTo []) then {
+				_unit setUnitLoadout (configFile >> "EmptyLoadout");
+				_unit setUnitLoadout (_x select 1)};
             } else 
             {
                 _crewGear = _x select 1;
@@ -140,7 +142,9 @@ NR6_GetUnit = {
 	if (_class isKindOf "Man") then {
 	
 		_unit = (group (_this select 1))  createUnit [(_selType select 0),([getPosATL _logic,0,15,1.5] call BIS_fnc_findSafePos),[],25,'NONE']; 
-		if not ((_selType select 1) isEqualTo []) then {_unit setUnitLoadout (_selType select 1)}; 
+		if not ((_selType select 1) isEqualTo []) then {
+			_unit setUnitLoadout (configFile >> "EmptyLoadout");
+			_unit setUnitLoadout (_selType select 1)}; 
 		[_unit] join (group (_this select 1));
 
 		(_logic setVariable ['NR6Supplies',(_logic getVariable ['NR6Supplies',0]) - (_cost)]);	
