@@ -2109,7 +2109,7 @@ HAL_WaitCodeFinish = {
 
 	if (_gp getVariable ["InfGetinCheck"  + (str _gp),false]) then {_gp setVariable ["InfGetinCheck"  + (str _gp),false]; if (_GDV == _gp) then {_AV setUnloadInCombat [true, false]}};
 
-	if (_timer > _tolerance) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _gp),RydxHQ_AIC_OrdDen,"OrdDen"] call RYD_AIChatter}};
+	if (_timer > _tolerance) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _gp),RydxHQ_AIC_OrdDen,"OrdDen"] spawn RYD_AIChatter}};
 	
 	if (_Break) then {
 		_alive = false;
@@ -2341,15 +2341,15 @@ RYD_Flares =
 
 							if ((_shells > 0) and ((random 100) > 50)) then 
 								{
-								if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_IllumReq,"IllumReq"] call RYD_AIChatter}};
+								if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_IllumReq,"IllumReq"] spawn RYD_AIChatter}};
 								_CFF = ([_pos,_arty,"ILLUM",1,_UL] call RYD_ArtyMission) select 0;
 								if (_CFF) then
 									{
-									if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
+									if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] spawn RYD_AIChatter};
 									}
 								else
 									{
-									if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter};
+									if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtDen,"ArtDen"] spawn RYD_AIChatter};
 									}
 								};
 
@@ -3853,7 +3853,7 @@ RYD_CFF_FFE =
 					
 		_UL = _batlead1;
 		
-		if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_ArtFire,"ArtFire"] call RYD_AIChatter};
+		if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_ArtFire,"ArtFire"] spawn RYD_AIChatter};
 
 		_alive = (_eta > 0);
 		
@@ -4049,7 +4049,7 @@ RYD_CFF_Part2 = {
 			//_UL = leader (_friends select (floor (random (count _friends))));
 			_UL = _target getVariable ["RydHQ_MyFO",leader (_friends select (floor (random (count _friends))))];
 
-			if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_ArtyReq,"ArtyReq"] call RYD_AIChatter}};
+			if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_ArtyReq,"ArtyReq"] spawn RYD_AIChatter}};
 
 			if (_possible) then
 				{
@@ -4060,7 +4060,7 @@ RYD_CFF_Part2 = {
 						}
 					}
 				foreach (_bArr select 1);
-				if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] spawn RYD_AIChatter};
 				//[_bArr select 1,_target,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
 
 				[_bArr select 1,_target,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
@@ -4085,14 +4085,14 @@ RYD_CFF_Part2 = {
 							}
 						}
 					foreach (_bArr select 1);
-					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] call RYD_AIChatter};
+					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtAss,"ArtAss"] spawn RYD_AIChatter};
 					//[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt] spawn RYD_CFF_FFE
 					
 					[_bArr select 1,_tgt,_bArr select 2,_bArr select 3,_friends,_Debug,_ammo,_amnt min (_bArr select 4)] call RYD_CFF_FFE;
 					}
 				else
 					{
-					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtDen,"ArtDen"] call RYD_AIChatter}
+					if ((random 100) < RydxHQ_AIChatDensity) then {[_ldr,RydxHQ_AIC_ArtDen,"ArtDen"] spawn RYD_AIChatter}
 					}
 				}
 		};

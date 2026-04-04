@@ -101,7 +101,7 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 
 	if (_danger > 0.15) then
 		{
-		_UL = leader _x;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InDanger,"InDanger"] call RYD_AIChatter}};
+		_UL = leader _x;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InDanger,"InDanger"] spawn RYD_AIChatter}};
 		};
 
 	_x setvariable ["NearE",_danger];

@@ -191,7 +191,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
  
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 _i = "";
 if (_HQ getVariable ["RydHQ_Debug",false]) then
@@ -301,7 +301,7 @@ deleteGroup _WaitCarrier;
 
 if (not (_patrol) and not (_busy) and (_alive)) then 
 	{
-	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 	_frm = formation _unitG;
 	if not (isPlayer (leader _unitG)) then {_frm = "DIAMOND"};
 	_wp = [_unitG,[_posX,_posY],"MOVE","AWARE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],false,0,[0,0,0],_frm] call RYD_WPadd;

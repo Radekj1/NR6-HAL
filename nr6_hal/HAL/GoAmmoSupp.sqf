@@ -52,7 +52,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 _alive = false;
 if (_HQ getVariable ["RydHQ_Debug",false]) then 
@@ -147,7 +147,7 @@ if (_drop) then
 					}
 			else
 					{
-					_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 240) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+					_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 240) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 					[_unit,_ammoBox,(group _Trg)] call RYD_AmmoDrop;
 					_boxed = (_HQ getVariable ["RydHQ_Boxed",[]]);
 					_boxed pushBack (group _Trg);
@@ -533,7 +533,7 @@ else
 
 		if ((_request) and not (_mtr getVariable ["HAL_Requested",false])) then {_counter = 5};
 		
-		_UL = leader _unitG; if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+		_UL = leader _unitG; if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 
 		if ((damage _Trg) >= 0.9) then {_Hollow = _Hollow - [_Trg]};
 		}
@@ -645,5 +645,5 @@ if (_lastOne) then
 	};
 
 
-_UL = leader _unitG; if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG; if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 

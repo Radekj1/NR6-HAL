@@ -491,6 +491,7 @@ foreach (_HQ getVariable ["RydHQ_Garrison",[]]);
 
 if ((_HQ getVariable ["RydHQ_Combining",false])) then 
 	{
+	private _RemovedExhausted = [];
 	_exhausted = (_HQ getVariable ["RydHQ_Exhausted",[]]);
 	
 		{
@@ -498,7 +499,7 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			{
 			_unitvar = str _x;
 			_nominal = _x getVariable ("Nominal" + (str _x)); 
-			if (isNil ("_nominal")) then 
+			if (isNil "_nominal") then 
 			{
 			_x setVariable [("Nominal" + (str _x)),(count (units _x))]; 
 			_nominal = _x getVariable ("Nominal" + (str _x))
@@ -507,14 +508,16 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			if (((_nominal/(_current + 0.1)) > 2) and (isNull (assignedVehicle (leader _x)))) then 
 				{
 				_ex = ((_HQ getVariable ["RydHQ_Exhausted",[]]) - [_x]);
+				_ex = _ex - _RemovedExhausted;
 				for [{private _a = 0}, {(_a < (count _ex))}, {_a = _a + 1}] do
 					{
 					_Aex = _ex select _a;
 
 					if (!isNull _Aex) then				
 						{
+						_unitvarA = str _Aex;
 						_nominalA = _Aex getVariable ("Nominal" + _unitvarA);
-						if (isNil ("_nominalA")) then {
+						if (isNil "_nominalA") then {
 							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
 							_nominalA = _Aex getVariable ("Nominal" + _unitvarA)
 							};
@@ -524,18 +527,20 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 							{
 							(units _x) joinsilent _Aex;
 							sleep 0.05;
-							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];							}
+							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];					
+							_RemovedExhausted append [_x];	
+							}
 						};
 					};
 				};
 			}
 		else
 			{
-			_exhausted = _exhausted - [_x]
+			_RemovedExhausted append [_x];
 			};
 		}
 	foreach (_HQ getVariable ["RydHQ_Exhausted",[]]);
+	_exhausted = _exhausted - _RemovedExhausted;
+	//_exhausted = _exhausted select {!isNull _x};
 	_HQ setVariable ["RydHQ_Exhausted",_exhausted];
-	_exhausted = _exhausted select {!isNull _x};
-
 };

@@ -57,7 +57,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 _UL = leader _unitG;
 _plane = vehicle _UL;
  
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 _endThis = false;
 _alive = true;
@@ -213,4 +213,4 @@ _HQ setVariable ["RydHQ_AirInDef",_AirInDef];
 //_unitG setVariable [("Busy" + _unitvar), false];
 _unitG setVariable ["Defending", false];
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};

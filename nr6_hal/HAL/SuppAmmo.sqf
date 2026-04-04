@@ -196,12 +196,12 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 			if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then
 				{
 				_UL = leader (group (assignedDriver _Zunit));
-				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] call RYD_AIChatter}};
+				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] spawn RYD_AIChatter}};
 				};
 			
 			if (not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) and ((_Zunit distance _MTruck) <= _a) and (_noenemy) and (_x in _MTrucks)) then 
 				{
-				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 				_MTrucks2 = _MTrucks2 - [_x];
 				_Zunits = _Zunits - [_Zunit];
 				_supported = _HQ getVariable ["RydHQ_ASupportedG",[]];
@@ -214,7 +214,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				{
 				if (_a >= 44000) then 
 					{
-					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 					_Zunits = _Zunits - [_Zunit]
 					};
 				};
@@ -278,12 +278,12 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 				if not ((group _Hunit) in ((_HQ getVariable ["RydHQ_ASupportedG",[]]) + (_HQ getVariable ["RydHQ_Boxed",[]]))) then
 					{
 					_UL = leader (group _Hunit);
-					if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] call RYD_AIChatter}};
+					if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] spawn RYD_AIChatter}};
 					};
 			
 				if (not ((group _Hunit) in ((_HQ getVariable ["RydHQ_ASupportedG",[]]) + (_HQ getVariable ["RydHQ_Boxed",[]]))) and ((_Hunit distance _MTruck) <= _a) and (_noenemy) and (_x in _MTrucks) and ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0)) then 
 					{
-					if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+					if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 					_MTrucks3 = _MTrucks3 - [_x];
 					_Hunits = _Hunits - [_Hunit];
 					
@@ -300,7 +300,7 @@ if ((count (_HQ getVariable ["RydHQ_AmmoBoxes",[]])) > 0) then
 					{
 					if (_a >= 44000) then 
 						{
-						if not ((group _Hunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+						if not ((group _Hunit) in (_HQ getVariable ["RydHQ_ASupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 						_Hunits = _Hunits - [_Hunit]
 						};
 					};				

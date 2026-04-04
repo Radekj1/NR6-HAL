@@ -153,12 +153,12 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 			if not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then
 				{
 				_UL = leader (group (assignedDriver _Zunit));
-				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] call RYD_AIChatter}};
+				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] spawn RYD_AIChatter}};
 				};
 
 			if (not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) and ((_Zunit distance _cistern) <= _a) and (_noenemy) and (_x in _cisterns)) then 
 				{
-				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 				_cisterns = _cisterns - [_x];
 				_Zunits = _Zunits - [_Zunit];
 				
@@ -173,7 +173,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				{
 				if (_a >= 44000) then 
 					{
-					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+					if not ((group _Zunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 					_Zunits = _Zunits - [_Zunit]
 					};
 				};
@@ -234,12 +234,12 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 			if not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then
 				{
 				_UL = leader (group (assignedDriver _Dunit));
-				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] call RYD_AIChatter}};
+				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_SuppReq,"SuppReq"] spawn RYD_AIChatter}};
 				};
 			
 			if (not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) and ((_Dunit distance _cistern) <= _a) and (_noenemy) and (_x in _cisterns)) then 
 				{
-				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 				_cisterns = _cisterns - [_x];
 				_Dunits = _Dunits - [_Dunit];
 				
@@ -254,7 +254,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 				{
 				if (_a >= 10000) then 
 					{
-					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+					if not ((group _Dunit) in (_HQ getVariable ["RydHQ_FSupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 					_Dunits = _Dunits - [_Dunit]
 					};
 				};

@@ -104,8 +104,8 @@ if not (isNull _AV) then {
 		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
 	} forEach (units _unitG);
 };
- Diag_log text "GoAttArmor call RYD_AIChatter";
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+ Diag_log text "GoAttArmor spawn RYD_AIChatter";
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
  Diag_log text "GoAttArmor called RYD_AIChatter";
 
 if (_HQ getVariable ["RydHQ_Debug",false]) then
@@ -185,7 +185,7 @@ _cur = true;
 _frm = formation _unitG;
 if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 24) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 
 _tPos = getPosATL _Trg;
 _tPosX = _tPos select 0;
@@ -281,5 +281,5 @@ _unitG setVariable [("Busy" + (str _unitG)),false];
 Diag_log text "GoAttArmor line 253";
 if not (_request) then {[_Trg,"ArmorAttacked"] call RYD_VarReductor};
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 Diag_log text "HAL_GoAttArmor ended";

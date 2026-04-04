@@ -9,9 +9,9 @@ if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
 if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
 	private _HalFriends = [];
 	{
-		private _hq = missionNamespace getVariable [_x, objNull];
-		if (!isNull _hq) then {
-			_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
+		private _hqSquadTasking = missionNamespace getVariable [_x, objNull];
+		if (!isNull _hqSquadTasking) then {
+			_HalFriends append (group _hqSquadTasking getVariable ["RydHQ_Friends", []]);
 		};
 	} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
@@ -499,10 +499,12 @@ if (RydxHQ_SupportActions) then {
 	};
 } foreach allPlayers;
 
+HAL_SquadTaskingUpdate = compile preprocessFile (RYD_Path + "SquadTaskingUpdate.sqf");
+
 allGroups apply {_x addEventHandler ["LeaderChanged", {
 	params ["_group","_newLeader"];
 	if (isplayer _newLeader) then {
-	[_newLeader,LeaderHQ,LeaderHQB,LeaderHQC,LeaderHQD,LeaderHQE,LeaderHQF,LeaderHQG,LeaderHQH] call (RYD_Path + "SquadTaskingUpdate.sqf");
+	[_newLeader] call HAL_SquadTaskingUpdate;
 	};
 }];};
 addMissionEventHandler ["GroupCreated", {
@@ -510,9 +512,8 @@ addMissionEventHandler ["GroupCreated", {
 	_group addEventHandler ["LeaderChanged", {
 		params ["_group","_newLeader"];
 		if (isplayer _newLeader) then {
-		[_newLeader,LeaderHQ,LeaderHQB,LeaderHQC,LeaderHQD,LeaderHQE,LeaderHQF,LeaderHQG,LeaderHQH] call (RYD_Path + "SquadTaskingUpdate.sqf");
-		};
-	}];
-}];
+		[_newLeader] call HAL_SquadTaskingUpdate;
+	};
+}];}];
 
 diag_log text "SquadTaskingNR6Init.sqf: Squad tasking initialized.";

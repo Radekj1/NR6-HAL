@@ -1,25 +1,25 @@
-params ["_newLeader","LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
+params ["_newLeader"];
 
-	private _HalFriends = [];
-	{
-		private _hq = missionNamespace getVariable [_newLeader, objNull];
-		if (!isNull _hq) then {
-			_HalFriends append (group _hq getVariable ["RydHQ_Friends", []]);
-		};
-	} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
+private _HalFriends = [];
+{
+	private _hqSquadTasking = missionNamespace getVariable [_x, objNull];
+	if (!isNull _hqSquadTasking) then {
+		_HalFriends append (group _hqSquadTasking getVariable ["RydHQ_Friends", []]);
+	};
+} forEach ["LeaderHQ","LeaderHQB","LeaderHQC","LeaderHQD","LeaderHQE","LeaderHQF","LeaderHQG","LeaderHQH"];
 
 private ["_IsHal"];
-{
+
 if ((group _newLeader in _HalFriends) or ((group _newLeader) getVariable ["EnableHALActions",false])) then {
 	_IsHal = true;
 } else {
 	_IsHal = false;
 };
-{
+
 if (RydxHQ_ActionsMenu) then 
 {
 
-		if ((_newLeader == leader _newLeader) and (not (_newLeader getVariable ["HAL_TaskMenuAdded",false]) or not (_newLeader == (_newLeader getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then 
+	if ((_newLeader == leader _newLeader) and (not (_newLeader getVariable ["HAL_TaskMenuAdded",false]) or not (_newLeader == (_newLeader getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then 
 		{
 			if not (RydxHQ_ActionsAceOnly) then 
 			{
@@ -152,7 +152,6 @@ if (RydxHQ_TaskActions) then {
 
 			};
 		
-		};
 	};
 
 		//Supports
@@ -489,5 +488,4 @@ if (RydxHQ_SupportActions) then {
 				_newLeader setVariable ["HAL_Task13Added",false];
 
 			};
-	};
 };

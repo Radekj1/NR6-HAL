@@ -265,134 +265,134 @@ diag_log text "RydHQInit.sqf: HQ leaders initialized. Now initializing fronts.";
 [] call compile preprocessfile (RYD_Path + "Front.sqf");
 if not (isNull leaderHQ) then 
 	{
-	_gp = group leaderHQ;
+	_HQ = group leaderHQ;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQ];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","A"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","A"];
 			
 	if not (isNil ("HET_FA")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FA];
+		_HQ setVariable ["RydHQ_FrontLine",HET_FA];
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 if not (isNull leaderHQB) then 
 	{
-	_gp = group leaderHQB;
+	_HQ = group leaderHQB;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQB];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","B"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","B"];
 	
 	if not (isNil ("HET_FB")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FB]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FB]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 if not (isNull leaderHQC) then 
 	{
-	_gp = group leaderHQC;
+	_HQ = group leaderHQC;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQC];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","C"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","C"];
 	
 	if not (isNil ("HET_FC")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FC]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FC]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 
 if not (isNull leaderHQD) then 
 	{
-	_gp = group leaderHQD;
+	_HQ = group leaderHQD;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQD];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","D"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","D"];
 	
 	if not (isNil ("HET_FD")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FD]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FD]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 
 if not (isNull leaderHQE) then 
 	{
-	_gp = group leaderHQE;
+	_HQ = group leaderHQE;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQE];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","E"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","E"];
 	
 	if not (isNil ("HET_FE")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FE]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FE]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};	
 
 if not (isNull leaderHQF) then 
 	{
-	_gp = group leaderHQF;
+	_HQ = group leaderHQF;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQF];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","F"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","F"];
 	
 	if not (isNil ("HET_FF")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FF]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FF]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 
 if not (isNull leaderHQG) then 
 	{
-	_gp = group leaderHQG;
+	_HQ = group leaderHQG;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQG];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","G"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","G"];
 	
 	if not (isNil ("HET_FG")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FG]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FG]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 if not (isNull leaderHQH) then 
 	{
-	_gp = group leaderHQH;
+	_HQ = group leaderHQH;
 	RydxHQ_AllLeaders set [(count RydxHQ_AllLeaders),leaderHQH];
-	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_gp];
-	_gp setVariable ["RydHQ_CodeSign","H"];
+	RydxHQ_AllHQ set [(count RydxHQ_AllHQ),_HQ];
+	_HQ setVariable ["RydHQ_CodeSign","H"];
 	
 	if not (isNil ("HET_FH")) then 
 		{
-		_gp setVariable ["RydHQ_FrontLine",HET_FH]
+		_HQ setVariable ["RydHQ_FrontLine",HET_FH]
 		}
 		else 
 		{
-		_gp setVariable ["RydHQ_FrontLine",locationNull];
+		_HQ setVariable ["RydHQ_FrontLine",locationNull];
 		}
 	};
 diag_log text "RydHQInit.sqf: Fronts initialized.";

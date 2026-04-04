@@ -175,14 +175,14 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 			if not ((group _SWunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then
 				{
 				_UL = leader (group _SWunit);
-				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_MedReq,"MedReq"] call RYD_AIChatter}};
+				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_MedReq,"MedReq"] spawn RYD_AIChatter}};
 				};				
 
 			if (not ((group _SWunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) and ((_SWunit distance _ambulance) <= _a) and (_noenemy) and (_x in _ambulances)) then 
 				{
 				if ((_a > 1500) and ((count _airMedAv) > 0) and not (_x in _airMedAv)) exitwith {};
 				if ((_a <= 1500) and ((count _landMedAv) > 0) and not (_x in _landMedAv)) exitwith {};
-				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 				if (_x in _airMedAv) then {_airMedAv = _airMedAv - [_x]} else {_landMedAv = _landMedAv - [_x]};
 				_ambulances = _ambulances - [_x];
 				_SWunits = _SWunits - [_SWunit];
@@ -198,7 +198,7 @@ for [{_a = 500},{_a <= 44000},{_a = _a + 500}] do
 				{
 				if (_a >= 44000) then 
 					{
-					if not ((group _SWunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+					if not ((group _SWunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 					_SWunits = _SWunits - [_SWunit]
 					};
 				};
@@ -259,14 +259,14 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 			if not ((group _Wunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then
 				{
 				_UL = leader (group _Wunit);
-				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_MedReq,"MedReq"] call RYD_AIChatter}};	
+				if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_MedReq,"MedReq"] spawn RYD_AIChatter}};	
 				};
 			
 			if (not ((group _Wunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) and ((_Wunit distance _ambulance) <= _a) and (_noenemy) and (_x in _ambulances)) then 
 				{
 				if ((_a > 2500) and ((count _airMedAv) > 0) and not (_x in _airMedAv)) exitwith {};
 				if ((_a <= 2500) and ((count _landMedAv) > 0) and not (_x in _landMedAv)) exitwith {};
-				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] call RYD_AIChatter};
+				if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppAss,"SuppAss"] spawn RYD_AIChatter};
 				if (_x in _airMedAv) then {_airMedAv = _airMedAv - [_x]} else {_landMedAv = _landMedAv - [_x]};
 				_ambulances = _ambulances - [_x];
 				_Wunits = _Wunits - [_Wunit];
@@ -282,7 +282,7 @@ for [{_a = 500},{_a < 10000},{_a = _a + 500}] do
 				{
 				if (_a >= 10000) then 
 					{
-					if not ((group _Wunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] call RYD_AIChatter}};
+					if not ((group _Wunit) in (_HQ getVariable ["RydHQ_SupportedG",[]])) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_SuppDen,"SuppDen"] spawn RYD_AIChatter}};
 					_Wunits = _Wunits - [_Wunit]
 					};
 				};

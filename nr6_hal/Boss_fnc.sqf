@@ -1358,7 +1358,7 @@ RYD_ReserveExecuting =
 						if (isPlayer (leader _unitG)) then {_form = formation _unitG};
 						_unitG setVariable ["Busy" + (str _unitG),true];
 
-						if not (isPlayer (leader _unitG)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _unitG),RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+						if not (isPlayer (leader _unitG)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _unitG),RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
  						private _AddTask = createGroup sideLogic;
 						_AddTask setVariable ["_continueAfterTask",false];

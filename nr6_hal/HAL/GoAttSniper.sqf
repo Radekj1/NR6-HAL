@@ -124,7 +124,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
  
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 if (_HQ getVariable ["RydHQ_Debug",false]) then 
 	{
@@ -290,7 +290,7 @@ _unitG enableAttack false;
 _cur = true;
 //if (RydxHQ_SynchroAttack) then {_cur = false};
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 
 _wp = [_unitG,getPosATL (vehicle (leader _unitG)),"SENTRY","STEALTH","RED","NORMAL",["true",""],_cur,0.001,[0,0,0],_frm] call RYD_WPadd;
 
@@ -416,4 +416,4 @@ _unitG setVariable [("Busy" + (str _unitG)),false];
 [_Trg,"SnpAttacked"] call RYD_VarReductor;
 
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};

@@ -143,7 +143,7 @@ RYD_StatusQuo =
 			
 			_front = true;
 			_fr = _HQ getVariable "RydHQ_FrontLine"; //position of the frontline
-			if not (isNull _fr) then 
+			if (_fr isNotEqualTo locationNull) then 
 				{
 				_front = ((getPosATL (vehicle (leader _x))) in _fr)
 				};
@@ -273,7 +273,7 @@ RYD_StatusQuo =
 		};
 	diag_log format ["RYD_StatusQuo - 6th  %1", _HQ];
 	_HQ setVariable ["RydHQ_CInitial",_cInitial];
-
+	
 	_HQ setVariable ["RydHQ_CLast",(_HQ getVariable ["RydHQ_CCurrent",0])];
 	_CLast = (_HQ getVariable ["RydHQ_CCurrent",0]);
 	_CCurrent = 0;
@@ -315,7 +315,7 @@ RYD_StatusQuo =
 						_knownEG pushBack (group _enemyU);
 						if not ((group _enemyU) in _already) then
 							{
-							_UL = (leader _x);if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_EnemySpot,"EnemySpot"] call RYD_AIChatter}};
+							_UL = (leader _x);if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_EnemySpot,"EnemySpot"] spawn RYD_AIChatter}};
 							}
 						}
 					} 
@@ -920,7 +920,7 @@ RYD_StatusQuo =
 					if (isNil "_inDanger") then {_inDanger = 0};
 					if (_inDanger > 0.05) then
 						{
-						if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InFear,"InFear"] call RYD_AIChatter}
+						if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InFear,"InFear"] spawn RYD_AIChatter}
 						}
 					}
 				};
@@ -945,7 +945,7 @@ RYD_StatusQuo =
 				_UL = leader _x;
 				if not (isPlayer _UL) then 
 					{
-					if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InPanic,"InPanic"] call RYD_AIChatter}
+					if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_InPanic,"InPanic"] spawn RYD_AIChatter}
 					};
 
 				if (_HQ getVariable ["RydHQ_Surr",false]) then
@@ -1215,8 +1215,8 @@ RYD_StatusQuo =
 		if ((_lastS == "De") or (_cycleC == 1)) then
 			{
 			diag_log format ["RYD_StatusQuo Calling RYD_AIChatter %1", _HQ];
-			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_OffStance,"OffStance"] call RYD_AIChatter};
-			diag_log format ["RYD_StatusQuo Call RYD_AIChatter finished %1", _HQ];
+			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_OffStance,"OffStance"] spawn RYD_AIChatter};
+			diag_log format ["RYD_StatusQuo spawn RYD_AIChatter finished %1", _HQ];
 			};
 
 		_HQ setVariable ["LastStance","At"];
@@ -1231,7 +1231,7 @@ RYD_StatusQuo =
 		if ((_lastS == "At") or (_cycleC == 1)) then
 			{
 			diag_log format ["RYD_StatusQuo Calling RYD_AIChatter - LastStance %1", _HQ];
-			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_DefStance,"DefStance"] call RYD_AIChatter};
+			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_DefStance,"DefStance"] spawn RYD_AIChatter};
 			diag_log format ["RYD_StatusQuo Call LastStance finished %1", _HQ];
 			};
 

@@ -278,7 +278,7 @@ if ((_ammo > 0) and not (_busy)) then
 
 	_UL = leader _unitG;
 	 
-	if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+	if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 	
 	if (_HQ getVariable ["RydHQ_Debug",false]) then 
@@ -780,7 +780,7 @@ if ((_ammo > 0) and not (_busy)) then
 	_frm = formation _unitG;
 	if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
 
-	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+	_UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 300) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] spawn RYD_AIChatter}}};
 
 	_wp4 = [_unitG,[_posXWP4,_posYWP4],"MOVE",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,200,[0,0,0],_frm] call RYD_WPadd;
 	_wp4 waypointAttachVehicle _Trg;
@@ -941,5 +941,5 @@ if ((_ammo > 0) and not (_busy)) then
 	if (not (_task isEqualTo taskNull) and (((leader _unitG) distance [_posXWP1,_posYWP1]) < 250)) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 	_unitG setVariable [("Busy" + _unitvar), false];
 
-	_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+	_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 	};	

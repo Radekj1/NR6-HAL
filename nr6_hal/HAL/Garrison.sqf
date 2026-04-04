@@ -40,7 +40,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 		_UL = leader _unitG;
 		_AV = assignedVehicle _UL;
 
-		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 			{
@@ -259,7 +259,7 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 		
 		if ((count _objs) > 0) then {_pos = getPosATL (_objs select 0)};
 
-		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+		if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 		if (_unitG getVariable ["Busy" + (str _unitG),true]) then {
 			_unitG setVariable ["Break",true];

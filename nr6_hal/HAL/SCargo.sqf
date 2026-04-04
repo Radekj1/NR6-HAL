@@ -300,7 +300,7 @@ if not (_emptyV) then
 
 	if ((isPlayer _UL) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
-	if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
+	if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
 
 	_ChosenOne disableAI "TARGET";_ChosenOne disableAI "AUTOTARGET";
 		
@@ -477,7 +477,7 @@ if not (_emptyV) then
 
 		_GD setVariable [("Busy" + (str _GD)), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
-		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdDen"] call RYD_AIChatter}};
+		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdDen"] spawn RYD_AIChatter}};
 		};
 
 
@@ -566,7 +566,7 @@ if not (_alive) exitwith {
 
 	_GD setVariable [("Busy" + (str _GD)), false];
 	_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
-	_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+	_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 	
 	};
 
@@ -780,7 +780,7 @@ if not (_GD == _unitG) then
 
 		_GD setVariable [("Busy" + _unitvar), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
-		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdDen,"OrdDen"] call RYD_AIChatter}};
+		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdDen,"OrdDen"] spawn RYD_AIChatter}};
 		
 	};
 
@@ -903,7 +903,7 @@ if not (_GD == _unitG) then
 	_GD setVariable [("Busy" + (str _GD)), false];
 	_GD setVariable [("CargoM" + (str _GD)), false];
 	_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
-	_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+	_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 	
 	//_ChosenOne land 'NONE';
 	

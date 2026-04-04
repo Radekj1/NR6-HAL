@@ -7,7 +7,7 @@ Action1ct = {
 	(group (_this select 0)) setVariable [('NOGarrisoned' + (str (group (_this select 0)))),true];
 
 
-	[(_this select 0),RydxHQ_AIC_OrdDen,'OrdDen'] call RYD_AIChatter;
+	[(_this select 0),RydxHQ_AIC_OrdDen,'OrdDen'] spawn RYD_AIChatter;
 	deleteWaypoint [(group (_this select 0)),(currentWaypoint (group (_this select 0)))];
 
 	{
