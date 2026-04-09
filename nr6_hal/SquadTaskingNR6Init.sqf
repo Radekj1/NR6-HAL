@@ -22,9 +22,7 @@ if ((group _x in _HalFriends) or ((group _x) getVariable ["EnableHALActions",fal
 } else {
 	_IsHal = false;
 };
-{
-if (RydxHQ_ActionsMenu) then 
-{
+if (RydxHQ_ActionsMenu) then {
 
 		if ((_x == leader _x) and (not (_x getVariable ["HAL_TaskMenuAdded",false]) or not (_x == (_x getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then 
 		{
@@ -60,8 +58,7 @@ if (RydxHQ_ActionsMenu) then
 		// BELOW IS DEPRECATED
 			//Tasking
 
-if (RydxHQ_TaskActions) then {
-		
+if (RydxHQ_TaskActions) then {		
 	if ((_x == leader _x) and not (_x getVariable ["HAL_Task1Added",false]) and (_IsHal)) then {
 
 		if not (RydxHQ_ActionsAceOnly) then {
@@ -159,7 +156,6 @@ if (RydxHQ_TaskActions) then {
 
 			};
 		
-		};
 	};
 
 		//Supports
@@ -500,20 +496,28 @@ if (RydxHQ_SupportActions) then {
 } foreach allPlayers;
 
 HAL_SquadTaskingUpdate = compile preprocessFile (RYD_Path + "SquadTaskingUpdate.sqf");
-
+//apply is a bit faster than foreach. Params below have its values assigned by eventHandlers
 allGroups apply {_x addEventHandler ["LeaderChanged", {
 	params ["_group","_newLeader"];
 	if (isplayer _newLeader) then {
 	[_newLeader] call HAL_SquadTaskingUpdate;
 	};
 }];};
+//Group created is ALWAYS empty at the start. Added 10 second delay.
 addMissionEventHandler ["GroupCreated", {
 	params ["_group"];
+	[{
+	params ["_group"]; 
+	//Assign actions to the new leader [player] and add eventHandler for later.
+	private _newLeader = leader _group;
+	if (isplayer _newLeader) then {[_newLeader] call HAL_SquadTaskingUpdate};
 	_group addEventHandler ["LeaderChanged", {
 		params ["_group","_newLeader"];
 		if (isplayer _newLeader) then {
 		[_newLeader] call HAL_SquadTaskingUpdate;
 	};
-}];}];
+	}];
+	}, [_group], 10] call CBA_fnc_waitAndExecute;
+}];
 
 diag_log text "SquadTaskingNR6Init.sqf: Squad tasking initialized.";
