@@ -1,6 +1,6 @@
 RYD_StatusQuo = 
 	{
-	params ["_HQ","_cycleC","_lastReset","_cInitial","_HQlPos","_PassedArgs"];
+	params ["_HQ","_cycleC","_lastReset","_HQlPos","_PassedArgs"];
 	private [
     "_SCRname","_orderFirst","_alive","_code","_delay","_channel","_enemies","_friends","_checkFriends","_subOrd","_excl","_Ex",
     "_knownE","_knownEG","_alwaysKn","_KnEnPos","_KnEnemy","_toAdd","_FValue","_EValue","_morale","_lossP","_lossArr","_lostU",
@@ -11,7 +11,7 @@ RYD_StatusQuo =
 	"_Artcheck","_HArmorcheck","_MArmorcheck","_LArmorcheck","_LArmorATcheck","_Carscheck","_Aircheck","_BAircheck","_RAircheck",
 	"_NCAircheck","_Navalcheck","_Staticcheck","_StaticAAcheck","_StaticATcheck","_Supportcheck","_Cargocheck","_NCCargocheck",
 	"_Crewcheck","_NCrewInfcheck","_Othercheck","_tp","_grp","_vh","_asV","_grpD","_grpG","_Tvh","_TasV","_isCaptive","_isCiv","_front",
-	"_fr","_CargoAirEx","_CargoLandEx",
+	"_fr","_CargoAirEx","_CargoLandEx","_cInitial",
 	"_SFcount","_SFTgts","_SFAv","_chance","_team","_trg","_trgG",
 	"_alreadyAttacked","_taken","_Navaltaken","_prefix","_objStr","_respPoint","_Lpos","_rds","_spd","_wp","_nPos","_onPlace",
 	"_getBack","_eDst","_eLdr","_signum","_varName1","_varName2","_mdbg","_cl","_dbgMon","_isBusy","_isResting","_inDanger","_dngr",
@@ -26,7 +26,8 @@ RYD_StatusQuo =
 	"_EnCrew","_EnNCrewInf","_EnSpecForG","_EnreconG","_EnFOG","_EnsnipersG","_EnATinfG","_EnAAinfG","_EnInfG","_EnArtG","_EnHArmorG","_EnMArmorG",
 	"_EnLArmorG","_EnLArmorATG","_EnCarsG","_EnAirG","_EnBAirG","_EnRAirG","_EnNCAirG","_EnNavalG","_EnStaticG","_EnStaticAAG","_EnStaticATG",
 	"_EnSupportG","_EnCargoG","_EnNCCargoG","_EnOtherG","_EnCrewG","_EnNCrewInfG"];
-
+	_cInitial = _HQ getVariable ["RydHQ_CInitial",0];
+	_lossP = _HQ getVariable ["RydHQ_LTotal",0];
 	diag_log format ["RYD_StatusQuo - 1st  %1", _HQ];
 	_SCRname = "SQ";
 	

@@ -2,7 +2,7 @@ private [
     "_csN", "_nouns",
     "_SCRname", "_cycleC", "_lastHQ",
     "_OLmpl", "_cycleCap", "_firstMC", "_wp",
-    "_lastReset", "_HQlPos", "_cInitial", "_KnEnPos",
+    "_lastReset", "_HQlPos", "_KnEnPos",
     "_objectives", "_NAVObjectives", "_listed",
     "_midX", "_midY", "_notTaken", "_nTc", "_pos", "_nObj",
     "_civF",
@@ -151,7 +151,7 @@ _firstMC = 0;
 _wp = [];
 _lastReset = 0;
 _HQlPos = [-10,-10,0];
-_cInitial = 0;
+
 
 while {true} do
 	{
@@ -741,6 +741,6 @@ while {true} do
 	_EnMArmor,_EnLArmor,_EnLArmorAT,_EnCars,_EnAir,_EnBAir,_EnRAir,_EnNCAir,_EnNaval,_EnStatic,_EnStaticAA,_EnStaticAT,_EnSupport,_EnCargo,_EnNCCargo,_EnOther,_EnCrew,_EnNCrewInf,
 	_EnSpecForG,_EnreconG,_EnFOG,_EnsnipersG,_EnATinfG,_EnAAinfG,_EnInfG,_EnArtG,_EnHArmorG,_EnMArmorG,_EnLArmorG,_EnLArmorATG,_EnCarsG,_EnAirG,_EnBAirG,_EnRAirG,_EnNCAirG,
 	_EnNavalG,_EnStaticG,_EnStaticAAG,_EnStaticATG,_EnSupportG,_EnCargoG,_EnNCCargoG,_EnOtherG,_EnCrewG,_EnNCrewInfG];
-	[_HQ,_cycleC,_lastReset,_cInitial,_HQlPos,_PassedArgs] call RYD_StatusQuo;
+	[_HQ,_cycleC,_lastReset,_HQlPos,_PassedArgs] call RYD_StatusQuo;
 
 	};

@@ -1,5 +1,8 @@
 _SCRname = "GoAttInf";
-
+private ["_Spos","_isAttacked","_PosObj1","_unitvar","_request","_UL","_nothing","_dX","_dY",
+"_angle","_distance","_distance2","_Armor","_dstMpl","_dXc","_dYc","_dXb","_dYb","_posX","_posY","_isWater","_attAv","_cc",
+"_AV","_DAV","_GDV","_task","_timer","_wp0","_wp","_nW","_LX1","_LY1","_EnNearTrg","_NeNMode","_halfway",
+"_mpl","_eClose1","_tooC1","_dstEM1","_NeN","_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3"];
 _i = "";
 params ["_unitG","_trg","_HQ"];
 
@@ -316,7 +319,8 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 				_cc = false;
 				if (_alive) then
 					{
-					_cc = (_unitG getvariable ("CC" + _unitvar))
+					_cc = (_unitG getvariable ("CC" + _unitvar));
+					diag_log format ["GoAttInf - Cargo Check for %1: %2", _unitG, _cc]; //Need to be checked - 22:47:00   Error position: <_cc))
 					};
 
 				if ((_unitG getVariable ["CargoChosen",false]) and not ((count (waypoints _unitG)) < 1)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle (leader _unitG)), 0]; _wp0 = [];};
