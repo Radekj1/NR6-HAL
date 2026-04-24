@@ -3117,7 +3117,7 @@ HAL_SecTasks =
 		private _HAL_SecTasksLoop = [{
 			params ["_args","_HAL_SecTasksLoop"];
 			_args params ["_HQ"];
-			private ["_leader","_side","_taskedGroups","_friends","_where","_nL"]; 
+			private ["_leader","_side","_taskedGroups","_friends","_where","_nL","_ParentID","_Group"]; 
 			if (isNull _HQ) then {
 			_HAL_SecTasksLoop call CBA_fnc_removePerFrameHandler;
 			};
@@ -3126,16 +3126,36 @@ HAL_SecTasks =
 				_taskedGroups = [];
 
 				_friends = _HQ getVariable ["RydHQ_Friends",[]];
-
+				
 				{
+					if ((_x getVariable ["HetmanSecTaskAssigned",false]) && 
+					(_x getVariable ["HetmanSecTaskGroup",grpNull] isNotEqualto (group _x))) then {
+						_x setVariable ["HetmanSecTaskReset",true];
+					};
 					if ((group _x) in _friends) then {
 						_taskedGroups pushBackUnique (group _x);
-					}
+						_x setVariable ["HetmanSecTaskGroup",(group _x)];
+					};
+					
+					// Clean up player tasks assigned by HAL if player switched groups. 
+					if (_x getVariable ["HetmanSecTaskReset",false]) then {
+						_x setVariable ["HetmanSecTaskReset",false];
+						_Group = _x getVariable "HetmanSecTaskGroup";
+						{
+						_taskID = (str _Group) + (str _x) + "HALStsk";
+						[_taskID,[_x]] call BIS_fnc_deleteTask;
+						} forEach (_Group getVariable ["TaskedObjectives",[]]);
+
+						_ParentID = str (_HQ) + str (_Group) + "masterTask";
+						[_ParentID,[_x]] call BIS_fnc_deleteTask;
+					};
+
 				} foreach allPlayers;
-
 				{
-					private ["_Group","_TaskedObjectives","_DefendObjectives","_setTaken","_taskID","_ObjName","_ParentID"];
-
+					private ["_Group","_TaskedObjectives","_DefendObjectives","_setTaken","_taskID","_ObjName"];
+					{
+					_x setVariable ["HetmanSecTaskAssigned",true];
+					} foreach (units _x);
 					_Group = _x;
 					_TaskedObjectives = (_Group getVariable ["TaskedObjectives",[]]);
 					_DefendObjectives = (_Group getVariable ["DefendObjectives",[]]);
@@ -3144,8 +3164,8 @@ HAL_SecTasks =
 
 					if (isNil "_ParentID") then {
 						_ParentID = str (_HQ) + str (_Group) + "masterTask";
-						[_Group, [_ParentID], ["List of objective control related tasks.", "Objectives", nil] , _x,"CREATED", -10, false, "map"] call BIS_fnc_taskCreate;
-						_Group setVariable ["SecTskParentID",_ParentID];
+						[_Group, [_ParentID], ["List of objective control related tasks.", "Objectives", nil], objNull,"CREATED", -10, false, "map"] call BIS_fnc_taskCreate;
+						_Group setVariable ["SecTskParentID",_ParentID];	
 						};
 
 					{

@@ -1192,7 +1192,7 @@ RYD_Recon =
 RYD_Dispatcher =
 	{
 	_SCRname = "Dispatcher";
-	diag_log text "RYD_Dispatcher started";
+	// diag_log text "RYD_Dispatcher started";
 	private ["_pool","_force","_range","_pattern","_SortedForce","_tPos","_limit","_avF","_trg","_ix","_infEnough","_armEnough","_airEnough","_sum","_handled","_chosen","_ammo","_topo","_sCity","_sForest","_sHills","_sMeadow",
 	"_sGr","_sVal","_mpl","_busy","_positive","_ATRR1","_ATRR2","_thRep","_isClose","_enDst","_thFct","_chVP","_clstE","_Airmpl","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_navEnough","_cntNav","_fr"];
 	
@@ -1340,9 +1340,9 @@ RYD_Dispatcher =
 			{
 			_trg = vehicle (leader _x);
 			_tPos = getPosATL _trg;	
-			diag_log text "RYD_Dispatcher calling RYD_TerraCognita";
+			// diag_log text "RYD_Dispatcher calling RYD_TerraCognita";
 			_topo = [_trg,5] call RYD_TerraCognita;
-			diag_log text "RYD_Dispatcher finished RYD_TerraCognita";
+			// diag_log text "RYD_Dispatcher finished RYD_TerraCognita";
 			_sCity = 100 * (_topo select 0);
 			_sForest = 100 * (_topo select 1);
 			_sHills = 100 * (_topo select 2);
@@ -1378,9 +1378,9 @@ RYD_Dispatcher =
 							}
 						foreach _force;
 						};
-					diag_log text "RYD_Dispatcher _SortedForce calling RYD_DistOrd";
+					// diag_log text "RYD_Dispatcher _SortedForce calling RYD_DistOrd";
 					_SortedForce = [_force,_tPos,10000*_range] call RYD_DistOrd;
-					diag_log text "RYD_Dispatcher _SortedForce called RYD_DistOrd";
+					// diag_log text "RYD_Dispatcher _SortedForce called RYD_DistOrd";
 					_SortedForce = _FTFinPool + (_SortedForce - _FTFinPool);
 
 					_avF = _SortedForce;
@@ -1394,9 +1394,9 @@ RYD_Dispatcher =
 						_ix = _ix + 1;
 
 						_positive = true;
-						diag_log text "RYD_Dispatcher calling RYD_AmmoCount";
+						// diag_log text "RYD_Dispatcher calling RYD_AmmoCount";
 						_ammo = [_chosen,_NCVeh] call RYD_AmmoCount;
-						diag_log text "RYD_Dispatcher called RYD_AmmoCount";
+						// diag_log text "RYD_Dispatcher called RYD_AmmoCount";
 
 						switch (true) do
 							{
@@ -1479,11 +1479,11 @@ RYD_Dispatcher =
 
 															if ((_chosen in _allAir) and ((count _AAthreat) > 0)) then
 																{
-																diag_log text "RYD_Dispatcher calling RYD_CloseEnemyB";
+																// diag_log text "RYD_Dispatcher calling RYD_CloseEnemyB";
 																_thRep = [_chVP,_AAthreat,25000] call RYD_CloseEnemyB;
 																_thRep params ["_isClose"];
 																_clstE = getPosATL (vehicle (leader (_thRep select 2)));
-																diag_log text "RYD_Dispatcher calling RYD_PointToSecDst";
+																// diag_log text "RYD_Dispatcher calling RYD_PointToSecDst";
 																_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
 
 																if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
@@ -1523,7 +1523,7 @@ RYD_Dispatcher =
 									};
 								};
 							};
-						diag_log text "RYD_Dispatcher Anti Tank Risk Resign";
+						// diag_log text "RYD_Dispatcher Anti Tank Risk Resign";
 						_ATRR1 = _ATriskResign1;
 						_ATRR2 = _ATriskResign2;
 						if (_chosen in _LArmorG) then 
@@ -1536,16 +1536,16 @@ RYD_Dispatcher =
 						{
 							if (_pattern in ["ARM"]) then
 							{
-							diag_log text "RYD_Dispatcher Pattern ARM";
+							// diag_log text "RYD_Dispatcher Pattern ARM";
 								if ((count _ATthreat) > 0) then
 									{
-									diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
+									// diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
 									_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
 									_thRep params ["_isClose"];
 									_clstE = getPosATL (vehicle (leader (_thRep select 2)));
-									diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
+									// diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
 									_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
-									diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
+									// diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
 
 									if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
 										{
@@ -1560,13 +1560,13 @@ RYD_Dispatcher =
 									{
 									if ((count _armorATthreat) > 0) then
 										{
-										diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
+										// diag_log text "RYD_Dispatcher call RYD_CloseEnemyB";
 										_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
 										_thRep params ["_isClose"];
 										_clstE = getPosATL (vehicle (leader (_thRep select 2)));
-										diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
+										// diag_log text "RYD_Dispatcher call RYD_PointToSecDst";
 										_enDst = [_chVP,_tPos,_clstE] call RYD_PointToSecDst;
-										diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
+										// diag_log text "RYD_Dispatcher called RYD_CloseEnemyB RYD_PointToSecDst";
 										if ((_isClose) and (_enDst > 0) and (_enDst < 1500)) then
 											{
 											_thFct = ((_ATRR2 * 40)/(sqrt _enDst))/(0.5 + (2 * _reck));//diag_log format ["Grp: %1 endst: %2 thFct: %3",typeOf (vehicle (leader _chosen)),_enDst,_thFct];
@@ -1581,7 +1581,7 @@ RYD_Dispatcher =
 
 							if (_pattern in ["AIR","AIRCAP"]) then
 								{
-								Diag_log text "RYD_Dispatcher Pattern AIR/AIRCAP";
+								// diag_log text "RYD_Dispatcher Pattern AIR/AIRCAP";
 								if ((count _AAthreat) > 0) then
 									{
 									_thRep = [_chVP,_ATthreat,25000] call RYD_CloseEnemyB;
@@ -1601,14 +1601,14 @@ RYD_Dispatcher =
 								};
 						};
 
-						Diag_log text "RYD_Dispatcher Pattern ended";
+						// diag_log text "RYD_Dispatcher Pattern ended";
 						if (_positive) then
 							{
 							_chosen setVariable ["Busy" + (str _chosen),true];
 							_HQ setVariable ["RydHQ_AttackAv",(_HQ getVariable ["RydHQ_AttackAv",[]]) - [_chosen]];
-							Diag_log text "RYD_Dispatcher call RYD_GoLaunch";
+							// diag_log text "RYD_Dispatcher call RYD_GoLaunch";
 							[_chosen,_trg,_HQ] spawn ([_pattern] call RYD_GoLaunch); //calling here would slow down orders. Spawn will que 
-							Diag_log text "RYD_Dispatcher called RYD_GoLaunch";
+							// diag_log text "RYD_Dispatcher called RYD_GoLaunch";
 							_limit = _limit - 1;
 							};
 

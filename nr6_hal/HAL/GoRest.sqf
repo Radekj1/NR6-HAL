@@ -293,7 +293,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 				_cc = false;
 				if (_alive) then
 					{
-					_cc = (_unitG getvariable ("CC" + _unitvar));
+					_cc = (_unitG getVariable [("CC" + _unitvar),false]);
 					if (isNil ("_cc")) then {_unitG setVariable [("CC" + _unitvar), true];_cc = true};
 					};
 

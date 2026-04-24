@@ -183,7 +183,7 @@ if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer)) then
 		_cc = false;
 		if (_alive) then
 			{
-			_cc = (_unitG getvariable ("CC" + _unitvar));
+			_cc = (_unitG getVariable [("CC" + _unitvar),false]);
 			};
 			
 		(not (_alive) or (_cc))
@@ -357,7 +357,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and (
 				_cc = false;
 				if (_alive) then
 					{
-					_cc = (_unitG getvariable ("CC" + _unitvar))
+					_cc = (_unitG getVariable [("CC" + _unitvar),false]);
 					};
 
 				if ((_unitG getVariable ["CargoChosen",false]) and not ((count (waypoints _unitG)) < 1)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle (leader _unitG)), 0]; _wp0 = [];};

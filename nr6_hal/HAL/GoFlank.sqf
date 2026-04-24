@@ -207,7 +207,7 @@ if ((_ammo > 0) and not (_busy)) then
 			_cc = false;
 			if (_alive) then
 				{
-				_cc = (_unitG getvariable ("CC" + _unitvar))
+				_cc = (_unitG getVariable [("CC" + _unitvar),false]);
 				};
 				
 			(not (_alive) or (_cc))

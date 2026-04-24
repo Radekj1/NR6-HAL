@@ -8,7 +8,7 @@ params ["_unitG","_trg","_HQ"];
 
 _Spos = _unitG getvariable ("START" + (str _unitG));
 if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
- 
+_cc = false; 
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
@@ -141,7 +141,7 @@ if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer)) then
 		_cc = false;
 		if (_alive) then
 			{
-			_cc = (_unitG getvariable ("CC" + _unitvar))
+			_cc = (_unitG getVariable [("CC" + _unitvar),false]);
 			};
 			
 		(not (_alive) or (_cc))
@@ -319,8 +319,8 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 				_cc = false;
 				if (_alive) then
 					{
-					_cc = (_unitG getvariable ("CC" + _unitvar));
-					diag_log format ["GoAttInf - Cargo Check for %1: %2", _unitG, _cc]; //Need to be checked - 22:47:00   Error position: <_cc))
+					_cc = (_unitG getVariable [("CC" + _unitvar),false]);
+					//diag_log format ["GoAttInf - Cargo Check for %1: %2", _unitG, _cc]; //Need to be checked - 22:47:00   Error position: <_cc))
 					};
 
 				if ((_unitG getVariable ["CargoChosen",false]) and not ((count (waypoints _unitG)) < 1)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle (leader _unitG)), 0]; _wp0 = [];};
