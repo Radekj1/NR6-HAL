@@ -6,7 +6,7 @@ private ["_Spos","_amountG","_PosObj1","_unitvar","_IsAPlayer","_currentObj","_B
 "_nothing","_dX","_dY","_dXD","_dYD","_angle","_angleD","_distance","_distanceD","_distance2","_dstMpl",
 "_dXc","_dYc","_dXb","_dYb","_posX","_posY","_dropposX","_dropposY","_isWater","_alive","_timer","_AV",
 "_DAV","_GDV","_LX1","_LY1","_EnNearTrg","_NeNMode","_halfway","_mpl","_eClose1","_tooC1","_dstEM1",
-"_NeN","_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3","_AddTask","_task","_Ctask","_gp","_SpX",
+"_NeN","_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3","_task","_Ctask","_gp","_SpX",
 "_SpY","_beh","_lz","_spd","_TO","_wp0","_wp","_nW","_endThis","_CargoCheck","_timer2","_cc",
 "_OtherGroup","_enemy","_isTaken","_waitTime","_BBProgN","_lastObj","_nObj","_mGain","_frm",
 "_earlyD","_EDPos","_crr","_sts","_tp","_pos","_pass","_allowed","_all","_taken","_LX","_LY",

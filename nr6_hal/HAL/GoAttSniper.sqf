@@ -1,7 +1,18 @@
 _SCRname = "GoAttSniper";
 
-_i = "";
+private ["_i","_Spos","_isAttacked","_PosObj1","_unitvar","_request",
+        "_UL","_nothing","_dX","_dY","_angle","_distance","_distance2",
+        "_Armor","_dstMpl","_dXb","_dYb","_posX","_posY","_isWater",
+        "_tposX","_tposY","_attAv","_positions","_cnt","_rnd","_posR",
+        "_AV","_DAV","_GDV","_EnNearTrg","_NeNMode","_halfway",
+        "_wp0","_wp","_nW","_LX1","_LY1","_eClose1","_tooC1","_dstEM1","_NeN",
+        "_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3",
+        "_LX","_LY","_spd","_TO","_task","_gp","_pos","_tp","_beh","_crr","_sts",
+        "_attackedBy","_timer","_alive","_pass","_frm","_cur","_fEH",
+        "_wPosX","_wPosY"];
 params ["_unitG","_Trg","_HQ"];
+
+_i = "";
 
 _Spos = _unitG getvariable ("START" + (str _unitG));
 if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 

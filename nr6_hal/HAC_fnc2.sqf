@@ -3139,10 +3139,12 @@ HAL_SecTasks =
 					
 					// Clean up player tasks assigned by HAL if player switched groups. 
 					if (_x getVariable ["HetmanSecTaskReset",false]) then {
+						diag_log format ["HAL Sec Task Reset for %1", _x];
 						_x setVariable ["HetmanSecTaskReset",false];
 						_Group = _x getVariable "HetmanSecTaskGroup";
 						{
 						_taskID = (str _Group) + (str _x) + "HALStsk";
+						diag_log text _taskID;
 						[_taskID,[_x]] call BIS_fnc_deleteTask;
 						} forEach (_Group getVariable ["TaskedObjectives",[]]);
 

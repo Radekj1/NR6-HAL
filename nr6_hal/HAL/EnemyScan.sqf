@@ -1,6 +1,7 @@
 _SCRname = "EnemyScan";
 
-private ["_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount","_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_frm","_code"];
+private ["_ne","_is","_count","_dngr","_i","_LCU","_friend","_fCount",
+"_UL","_cV","_danger","_aV","_dstC","_dst","_eCount","_frm","_code"];
 params ["_HQ"];
 
 _ne = objNull;

@@ -1,16 +1,21 @@
 _SCRname = "GoCaptureNaval";
-
+private ["_i","_Spos","_amountG","_PosObj1","_unitvar","_IsAPlayer",
+        "_currentObj","_BBProg","_UL","_nothing","_dX","_dY","_dXD","_dYD",
+        "_angle","_angleD","_distance","_distanceD","_distance2",
+        "_dXc","_dYc","_dXb","_dYb","_posX","_posY","_dropposX","_dropposY",
+        "_isWater","_amountC","_attAv","_signum","_AV","_DAV","_GDV",
+        "_wp0","_wp","_nW","_LX1","_LY1","_EnNearTrg","_NeNMode","_halfway","_mpl",
+        "_eClose1","_eClose2","_eClose3","_tooC3",
+        "_task","_gp","_pos","_tp","_beh","_lz","_spd","_TO","_crr","_sts",
+        "_EDPos","_earlyD","_alive","_timer","_OtherGroup","_enemy","_frm","_all"];
+params ["_unitG","_isAttacked","_HQ","_Trg"];
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_Trg = objNull;
-_isAttacked = _this select 1;
-_HQ = _this select 2;
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
 _amountG = count (units _unitG);
 
 //_Trg = _HQ getVariable ["RydHQ_Obj",(leader _HQ)];
-_Trg = _this select 3;
 
 _PosObj1 = getPosATL _Trg;
 _unitvar = str _unitG;
@@ -108,16 +113,15 @@ _halfway = false;
 _mpl = 1;
 
 _eClose1 = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB;
-
-_tooC1 = _eClose1 select 0;
-_dstEM1 = _eClose1 select 1;
-_NeN = _eClose1 select 2;
+_eClose1 params ["_tooC1","_dstEM1","_NeN"];
+//_tooC1 = _eClose1 select 0;
+//_dstEM1 = _eClose1 select 1;
+//_NeN = _eClose1 select 2;
 
 if not (isNull _NeN) then
 	{
 	_eClose2 = [_UL,(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB;
-	_tooC2 = _eClose2 select 0;
-	_dstEM2 = _eClose2 select 1;
+	_eClose2 params ["_tooC2","_dstEM2"];
 	_eClose3 = [(leader _HQ),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB;
 	_tooC3 = _eClose3 select 0;
 

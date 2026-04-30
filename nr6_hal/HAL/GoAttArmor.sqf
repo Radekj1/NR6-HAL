@@ -1,10 +1,18 @@
 _SCRname = "GoAttArmor";
 Diag_log text "HAL GoAttArmor started";
 _i = "";
+private ["_i","_Spos","_request","_isAttacked","_PosObj1","_unitvar","_busy",
+        "_isAPlayer","_UL","_nothing","_dX","_dY","_angle","_distance",
+        "_distance2","_dstMpl","_dXc","_dYc","_dXb","_dYb","_posX","_posY",
+        "_isWater","_attAv","_attackedBy","_AV","_signum","_task",
+        "_tp","_wp","_timer","_alive","_cur","_frm","_tPos","_tPosX","_tPosY"];
+params ["_unitG","_Trg","_HQ"];
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then 
+{
+	_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];
+	_Spos = _unitG getVariable ("START" + (str _unitG))
+}; 
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_Trg = _this select 1;
-_HQ = _this select 2;
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
@@ -17,8 +25,8 @@ _PosObj1 = getPosATL _Trg;
 _unitvar = str (_unitG);
 _busy = false;
 
-_IsAPlayer = false;
-if (RydxHQ_NoCargoPlayers and (isPlayer (leader _unitG))) then {_IsAPlayer = true};
+_isAPlayer = false;
+if (RydxHQ_NoCargoPlayers and (isPlayer (leader _unitG))) then {_isAPlayer = true};
 
 //if (_isAttacked > 1) exitwith {};
 
@@ -84,9 +92,9 @@ if (_isWater) exitwith
 
 if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG)) and not (_request)) then
 	{
-	_attackedBy = (group _trg) getVariable ["RYD_Attacks",[]];
+	_attackedBy = (group _Trg) getVariable ["RYD_Attacks",[]];
 	_attackedBy pushBack [_unitG,[_posX,_posY,0]];
-	(group _trg) setVariable ["RYD_Attacks",_attackedBy];
+	(group _Trg) setVariable ["RYD_Attacks",_attackedBy];
 	};
 	
 [_unitG,[_posX,_posY,0],"HQ_ord_attackArmor",_HQ] call RYD_OrderPause;
@@ -140,7 +148,7 @@ _wp = [_unitG,[_posX,_posY],_tp,"AWARE","RED","NORMAL"] call RYD_WPadd;
 if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
 
-if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_Trg]};
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 private _WaitCarrier = createGroup sideLogic;
 
@@ -208,7 +216,7 @@ if not (_request) then {
 };
 Diag_log text "GoAttArmor line 185";
 
-if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_Trg]};
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 private _WaitCarrier = createGroup sideLogic;
 

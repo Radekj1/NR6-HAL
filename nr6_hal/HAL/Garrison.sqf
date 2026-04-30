@@ -1,4 +1,10 @@
 _SCRname = "Garrison";
+private ["_Garrison","_garrRange","_posTaken",
+         "_a","_unitG","_garrisoned","_NOgarrisoned","_Unable","_pos",
+         "_units","_UL","_AV","_signum","_i","_frm","_wp","_list",
+         "_staticWeapons","_unit","_Bldngs","_posAll","_posAll0","_Bldg",
+         "_posAct","_j","_tkn","_sum","_ix","_posS","_bld","_ct",
+         "_patrolPos","_pA","_isGood","_pPos","_dst","_objs","_task"];
 params ["_HQ","_recArr"];
 
 _Garrison = _HQ getVariable ["RydHQ_Garrison",[]];
@@ -284,8 +290,18 @@ for [{_a = 0},{_a < (count _Garrison)},{_a = _a + 1}] do
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
+		if !(isnull _unitG) then {
+		if (alive leader _unitG) then {
 		[_unitG,_pos,150,1,0.5,0,false] remoteExecCall ["NR6_fnc_CBA_Defend",(leader _unitG)];
-	
 		}
+		else 
+		{
+			if (({alive _x} count units _unitG) > 0) then
+			{
+				[_unitG,_pos,150,1,0.5,0,false] remoteExecCall ["NR6_fnc_CBA_Defend",(_unitG select 0)];
+			};
+		};
+		};
+		};
 	};
 

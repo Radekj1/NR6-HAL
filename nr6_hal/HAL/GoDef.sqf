@@ -1,5 +1,10 @@
 _SCRname = "GoDef";
-params ["_unitG","_DefPos","_dX","_dY","_DN","__angleV","_HQ"];
+private ["_i","_Spos","_Xpos","_Ypos","_unitvar","_alive","_busy",
+        "_defSpot","_def","_UL","_AV","_DAV","_GDV","_PosX","_PosY",
+        "_isWater","_nE","_posSL","_posSL2","_angle","_dstB","_pos","_CFF",
+        "_signum","_clr","_txt","_pltxt","_task","_tp","_frm",
+        "_wp","_endThis","_suppHQ","_timer","_dw"];
+params ["_unitG","_DefPos","_dX","_dY","_DN","_angleV","_HQ"];
 _i = "";
 
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))]}; 
@@ -9,7 +14,7 @@ if ((_unitG in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["Ryd
 	{
 	_Xpos = ((getPosATL (leader _HQ)) select 0) + (random 300) - 150 - (_dX/1.25);
 	_Ypos = ((getPosATL (leader _HQ)) select 1) + (random 300) - 150 - (_dY/1.25);
-	_Defpos = [_Xpos,_Ypos];
+	_DefPos = [_Xpos,_Ypos];
 	};
 
 _unitvar = str _unitG;
@@ -18,7 +23,7 @@ _alive = true;
 
 _busy = false;
 _busy = _unitG getvariable ("Busy" + _unitvar);
-_isAPlayer = false;
+//_isAPlayer = false;
 
 if (isNil ("_busy")) then {_busy = false};
 
@@ -77,9 +82,9 @@ if not (isNull _AV) then {
 	} forEach (units _unitG);
 };
 
-_posX = (_DefPos select 0) + (random 40) - 20;
-_posY = (_DefPos select 1) + (random 40) - 20;
-_DefPos = [_posX,_posY];
+_PosX = (_DefPos select 0) + (random 40) - 20;
+_PosY = (_DefPos select 1) + (random 40) - 20;
+_DefPos = [_PosX,_PosY];
 
 _isWater = surfaceIsWater _DefPos;
 
@@ -87,14 +92,14 @@ while {((_isWater) and ((leader _HQ) distance _DefPos >= 10))} do
 	{
 	_PosX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
 	_PosY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
-	_DefPos = [_posX,_posY]
+	_DefPos = [_PosX,_PosY]
 	};
 
 _isWater = surfaceIsWater _DefPos;
 
 if (_isWater) then {_DefPos = getPosATL (vehicle (leader _unitG))};
 
-[_unitG,[_posX,_posY,0],"HQ_ord_defend",_HQ] call RYD_OrderPause;
+[_unitG,[_PosX,_PosY,0],"HQ_ord_defend",_HQ] call RYD_OrderPause;
 
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 

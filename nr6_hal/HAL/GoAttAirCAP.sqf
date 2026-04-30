@@ -1,8 +1,11 @@
 _SCRname = "GoAttAirCAP";
-
-_i = "";
+private ["_i","_request","_PosObj1","_unitvar","_UL","_PosLand","_flight",
+        "_attAv","_nothing","_dX","_dY","_angle",
+        "_distance","_distance2","_dXc","_dYc","_dXb","_dYb","_posX","_posY",
+        "_signum","_task","_wp","_lasT","_timer","_alive",
+        "_rrr","_radd","_mustRTB"];
 params ["_unitG","_Trg","_HQ"];
-
+_i = "";
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 
@@ -89,7 +92,7 @@ _wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoi
 _lasT = ObjNull;
 
 
-if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_Trg]};
 private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];

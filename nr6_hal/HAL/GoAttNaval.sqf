@@ -1,10 +1,14 @@
 _SCRname = "GoAttNaval";
+private ["_i","_Spos","_request","_isAttacked","_PosObj1","_unitvar","_busy",
+        "_UL","_nothing","_dX","_dY","_angle","_distance","_distance2",
+        "_dXc","_dYc","_dXb","_dYb","_posX","_posY","_signum",
+        "_task","_tp","_wp","_timer","_alive","_cur","_frm",
+        "_tPos","_tPosX","_tPosY","_attAv"];
+params ["_unitG","_Trg","_HQ"];
 
 _i = "";
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_Trg = _this select 1;
-_HQ = _this select 2;
 _request = false;
 if ((count _this) > 3) then {_request = _this select 3};
 

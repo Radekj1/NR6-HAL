@@ -1,7 +1,9 @@
 _SCRname = "GoDefNav";
-
-_i = "";
+private ["_i","_Spos","_unitvar","_busy","_alive","_defSpot","_def",
+		"_DefPos","_posX","_posY","_isWater","_UL","_nE","_signum",
+		"_task","_tp","_frm","_wp","_endThis","_suppHQ","_timer"];
 params ["_unitG","_Spot","_HQ"];
+_i = "";
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
 
@@ -142,7 +144,7 @@ if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
-		deleteMarker ("markDef" + _unitVar);
+		deleteMarker ("markDef" + _unitvar);
 		};
 
 	_def = _HQ getVariable ["RydHQ_Def",[]];

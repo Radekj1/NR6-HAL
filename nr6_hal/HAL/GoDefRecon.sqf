@@ -1,7 +1,12 @@
 _SCRname = "GoDefRecon";
 
-_i = "";
+private ["_i","_Spos","_unitvar","_busy","_isAPlayer","_alive","_defSpot","_def",
+		"_attackAllowed","_UL","_AV","_DAV","_GDV","_posX","_posY","_isWater",
+		"_nE","_posSL","_posSL2","_angle","_dstB","_pos","_CFF","_signum",
+		"_task","_frm","_tp","_wp","_timer","_RecDefSpot",
+		"_TED","_dX","_dY","_dir"];
 params ["_unitG","_DefPos","_angleV","_HQ"];
+_i = "";
 
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
@@ -81,8 +86,8 @@ _isWater = surfaceIsWater _DefPos;
 
 while {((_isWater) and ((leader _HQ) distance _DefPos >= 10))} do
 	{
-	_PosX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
-	_PosY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
+	_posX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
+	_posY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
 	_DefPos = [_posX,_posY]
 	};
 
@@ -247,7 +252,7 @@ waituntil
 */
 if not (_alive) exitWith 
 	{
-	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markDef" + _unitVar);deleteMarker ("markWatch" + _unitVar)};
+	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markDef" + _unitvar);deleteMarker ("markWatch" + _unitvar)};
 	_RecDefSpot = _HQ getVariable ["RydHQ_RecDefSpot",[]];
 	_RecDefSpot = _RecDefSpot - [_unitG];
 	_unitG setVariable [("Busy" + (str _unitG)),false];

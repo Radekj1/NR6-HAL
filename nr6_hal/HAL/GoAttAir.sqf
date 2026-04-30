@@ -1,7 +1,15 @@
 _SCRname = "GoAttAir";
-
-_i = "";
+private ["_i","_request","_reqTgtSet",
+        "_PosObj1","_unitvar","_UL","_PosLand","_flight","_attAv","_nothing",
+        "_dX","_dY","_angle","_distance","_distance2","_dXc","_dYc","_dXb","_dYb",
+        "_posX","_posY","_newTrg","_signum","_task","_wp","_lasT",
+        "_eSide","_tgt","_tPos","_tX","_tY","_code","_VL","_ct","_range",
+        "_endThis","_nearEnVeh","_nearEnInfHALG","_nearEnInf","_friends",
+        "_tUnit","_distOK","_hideNow","_isBusy","_timer","_alive","_rrr",
+        "_radd","_mustRTB"];
 params ["_unitG","_Trg","_HQ"];
+_i = "";
+
 
 _request = false;
 _reqTgtSet = false;
@@ -113,7 +121,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _
 	//_tX = (_tPos select 0) + (random 60) - 30;
 	//_tY = (_tPos select 1) + (random 60) - 30;
 	
-	_tpos params ["_tX","_tY"];
+	_tPos params ["_tX","_tY"];
 
 	if not (_request) then {
 		_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];

@@ -1,7 +1,11 @@
 _SCRname = "GoAmmoSupp";
-
-_i = "";
+private ["_i","_request","_AmmoPoints","_unitG","_unitvar","_startpos","_mtr",
+        "_posX","_posY","_isWater","_cnt","_UL","_alive","_signum",
+        "_task","_dst","_abPos","_pos","_ang","_nextPos1","_tp","_wp","_timer",
+        "_endThis","_boxed","_pos2","_sl","_bb","_sizeZ","_p1","_l1","_l2","_p2",
+        "_lvl","_rope","_benef","_counter","_beh","_rrr","_radd","_lastOne","_aSupp"];
 params ["_unit","_Trg","_Hollow","_soldiers","_drop","_ammoBox","_HQ"];
+_i = "";
 
 _request = false;
 if ((count _this) > 7) then {_request = _this select 7};
