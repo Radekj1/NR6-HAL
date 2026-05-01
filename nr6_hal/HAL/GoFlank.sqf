@@ -1,11 +1,20 @@
 _SCRname = "GoFlank";
-
+private ["_i1","_i2","_i3","_i4","_Spos","_UL","_IsAPlayer",
+		"_safeX1","_safeY1","_safeX2","_safeY2","_GposX","_GposY",
+		"_dX","_dY","_angle","_h","_BorHQD","_distanceSafe","_dstMpl",
+		"_FlankPosX","_FlankPosY","_posXWP1","_posYWP1","_isWater",
+		"_posXWP2","_posYWP2","_posXWP3","_posYWP3","_posXWP4","_posYWP4",
+		"_ammo","_unitvar","_busy","_task","_alive","_CargoCheck",
+		"_AV","_DAV","_GDV","_timer","_wp","_wp1","_wp2","_wp3","_wp4",
+		"_Ctask","_grp","_beh","_TO","_frm","_OtherGroup","_enemy",
+		"_tp","_lz","_sts","_EDPos","_posDis","_pass","_allowed",
+		"_spd","_signum","_cc"];
+params ["_unitG","_BEnemyPos","_PosMidX","_PosMidY","_angle0","_MinSide","_HQ"];
+_cc = false;
 _i1 = "";
 _i2 = "";
 _i3 = "";
 _i4 = "";
-
-params ["_unitG","_BEnemyPos","_PosMidX","_PosMidY","_angle0","_MinSide","_HQ"];
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG))),true]}; 
 
 

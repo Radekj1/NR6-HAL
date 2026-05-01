@@ -1,10 +1,19 @@
 _SCRname = "GoIdle";
+private ["_Spos","_pos","_LU","_VLU","_AAO","_obj","_Xpos","_Ypos",
+		"_posX","_posY","_isDecoy","_enemyMatters","_roadG","_patrol",
+		"_tPos","_safedist","_behind","_behind2","_counterU","_VL",
+		"_Xpos2","_Ypos2","_Xpos3","_Ypos3","_position","_allowed",
+		"_radius","_precision","_sourcesCount","_expression","_Spot",
+		"_sec","_rnd","_NR","_cnt","_Rpoint","_eClose","_isWater",
+		"_UL","_i","_pltxt","_signum","_task","_tp","_CM","_spd","_sts",
+		"_wp","_firstpos","_Nway","_a","_ct","_posX2","_posY2","_crr",
+		"_timer","_alive","_busy","_frm"];
+params ["_unitG","_HQ"];
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _pos = getPosATL (leader _unitG);
 _LU = leader _unitG;
 _VLU = vehicle _LU;
-_HQ = _this select 1;
 diag_log text "HAL_GoIdle started";
 if (_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) exitwith {};
 

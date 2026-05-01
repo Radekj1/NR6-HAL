@@ -1,11 +1,12 @@
+//r - Repair rrr - Repair Rearm Refuel
 _SCRname = "GoRepSupp";
+private ["_i","_request","_RepPoints","_unitG","_unitvar","_startpos","_rtr",
+		"_posX","_posY","_isWater","_cnt","_alive","_UL","_signum","_task",
+		"_counter","_timer","_pos","_tp","_wp","_rrr","_radd","_lastOne",
+		"_rSupp"];
+params ["_unit","_Trg","_damaged","_HQ"];
 
 _i = "";
-
-_unit = _this select 0;
-_Trg = _this select 1;
-_damaged = _this select 2;
-_HQ = _this select 3;
 _request = false;
 if ((count _this) > 4) then {_request = _this select 4};
 

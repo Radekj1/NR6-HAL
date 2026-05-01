@@ -3,9 +3,9 @@ private ["_Spos","_isAttacked","_PosObj1","_unitvar","_request","_UL","_nothing"
 "_angle","_distance","_distance2","_Armor","_dstMpl","_dXc","_dYc","_dXb","_dYb","_posX","_posY","_isWater","_attAv","_cc",
 "_AV","_DAV","_GDV","_task","_timer","_wp0","_wp","_nW","_LX1","_LY1","_EnNearTrg","_NeNMode","_halfway",
 "_mpl","_eClose1","_tooC1","_dstEM1","_NeN","_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3"];
-_i = "";
 params ["_unitG","_trg","_HQ"];
 
+_i = "";
 _Spos = _unitG getvariable ("START" + (str _unitG));
 if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))};
 _cc = false; 

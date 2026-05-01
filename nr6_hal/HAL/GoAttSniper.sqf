@@ -1,15 +1,14 @@
 _SCRname = "GoAttSniper";
 
 private ["_i","_Spos","_isAttacked","_PosObj1","_unitvar","_request",
-        "_UL","_nothing","_dX","_dY","_angle","_distance","_distance2",
-        "_Armor","_dstMpl","_dXb","_dYb","_posX","_posY","_isWater",
-        "_tposX","_tposY","_attAv","_positions","_cnt","_rnd","_posR",
-        "_AV","_DAV","_GDV","_EnNearTrg","_NeNMode","_halfway",
-        "_wp0","_wp","_nW","_LX1","_LY1","_eClose1","_tooC1","_dstEM1","_NeN",
-        "_eClose2","_tooC2","_dstEM2","_eClose3","_tooC3",
-        "_LX","_LY","_spd","_TO","_task","_gp","_pos","_tp","_beh","_crr","_sts",
-        "_attackedBy","_timer","_alive","_pass","_frm","_cur","_fEH",
-        "_wPosX","_wPosY"];
+		"_UL","_nothing","_dX","_dY","_angle","_distance","_distance2",
+		"_Armor","_dstMpl","_dXb","_dYb","_posX","_posY","_isWater",
+		"_tposX","_tposY","_attAv","_positions","_cnt","_rnd","_posR",
+		"_AV","_DAV","_GDV","_EnNearTrg","_NeNMode","_halfway",
+		"_wp0","_wp","_nW","_LX1","_LY1","_eClose1","_eClose2","_eClose3",
+		"_tooC3","_LX","_LY","_spd","_TO","_task","_gp","_pos","_tp","_beh","_crr","_sts",
+		"_attackedBy","_timer","_alive","_pass","_frm","_cur","_fEH",
+		"_wPosX","_wPosY"];
 params ["_unitG","_Trg","_HQ"];
 
 _i = "";
@@ -158,16 +157,13 @@ _LX1 = _posX;
 _LY1 = _posY;
 
 _eClose1 = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
+_eClose1 params ["_tooC1","_dstEM1","_NeN"];
 
-_tooC1 = _eClose1 select 0;
-_dstEM1 = _eClose1 select 1;
-_NeN = _eClose1 select 2;
 
 if not (isNull _NeN) then
 	{
 	_eClose2 = [_UL,(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
-	_tooC2 = _eClose2 select 0;
-	_dstEM2 = _eClose2 select 1;
+	_eClose2 params ["_tooC2","_dstEM2"];
 	_eClose3 = [(leader _HQ),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
 	_tooC3 = _eClose3 select 0;
 
@@ -368,7 +364,6 @@ if not (_task isEqualTo taskNull) then
 	
 	[_task,(leader _unitG),["Withdraw.", "Withdraw", ""],_Spos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
 		 
-		
 	};
 
 _wp = [_unitG,_Spos,"MOVE","SAFE","YELLOW","NORMAL",["true","deletewaypoint [(group this), 0];"],true,5] call RYD_WPadd;

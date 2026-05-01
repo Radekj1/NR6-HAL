@@ -1,4 +1,21 @@
 _SCRname = "GoSFAttack";
+private ["_Spos","_trgPos","_ammo","_AAO","_IsAPlayer","_unitvar","_busy",
+		"_Unable","_ldr","_obj","_nT","_Epos0","_Epos1","_default",
+		"_Epos0Max","_Epos0Min","_sel0Max","_sel0Min","_a","_EposA",
+		"_Epos1Max","_Epos1Min","_sel1Max","_sel1Min","_b","_EposB",
+		"_max0Enemy","_min0Enemy","_max1Enemy","_min1Enemy",
+		"_PosMid0","_PosMid1","_dX","_dY","_angle0",
+		"_BEnemyPosA","_BEnemyPosB","_BEnemyPos","_minF","_maxF",
+		"_MinSide","_rnd","_i1","_i2","_i3","_i4","_PosMidX","_PosMidY",
+		"_UL","_safeX1","_safeY1","_safeX2","_safeY2","_GposX","_GposY",
+		"_BEposX","_BEposY","_angle","_h","_BorHQD","_distanceSafe","_dstMpl",
+		"_FlankPosX","_FlankPosY","_posXWP1","_posYWP1","_isWater",
+		"_posXWP2","_posYWP2","_posXWP3","_posYWP3","_posXWP4","_posYWP4",
+		"_task","_SFTargets","_signum","_alive","_CargoCheck","_AV","_cc",
+		"_DAV","_GDV","_timer","_wp","_wp1","_wp2","_wp3","_Ctask",
+		"_grp","_beh","_TO","_frm","_OtherGroup","_enemy","_tp","_lz",
+		"_sts","_EDPos","_posDis","_pass","_allowed","_spd","_pos",
+		"_posXWP35","_posYWP35","_wp35","_wp4","_wp5","_wp6","_wp7"];
 params ["_unitG","_Trg","_trgG","_HQ"];
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG))),true]}; 
 _trgPos = getPosATL _Trg;
@@ -23,7 +40,7 @@ if (isNil ("Unable")) then {_Unable = false};
 
 if (_busy) exitwith {};
 if (_Unable) exitwith {};
-
+_ldr = vehicle (leader _HQ);
 _obj = _HQ getVariable ["RydHQ_Obj",_ldr];
 
 if (_AAO) then

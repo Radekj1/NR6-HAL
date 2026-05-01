@@ -1,4 +1,15 @@
 _SCRname = "GoRest";
+private ["_Spos","_pos","_LU","_VLU","_inDanger","_IsAPlayer","_unitvar",
+		"_AV","_DAV","_GDV","_AAO","_obj","_ac","_attackAllowed",
+		"_Xpos","_Ypos","_posX","_posY","_isDecoy","_enemyMatters","_tPos",
+		"_safedist","_behind","_behind2","_counterU","_VL",
+		"_Xpos2","_Ypos2","_Xpos3","_Ypos3","_isWater","_counter","_exh",
+		"_nE","_alive","_timer","_posSL","_posSL2","_angle","_dstB","_pos",
+		"_CFF","_endThis","_wp0","_wp","_CargoCheck","_cc","_task","_timer2",
+		"_signum","_i","_Ctask","_lackAmmo","_counts","_gp","_beh","_cm",
+		"_sts","_lz","_OtherGroup","_enemy","_pass","_allowed","_unitvar",
+		"_noDanger","_vehready","_solready","_effective","_ammo","_Gdamage",
+		"_transfers","_nominal","_current","_inD","_trs","_veh"];
 params ["_unitG","_HQ"];
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 _pos = getPosATL (leader _unitG);
@@ -11,9 +22,9 @@ if ((count _this) > 2) then {_inDanger = _this select 2};
 _IsAPlayer = false;
 if (RydxHQ_NoCargoPlayers and (isPlayer (leader _unitG))) then {_IsAPlayer = true};
 
-_unitVar = str _unitG;
+_unitvar = str _unitG;
 
-if (_unitG getVariable [("Resting" + _unitVar),false]) exitwith {};
+if (_unitG getVariable [("Resting" + _unitvar),false]) exitwith {};
 
 _AV = assignedVehicle _UL;
 
@@ -227,7 +238,7 @@ if not (isNull _nE) then
 		};
 	};
 		
-if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and not (_isAPlayer)) then
+if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and not (_IsAPlayer)) then
 	{
 	_endThis = false;
 	_alive = true;
@@ -451,7 +462,7 @@ if (_lackAmmo) then
 	};
 	
 _gp = _unitG;
-if (not (isNull _AV) and not (_GDV == _unitG) and not (_isAPlayer)) then {_gp = _GDV;};
+if (not (isNull _AV) and not (_GDV == _unitG) and not (_IsAPlayer)) then {_gp = _GDV;};
 _beh = "AWARE";
 _cm = "GREEN";
 if (not (isNull _AV) and not ((_GDV == _unitG) or (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])))) then {_beh = "STEALTH";_cm = "YELLOW"};
@@ -506,7 +517,7 @@ if not (_IsAPlayer) then {
 		}
 	else 
 		{
-		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
+		if not (_IsAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		private _WaitCarrier = createGroup sideLogic;
 
 		_WaitCarrier setVariable ["_continueAW",false];
@@ -523,7 +534,7 @@ if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnl
 
 _DAV = assigneddriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
-if ((_timer > 60) and not (_otherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
+if ((_timer > 60) and not (_OtherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 
 if (not (_alive) and not (_OtherGroup)) exitwith 
 	{

@@ -1,11 +1,23 @@
 _SCRname = "GoRecon";
 
-_i = "";
+private ["_i","_Spos","_recvar","_unitvar","_IsAPlayer","_reconAv","_UL",
+		"_PosLand","_nothing","_End","_rd","_dX","_dY","_angle","_distance",
+		"_distance2","_dstMpl","_dXc","_dYc","_dXb","_dYb","_isLOS","_ct",
+		"_posX","_posY","_POASL","_VL","_a","_posX0","_posY0","_Elev",
+		"_MElev","_MElevated","_isWater","_onlyL","_signum","_alive","_timer",
+		"_AV","_DAV","_GDV","_EnNearTrg","_NeNMode","_halfway","_wp0","_wp",
+		"_nW","_LX1","_LY1","_eClose1","_eClose2","_eClose3","_tooC3",
+		"_LX","_LY","_spd","_beh","_TO","_endThis","_CargoCheck","_cc",
+		"_task","_timer2","_SpX","_SpY","_mpl","_dropposX","_dropposY",
+		"_Ctask","_gp","_pos","_tp","_lz","_sts","_crr","_enRg",
+		"_OtherGroup","_enemy","_pass","_allowed","_frm","_stages"];
 params ["_unitG","_PosObj1","_stage","_HQ","_reconNr","_specialized"];
+_i = "";
 
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-
-_reconNr params ["_reconNr","_stages"];
+//params don't work here - select 1, then select 0.
+_stages = _reconNr select 1;
+_reconNr = _reconNr select 0;
 
 _stage = _stage - (_stages * _reconNr);
 
@@ -601,7 +613,7 @@ if not (_IsAPlayer) then {
 		private _WaitCarrier = createGroup sideLogic;
 
 		_WaitCarrier setVariable ["_continueAW",false];
-		[_WaitCarrier,_unitG,6,true,_enRG,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait; 
+		[_WaitCarrier,_unitG,6,true,_enRg,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait; 
 		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";

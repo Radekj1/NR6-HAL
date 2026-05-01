@@ -36,7 +36,6 @@ private [
 params ["_HQ"];
 _SCRname = "SitRep";
 diag_log text "HQSitRep D started";
-_HQ = _this select 0;
 HQSitREP_D_Fin1 = false;
 HQSitREP_D_Fin2 = false;
 _HQ setVariable ["leaderHQ",(leader _HQ)];

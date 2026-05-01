@@ -3,7 +3,7 @@ _SCRname = "Front";
 private ["_front","_pos","_att","_XAxis","_YAxis","_dir","_isRec","_code","_code2"];
 
 _code = 
-	{
+{
 	params ["_HQ","_front","_ia"];
 						
 	while {not (isNull _HQ)} do
@@ -18,10 +18,10 @@ _code =
 		};
 		
 	deleteMarker _ia
-	};
+};
 	
 _code2 =
-	{
+{
 	params ["_HQ","_front","_isRec","_pos","_XAxis","_YAxis","_dir","_code"];
 	
 	_alive = true;
@@ -62,13 +62,13 @@ _code2 =
 		_SCRname = "Front2";				
 		[_HQ,_front,_ia] call _code;
 		}
-	};
+};
 			
 
-	{
+{
 	_front = _x getVariable ["RydHQ_Front",objNull];
 	if not (isNull _front) then
-		{
+	{
 		_pos = position _front;
 		_att = triggerArea _front;
 		_att params ["_XAxis","_YAxis","_dir","_isRec"];
@@ -80,7 +80,5 @@ _code2 =
 		_x setVariable ["RydHQ_Front",_front];
 
 		[_x,_front,_isRec,_pos,_XAxis,_YAxis,_dir,_code] call _code2;		
-		}
 	}
-
-foreach RydxHQ_AllHQ;
+} foreach RydxHQ_AllHQ;

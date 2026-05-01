@@ -1,5 +1,6 @@
-private ["_objectives","_clusters","_targets","_cnt","_pX","_pY","_pos","_reconDvs","_attackDvs","_amnt","_rDiv","_aDiv","_recAm","_attAm","_center","_initialPositions","_recDiv",
-	"_attDiv","_angle","_pointsAm","_echelons","_echDst","_echelonP","_settingPoints","_lWing","_rWing"];
+private ["_objectives","_clusters","_targets","_cnt","_pX","_pY","_pos","_reconDvs","_attackDvs","_amnt",
+"_rDiv","_aDiv","_recAm","_attAm","_center","_initialPositions","_recDiv","_attDiv","_angle","_pointsAm",
+"_echelons","_echDst","_echelonP","_settingPoints","_lWing","_rWing"];
 params ["_HQ","_ReconAv","_attackAv"];
 
 _knownEnemy = _HQ getVariable ["RydHQ_KnEnemiesG",[]];

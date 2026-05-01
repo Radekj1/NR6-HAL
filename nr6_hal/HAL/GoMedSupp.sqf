@@ -1,11 +1,10 @@
 _SCRname = "GoMedSupp";
+private ["_i","_request","_MedPoints","_unitG","_unitvar","_startpos","_amb",
+		"_posX","_posY","_isWater","_cnt","_alive","_UL","_signum","_task",
+		"_counter","_timer","_pos","_tp","_wp","_rrr","_radd","_lastOne","_mSupp"];
+params ["_unit","_Trg","_wounded","_HQ"];
 
 _i = "";
-
-_unit = _this select 0;
-_Trg = _this select 1;
-_wounded = _this select 2;
-_HQ = _this select 3;
 _request = false;
 if ((count _this) > 4) then {_request = _this select 4};
 

@@ -1,10 +1,13 @@
 _SCRname = "GoDefRes";
+private ["_i","_Spos","_unitvar","_busy","_isAPlayer","_alive","_defSpot","_def",
+		"_UL","_AV","_DAV","_GDV","_DefPos","_posX","_posY","_isWater",
+		"_nE","_posSL","_posSL2","_angle","_dstB","_pos","_CFF","_signum",
+		"_task","_tp","_frm","_wp","_endThis","_suppHQ","_timer","_dw"];
 
+params ["_unitG","_Spot","_HQ"];
 _i = "";
 
-_unitG = _this select 0;_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
-_Spot = _this select 1;
-_HQ = _this select 2;
+_Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];_Spos = _unitG getVariable ("START" + (str _unitG))}; 
 
 _unitvar = str _unitG;
 _busy = false;
@@ -79,15 +82,15 @@ _isWater = surfaceIsWater _DefPos;
 
 while {((_isWater) and ((leader _HQ) distance _DefPos >= 10))} do
 	{
-	_PosX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
-	_PosY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
+	_posX = ((_DefPos select 0) + ((getPosATL (leader _HQ)) select 0))/2; 
+	_posY = ((_DefPos select 1) + ((getPosATL (leader _HQ)) select 1))/2;
 	_DefPos = [_posX,_posY]
 	};
 
 if ((_unitG in (_HQ getVariable ["RydHQ_NCCargoG",[]])) and ((count (units _unitG)) <= 1)) then 
 	{
-	_PosX = ((getPosATL (leader _HQ)) select 0) + (random 200) - 100;
-	_PosY = ((getPosATL (leader _HQ)) select 1) + (random 200) - 100;
+	_posX = ((getPosATL (leader _HQ)) select 0) + (random 200) - 100;
+	_posY = ((getPosATL (leader _HQ)) select 1) + (random 200) - 100;
 	_DefPos = [_posX,_posY]
 	};
 
@@ -253,7 +256,7 @@ if not (_alive) exitWith
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
-		deleteMarker ("markDef" + _unitVar);
+		deleteMarker ("markDef" + _unitvar);
 		};
 
 	_def = _HQ getVariable ["RydHQ_Def",[]];

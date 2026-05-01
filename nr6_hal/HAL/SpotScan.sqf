@@ -33,7 +33,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 						{
 						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeNorth) select 2)+_steepnessActual)) exitwith 
 							{
-							_isGood = false
+							_isGood = false;
 							};
 								
 						switch (_windroseTwo) do 
@@ -42,27 +42,27 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 								{
 								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
 									{
-									_isGood = false
+									_isGood = false;
 									};
 							
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitwith {_isGood = true};
 								};
 					
 							case "W" : 
 								{
 								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
 									{
-									_isGood = false
+									_isGood = false;
 									}; 
 						
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitwith {_isGood = true};
 								};
 					
 							default 
 								{
 								if _true exitwith 
 									{
-									_isGood = true
+									_isGood = true;
 									}
 								}
 							}
@@ -72,7 +72,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					 	{
 						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeSouth) select 2)+_steepnessActual)) exitwith 
 							{
-							_isGood = false
+							_isGood = false;
 							}; 
 								
 						switch (_windroseTwo) do 
@@ -81,25 +81,25 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 								{
 								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
 									{
-									_isGood = false
+									_isGood = false;
 									}; 
 							
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitwith {_isGood = true};
 								};
 					
 							case "W" : 
 								{
 								if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
 									{
-									_isGood = false
+									_isGood = false;
 									}; 
 						
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitwith {_isGood = true};
 								};
 					
 							default 
 								{
-								if (_true) exitwith {_isGood = true}
+								if (_true) exitwith {_isGood = true};
 								}
 							}
 						};
@@ -108,27 +108,27 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					 	{
 						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeEast) select 2)+_steepnessActual)) exitwith 
 							{
-							_isGood = false
+							_isGood = false;
 							}; 
 						
-						if (_true) exitwith {_isGood = true}
+						if (_true) exitwith {_isGood = true};
 						};
 					
 					 case "W" : 
 					 	{
 						if (((getposASL _centralSpot) select 2) <= (((getposASL _probeWest) select 2)+_steepnessActual)) exitwith 
 							{
-							_isGood = false
+							_isGood = false;
 							}; 
 							
-						if (_true) exitwith {_isGood = true}
+						if (_true) exitwith {_isGood = true};
 						};
 					
 					 default 
 					 	{
 					 	if (_true) exitwith 
 					 		{
-					 		_isGood = false
+					 		_isGood = false;
 					 		}
 					 	}			
 					};
@@ -152,7 +152,7 @@ for [{_steepnessInitial = 1},{(_steepnessInitial >= 1) and not (_isdone)},{_stee
 					}
 				};
 				
-			if ((count _goodSpots) >= _Spotsneeded) exitwith {_isdone = true}
+			if ((count _goodSpots) >= _Spotsneeded) exitwith {_isdone = true};
 			}
 		}
 	};

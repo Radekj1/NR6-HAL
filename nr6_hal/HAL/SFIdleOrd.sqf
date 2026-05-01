@@ -1,8 +1,6 @@
 _SCRname = "SFIdleOrd";
-
-private [];
-
-_HQ = _this select 0;
+private ["_pos","_isBad","_unitG","_posX","_posY","_isWater","_cnt","_UL","_tasks","_task","_wp"];
+params ["_HQ"];
 
 _pos = getPosATL (vehicle (leader _HQ));
 

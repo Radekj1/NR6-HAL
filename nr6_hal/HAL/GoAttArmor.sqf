@@ -1,12 +1,12 @@
 _SCRname = "GoAttArmor";
 Diag_log text "HAL GoAttArmor started";
-_i = "";
 private ["_i","_Spos","_request","_isAttacked","_PosObj1","_unitvar","_busy",
         "_isAPlayer","_UL","_nothing","_dX","_dY","_angle","_distance",
         "_distance2","_dstMpl","_dXc","_dYc","_dXb","_dYb","_posX","_posY",
         "_isWater","_attAv","_attackedBy","_AV","_signum","_task",
         "_tp","_wp","_timer","_alive","_cur","_frm","_tPos","_tPosX","_tPosY"];
 params ["_unitG","_Trg","_HQ"];
+_i = "";
 _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then 
 {
 	_unitG setVariable [("START" + (str _unitG)),(getPosATL (vehicle (leader _unitG)))];
@@ -105,25 +105,25 @@ _UL = leader _unitG;
 
 _AV = assignedVehicle _UL;
 
-Diag_log text "GoAttArmor line 100";
+//Diag_log text "GoAttArmor line 100";
 if not (isNull _AV) then { 
 
 	{
 		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
 	} forEach (units _unitG);
 };
- Diag_log text "GoAttArmor spawn RYD_AIChatter";
+ //Diag_log text "GoAttArmor spawn RYD_AIChatter";
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
- Diag_log text "GoAttArmor called RYD_AIChatter";
+ //Diag_log text "GoAttArmor called RYD_AIChatter";
 
 if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
-	 Diag_log text "GoAttArmor call RYD_MARK";
+	 //Diag_log text "GoAttArmor call RYD_MARK";
 	_i = [[_posX,_posY],_unitG,"markAttack","ColorRed","ICON","waypoint","ARM " + (groupId _unitG) + " " + _signum," - ATTACK",[0.5,0.5]] call RYD_Mark;
-	 Diag_log text "GoAttArmor called RYD_MARK";
+	 //Diag_log text "GoAttArmor called RYD_MARK";
 	};
- Diag_log text "GoAttArmor call RYD_AddTask";
+ //Diag_log text "GoAttArmor call RYD_AddTask";
 
  private _AddTask = createGroup sideLogic;
 _AddTask setVariable ["_continueAfterTask",false];
@@ -136,14 +136,14 @@ _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
 
- Diag_log text "GoAttArmor called RYD_AddTask";
+ //Diag_log text "GoAttArmor called RYD_AddTask";
 
 _tp = "MOVE";
 if (_request) then {_tp = "SAD"};
 
- Diag_log text "GoAttArmor call RYD_WPadd";
+ //Diag_log text "GoAttArmor call RYD_WPadd";
 _wp = [_unitG,[_posX,_posY],_tp,"AWARE","RED","NORMAL"] call RYD_WPadd;
- Diag_log text "GoAttArmor called RYD_WPadd";
+ //Diag_log text "GoAttArmor called RYD_WPadd";
 
 if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
@@ -153,17 +153,17 @@ if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),tru
 private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];
- Diag_log text "GoAttArmor call RYD_WPadd";
+ //Diag_log text "GoAttArmor call RYD_WPadd";
 [_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
- Diag_log text "GoAttArmor called RYD_WPadd";
+ //Diag_log text "GoAttArmor called RYD_WPadd";
 waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
- Diag_log text "GoAttArmor waituntil ended";
+ //Diag_log text "GoAttArmor waituntil ended";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
 deleteGroup _WaitCarrier;
 
-Diag_log text "GoAttArmor line 134";
+//Diag_log text "GoAttArmor line 134";
 if not (_alive) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
@@ -172,14 +172,14 @@ if not (_alive) exitwith
 	};
 
 if (_timer > 24) then {deleteWaypoint _wp};
-Diag_log text "GoAttArmor line 143";
+//Diag_log text "GoAttArmor line 143";
 if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG)) and not (_request)) then
 	{
 	[_wp,_Trg,_unitG,_HQ] call RYD_WPSync;
 	 
 	 
 	};
-Diag_log text "GoAttArmor line 150";
+//Diag_log text "GoAttArmor line 150";
 
 if not (_task isEqualTo taskNull) then
 	{
@@ -201,7 +201,7 @@ _tPosY = _tPos select 1;
 
 _tPosX = (_tPosX + _posX)/2;
 _tPosY = (_tPosY + _posY)/2;
-Diag_log text "GoAttArmor line 172";
+//Diag_log text "GoAttArmor line 172";
 
 if not (_request) then {
 	if not (isPlayer (leader _unitG)) then {
@@ -214,7 +214,7 @@ if not (_request) then {
 		
 		};
 };
-Diag_log text "GoAttArmor line 185";
+//Diag_log text "GoAttArmor line 185";
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_Trg]};
 if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
@@ -227,7 +227,7 @@ _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
 deleteGroup _WaitCarrier;
-Diag_log text "GoAttArmor line 196";
+//Diag_log text "GoAttArmor line 196";
 
 if not (_alive) exitwith 
 	{
@@ -267,16 +267,17 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 	_alive = _WaitCarrier getVariable "_alive";
 	deleteGroup _WaitCarrier;
 
-Diag_log text "GoAttArmor line 234";
+//Diag_log text "GoAttArmor line 234";
 
 	if not (_alive) exitwith {_unitG setVariable [("Busy" + (str _unitG)),false];if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))}};
 	if (_timer > 30) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 	_unitG setVariable ["Garrisoned" + (str _unitG),false];
 	};
-Diag_log text "GoAttArmor line 240 sleep 20....";
+//Diag_log text "GoAttArmor line 240 sleep 20....";
 sleep 20;
-Diag_log text "GoAttArmor line 242";
-
+//Diag_log text "GoAttArmor line 242";
+if !(isNull _unitG) then
+{
 if (not (_task isEqualTo taskNull) and not (alive _Trg)) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker _i};
@@ -286,8 +287,9 @@ _attAv pushBack _unitG;
 _HQ setVariable ["RydHQ_AttackAv",_attAv];
 
 _unitG setVariable [("Busy" + (str _unitG)),false];
-Diag_log text "GoAttArmor line 253";
+//Diag_log text "GoAttArmor line 253";
 if not (_request) then {[_Trg,"ArmorAttacked"] call RYD_VarReductor};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
+};
 Diag_log text "HAL_GoAttArmor ended";

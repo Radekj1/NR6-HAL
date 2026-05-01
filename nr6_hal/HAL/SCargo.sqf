@@ -1,10 +1,8 @@
 _SCRname = "SCargo";
 
 private ["_request","_Rdest","_reqdone","_firstlead","_ESpace","_CheckInProgress","_requestG","_enmyNrb"];
+params ["_unitG","_HQ","_posT"];
 
-_unitG = _this select 0;
-_HQ = _this select 1;
-_posT = _this select 2;
 _withdraw = false;
 _request = false;
 _requestG = false;
