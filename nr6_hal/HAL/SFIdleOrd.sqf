@@ -60,7 +60,7 @@ _pos = getPosATL (vehicle (leader _HQ));
 				[_AddTask,_UL,["Guard HQ.", "Guard", ""],[_posX,_posY]] call RYD_AddTask;
 	
 				waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-				diag_log text "RYD_AddTask code finished, waituntil passed";
+				//diag_log text "RYD_AddTask code finished, waituntil passed";
 				_AddTask setVariable ["_continueAfterTask",false];
 				_task = _AddTask getVariable "_task";
 				deleteGroup _AddTask;

@@ -28,7 +28,7 @@ RYD_StatusQuo =
 	"_EnSupportG","_EnCargoG","_EnNCCargoG","_EnOtherG","_EnCrewG","_EnNCrewInfG"];
 	_cInitial = _HQ getVariable ["RydHQ_CInitial",0];
 	_lossP = _HQ getVariable ["RydHQ_LTotal",0];
-	diag_log format ["RYD_StatusQuo - 1st  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 1st  %1", _HQ];
 	_SCRname = "SQ";
 	
 	_orderFirst = _HQ getVariable "RydHQ_Orderfirst";
@@ -75,7 +75,7 @@ RYD_StatusQuo =
 			};
 		
 		};
-	diag_log format ["RYD_StatusQuo - 2nd  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 2nd  %1", _HQ];
 	_HQ setVariable ["RydHQ_Friends",[]];
 	_HQ setVariable ["RydHQ_Enemies",[]];
 	_HQ setVariable ["RydHQ_KnEnemies",[]];
@@ -170,7 +170,7 @@ RYD_StatusQuo =
 			}
 		}
 	foreach allGroups;
-	diag_log format ["RYD_StatusQuo - 3rd  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 3rd  %1", _HQ];
 	_HQ setVariable ["RydHQ_Enemies",_enemies];
 
 	_excl = [];
@@ -215,7 +215,7 @@ RYD_StatusQuo =
 			}
 		foreach allGroups;
 		};
-	diag_log format ["RYD_StatusQuo - 4th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 4th  %1", _HQ];
 	_HQ setVariable ["RydHQ_Subordinated",_subOrd];
 
 	_friends = _friends + _subOrd + (_HQ getVariable ["RydHQ_Included",[]]) - ((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl + [_HQ]);
@@ -256,7 +256,7 @@ RYD_StatusQuo =
 		[_x] call RYD_WPdel;
 		}
 	foreach (((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl) - (_HQ getVariable ["RydHQ_NoWayD",[]]));
-	diag_log format ["RYD_StatusQuo - 5th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 5th  %1", _HQ];
 	if (_HQ getVariable ["RydHQ_Init",true]) then 
 		{
 			{
@@ -272,7 +272,7 @@ RYD_StatusQuo =
 			}
 		foreach (_friends + [_HQ])
 		};
-	diag_log format ["RYD_StatusQuo - 6th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 6th  %1", _HQ];
 	_HQ setVariable ["RydHQ_CInitial",_cInitial];
 	
 	_HQ setVariable ["RydHQ_CLast",(_HQ getVariable ["RydHQ_CCurrent",0])];
@@ -325,7 +325,7 @@ RYD_StatusQuo =
 			}
 		}
 	foreach _enemies;
-	diag_log format ["RYD_StatusQuo - 7th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 7th  %1", _HQ];
 
 	_alwaysKn = ((_HQ getVariable ["RydHQ_AlwaysKnownU",[]]) - (_HQ getVariable ["RydHQ_AlwaysUnKnownU",[]])) - _knownE;
 	
@@ -414,7 +414,7 @@ RYD_StatusQuo =
 				}
 			};
 		};
-	diag_log format ["RYD_StatusQuo - 8th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 8th  %1", _HQ];
 	if (_morale < -50) then {_morale = -50};
 	if (_morale > 0) then {_morale = 0};
 	
@@ -441,7 +441,7 @@ RYD_StatusQuo =
 
 		_HQ setVariable ["DbgMon",_dbgMon];
 		};
-	diag_log format ["RYD_StatusQuo - 9th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 9th  %1", _HQ];
 	_HQ setVariable ["RydHQ_Init",false]; 
 
 		{
@@ -548,7 +548,7 @@ RYD_StatusQuo =
 		foreach (units _x)
 		}
 	foreach _friends;
-	diag_log format ["RYD_StatusQuo - 11th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 11th  %1", _HQ];
 	_HQ setVariable ["RydHQ_FValue",_FValue];
 
 	_HQ setVariable ["RydHQ_SpecFor",_SpecFor];
@@ -613,7 +613,7 @@ RYD_StatusQuo =
 	_CargoG = _CargoG - (_CargoAirEx + _CargoLandEx + (_HQ getVariable ["RydHQ_AmmoDrop",[]]));
 	_HQ setVariable ["RydHQ_CargoAirEx",_CargoAirEx];
 	_HQ setVariable ["RydHQ_CargoLandEx",_CargoLandEx];
-	diag_log format ["RYD_StatusQuo - 12th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 12th  %1", _HQ];
 						
 		{
 		if not (_x in _SupportG) then
@@ -702,7 +702,7 @@ RYD_StatusQuo =
 		publicVariable "ArtyArtGH";
 		}
 	};
-	diag_log format ["RYD_StatusQuo - 13th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 13th  %1", _HQ];
 
 	
 	_HQ setVariable ["RydHQ_NCrewInf",_NCrewInf];
@@ -818,7 +818,7 @@ RYD_StatusQuo =
 		foreach (units _x)
 		}
 	foreach _knownEG;
-	diag_log format ["RYD_StatusQuo - 14th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 14th  %1", _HQ];
 
 	_HQ setVariable ["RydHQ_EValue",_EValue];
 	_HQ setVariable ["RydHQ_EnSpecFor",_EnSpecFor];
@@ -882,7 +882,7 @@ RYD_StatusQuo =
 	_HQ setVariable ["RydHQ_EnNCrewInfG",_EnNCrewInfG];
 	_HQ setVariable ["RydHQ_EnInf",_EnInf];
 	_HQ setVariable ["RydHQ_EnInfG",_EnInfG];
-	diag_log format ["RYD_StatusQuo - 15th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 15th  %1", _HQ];
 	if (_HQ getVariable ["RydHQ_Flee",true]) then
 		{
 		_AllCow = 0;
@@ -900,7 +900,7 @@ RYD_StatusQuo =
 			if (_panic) then {_AllPanic = _AllPanic + 1};
 			}
 		foreach _friends;
-		diag_log format ["RYD_StatusQuo - 16th  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 16th  %1", _HQ];
 		if (_AllPanic == 0) then {_AllPanic = 1};
 		_midCow = 0;
 		if not ((count _friends) == 0) then {_midCow = _AllCow/(count _friends)};
@@ -1001,7 +1001,7 @@ RYD_StatusQuo =
 						}
 					}
 				};
-			diag_log format ["RYD_StatusQuo - 17th  %1", _HQ];
+			//diag_log format ["RYD_StatusQuo - 17th  %1", _HQ];
 			_panic = _x getVariable ("inPanic" + (str _x));
 			if (isNil ("_panic")) then {_panic = false};
 
@@ -1025,13 +1025,13 @@ RYD_StatusQuo =
 			}
 		foreach _friends
 		};
-		diag_log format ["RYD_StatusQuo - 18th  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 18th  %1", _HQ];
 		{
 		_KnEnPos pushBack (getPosATL (vehicle (leader _x)));
 		if ((count _KnEnPos) >= 100) then {_KnEnPos = _KnEnPos - [_KnEnPos select 0]};
 		}
 	foreach _knownEG;
-	diag_log format ["RYD_StatusQuo - 19th  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 19th  %1", _HQ];
 	_HQ setVariable ["RydHQ_KnEnPos",_KnEnPos];
 	
 	for [{_z = 0},{_z < (count _knownE)},{_z = _z + 1}] do
@@ -1042,7 +1042,7 @@ RYD_StatusQuo =
 			}
 		foreach _friends
 		};
-		diag_log format ["RYD_StatusQuo - 20th  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 20th  %1", _HQ];
 	if (_cycleC == 1) then
 		{
 		_Recklessness = _HQ getVariable ["RydHQ_Recklessness",0.5];
@@ -1084,7 +1084,7 @@ RYD_StatusQuo =
 				}
 			}
 		};
-	diag_log format ["RYD_StatusQuo - 21st  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 21st  %1", _HQ];
 	if (_cycleC > 1) then
 		{
 		if (_HQ getVariable ["RydHQ_AAO",false]) then
@@ -1152,7 +1152,7 @@ RYD_StatusQuo =
 				if ((_x getVariable ["SetTakenH",false]) and ((str (leader _HQ)) == "LeaderHQH") and not (_x in _taken)) then {_taken pushBack _x;};		
 			
 		} foreach (_HQ getVariable ["RydHQ_Objectives",[]]);
-		diag_log format ["RYD_StatusQuo - 22nd  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 22nd  %1", _HQ];
 		{
 
 				if ((_x getVariable ["SetTakenA",false]) and ((str (leader _HQ)) == "LeaderHQ") and not (_x in _Navaltaken)) then {_Navaltaken pushBack _x;};
@@ -1165,7 +1165,7 @@ RYD_StatusQuo =
 				if ((_x getVariable ["SetTakenH",false]) and ((str (leader _HQ)) == "LeaderHQH") and not (_x in _Navaltaken)) then {_Navaltaken pushBack _x;};		
 			
 		} foreach (_HQ getVariable ["RydHQ_NavalObjectives",[]]);
-		diag_log format ["RYD_StatusQuo - 23rd  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 23rd  %1", _HQ];
 		_HQ setVariable ["RydHQ_Taken",_taken];
 		_HQ setVariable ["RydHQ_TakenNaval",_Navaltaken];
 
@@ -1205,58 +1205,58 @@ RYD_StatusQuo =
 		};
 
 	};
-	diag_log format ["RYD_StatusQuo - 24rd  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 24rd  %1", _HQ];
 	
 
 	_objs = (((_HQ getVariable ["RydHQ_Objectives",[]]) + (_HQ getVariable ["RydHQ_NavalObjectives",[]])) - ((_HQ getVariable ["RydHQ_Taken",[]]) + (_HQ getVariable ["RydHQ_TakenNaval",[]])));
-	diag_log format ["RYD_StatusQuo - 24rd - Objectives acquired %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 24rd - Objectives acquired %1", _HQ];
 	if (((_moraleInfl > _enemyInfl) and not ((count _objs) < 1) and {not ((_HQ getVariable ["RydHQ_Order","ATTACK"]) in ["DEFEND"])}) or {(_HQ getVariable ["RydHQ_Berserk",false])} or {(_moraleInfl > _enemyInfl) and (_HQ getVariable ["LastStance","At"] == "De") and ((((75)*(_HQ getVariable ["RydHQ_Recklessness",0.5])*(count (_HQ getVariable ["RydHQ_KnEnemiesG",[]]))) >= (random 100)) or ((_HQ getVariable ["RydHQ_AttackAlways",false]) and (_HQ getVariable ["LastStance","At"] == "De") and ((count (_HQ getVariable ["RydHQ_KnEnemiesG",[]])) > 0)))}) then 
 		{
 		_lastS = _HQ getVariable ["LastStance","At"];
 		if ((_lastS == "De") or (_cycleC == 1)) then
 			{
-			diag_log format ["RYD_StatusQuo Calling RYD_AIChatter %1", _HQ];
+			//diag_log format ["RYD_StatusQuo Calling RYD_AIChatter %1", _HQ];
 			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_OffStance,"OffStance"] spawn RYD_AIChatter};
-			diag_log format ["RYD_StatusQuo spawn RYD_AIChatter finished %1", _HQ];
+			//diag_log format ["RYD_StatusQuo spawn RYD_AIChatter finished %1", _HQ];
 			};
 
 		_HQ setVariable ["LastStance","At"];
 		_HQ setVariable ["RydHQ_Inertia",30 * (0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5]))*(0.5 + (_HQ getVariable ["RydHQ_Activity",0.5]))];
-		diag_log format ["RYD_StatusQuo Calling HAL_HQOrders %1", _HQ];
+		//diag_log format ["RYD_StatusQuo Calling HAL_HQOrders %1", _HQ];
 		[_HQ] call HAL_HQOrders;
-		diag_log format ["RYD_StatusQuo Call HAL_HQOrders finished %1", _HQ];
+		//diag_log format ["RYD_StatusQuo Call HAL_HQOrders finished %1", _HQ];
 		} 
 	else 
 		{
 		_lastS = _HQ getVariable ["LastStance","De"];
 		if ((_lastS == "At") or (_cycleC == 1)) then
 			{
-			diag_log format ["RYD_StatusQuo Calling RYD_AIChatter - LastStance %1", _HQ];
+			//diag_log format ["RYD_StatusQuo Calling RYD_AIChatter - LastStance %1", _HQ];
 			if ((random 100) < RydxHQ_AIChatDensity) then {[(_HQ getVariable ["leaderHQ",(leader _HQ)]),RydxHQ_AIC_DefStance,"DefStance"] spawn RYD_AIChatter};
-			diag_log format ["RYD_StatusQuo Call LastStance finished %1", _HQ];
+			//diag_log format ["RYD_StatusQuo Call LastStance finished %1", _HQ];
 			};
 
 		_HQ setVariable ["LastStance","De"];
 		_HQ setVariable ["RydHQ_Inertia", - (30  * (0.5 + (_HQ getVariable ["RydHQ_Consistency",0.5])))/(0.5 + (_HQ getVariable ["RydHQ_Activity",0.5]))];
-		diag_log text "Calling HAL_HQOrdersDef";
+		//diag_log text "Calling HAL_HQOrdersDef";
 		[_HQ] call HAL_HQOrdersDef;
-		diag_log text "Call HAL_HQOrdersDef finished";
+		//diag_log text "Call HAL_HQOrdersDef finished";
 		};
-	diag_log format ["RYD_StatusQuo - 25rd - Objectives acquired %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 25rd - Objectives acquired %1", _HQ];
 	if (((((_HQ getVariable ["RydHQ_Circumspection",0.5]) + (_HQ getVariable ["RydHQ_Fineness",0.5]))/2) + 0.1) > (random 1.2)) then
 		{
-		diag_log text "Counting Special Forces";
+		//diag_log text "Counting Special Forces";
 		_SFcount = {not (_x getVariable ["Busy" + (str _x),false]) and not (_x getVariable ["Unable",false]) and not (_x getVariable ["Resting" + (str _x),false])} count (_SpecForG - (_HQ getVariable ["RydHQ_SFBodyGuard",[]]));
-		diag_log text "SF Counted";
+		//diag_log text "SF Counted";
 		if (_SFcount > 0) then
 			{
-			diag_log text "Calling RYD_isNight";
+			//diag_log text "Calling RYD_isNight";
 			_isNight = [] call RYD_isNight;
-			diag_log text "Call finished";
+			//diag_log text "Call finished";
 			_SFTgts = [];
 			_chance = 40 + (60 * (_HQ getVariable ["RydHQ_Activity",0.5]));
 			private _HQTarget = grpNull;
-			diag_log text "Special Forces Targets";
+			//diag_log text "Special Forces Targets";
 				// Special Forces Targets
 				{
 				_HQTarget = group _x;
@@ -1266,7 +1266,7 @@ RYD_StatusQuo =
 					}
 				}
 			foreach (RydxHQ_AllLeaders - [(_HQ getVariable ["leaderHQ",(leader _HQ)])]);
-			diag_log format ["RYD_StatusQuo - 25th  %1", _HQ];
+			//diag_log format ["RYD_StatusQuo - 25th  %1", _HQ];
 			if ((count _SFTgts) == 0) then
 				{
 				_chance = _chance/2;
@@ -1323,7 +1323,7 @@ RYD_StatusQuo =
 							}
 						}
 					foreach _SpecForG;
-					diag_log format ["RYD_StatusQuo - 26th  %1", _HQ];
+					//diag_log format ["RYD_StatusQuo - 26th  %1", _HQ];
 					_team = _SFAv select (floor (random (count _SFAv)));
 					_trg = vehicle (leader _trgG);
 					if (not ((toLower (typeOf _trg)) in (_HArmor + _LArmor)) or ((random 100) > (90 - ((_HQ getVariable ["RydHQ_Recklessness",0.5]) * 10)))) then 
@@ -1334,10 +1334,10 @@ RYD_StatusQuo =
 				}
 			}
 		};
-		diag_log format ["RYD_StatusQuo - 27th  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 27th  %1", _HQ];
 	if ((_HQ getVariable ["RydHQ_LRelocating",false]) and {not (_AAO)}) then
 		{
-		diag_log format ["RYD_StatusQuo - RydHQ LRelocating  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - RydHQ LRelocating  %1", _HQ];
 
 		if ((abs (speed (vehicle (_HQ getVariable ["leaderHQ",(leader _HQ)])))) < 0.1) then {_HQ setVariable ["onMove",false]};
 		_onMove = _HQ getVariable ["onMove",false];
@@ -1387,7 +1387,7 @@ RYD_StatusQuo =
 					if (_eDst < 600) exitWith {_enemyN = true}
 					}
 				foreach _knownEG;
-				diag_log format ["RYD_StatusQuo - 28th  %1", _HQ];
+				//diag_log format ["RYD_StatusQuo - 28th  %1", _HQ];
 				if not (_enemyN) then 
 					{
 					_wp = [_HQ,_Lpos,"MOVE","AWARE","GREEN",_spd,["true",""],true,_rds,[0,0,0],"FILE"] call RYD_WPadd;
@@ -1465,9 +1465,9 @@ RYD_StatusQuo =
 								_wp = [_HQ,_Lpos,"MOVE","AWARE","GREEN",_spd,["true",""],true,_rds,[0,0,0],"FILE"] call RYD_WPadd;
 								if (isNull (assignedVehicle (_HQ getVariable ["leaderHQ",(leader _HQ)]))) then
 									{
-									diag_log format ["RYD_StatusQuo calling RYD_GoInside %1", _HQ];
+									//diag_log format ["RYD_StatusQuo calling RYD_GoInside %1", _HQ];
 									if (_HQ getVariable ["RydHQ_GetHQInside",false]) then {[_wp] call RYD_GoInside};
-									diag_log format ["RYD_StatusQuo called RYD_GoInside %1", _HQ];
+									//diag_log format ["RYD_StatusQuo called RYD_GoInside %1", _HQ];
 									};
 
 								_HQ setVariable ["onMove",true];
@@ -1480,7 +1480,7 @@ RYD_StatusQuo =
 				}
 			}
 		};
-	diag_log format ["RYD_StatusQuo - 29th step %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 29th step %1", _HQ];
 	_alive = true;
 	_ct = time;
 	_ctRev = time;
@@ -1496,7 +1496,7 @@ RYD_StatusQuo =
 	_ctGarr = time;
 	
 	_HQ setVariable ["RydHQ_Pending",false];
-	diag_log format ["RYD_StatusQuo - 30th step %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 30th step %1", _HQ];
 	waitUntil
 		{
 		sleep 1;
@@ -1608,7 +1608,7 @@ RYD_StatusQuo =
 			
 		(((time - _ct) > _delay) or not (_alive))
 		};
-	diag_log format ["RYD_StatusQuo - 31st  %1", _HQ];
+	//diag_log format ["RYD_StatusQuo - 31st  %1", _HQ];
 	if not (_alive) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 
 		{
@@ -1625,7 +1625,7 @@ RYD_StatusQuo =
 			}
 		foreach _friends
 		};
-		diag_log format ["RYD_StatusQuo - 32nd [last]  %1", _HQ];
+		//diag_log format ["RYD_StatusQuo - 32nd [last]  %1", _HQ];
 };
 
 RYD_isInside = 

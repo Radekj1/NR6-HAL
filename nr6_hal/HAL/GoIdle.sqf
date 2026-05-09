@@ -14,7 +14,7 @@ _Spos = _unitG getvariable ("START" + (str _unitG));if (isNil ("_Spos")) then {_
 _pos = getPosATL (leader _unitG);
 _LU = leader _unitG;
 _VLU = vehicle _LU;
-diag_log text "HAL_GoIdle started";
+//diag_log text "HAL_GoIdle started";
 if (_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) exitwith {};
 
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
@@ -181,21 +181,21 @@ if not (_isDecoy) then
 			}
 		};
 	};
-diag_log text "HAL_GoIdle call RYD_CloseEnemy";
+//diag_log text "HAL_GoIdle call RYD_CloseEnemy";
 _eClose = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),500] call RYD_CloseEnemy;
-diag_log text "HAL_GoIdle called RYD_CloseEnemy";
+//diag_log text "HAL_GoIdle called RYD_CloseEnemy";
 if (((([_posX,_posY] distance _VLU) < 100) and not (_patrol) and not (_roadG)) or ((_eClose) and (_enemyMatters))) exitwith {_unitG setVariable [("Deployed" + (str _unitG)),false]};
 
 _isWater = surfaceIsWater [_posX,_posY];
 
 if (_isWater) exitwith {_unitG setVariable [("Deployed" + (str _unitG)),false]};
-diag_log text "HAL_GoIdle call RYD_WPdel";
+//diag_log text "HAL_GoIdle call RYD_WPdel";
 [_unitG] call RYD_WPdel;
-diag_log text "HAL_GoIdle called RYD_WPdel";
+//diag_log text "HAL_GoIdle called RYD_WPdel";
 
-diag_log text "HAL_GoIdle call RYD_OrderPause";
+//diag_log text "HAL_GoIdle call RYD_OrderPause";
 [_unitG,[_posX,_posY,0],"HQ_ord_idle",_HQ] call RYD_OrderPause;
-diag_log text "HAL_GoIdle called RYD_OrderPause";
+//diag_log text "HAL_GoIdle called RYD_OrderPause";
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
@@ -205,13 +205,13 @@ if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,
 _i = "";
 if (_HQ getVariable ["RydHQ_Debug",false]) then
 	{
-	diag_log text "HAL_GoIdle RydHQ_Debug true";
+	//diag_log text "HAL_GoIdle RydHQ_Debug true";
 	_pltxt = " - HOLD POSITION";
 	if (_patrol) then {_pltxt = " - PATROL AREA"};
 	_signum = _HQ getVariable ["RydHQ_CodeSign","X"];
 	_i = [[_posX,_posY],_unitG,"markIdle","ColorWhite","ICON","waypoint","STB " + (groupId _unitG) + " " + _signum,_pltxt,[0.5,0.5]] call RYD_Mark;
 	};
-diag_log text "HAL_GoIdle line 202";
+//diag_log text "HAL_GoIdle line 202";
 _task = taskNull;
 if (not (_patrol)) then
 	{
@@ -221,7 +221,7 @@ if (not (_patrol)) then
 	[_AddTask,(leader _unitG),["Hold position and wait for orders.", "Wait For Orders", ""],[_posX,_posY],"radio"] call RYD_AddTask;
 
 	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-	diag_log text "RYD_AddTask code finished, waituntil passed";
+	//diag_log text "RYD_AddTask code finished, waituntil passed";
 	_AddTask setVariable ["_continueAfterTask",false];
 	_task = _AddTask getVariable "_task";
 	deleteGroup _AddTask;
@@ -269,7 +269,7 @@ if (_patrol) then
 		_posY = _posY2;
 
 		_isWater = surfaceIsWater [_posX,_posY];
-		diag_log text "HAL_GoIdle line 260";
+		//diag_log text "HAL_GoIdle line 260";
 		if not (_isWater) then 
 			{
 			
@@ -279,24 +279,24 @@ if (_patrol) then
 			[_AddTask,(leader _unitG),["Patrol area.", "Patrol area", ""],[_posX,_posY],"walk"] call RYD_AddTask;
 			
 			waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-			diag_log text "HAL_GoIdle RYD_AddTask code finished, waituntil passed";
+			//diag_log text "HAL_GoIdle RYD_AddTask code finished, waituntil passed";
 			_AddTask setVariable ["_continueAfterTask",false];
 			_task = _AddTask getVariable "_task";
 			deleteGroup _AddTask;
 
-			diag_log text "HAL_GoIdle line 275";
+			//diag_log text "HAL_GoIdle line 275";
 			_tp = "CYCLE";
 			_pos = _firstpos;
 			if (not (_a == _Nway) or (isPlayer (leader _unitG))) then {_pos = [_posX,_posY];_tp = "MOVE"};
 			_crr = false;
 			if (_a == 1) then {_crr = true};
-			diag_log text "HAL_GoIdle call RYD_WPadd";
+			//diag_log text "HAL_GoIdle call RYD_WPadd";
 			_wp = [[_unitG],_pos,_tp,"SAFE","YELLOW","LIMITED",["true",""],_crr,0.01,[20,25,30],"STAG COLUMN"] call RYD_WPadd;
-			diag_log text "HAL_GoIdle called RYD_WPadd";
+			//diag_log text "HAL_GoIdle called RYD_WPadd";
 			};
 		};
 	};
-diag_log text "HAL_GoIdle line 287";
+//diag_log text "HAL_GoIdle line 287";
 private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];
@@ -336,4 +336,4 @@ if (_alive) then
 	if not (_alive) exitwith {};
 	if not (isPlayer (leader _unitG)) then {_unitG setFormation "WEDGE"};
 	};
-diag_log text "HAL_GoIdle finished";
+//diag_log text "HAL_GoIdle finished";

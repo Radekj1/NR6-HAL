@@ -56,7 +56,7 @@ if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New order
 
 _UL = leader _unitG;
 
-if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}};
+if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] spawn RYD_AIChatter}}; 
 
 _alive = false;
 if (_HQ getVariable ["RydHQ_Debug",false]) then 
@@ -71,7 +71,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Deliver Ammo to " + (groupId (group _Trg)), "Rearm " + (groupId (group _Trg)), ""],(position _Trg),"rearm"] call RYD_AddTask;
 
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
@@ -128,7 +128,7 @@ if (_drop) then
 
 						_WaitCarrier setVariable ["_continueAW",false];
 						[_WaitCarrier,_unitG,1,true,0,240,[],true,true,true,true] call RYD_Wait; 
-						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
 						_alive = _WaitCarrier getVariable "_alive";
@@ -166,7 +166,7 @@ if (_drop) then
 
 						_WaitCarrier setVariable ["_continueAW",false];
 						[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
 						_alive = _WaitCarrier getVariable "_alive";
@@ -208,7 +208,7 @@ if (_drop) then
 
 						_WaitCarrier setVariable ["_continueAW",false];
 						[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+						waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 						_WaitCarrier setVariable ["_continueAW",false];
 						_timer = _WaitCarrier getVariable "_timer";
 						_alive = _WaitCarrier getVariable "_alive";
@@ -234,7 +234,7 @@ if (_drop) then
 
 					_WaitCarrier setVariable ["_continueAW",false];
 					[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-					waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+					waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 					_WaitCarrier setVariable ["_continueAW",false];
 					_timer = _WaitCarrier getVariable "_timer";
 					_alive = _WaitCarrier getVariable "_alive";
@@ -390,7 +390,7 @@ if (_drop) then
 
 					_WaitCarrier setVariable ["_continueAW",false];
 					[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-					waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+					waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 					_WaitCarrier setVariable ["_continueAW",false];
 					_timer = _WaitCarrier getVariable "_timer";
 					_alive = _WaitCarrier getVariable "_alive";
@@ -508,7 +508,7 @@ else
 
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
@@ -603,7 +603,7 @@ if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {
 
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,24,[],true,true,true,true] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";

@@ -15,7 +15,7 @@ private ["_nObj","_Trg","_vHQ","_landE","_dstMin","_dstAct","_dstMin","_PosObj1"
 	"_isAttacked","_captCount","_captLimit","_forCapt","_groupCount","_LMCU","_WADone","_WAchance","_armored","_WAAv","_where","_heldBy","_howMuch","_AAO","_toTake",
 	"_taken","_objectives","_BBAOObj","_IsAPlayer","_takenNav","_totakeNav","_forNavCapt","_Navalobjectives"];
 params ["_HQ"];
-diag_log text "HQ_Orders started";
+//diag_log text "HQ_Orders started";
 _AAO = _HQ getVariable ["RydHQ_ChosenAAO",false];
 
 _HQ setVariable ["RydHQ_DefDone",false];
@@ -26,7 +26,7 @@ _HQ setVariable ["RydHQ_NearestE",ObjNull];
 
 _nObj = _HQ getVariable ["RydHQ_NObj",1];
 _BBAOObj = _HQ getVariable ["RydHQ_BBAOObj",1];
-diag_log text "HQOrders get objectives";
+//diag_log text "HQOrders get objectives";
 switch (_nObj) do
 	{
 	case (1) : {_HQ setVariable ["RydHQ_Obj",(_HQ getVariable ["RydHQ_Obj1",(leader _HQ)])]};
@@ -59,7 +59,7 @@ if ((count _landE) > 0) then
 		}
 	foreach _landE;
 	_Trg = vehicle (leader (_HQ getVariable ["RydHQ_NearestE",grpNull]));
-	diag_log text "Land Target Acquired";
+	//diag_log text "Land Target Acquired";
 	};
 
 _ReconAv = [];
@@ -67,7 +67,7 @@ _onlyL = (_HQ getVariable ["RydHQ_LArmorG",[]]) - (_HQ getVariable ["RydHQ_MArmo
 
 if not ((_HQ getVariable ["RydHQ_ReconReserve",0]) > 0) then {_HQ setVariable ["RydHQ_ReconG",[]];};
 
-diag_log text "HQOrders - Air start";
+//diag_log text "HQOrders - Air start";
 	{
 	if not (isNull _x) then
 		{
@@ -130,9 +130,9 @@ diag_log text "HQOrders - Air start";
 		}
 	}
 foreach (((_HQ getVariable ["RydHQ_RAirG",[]]) + (_HQ getVariable ["RydHQ_ReconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + (_HQ getVariable ["RydHQ_SnipersG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]]) - ((_HQ getVariable ["RydHQ_SupportG",[]]) + (_HQ getVariable ["RydHQ_NCCargoG",[]])) + _onlyL) - ((_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]])));
-diag_log text "HQOrders - Air Done, calling RYD_RandomOrd";
+//diag_log text "HQOrders - Air Done, calling RYD_RandomOrd";
 _ReconAv = [_ReconAv] call RYD_RandomOrd;
-diag_log text "HQOrders - RYD_RandomOrd finished";
+//diag_log text "HQOrders - RYD_RandomOrd finished";
 _ReconAv = _ReconAv - (_HQ getVariable ["RydHQ_AOnly",[]]);
 
 if not (_HQ getVariable ["RydHQ_ChosenEBDoctrine",false]) then
@@ -147,7 +147,7 @@ if not (_HQ getVariable ["RydHQ_ChosenEBDoctrine",false]) then
 			}
 		}
 	};
-diag_log text "RydHQ_ChosenEBDoctrine passed";		
+//diag_log text "RydHQ_ChosenEBDoctrine passed";		
 _HQ setVariable ["RydHQ_ReconAv",_ReconAv];
 
 _AttackAv = [];
@@ -158,7 +158,7 @@ _exhausted = _HQ getVariable ["RydHQ_Exhausted",[]];
 
 	if not (_x getvariable [("Resting" + (str _x)),false]) then {_exhausted = _exhausted - [_x]}
 } foreach _exhausted;
-diag_log text "_exhausted passed";
+//diag_log text "_exhausted passed";
 	{
 	if ((typeName _x) in [(typeName grpNull)]) then
 		{
@@ -239,13 +239,13 @@ diag_log text "_exhausted passed";
 	}
 foreach (((_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_reconG",[]]) + (_HQ getVariable ["RydHQ_FOG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])) + (_HQ getVariable ["RydHQ_SupportG",[]]))) - (_HQ getVariable ["RydHQ_NoAttack",[]]));
 
-diag_log text "_AttackAv = [_AttackAv] call RYD_RandomOrd;";
+//diag_log text "_AttackAv = [_AttackAv] call RYD_RandomOrd;";
 _AttackAv = [_AttackAv] call RYD_RandomOrd;
-diag_log text "Call finished";
+//diag_log text "Call finished";
 
 _AttackAv = _AttackAv - (_HQ getVariable ["RydHQ_ROnly",[]]);
 
-diag_log text "Calling HQOrdersEast";
+//diag_log text "Calling HQOrdersEast";
 if (_HQ getVariable ["RydHQ_ChosenEBDoctrine",false]) exitWith {[_HQ,_ReconAv,_AttackAv] call HAL_HQOrdersEast};
 
 if ((_HQ getVariable ["RydHQ_AttackReserve",0]) > 0) then 
@@ -264,7 +264,7 @@ if ((_HQ getVariable ["RydHQ_AttackReserve",0]) > 0) then
 {
 	if ((({alive _x} count (units _x)) == 0) or (_x == grpNull)) then {_exhausted = _exhausted - [_x]};
 } foreach _exhausted;
-diag_log text "Attack reserve exhaustion passed";
+//diag_log text "Attack reserve exhaustion passed";
 
 _FlankAv = _FlankAv - ((_HQ getVariable ["RydHQ_NoFlank",[]]) + (_HQ getVariable ["RydHQ_AOnly",[]]) + (_HQ getVariable ["RydHQ_ROnly",[]]));
 _HQ setVariable ["RydHQ_AttackAv",_AttackAv];
@@ -273,7 +273,7 @@ _HQ setVariable ["RydHQ_CombatAv",_FlankAv + _AttackAv];
 _HQ setVariable ["RydHQ_Exhausted",_exhausted];
 _timeStamp = _HQ getVariable ["RydHQ_FlankingTimeStamp",0];
 
-diag_log text "HQOrders Flanking";
+//diag_log text "HQOrders Flanking";
 
 if not (_HQ getVariable ["RydHQ_FlankingInit",false]) then 
 	{
@@ -298,9 +298,9 @@ if not (_HQ getVariable ["RydHQ_FlankingInit",false]) then
 					if (_gap > 0) then
 						{
 						_HQ setVariable ["RydHQ_FlankingInit",true];
-						diag_log text "Spawn HAL_Flanking";
+						//diag_log text "Spawn HAL_Flanking";
 						[_HQ] spawn HAL_Flanking;
-						diag_log text "Spawn HAL_Flanking finished";
+						//diag_log text "Spawn HAL_Flanking finished";
 						}
 					}
 				}
@@ -327,7 +327,7 @@ if (_nObj == 5) then {_toRecon = []};
 //if (_toRecon isEqualTo [(leader _HQ)]) then {_toRecon = []};
 
 _objectives = _HQ getVariable ["RydHQ_Objectives",[]];
-diag_log text "HQOrders Line 330";
+//diag_log text "HQOrders Line 330";
 _stages = 3;
 if ([] call RYD_isNight) then {_stages = 5};
 
@@ -552,6 +552,7 @@ if (not ((_HQ getVariable ["RydHQ_ReconDone",false])) and ((count (_HQ getVariab
 				if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
 					[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] spawn HAL_GoDefRes;
 					} else {
+					//Squad going into Idle mode
 					[_x,_HQ] spawn HAL_GoIdle;
 					};
 				};
@@ -588,7 +589,7 @@ _Otherthreat = [];
 	_checked = _GE getvariable ("Checked" + _GEvar);
 	if (isNil ("_checked")) then {_GE setvariable [("Checked" + _GEvar),false]};
 	_checked = false;
-	diag_log text "HQOrders Line 590";
+	//diag_log text "HQOrders Line 590";
 	if ((_x in (_HQ getVariable ["RydHQ_Enrecon",[]])) and not (_GE in _reconthreat) and not (_checked)) then {_reconthreat pushBack _GE};
 	if ((_x in (_HQ getVariable ["RydHQ_EnFO",[]])) and not (_GE in _FOthreat) and not (_checked)) then {_FOthreat pushBack _GE};
 	if ((_x in (_HQ getVariable ["RydHQ_Ensnipers",[]])) and not (_GE in _snipersthreat) and not (_checked)) then {_snipersthreat pushBack _GE};
@@ -618,7 +619,7 @@ _HQ setVariable ["RydHQ_AAthreat",(_AAinfthreat + _StaticAAthreat)];
 _HQ setVariable ["RydHQ_ATthreat",(_ATinfthreat + _StaticATthreat + _HArmorthreat + _LArmorATthreat)];
 _HQ setVariable ["RydHQ_Airthreat",_Airthreat];
 _reconthreat = _reconthreat - _Airthreat;
-diag_log text "HQOrders Line 620";
+//diag_log text "HQOrders Line 620";
 _FPool = 
 	[
 	(_HQ getVariable ["RydHQ_snipersG",[]]),
@@ -644,73 +645,73 @@ _FPool =
 	];
 
 _constant = [(_HQ getVariable ["RydHQ_AAthreat",[]]),(_HQ getVariable ["RydHQ_ATthreat",[]]),_HArmorthreat + _LArmorATthreat,_FPool];
-diag_log text "HQOrders Line 646";
+//diag_log text "HQOrders Line 646";
 if (count (_reconthreat + _FOthreat + _snipersthreat) > 0) then 
 	{
-	diag_log text "HQOrders Recon calling RYD_Dispatcher";
+	//diag_log text "HQOrders Recon calling RYD_Dispatcher";
 	([_reconthreat + _FOthreat + _snipersthreat,"Recon",_HQ,0,0,0] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _ATinfthreat > 0) then 
 	{
-		diag_log text "HQOrders ATInf calling RYD_Dispatcher";
+		//diag_log text "HQOrders ATInf calling RYD_Dispatcher";
 	([_ATinfthreat,"ATInf",_HQ,0,0,85] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _Infthreat > 0) then 
 	{
-		diag_log text "HQOrders Inf calling RYD_Dispatcher";
+		//diag_log text "HQOrders Inf calling RYD_Dispatcher";
 	([_Infthreat,"Inf",_HQ,75,80,85] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count (_LArmorthreat + _HArmorthreat) > 0) then 
 	{
-		diag_log text "HQOrders Armor calling RYD_Dispatcher";
+		//diag_log text "HQOrders Armor calling RYD_Dispatcher";
 	([_LArmorthreat + _HArmorthreat,"Armor",_HQ,50,0,85] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _Carsthreat > 0) then 
 	{
-		diag_log text "HQOrders Cars calling RYD_Dispatcher";
+		//diag_log text "HQOrders Cars calling RYD_Dispatcher";
 	([_Carsthreat,"Cars",_HQ,75,80,85] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _Artthreat > 0) then 
 	{
-		diag_log text "HQOrders Art calling RYD_Dispatcher";
+		//diag_log text "HQOrders Art calling RYD_Dispatcher";
 	([_Artthreat,"Art",_HQ,70,75,75] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _Airthreat > 0) then 
 	{
-		diag_log text "HQOrders Air calling RYD_Dispatcher";
+		//diag_log text "HQOrders Air calling RYD_Dispatcher";
 	([_Airthreat,"Air",_HQ,0,0,75] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count (_Staticthreat - _Artthreat) > 0) then 
 	{
-		diag_log text "HQOrders static calling RYD_Dispatcher";
+		//diag_log text "HQOrders static calling RYD_Dispatcher";
 	([_Staticthreat - _Artthreat,"Static",_HQ,75,80,85] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 if (count _Navalthreat > 0) then 
 	{
-		diag_log text "HQOrders Naval calling RYD_Dispatcher";
+		//diag_log text "HQOrders Naval calling RYD_Dispatcher";
 	([_Navalthreat,"Naval",_HQ,0,0,0] + _constant) call RYD_Dispatcher;
-	diag_log text "Call finished";
+	//diag_log text "Call finished";
 	};
 
 /////////////////////////////////////////
 // Capture Objective
-diag_log text "HQOrders line 703";
+//diag_log text "HQOrders line 703";
 _toTake = [_HQ getVariable "RydHQ_Obj"];
 
 if (_BBAOObj > 1) then {
@@ -728,7 +729,7 @@ if (_BBAOObj > 1) then {
 if (_nObj == 5) then {_toTake = []};
 
 //if (_toTake isEqualTo [(leader _HQ)]) then {_toTake = []};
-diag_log text "HQOrders line 721";
+//diag_log text "HQOrders line 721";
 if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 	{
 	_taken = _HQ getVariable ["RydHQ_Taken",[]]; 
@@ -744,7 +745,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 			}
 		}
 	foreach _toTake;
-	diag_log text "HQOrders foreach _toTake";
+	//diag_log text "HQOrders foreach _toTake";
 
 	_toTake = _toTake - [objNull];
 		
@@ -755,7 +756,7 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 		}
 	foreach _AttackAv;
 
-	diag_log text "HQOrders foreach _AttackAv";
+	//diag_log text "HQOrders foreach _AttackAv";
 
 	/*			
 	while {(((_allAttackers/(_HQ getVariable ["RydHQ_CaptLimit",10])) < (count _toTake)) or ((count _AttackAv) < ((1.5 * (count _toTake)))))} do
@@ -765,12 +766,12 @@ if ((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false])) then
 		}
 	*/
 	};
-	diag_log text "HQOrders Line 758";
+	//diag_log text "HQOrders Line 758";
 	{
 	if (isNil {_x}) then {_toTake set [_foreachIndex,objNull]};
 	}
 foreach _toTake;
-diag_log text "HQOrders Line 763";
+//diag_log text "HQOrders Line 763";
 
 _toTake = _toTake - [objNull];
 	
@@ -925,7 +926,7 @@ _toTake = _toTake - [objNull];
 		}
 	}
 foreach _toTake;
-diag_log text "HQOrders Line 906";
+//diag_log text "HQOrders Line 906";
 
 // NAVAL OBJECTIVES
 
@@ -954,7 +955,7 @@ if (((_AAO) or (_HQ getVariable ["RydHQ_SimpleMode",false]))) then
 	if (isNil {_x}) then {_toTakeNav set [_foreachIndex,objNull]};
 	}
 foreach _toTakeNav;
-diag_log text "HQOrders Line 935";
+//diag_log text "HQOrders Line 935";
 
 _toTakeNav = _toTakeNav - [objNull];
 	
@@ -1046,7 +1047,7 @@ _toTakeNav = _toTakeNav - [objNull];
 		}
 	}
 foreach _toTakeNav;
-diag_log text "HQOrders Line 1027";
+//diag_log text "HQOrders Line 1027";
 /*if (_HQ getVariable ["RydHQ_WA",true]) then
 	{
 	_WADone = _HQ getVariable ["RydHQ_WADone",0];
@@ -1110,10 +1111,10 @@ diag_log text "HQOrders Line 1027";
 			}
 		}
 	};*/
-diag_log text "HQOrders Line 1091";
+//diag_log text "HQOrders Line 1091";
 if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 	{
-	diag_log text "HQOrders RydHQ_IdleOrd";
+	//diag_log text "HQOrders RydHQ_IdleOrd";
 	_reserve = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_SpecForG",[]]) + (_HQ getVariable ["RydHQ_AmmoDrop",[]]) + (_HQ getVariable ["RydHQ_CargoOnly",[]]) + (_HQ getVariable ["RydHQ_NoRecon",[]]) + (_HQ getVariable ["RydHQ_NoAttack",[]]) + (_HQ getVariable ["RydHQ_Exhausted",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_SupportG",[]]) + ((_HQ getVariable ["RydHQ_NCCargoG",[]]) - (_HQ getVariable ["RydHQ_NCrewInfG",[]])));
 		{
 		_recvar = str _x;
@@ -1137,18 +1138,18 @@ if (_HQ getVariable ["RydHQ_IdleOrd",true]) then
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_Taken",[]]) isEqualTo [])) then {
-				diag_log text "HQOrders spawn HAL_GoDefRes";
+				//diag_log text "HQOrders spawn HAL_GoDefRes";
 				[_x,selectrandom (_HQ getVariable ["RydHQ_Taken",[]]),_HQ] spawn HAL_GoDefRes;
-				diag_log text "HQOrders spawned HAL_GoDefRes";
+				//diag_log text "HQOrders spawned HAL_GoDefRes";
 				} else {
-				diag_log text "HQOrders spawn HAL_GoIdle";
+				//diag_log text "HQOrders spawn HAL_GoIdle";
 				[_x,_HQ] spawn HAL_GoIdle;
-				diag_log text "HQOrders spawned HAL_GoIdle";
+				//diag_log text "HQOrders spawned HAL_GoIdle";
 				};
 			};
 		}
 	foreach _reserve;
-diag_log text "HQOrders Line 1125";
+//diag_log text "HQOrders Line 1125";
 
 		{
 		_recvar = str _x;
@@ -1172,7 +1173,7 @@ diag_log text "HQOrders Line 1125";
 			//[_x,_HQ] spawn HAL_GoIdle
 
 			if ((_HQ getVariable ["RydHQ_IdleDef",true]) and not (isPlayer (leader _x)) and not ((_HQ getVariable ["RydHQ_TakenNaval",[]]) isEqualTo [])) then {
-				diag_log text "HQOrders Spawned HAL_GoDefNav";
+				//diag_log text "HQOrders Spawned HAL_GoDefNav";
 				[_x,selectrandom (_HQ getVariable ["RydHQ_TakenNaval",[]]),_HQ] spawn HAL_GoDefNav;
 				};
 			};
@@ -1195,13 +1196,13 @@ diag_log text "HQOrders Line 1125";
 		{
 		if not (_x in (_HQ getVariable ["RydHQ_Garrison",[]])) then
 			{
-			diag_log text "HQOrders Spawn HAL_GoRest";
+			//diag_log text "HQOrders Spawn HAL_GoRest";
 			[_x,_HQ] spawn HAL_GoRest;
 			}
 		}
 	}
 foreach ((_HQ getVariable ["RydHQ_Exhausted",[]]) - ((_HQ getVariable ["RydHQ_AirG",[]]) + (_HQ getVariable ["RydHQ_StaticG",[]]) + (_HQ getVariable ["RydHQ_ArtG",[]]) + (_HQ getVariable ["RydHQ_NavalG",[]])));
-diag_log text "HQOrders Line 1176";
+//diag_log text "HQOrders Line 1176";
 
 	{
 	_GE = (group _x);
@@ -1212,4 +1213,4 @@ foreach (_HQ getVariable ["RydHQ_KnEnemies",[]]);
 
 
 if (_HQ getVariable ["RydHQ_Orderfirst",true]) then {_HQ setVariable ["RydHQ_Orderfirst",false]};
-diag_log text "HQOrders done";
+//diag_log text "HQOrders done";

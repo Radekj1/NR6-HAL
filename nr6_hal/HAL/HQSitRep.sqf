@@ -33,7 +33,7 @@ private [
 ];
 params ["_HQ"];
 _SCRname = "SitRep";
-diag_log text "HQSitRep A started";
+//diag_log text "HQSitRep A started";
 HQSitREP_A_Fin1 = false;
 HQSitREP_A_Fin2 = false;
 _HQ setVariable ["leaderHQ",(leader _HQ)];
@@ -44,7 +44,7 @@ _csN = +RydHQ_CallSignsN;
 	_csN set [_foreachIndex,_nouns]
 	}
 foreach _csN;
-diag_log text "HQSitRep A: Call signs generated.";
+//diag_log text "HQSitRep A: Call signs generated.";
 
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
@@ -68,14 +68,14 @@ if (isNil ("RydHQ_Circumspection")) then {RydHQ_Circumspection = 0.5};
 _HQ setVariable ["RydHQ_Circumspection",RydHQ_Circumspection];
 if (isNil ("RydHQ_Fineness")) then {RydHQ_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQ_Fineness];
-diag_log text "HQSitRep A: Personality set.";
+//diag_log text "HQSitRep A: Personality set.";
 HQSitREP_A_Fin1 = true;
 [_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
-diag_log text "HQSitRep A: Personality finished.";
+//diag_log text "HQSitRep A: Personality finished.";
 waitUntil {HQSitREP_A_Fin1};
 //LHQ - TO BE CONVERTED TO NON-SCHEDULED
 [_HQ] spawn HAL_LHQ;
-diag_log text "HQSitRep A: LHQ initialized/spawned.";
+//diag_log text "HQSitRep A: LHQ initialized/spawned.";
 
 [{
 if (isNil ("RydHQ_Boxed")) then {RydHQ_Boxed = []};
@@ -93,7 +93,7 @@ if (isNil ("RydHQ_AmmoBoxes")) then
 	};
 
 _HQ setVariable ["RydHQ_AmmoBoxes",RydHQ_AmmoBoxes];
-diag_log text "HQSitRep A: Ammo boxes initialized.";
+//diag_log text "HQSitRep A: Ammo boxes initialized.";
 
 _HQ setVariable ["RydHQ_ReconDone",false];
 _HQ setVariable ["RydHQ_DefDone",false];
@@ -140,7 +140,7 @@ _HQ setVariable ["RydHQ_SupportWP",RydHQ_SupportWP];
 HQSitREP_A_Fin2 = true;
 },[_HQ]] call CBA_fnc_execNextFrame;
 
-diag_log text "HQSitRep A: SitRep variables initialized.";
+//diag_log text "HQSitRep A: SitRep variables initialized.";
 waitUntil {HQSitREP_A_Fin2};
 
 _lastHQ = _HQ getVariable ["leaderHQ",objNull];
@@ -151,11 +151,11 @@ _wp = [];
 _lastReset = 0;
 _HQlPos = [-10,-10,0];
 _KnEnPos = [];
-diag_log text "HQSitRep A: Initial setup complete. Loop starting.";
+//diag_log text "HQSitRep A: Initial setup complete. Loop starting.";
 //TO BE 520 lines + CALLS - LOOP TO BE REPLACED MANUALLY, SPLITTED BETWEEN FRAMES, SYNCED WITH CALLS RESULTS
 while {true} do
 	{
-	diag_log text "HQSitRep A: Loop started";
+	//diag_log text "HQSitRep A: Loop started";
 	if (RydxHQ_RHQAutoFill) then
 	{
 	[] call RYD_PresentRHQ
@@ -197,20 +197,20 @@ while {true} do
 	if (isNull _HQ) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (({alive _x} count (units _HQ)) == 0) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 	if (_HQ getVariable ["RydHQ_Surrender",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
-	diag_log text "HQSitRep A: Step 1";
+	//diag_log text "HQSitRep A: Step 1";
 
 	if not (_HQ getVariable ["RydHQ_Fast",false]) then 
 		{
 		waituntil 
 			{
 			sleep 0.1;
-			diag_log text "HQSitRep A: RydHQ_Fast Pending";
-			private _test = ({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ);
-			diag_log _test;
-			private _test2 = (_HQ getVariable ["RydHQ_Pending",false]);
-			diag_log _test2;
-			diag_log text "HQSitRep A: RydHQ_Fast KIA";
-			diag_log (_HQ getVariable ["RydHQ_KIA",false]);
+			//diag_log text "HQSitRep A: RydHQ_Fast Pending";
+			//private _test = ({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ);
+			//diag_log _test;
+			//private _test2 = (_HQ getVariable ["RydHQ_Pending",false]);
+			//diag_log _test2;
+			//diag_log text "HQSitRep A: RydHQ_Fast KIA";
+			//diag_log (_HQ getVariable ["RydHQ_KIA",false]);
 			//((({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0) or (_HQ getVariable ["RydHQ_KIA",false]))
 			(!(_HQ getVariable ["RydHQ_Pending",false]) or (_HQ getVariable ["RydHQ_KIA",false]))
 			}
@@ -228,7 +228,7 @@ while {true} do
 	if (_HQ getVariable ["RydHQ_KIA",false]) exitWith {RydxHQ_AllHQ = RydxHQ_AllHQ - [_HQ]};
 
 	_lastHQ = (leader _HQ);
-	diag_log text "HQSitRep A: Step 2";
+	//diag_log text "HQSitRep A: Step 2";
 	_HQ setVariable ["RydHQ_Cyclecount",_cycleC + 1];
 	
 	
@@ -346,7 +346,7 @@ while {true} do
 
 	_HQ setVariable ["RydHQ_LastE",count (_HQ getVariable ["RydHQ_KnEnemies",[]])];
 	_HQ setVariable ["RydHQ_LastFriends",_HQ getVariable ["RydHQ_Friends",[]]];
-	diag_log text "HQSitRep A: Step 3";
+	//diag_log text "HQSitRep A: Step 3";
 	if (isNil "RydHQ_Garrison") then {RydHQ_Garrison = []};
 	_HQ setVariable ["RydHQ_Garrison",RydHQ_Garrison];	
 	if (isNil ("RydHQ_NoAirCargo")) then {RydHQ_NoAirCargo = false};
@@ -512,7 +512,7 @@ while {true} do
 	if (isNil ("RydHQ_CommDelay")) then {RydHQ_CommDelay = 1};
 	_HQ setVariable ["RydHQ_CommDelay",RydHQ_CommDelay];
 
-	diag_log text "HQSitRep A: Step 4";
+	//diag_log text "HQSitRep A: Step 4";
 	if ((isNil ("RydHQ_Order")) and (isNil {_HQ getVariable "RydHQ_Order"})) then {_HQ setVariable ["RydHQ_Order","ATTACK"]};
 	if ( not (isNil ("RydHQ_Order"))) then {
 		if (RydHQ_Order == "DEFEND") then {
@@ -610,7 +610,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_Obj2",RydHQ_Obj2];
 	_HQ setVariable ["RydHQ_Obj3",RydHQ_Obj3];
 	_HQ setVariable ["RydHQ_Obj4",RydHQ_Obj4];
-	diag_log text "HQSitRep A: Step 5";
+	//diag_log text "HQSitRep A: Step 5";
 	_objectives = [RydHQ_Obj1,RydHQ_Obj2,RydHQ_Obj3,RydHQ_Obj4];
 	_NAVObjectives = [];
 
@@ -638,7 +638,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_NavalObjectives",_NAVObjectives];
 	
 	_listed = _HQ getVariable "BBProgress";
-	diag_log text "HQSitRep A: Step 6";
+	//diag_log text "HQSitRep A: Step 6";
 	if (isNil "_listed") then
 		{
 		_midX = 0;
@@ -663,7 +663,7 @@ while {true} do
 			
 		_HQ setVariable ["RydHQ_EyeOfBattle",[_midX/_nTc,_midY/_nTc,0]];
 		};
-	diag_log text "HQSitRep A: Step 7";
+	//diag_log text "HQSitRep A: Step 7";
 	if not (isNil "RydHQ_DefFrontL") then {_HQ setVariable ["RydHQ_DefFrontL",RydHQ_DefFrontL]};
 	if not (isNil "RydHQ_DefFront1") then {_HQ setVariable ["RydHQ_DefFront1",RydHQ_DefFront1]};
 	if not (isNil "RydHQ_DefFront2") then {_HQ setVariable ["RydHQ_DefFront2",RydHQ_DefFront2]};
@@ -678,7 +678,7 @@ while {true} do
 	_HQ setVariable ["RydHQ_Def",RydHQ_Def];
 	
 	_nObj = _HQ getVariable ["RydHQ_NObj",1];
-	diag_log text "HQSitRep A: Step 8";
+	//diag_log text "HQSitRep A: Step 8";
 	switch (_nObj) do
 		{
 		case (1) : {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj1]};
@@ -686,7 +686,7 @@ while {true} do
 		case (3) : {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj3]};
 		default {_HQ setVariable ["RydHQ_Obj",RydHQ_Obj4]};
 		};
-	diag_log text "HQSitRep A - calling StatusQuo";
+	//diag_log text "HQSitRep A - calling StatusQuo";
 	
 	private _PassedArgs = [
 	_SpecFor,_recon,_FO,_snipers,_ATinf,_AAinf,_Inf,_Art,_HArmor,_MArmor,_LArmor,_LArmorAT,_Cars,_Air,_BAir,_RAir,_NCAir,_Naval,_Static,_StaticAA,_StaticAT,_Support,_Cargo,
@@ -696,5 +696,5 @@ while {true} do
 	_EnSpecForG,_EnreconG,_EnFOG,_EnsnipersG,_EnATinfG,_EnAAinfG,_EnInfG,_EnArtG,_EnHArmorG,_EnMArmorG,_EnLArmorG,_EnLArmorATG,_EnCarsG,_EnAirG,_EnBAirG,_EnRAirG,_EnNCAirG,
 	_EnNavalG,_EnStaticG,_EnStaticAAG,_EnStaticATG,_EnSupportG,_EnCargoG,_EnNCCargoG,_EnOtherG,_EnCrewG,_EnNCrewInfG];
 	[_HQ,_cycleC,_lastReset,_HQlPos,_PassedArgs] call RYD_StatusQuo;
-	diag_log text "HQSitRep A Finished - StatusQuo called";
+	//diag_log text "HQSitRep A Finished - StatusQuo called";
 	};

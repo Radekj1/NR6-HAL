@@ -1,5 +1,5 @@
 _SCRname = "GoAttArmor";
-Diag_log text "HAL GoAttArmor started";
+//diag_log text "HAL GoAttArmor started";
 private ["_i","_Spos","_request","_isAttacked","_PosObj1","_unitvar","_busy",
         "_isAPlayer","_UL","_nothing","_dX","_dY","_angle","_distance",
         "_distance2","_dstMpl","_dXc","_dYc","_dXb","_dYb","_posX","_posY",
@@ -131,7 +131,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Engage the designated hostile forces. ROE: WEAPONS FREE.", "Engage Hostile Forces", ""],[_posX,_posY],"attack"] call RYD_AddTask;
 
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
@@ -156,7 +156,7 @@ _WaitCarrier setVariable ["_continueAW",false];
  //Diag_log text "GoAttArmor call RYD_WPadd";
 [_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
  //Diag_log text "GoAttArmor called RYD_WPadd";
-waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
  //Diag_log text "GoAttArmor waituntil ended";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
@@ -222,7 +222,7 @@ private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];
 [_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
-waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
@@ -235,7 +235,7 @@ if not (_alive) exitwith
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if not (_request) then {[_Trg,"ArmorAttacked"] call RYD_VarReductor}
 	};
-Diag_log text "HAL_GoAttArmor line 200";
+//diag_log text "HAL_GoAttArmor line 200";
 if (_timer > 24) then {deleteWaypoint _wp};
 
 if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
@@ -261,7 +261,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";
@@ -292,4 +292,4 @@ if not (_request) then {[_Trg,"ArmorAttacked"] call RYD_VarReductor};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] spawn RYD_AIChatter}};
 };
-Diag_log text "HAL_GoAttArmor ended";
+//diag_log text "HAL_GoAttArmor ended";

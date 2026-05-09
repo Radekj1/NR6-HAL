@@ -76,7 +76,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Provide air coverage of the area.", "Close Air Patrol", ""],_DefPos,"plane"] call RYD_AddTask;
 			
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
@@ -140,7 +140,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Return to Base", "Return To Base", ""],_StartPos,"land"] call RYD_AddTask;
 			
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;

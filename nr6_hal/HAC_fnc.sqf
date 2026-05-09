@@ -583,6 +583,7 @@ RYD_Mark =
 	if (isNil "_pos") exitWith {};
 
 	_i = _pfx + (str _ref);
+	deleteMarker _i; //To prevent error if marker exist.
 	_i = createMarker [_i,_pos];
 	_i setMarkerColor _cl;
 	_i setMarkerShape _shp;
@@ -958,7 +959,7 @@ RYD_TerraCognita =
 
 RYD_GoLaunch = 
 	{
-	Diag_log text "RYD_GoLaunch started";
+	//diag_log text "RYD_GoLaunch started";
 	private ["_code"];
 	params ["_kind"];
 	_code = {};
@@ -972,7 +973,7 @@ RYD_GoLaunch =
 		case ("AIRCAP") : {_code = HAL_GoAttAirCAP};
 		case ("NAVAL") : {_code = HAL_GoAttNaval};
 		};
-	Diag_log text "RYD_GoLaunch returns";
+	//diag_log text "RYD_GoLaunch returns";
 	_code
 	};
 	
@@ -1709,7 +1710,7 @@ RYD_Wait =
 	{//   passed argument looping - [_WaitCarrier,_unitG,6,true,0,50,[],false,true,true,false,true] call RYD_Wait; 
 	private ["_int","_ammoF","_air","_alive","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy","_timer","_isInside","_isOutside","_enG","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_enPres","_HQ","_ctc","_dw","_fr","_enemy"];
 	params ["_WaitCarrier","_gp","_int0","_speedF","_enemyF","_tolerance","_arr","_cargo"];
-	diag_log text "RYD_Wait started";
+	//diag_log text "RYD_Wait started";
 	_int = floor _int0;
 	_ammoF = false;
 	_air = [];
@@ -1746,7 +1747,7 @@ RYD_Wait =
 	if ((count _this) > 13) then {_firedF = _this select 13};
 	_pass = (units _gp);
 	if ((count _this) > 14) then {_pass = _this select 14};
-	//diag_log text "RYD_Wait params loaded";
+	////diag_log text "RYD_Wait params loaded";
 	_wplimit = 1;
 	if not ((_tolerance - (round _tolerance)) == 0) then {_wplimit = 2};
 
@@ -1765,8 +1766,8 @@ RYD_Wait =
 	_GDV = _gp;
 	_WaitCarrier setVariable ["_GDV",_gp];
 	_WaitCarrier setVariable ["_AV",vehicle _UL];
-	//diag_log text "RYD_Wait variables set";
-	//diag_log text "RYD_Wait _HAL_WaitCode start";
+	////diag_log text "RYD_Wait variables set";
+	////diag_log text "RYD_Wait _HAL_WaitCode start";
 	_gp setVariable ["HAL_WaitHandleFinished",false];
 	
 
@@ -1780,7 +1781,7 @@ RYD_Wait =
 HAL_WaitCode = {
 	private ["_timer","_alive","_enemy","_Break","_type","_HAL_WaitHandleAssVeh","_isPlayer"];
 	params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_UL","_isInside","_enPres","_speedF"];
-	//diag_log text "RYD_Wait _HAL_WaitCode started";
+	////diag_log text "RYD_Wait _HAL_WaitCode started";
 	_timer = _WaitCarrier getVariable ["_timer",0];
 	_alive = _WaitCarrier getVariable ["_alive",false];
 	_enemy = _WaitCarrier getVariable ["_enemy",false];
@@ -1818,7 +1819,7 @@ HAL_WaitCode = {
 					not (isNull (assignedVehicle _UL));
 				}, {
 					params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
-					//diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
+					////diag_log text "RYD_Wait _HAL_WaitUntilAssVeh ended";
 					_AV = assignedVehicle _UL;
 					_DAV = assigneddriver _AV;
 					_WaitCarrier setVariable ["_AV",_AV];
@@ -2029,7 +2030,7 @@ HAL_WaitCode2 = {
 		_WaitCarrier setVariable ["_Break",_Break];
 		_WaitCarrier setVariable ["_GDV",_GDV];
 		_WaitCarrier setVariable ["_AV",_AV];
-		//diag_log text "RYD_Wait HAL_WaitCode check for exit condition";
+		////diag_log text "RYD_Wait HAL_WaitCode check for exit condition";
 		private _WaypointCountedGDV = count (waypoints _GDV);
 		/*
 		diag_log text "WaypointCountedGDV";
@@ -2064,16 +2065,16 @@ HAL_WaitCode2 = {
 		(_enemy && !_isPlayer)
     	) then 
 		{
-			//diag_log text "RYD_Wait HAL_WaitCode2 ended. Calling HAL_WaitCodeFinish"; 
+			////diag_log text "RYD_Wait HAL_WaitCode2 ended. Calling HAL_WaitCodeFinish"; 
 			_gp setVariable ["HAL_WaitHandleFinished",true]; 
 			[_gp,_AV,_tolerance,_GDV,_WaitCarrier,_isPlayer] call HAL_WaitCodeFinish;
 		}
 		else 
 		{
-			//diag_log text "RYD_Wait HAL_WaitCode2 restarted"; 
+			////diag_log text "RYD_Wait HAL_WaitCode2 restarted"; 
 			[{params ["_WaitCarrier","_gp","_AV","_GDV","_cargo","_int","_ammoF","_air","_enG","_HQ","_tolerance","_enemyF","_arr","_inside","_outside","_own","_isBusy","_wpCheck","_firedF","_pass","_DAV","_wplimit","_isOutside","_busy","_enemy","_timer","_alive","_Break","_UL","_isPlayer","_isInside","_enPres","_speedF"];
 			if (({alive _x} count (units _gp)) > 0) then {
-			//diag_log text "RYD_Wait HAL_WaitCode2 calling restart";
+			////diag_log text "RYD_Wait HAL_WaitCode2 calling restart";
 			_this call HAL_WaitCode2;
 			} else {
 			_WaitCarrier setVariable ["_continueAW",true];
@@ -2127,7 +2128,7 @@ HAL_WaitCodeFinish = {
 	_WaitCarrier setVariable ["_enemy",_enemy];
 	_WaitCarrier setVariable ["_busy",_busy];
 	_WaitCarrier setVariable ["_Break",_Break];
-	//diag_log text "RYD_Wait _WaitCarrier values assigned. WaitCode finished";
+	////diag_log text "RYD_Wait _WaitCarrier values assigned. WaitCode finished";
 	//[_timer,_alive,_enemy,_busy,_Break];
 };
 
@@ -2503,7 +2504,7 @@ RYD_ArtyPrep =
 RYD_CFF_TGT = 
 	{	//First part - categorize vehicles as targets 
 	//_tgt = [RydHQ_KnEnemies] call RYD_CFF_TGT;
-	diag_log text "CFF_TGT started";
+	////diag_log text "CFF_TGT started";
 	private ["_targets","_lastEnemy"];
 	params ["_knEnemies","_CallForFireArgs"];
 	_lastEnemy = _knEnemies select -1;
@@ -2540,7 +2541,7 @@ RYD_CFF_TGT =
 			};
 		
 		if (_lastEnemy isEqualTo _thisEnemy) then { 
-			diag_log text "CFF_TGT part 1 finished, calling part 2";
+			//diag_log text "CFF_TGT part 1 finished, calling part 2";
 			[{[_targets,_CallForFireArgs] call RYD_CFF_TGT_Part2}, [_targets]] call CBA_fnc_execNextFrame;
 		};
 	};
@@ -2554,7 +2555,7 @@ RYD_CFF_TGT =
 	//Second part of the code. Check for civilians and assign rating for valid targets.
 RYD_CFF_TGT_Part2 = 
 	{
-		diag_log text "CFF_TGT part 2 started";
+		//diag_log text "CFF_TGT part 2 started";
 	private ["_target","_lastTarget"];
 	params ["_targets","_CallForFireArgs"];
 	_lastTarget = _targets select -1;
@@ -2625,7 +2626,7 @@ RYD_CFF_TGT_Part2 =
 			_candidate setVariable ["CFF_Temptation",_temptation];
 			if (_lastTarget == _thistarget) then {
 				_CL setVariable ["_crowdFactor",1]; 
-				diag_log text "CFF_TGT temptation assigned, calling part 3";
+				//diag_log text "CFF_TGT temptation assigned, calling part 3";
 				[{[_targets,_removeTargets,_CallForFireArgs] call RYD_CFF_TGT_Part3}, [_targets]] call CBA_fnc_execNextFrame;
 			};
 		};
@@ -2637,7 +2638,7 @@ RYD_CFF_TGT_Part2 =
 	};
 RYD_CFF_TGT_Part3 = 
 	{ 	//Assign the target
-	diag_log text "CFF_TGT part 3 started";
+	//diag_log text "CFF_TGT part 3 started";
 	private ["_target","_ValMax","_trgValS"];
 	params ["_targets","_removeTargets","_CallForFireArgs"];
 	_target = objNull;
@@ -4025,7 +4026,7 @@ RYD_CFF =
 
 	for "_i" from 1 to _CFFMissions do
 		{
-		diag_log text "call target";
+		//diag_log text "call target";
 		sleep (5 + (random 5)); //for now.
 		_CallForFireArgs = [_artG, _enArmor, _friends, _Debug, _ldr, _amount];
 		[_knEnemies,_CallForFireArgs] call RYD_CFF_TGT;
@@ -4765,14 +4766,17 @@ RYD_AIChatter =
 	{
 	//if (isMultiPlayer) exitWith {};
 	
-	private ["_unit","_gp","_lastComm","_sentences","_side","_lastTime","_varName","_sentence","_kind","_lastKind","_exitNow","_chatRep","_repExChance","_ct","_units","_color","_type","_code","_who"];
-
-	_unit = _this select 0;
-	
+	private ["_gp","_lastComm","_sentences","_side","_lastTime","_varName","_sentence","_kind","_lastKind","_exitNow","_chatRep","_repExChance","_ct","_units","_color","_type","_code","_who"];
+	params ["_unit"];
+	if (isNull _unit) exitWith {Diag_log text "AIChatter: No unit provided - exiting [Possible Dead / Bug]"};
+	//diag_log format ["AIChatter called by %1", _unit]; //debug for finding why it is group is null...
 	_gp = group _unit;
-	
+
+	//diag_log format ["AIChatter group %1", _gp];
 	_lastComm = _gp getVariable "HAC_LastComm";
+	
 	if (isNil "_lastComm") then {_lastComm = -5};
+	//diag_log format ["AIChatter result %1,%2,%3", _unit,_gp,_lastComm];	
 	if ((time - _lastComm) < 5) exitWith {};
 			
 	_sentences = _this select 1;

@@ -21,6 +21,7 @@ SpawnRGroup = {
     //_RejoinPoint = _this select 5;
     //_ExtraArgs = _this select 6; - IN PARAMS
     _SelGroup = selectRandom _Pool;
+	
     _selectedPos = selectRandom _SpawnPos;
 	
     _grp = grpNull;

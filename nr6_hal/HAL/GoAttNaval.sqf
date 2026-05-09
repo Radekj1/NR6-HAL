@@ -80,7 +80,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Engage the designated hostile ships. ROE: WEAPONS FREE.", "Engage Hostile Ship(s)", ""],[_posX,_posY],"attack"] call RYD_AddTask;
 			
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
@@ -102,7 +102,7 @@ private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];
 [_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
-waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
@@ -155,7 +155,7 @@ private _WaitCarrier = createGroup sideLogic;
 
 _WaitCarrier setVariable ["_continueAW",false];
 [_WaitCarrier,_unitG,6,true,0,24,[],false] call RYD_Wait; 
-waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 _WaitCarrier setVariable ["_continueAW",false];
 _timer = _WaitCarrier getVariable "_timer";
 _alive = _WaitCarrier getVariable "_alive";
@@ -193,7 +193,7 @@ if ((_unitG in (_HQ getVariable ["RydHQ_Garrison",[]])) and not (isPlayer (leade
 
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,6,true,0,30,[],false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	_alive = _WaitCarrier getVariable "_alive";

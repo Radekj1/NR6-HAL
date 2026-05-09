@@ -129,11 +129,13 @@ if not (isNull _nE) then
 
 		if (_CFF) then 
 			{
+			diag_log text "GO DEF CALLING AI CHATTER L132";
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtAss,"ArtAss"] spawn RYD_AIChatter}};
 			sleep 60
 			}
 		else
 			{
+			diag_log text "GO DEF CALLING AI CHATTER L138";
 			if ((_HQ getVariable ["RydHQ_ArtyShells",1]) > 0) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _HQ),RydxHQ_AIC_ArtDen,"ArtDen"] spawn RYD_AIChatter}};
 			[_unitG,_nE] call RYD_Smoke;
 			sleep 10;
@@ -172,7 +174,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 
 			
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;

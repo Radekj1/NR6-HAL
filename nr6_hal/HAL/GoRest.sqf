@@ -354,7 +354,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 			[_AddTask,(leader _unitG),["Embark your lift.", "Get In Lift", ""],(getPosATL (leader _unitG)),"getin"] call RYD_AddTask;
 			
 			waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-			diag_log text "RYD_AddTask code finished, waituntil passed";
+			//diag_log text "RYD_AddTask code finished, waituntil passed";
 			_AddTask setVariable ["_continueAfterTask",false];
 			_task = _AddTask getVariable "_task";
 			deleteGroup _AddTask;
@@ -369,7 +369,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and n
 
 			_WaitCarrier setVariable ["_continueAW",false];
 			[_WaitCarrier,_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait; 
-			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+			waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 			_WaitCarrier setVariable ["_continueAW",false];
 			_timer2 =_WaitCarrier getVariable "_timer";
 			deleteGroup _WaitCarrier;
@@ -432,7 +432,7 @@ _AddTask setVariable ["_continueAfterTask",false];
 [_AddTask,(leader _unitG),["Withdraw. Take care of your wounded, rearm and wait for further orders.", "Withdraw", ""],[_posX,_posY],"run"] call RYD_AddTask;
 			
 waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-diag_log text "RYD_AddTask code finished, waituntil passed";
+//diag_log text "RYD_AddTask code finished, waituntil passed";
 _AddTask setVariable ["_continueAfterTask",false];
 _task = _AddTask getVariable "_task";
 deleteGroup _AddTask;
@@ -447,7 +447,7 @@ if (not ((leader _GDV) == (leader _unitG))) then
 	[_AddTask,(leader _GDV),["Drop off " + (groupId _unitG) + " for MEDEVAC.", "Withdraw " + (groupId _unitG), ""],[_posX,_posY],"heal"] call RYD_AddTask;
 	
 	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-	diag_log text "RYD_AddTask code finished, waituntil passed";
+	//diag_log text "RYD_AddTask code finished, waituntil passed";
 	_AddTask setVariable ["_continueAfterTask",false];
 	_Ctask = _AddTask getVariable "_task";
 	deleteGroup _AddTask;
@@ -508,7 +508,7 @@ if not (_IsAPlayer) then {
 
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
@@ -522,7 +522,7 @@ if not (_IsAPlayer) then {
 
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,_counts,true,0,60,[],false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		_alive = _WaitCarrier getVariable "_alive";
@@ -605,7 +605,7 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and (_uni
 
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_unitG,1,false,0,240,[],true,true,false,false,false,false,false,_pass,_AV] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	deleteGroup _WaitCarrier;
@@ -651,7 +651,7 @@ if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not 
 
 	_WaitCarrier setVariable ["_continueAW",false];
 	[_WaitCarrier,_GDV,3,true,0,8,[],false] call RYD_Wait; 
-	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+	waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 	_WaitCarrier setVariable ["_continueAW",false];
 	_timer = _WaitCarrier getVariable "_timer";
 	deleteGroup _WaitCarrier;

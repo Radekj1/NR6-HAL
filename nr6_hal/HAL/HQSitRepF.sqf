@@ -35,7 +35,7 @@ private [
 ];
 params ["_HQ"];
 _SCRname = "SitRep";
-diag_log text "HQSitRep F started";
+//diag_log text "HQSitRep F started";
 HQSitREP_F_Fin1 = false;
 HQSitREP_F_Fin2 = false;
 _HQ setVariable ["leaderHQ",(leader _HQ)];
@@ -46,7 +46,7 @@ _csN = +RydHQ_CallSignsN;
 	_csN set [_foreachIndex,_nouns]
 	}
 foreach _csN;
-diag_log text "HQSitRep F: Call signs generated.";
+//diag_log text "HQSitRep F: Call signs generated.";
 
 _HQ setVariable ["RydHQ_CallSignsN",_csN];
 _HQ setVariable ["RydHQ_Cyclecount",0];
@@ -72,7 +72,7 @@ if (isNil ("RydHQF_Fineness")) then {RydHQF_Fineness = 0.5};
 _HQ setVariable ["RydHQ_Fineness",RydHQF_Fineness];
 HQSitREP_F_Fin1 = true;
 [_HQ] call HAL_Personality;}, [_HQ]] call CBA_fnc_execNextFrame;
-diag_log text "HQSitRep F: Personality finished.";
+//diag_log text "HQSitRep F: Personality finished.";
 waitUntil {HQSitREP_F_Fin1};
 
 [_HQ] spawn HAL_LHQ;
@@ -140,7 +140,7 @@ _HQ setVariable ["RydHQ_SupportWP",RydHQF_SupportWP];
 HQSitREP_AFFin2 = true;
 },[_HQ]] call CBA_fnc_execNextFrame;
 
-diag_log text "HQSitRep F: SitRep variables initialized.";
+//diag_log text "HQSitRep F: SitRep variables initialized.";
 waitUntil {HQSitREP_F_Fin2};
 
 _lastHQ = _HQ getVariable ["leaderHQ",objNull];

@@ -310,7 +310,7 @@ if not (_emptyV) then
 		[_AddTask,(leader _GD),["Pick up "+ (groupId _unitG) + " for transport to a designated position.", "Pick Up " + (groupId _unitG) , ""],_Lpos,"run"] call RYD_AddTask;
 		
 		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-		diag_log text "RYD_AddTask code finished, waituntil passed";
+		//diag_log text "RYD_AddTask code finished, waituntil passed";
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
@@ -321,7 +321,7 @@ if not (_emptyV) then
 		[_AddTask,(leader _GD),["Pick up " + (groupId _unitG) + " for MEDEVAC.", "MEDEVAC " + (groupId _unitG), ""],_Lpos,"heal"] call RYD_AddTask;
 		
 		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-		diag_log text "RYD_AddTask code finished, waituntil passed";
+		//diag_log text "RYD_AddTask code finished, waituntil passed";
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
@@ -385,7 +385,7 @@ if not (_emptyV) then
 		[_AddTask,(leader _unitG),[_taskTxt, "Wait For Lift", ""],_Lpos,"getin"] call RYD_AddTask;
 
 		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-		diag_log text "RYD_AddTask code finished, waituntil passed";
+		//diag_log text "RYD_AddTask code finished, waituntil passed";
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task2 = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
@@ -454,7 +454,7 @@ if not (_emptyV) then
 		[_AddTask,(leader _GD),["Return to departure base.", "Abort Pick Up, RTB", ""],_LandPos,"land"] call RYD_AddTask;
 
 		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-		diag_log text "RYD_AddTask code finished, waituntil passed";
+		//diag_log text "RYD_AddTask code finished, waituntil passed";
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
@@ -543,7 +543,7 @@ if not (_alive) exitwith {
 	[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
 	
 	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-	diag_log text "RYD_AddTask code finished, waituntil passed";
+	//diag_log text "RYD_AddTask code finished, waituntil passed";
 	_AddTask setVariable ["_continueAfterTask",false];
 	_task = _AddTask getVariable "_task";
 	deleteGroup _AddTask;
@@ -741,7 +741,7 @@ if not (_GD == _unitG) then
 		[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
 		
 		waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-		diag_log text "RYD_AddTask code finished, waituntil passed";
+		//diag_log text "RYD_AddTask code finished, waituntil passed";
 		_AddTask setVariable ["_continueAfterTask",false];
 		_task = _AddTask getVariable "_task";
 		deleteGroup _AddTask;
@@ -824,7 +824,7 @@ if not (_GD == _unitG) then
 
 		_WaitCarrier setVariable ["_continueAW",false];
 		[_WaitCarrier,_unitG,1,false,0,240,[],false,true,false] call RYD_Wait; 
-		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; diag_log text "RYD_Wait code finished, waituntil passed";
+		waitUntil {_WaitCarrier getVariable ["_continueAW",false];}; //diag_log text "RYD_Wait code finished, waituntil passed";
 		_WaitCarrier setVariable ["_continueAW",false];
 		_timer = _WaitCarrier getVariable "_timer";
 		deleteGroup _WaitCarrier;
@@ -854,7 +854,7 @@ if not (_GD == _unitG) then
 	[_AddTask,(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
 	
 	waitUntil {_AddTask getVariable ["_continueAfterTask",false];}; 
-	diag_log text "RYD_AddTask code finished, waituntil passed";
+	//diag_log text "RYD_AddTask code finished, waituntil passed";
 	_AddTask setVariable ["_continueAfterTask",false];
 	_task = _AddTask getVariable "_task";
 	deleteGroup _AddTask;
